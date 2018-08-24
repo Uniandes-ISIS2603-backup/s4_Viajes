@@ -5,14 +5,14 @@
     <modelVersion>4.0.0</modelVersion>
     
     <groupId>co.edu.uniandes.csw</groupId>
-    <artifactId>sX_nombre</artifactId>
+    <artifactId>s4_tripBuilderTeam</artifactId>
     <version>1.0</version>
     <packaging>pom</packaging>
-    <name>sX_nombre</name>
+    <name>s4_tripBuilderTeam</name>
  
     <modules>
-        <module>sX_palabraclave-api</module>
-        <module>sX_palabraclave-back</module>
+        <module>s4_viajes-back</module>
+        <module>s4_viajes-api</module>
     </modules>
     
     <repositories>
