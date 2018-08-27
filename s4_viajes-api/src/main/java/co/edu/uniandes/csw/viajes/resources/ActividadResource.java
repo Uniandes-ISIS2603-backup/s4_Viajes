@@ -41,7 +41,7 @@ public class ActividadResource {
     private static final Logger LOGGER = Logger.getLogger(ActividadResource.class.getName());
 
     @Inject
-    ActividadLogic actividadLogic; // Variable para acceder a la lógica de la aplicación. Es una inyección de dependencias.
+    //ActividadLogic actividadLogic; // Variable para acceder a la lógica de la aplicación. Es una inyección de dependencias.
 
     /**
      * Crea una nueva editorial con la informacion que se recibe en el cuerpo de
@@ -55,7 +55,7 @@ public class ActividadResource {
      * @throws BusinessLogicException {@link BusinessLogicExceptionMapper} -
      * Error de lógica que se genera cuando ya existe la editorial.
      */
-    @POST
+  /**  @POST
     public EditorialDTO createEditorial(EditorialDTO editorial) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "EditorialResource createEditorial: input: {0}", editorial.toString());
         // Convierte el DTO (json) en un objeto Entity para ser manejado por la lógica.
@@ -85,7 +85,7 @@ public class ActividadResource {
     public void deleteEditorial(@PathParam("editorialsId") Long editorialsId) {
         LOGGER.log(Level.INFO, "EditorialResource deleteEditorial: input: {0}", editorialsId);
         // Invoca la lógica para borrar la editorial
-        editorialLogic.deleteEditorial(editorialsId);
+        //editorialLogic.deleteEditorial(editorialsId);
         LOGGER.info("EditorialResource deleteEditorial: output: void");
     }
     
