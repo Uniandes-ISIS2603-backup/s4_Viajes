@@ -55,13 +55,13 @@ public class VueloResource {
     {
         LOGGER.log(Level.INFO, "EditorialResource createEditorial: input: {0}", vuelo.toString());
         // Convierte el DTO (json) en un objeto Entity para ser manejado por la lógica.
-        VueloEntity vueloEntity = vuelo.toEntity();
+        //VueloEntity vueloEntity = vuelo.toEntity();
         // Invoca la lógica para crear la actividad nueva
-        VueloEntity nuevoVueloEntity = vueloLogic.createVuelo(vueloEntity);
+        //VueloEntity nuevoVueloEntity = vueloLogic.createVuelo(vueloEntity);
         // Como debe retornar un DTO (json) se invoca el constructor del DTO con argumento el entity nuevo
-        VueloDTO nuevoVueloDTO = new VueloDTO(nuevoVueloEntity);
-        LOGGER.log(Level.INFO, "EditorialResource createEditorial: output: {0}", nuevoVueloDTO.toString());
-        return nuevoVueloDTO;
+        //VueloDTO nuevoVueloDTO = new VueloDTO(nuevoVueloEntity);
+        //LOGGER.log(Level.INFO, "EditorialResource createEditorial: output: {0}", nuevoVueloDTO.toString());
+        return vuelo;
     } 
     
      @GET
