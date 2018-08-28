@@ -5,6 +5,10 @@
  */
 package co.edu.uniandes.csw.viajes.resources;
 
+import co.edu.uniandes.csw.viajes.dtos.ActividadDTO;
+import co.edu.uniandes.csw.viajes.ejb.ActividadLogic;
+import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
+import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
@@ -26,8 +30,6 @@ import javax.ws.rs.Produces;
 @Consumes("application/json")
 @RequestScoped
 public class ActividadResource {
-    
-
 
 /**
  * Clase que implementa el recurso "actividad".
@@ -41,52 +43,52 @@ public class ActividadResource {
     private static final Logger LOGGER = Logger.getLogger(ActividadResource.class.getName());
 
     @Inject
-    //ActividadLogic actividadLogic; // Variable para acceder a la lógica de la aplicación. Es una inyección de dependencias.
+    ActividadLogic actividadLogic; // Variable para acceder a la lógica de la aplicación. Es una inyección de dependencias.
 
     /**
      * Crea una nueva editorial con la informacion que se recibe en el cuerpo de
      * la petición y se regresa un objeto identico con un id auto-generado por
      * la base de datos.
      *
-     * @param editorial {@link EditorialDTO} - La editorial que se desea
+     * @param Actividad {@link ActividadDTO} - La editorial que se desea
      * guardar.
-     * @return JSON {@link EditorialDTO} - La editorial guardada con el atributo
+     * @return JSON {@link ActividadDTO} - La editorial guardada con el atributo
      * id autogenerado.
      * @throws BusinessLogicException {@link BusinessLogicExceptionMapper} -
-     * Error de lógica que se genera cuando ya existe la editorial.
+     * Error de lógica que se genera cuando ya existe la actividad.
      */
-  /**  @POST
-    public EditorialDTO createEditorial(EditorialDTO editorial) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "EditorialResource createEditorial: input: {0}", editorial.toString());
+   @POST
+    public ActividadDTO createActividad(ActividadDTO actividad) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "EditorialResource createEditorial: input: {0}", actividad.toString());
         // Convierte el DTO (json) en un objeto Entity para ser manejado por la lógica.
-        EditorialEntity editorialEntity = editorial.toEntity();
-        // Invoca la lógica para crear la editorial nueva
-        EditorialEntity nuevoEditorialEntity = editorialLogic.createEditorial(editorialEntity);
+        ActividadEntity actividadEntity = actividad.toEntity();
+        // Invoca la lógica para crear la actividad nueva
+        ActividadEntity nuevoActividadEntity = actividadLogic.createActividad(actividadEntity);
         // Como debe retornar un DTO (json) se invoca el constructor del DTO con argumento el entity nuevo
-        EditorialDTO nuevoEditorialDTO = new EditorialDTO(nuevoEditorialEntity);
-        LOGGER.log(Level.INFO, "EditorialResource createEditorial: output: {0}", nuevoEditorialDTO.toString());
-        return nuevoEditorialDTO;
+        ActividadDTO nuevoActividadDTO = new ActividadDTO(nuevoActividadEntity);
+        LOGGER.log(Level.INFO, "EditorialResource createEditorial: output: {0}", nuevoActividadDTO.toString());
+        return nuevoActividadDTO;
     }
     
     @GET
-    public EditorialDTO consultarEditorial()
+    public ActividadDTO consultarActividad()
     {
-        return new EditorialDTO();
+        return new ActividadDTO();
     }
 
     /**
      * Borra la editorial con el id asociado recibido en la URL.
      *
-     * @param editorialsId Identificador de la editorial que se desea borrar.
+     * @param editorialsId Identificador de la actividad que se desea borrar.
      * Este debe ser una cadena de dígitos.
      */
     @DELETE
-    @Path("{editorialsId: \\d+}")
-    public void deleteEditorial(@PathParam("editorialsId") Long editorialsId) {
-        LOGGER.log(Level.INFO, "EditorialResource deleteEditorial: input: {0}", editorialsId);
-        // Invoca la lógica para borrar la editorial
+    @Path("{ActividadId: \\d+}")
+    public void deleteActividad(@PathParam("actividadId") Long editorialsId) {
+        LOGGER.log(Level.INFO, "ActividadResource deleteActividad: input: {0}", editorialsId);
+        // Invoca la lógica para borrar la actividad
         //editorialLogic.deleteEditorial(editorialsId);
-        LOGGER.info("EditorialResource deleteEditorial: output: void");
+        LOGGER.info("EditorialResource deleteActividad: output: void");
     }
     
 }
