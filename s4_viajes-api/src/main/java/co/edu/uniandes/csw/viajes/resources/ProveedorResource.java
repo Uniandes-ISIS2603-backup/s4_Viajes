@@ -6,24 +6,28 @@
 package co.edu.uniandes.csw.viajes.resources;
 
 import co.edu.uniandes.csw.viajes.dtos.ProveedorDTO;
-import co.edu.uniandes.csw.viajes.dtos.VueloDTO;
 import co.edu.uniandes.csw.viajes.ejb.ProveedorLogic;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.mappers.BusinessLogicExceptionMapper;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 
 /**
  *
  * @author Juan Felipe Torres
  */
+@Path("proveedores")
+@RequestScoped
 public class ProveedorResource {
 
     /**
@@ -70,6 +74,7 @@ public class ProveedorResource {
      * @return un proveedor y su información de acuerdo a su nombre.
      */
     @GET
+        @Path("{nombre: [a-zA-Z][a-zA-Z]*}}")
     public ProveedorDTO consultarProveedor() {
         return new ProveedorDTO();
     }
@@ -84,12 +89,6 @@ public class ProveedorResource {
     @PUT
     public ProveedorDTO modificarProveedor() {
         return new ProveedorDTO();
-    }
-
-    @POST
-    public String mandarSolicitud() {
-        LOGGER.log(Level.INFO, "Se solicita al administrador permisos");
-        return "mensaje";
     }
 
     /**
