@@ -34,8 +34,6 @@ public class ProveedorResource {
      */
     private static final Logger LOGGER = Logger.getLogger(ProveedorResource.class.getName());
 
-    private ProveedorDTO proveedor;
-
     @Inject
 
     ProveedorLogic proveedorLogic;
@@ -72,8 +70,8 @@ public class ProveedorResource {
      * @return un proveedor y su información de acuerdo a su nombre.
      */
     @GET
-    public VueloDTO consultarVuelo() {
-        return new VueloDTO();
+    public ProveedorDTO consultarProveedor() {
+        return new ProveedorDTO();
     }
 
     /**
@@ -84,8 +82,8 @@ public class ProveedorResource {
      * modificar.
      */
     @PUT
-    public void modificarProveedor(ProveedorDTO nuevoProveedor) {
-        proveedor = nuevoProveedor;
+    public ProveedorDTO modificarProveedor() {
+        return new ProveedorDTO();
     }
 
     @POST
@@ -97,15 +95,15 @@ public class ProveedorResource {
     /**
      * Borra el vuelo con el id asociado (número) recibido en la URL.
      *
-     * @param vueloNum Identificador dl vuelo que se desea borrar. Este debe ser
-     * una cadena de dígitos (int).
+     * @param ProveedorNom Identificador del proveedor que se desea borrar. Este debe ser
+     * una cadena de letras.
      */
     @DELETE
     @Path("{ProvedorNom: [a-zA-Z][a-zA-Z]*}}")
-    public void deleteProveedor(@PathParam("vueloNum") Long vueloNum) {
+    public void deleteProveedor(@PathParam("ProveedorNom") Long proveedorNom) {
         //LOGGER.log(Level.INFO, "ProveedorResource deleteProveedor: input: {0}", ProveedorNom);
         // Invoca la lógica para borrar el proveedor
         //editorialLogic.deleteProveedor(editorialsId);
-        //LOGGER.info("VueloResource deleteVuelo: output: void");
+        //LOGGER.info("ProveedorResource deleteProveedor: output: void");
     }
 }
