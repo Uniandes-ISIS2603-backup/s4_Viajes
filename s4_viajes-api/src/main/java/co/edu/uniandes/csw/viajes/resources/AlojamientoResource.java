@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 //@Produces("application/json")
 //@Consumes("application/json")
 public class AlojamientoResource 
-{
+{ 
     private static final Logger LOGGER = Logger.getLogger(AlojamientoResource.class.getName());
 
 //    @Inject
