@@ -6,11 +6,14 @@
 package co.edu.uniandes.csw.viajes.entities;
 
 import java.io.Serializable;
+import javax.persistence.Entity;
 
 /**
  *
- * @author estudiante
+ * @author Ymespana
  */
+
+@Entity
 public class AlojamientoEntity extends BaseEntity implements Serializable
 {
      //-----------------------------------------------------------------------------------------------------------------------

@@ -22,6 +22,7 @@ public class GuiaLogic {
     
      private static final Logger LOGGER = Logger.getLogger(GuiaLogic.class.getName());
 
+
     @Inject
     //private EditorialPersistence persistence; // Variable para acceder a la persistencia de la aplicación. Es una inyección de dependencias.
 
@@ -57,4 +58,7 @@ public class GuiaLogic {
         LOGGER.log(Level.INFO, "Termina proceso de borrar la editorial con id = {0}", editorialsId);
     }**/
     
-}
+
+
+} 
+

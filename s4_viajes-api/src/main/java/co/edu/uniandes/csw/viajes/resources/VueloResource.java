@@ -13,17 +13,22 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 
 /**
  *
  * @author Juan Felipe Torres
  */
+@Path("vuelos")
+@Produces("application/json")
+@Consumes("application/json")
 @RequestScoped
 public class VueloResource {
 
@@ -34,8 +39,6 @@ public class VueloResource {
      * @version 1.0
      */
     private static final Logger LOGGER = Logger.getLogger(VueloResource.class.getName());
-
-    private VueloDTO vuelo;
 
     @Inject
 
@@ -72,6 +75,7 @@ public class VueloResource {
      * @return un vuelo y su información de acuerdo a su nombre.
      */
     @GET
+        @Path("{numero: \\d+}")
     public VueloDTO consultarVuelo() {
         return new VueloDTO();
     }
@@ -80,12 +84,13 @@ public class VueloResource {
      * Modifica la informacion de un vuelo dado por la información ingresada en
      * formato JSON.
      *
-     * @param nuevoVuelo (@link VueloDTO) - el vuelo que desea modificar.
+     * @param nuevo (@link VueloDTO) - el vuelo que desea modificar.
      */
-    @PUT
-    public void modificarVuelo(VueloDTO nuevoVuelo) {
-        vuelo = nuevoVuelo;
-    }
+    //@PUT
+    //public VueloDTO modificarVuelo(VueloDTO nuevo) {
+     //   nuevo = new VueloDTO();
+     //   return nuevo;
+    //}
 
     /**
      * Borra el vuelo con el id asociado (número) recibido en la URL.
