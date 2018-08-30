@@ -13,17 +13,24 @@ import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 
 /**
  *
  * @author estudiante
  */
+@Path("guia")
+@Produces("application/json")
+@Consumes("application/json")
+@RequestScoped
 public class GuiaResource {
     
     
@@ -63,7 +70,8 @@ public class GuiaResource {
         // Como debe retornar un DTO (json) se invoca el constructor del DTO con argumento el entity nuevo
         ActividadDTO nuevoActividadDTO = new ActividadDTO(nuevoActividadEntity);
         LOGGER.log(Level.INFO, "EditorialResource createEditorial: output: {0}", nuevoActividadDTO.toString());**/
-        return new GuiaDTO();
+        //return new GuiaDTO();
+        return actividad;
     }
     
     @GET
