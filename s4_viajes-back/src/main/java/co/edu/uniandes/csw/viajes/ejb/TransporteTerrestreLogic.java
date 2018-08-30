@@ -6,8 +6,7 @@
 package co.edu.uniandes.csw.viajes.ejb;
 
 import co.edu.uniandes.csw.viajes.entities.TransporteTerrestreEntity;
-import java.util.ArrayList;
-import java.util.List;
+//import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -38,14 +37,14 @@ public class TransporteTerrestreLogic {
      * Devuelve todos los alojamientos que hay en la base de datos.
      * @return Lista de entidades de tipo alojamiento.
      */
-    public List<TransporteTerrestreEntity> getTransportes() 
-    {
-        LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los transportes.");
-        List<TransporteTerrestreEntity> transportes = new ArrayList<TransporteTerrestreEntity>(); 
-//        List<TrasnporteTerrestreEntity> transportes = persistence.findAll();
-        LOGGER.log(Level.INFO, "Termina proceso de consultar todos los transportes");
-        return transportes;
-    }
+//    public List<TransporteTerrestreEntity> getTransportes() 
+//    {
+//        LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los transportes.");
+////        List<TransporteTerrestreEntity> transportes = new List<TransporteTerrestreEntity>(); 
+////        List<TrasnporteTerrestreEntity> transportes = persistence.findAll();
+//        LOGGER.log(Level.INFO, "Termina proceso de consultar todos los transportes");
+////        return transportes;
+//    }
     
     /**
      * Busca un alojamiento por ID
