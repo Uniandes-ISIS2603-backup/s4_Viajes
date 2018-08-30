@@ -88,9 +88,9 @@ public class TransporteTerrestreLogic {
     public void deleteTransporte(Long transporteId) 
     {
         LOGGER.log(Level.INFO, "Inicia proceso de borrar el transporte con id = {0}", transporteId);
-      if(transporteId == null)
+      if(transporteId == null) 
           return;
-//        persistence.delete(alojamientoId);
+//        persistence.delete(alojamientoId  
         LOGGER.log(Level.INFO, "Termina proceso de borrar el transporte con id = {0}", transporteId);
     }  
 }
