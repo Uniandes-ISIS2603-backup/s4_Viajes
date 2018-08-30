@@ -25,7 +25,7 @@ import javax.ws.rs.Produces;
  *
  * @author estudiante
  */
-@Path("actividades")
+@Path("actividad")
 @Produces("application/json")
 @Consumes("application/json")
 @RequestScoped
@@ -58,7 +58,7 @@ public class ActividadResource {
      * Error de lógica que se genera cuando ya existe la actividad.
      */
    @POST
-   @Path("create")
+   
     public ActividadDTO createActividad(ActividadDTO actividad) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "EditorialResource createEditorial: input: {0}", actividad.toString());
         // Convierte el DTO (json) en un objeto Entity para ser manejado por la lógica.
