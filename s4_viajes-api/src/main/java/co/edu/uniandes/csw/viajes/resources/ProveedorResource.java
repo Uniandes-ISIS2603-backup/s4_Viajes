@@ -6,24 +6,28 @@
 package co.edu.uniandes.csw.viajes.resources;
 
 import co.edu.uniandes.csw.viajes.dtos.ProveedorDTO;
-import co.edu.uniandes.csw.viajes.dtos.VueloDTO;
 import co.edu.uniandes.csw.viajes.ejb.ProveedorLogic;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.mappers.BusinessLogicExceptionMapper;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
+import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
 
 /**
  *
  * @author Juan Felipe Torres
  */
+@Path("proveedores")
+@RequestScoped
 public class ProveedorResource {
 
     /**
@@ -33,8 +37,6 @@ public class ProveedorResource {
      * @version 1.0
      */
     private static final Logger LOGGER = Logger.getLogger(ProveedorResource.class.getName());
-
-    private ProveedorDTO proveedor;
 
     @Inject
 
@@ -72,8 +74,9 @@ public class ProveedorResource {
      * @return un proveedor y su información de acuerdo a su nombre.
      */
     @GET
-    public VueloDTO consultarVuelo() {
-        return new VueloDTO();
+        @Path("{nombre: [a-zA-Z][a-zA-Z]*}}")
+    public ProveedorDTO consultarProveedor() {
+        return new ProveedorDTO();
     }
 
     /**
@@ -84,28 +87,22 @@ public class ProveedorResource {
      * modificar.
      */
     @PUT
-    public void modificarProveedor(ProveedorDTO nuevoProveedor) {
-        proveedor = nuevoProveedor;
-    }
-
-    @POST
-    public String mandarSolicitud() {
-        LOGGER.log(Level.INFO, "Se solicita al administrador permisos");
-        return "mensaje";
+    public ProveedorDTO modificarProveedor() {
+        return new ProveedorDTO();
     }
 
     /**
      * Borra el vuelo con el id asociado (número) recibido en la URL.
      *
-     * @param vueloNum Identificador dl vuelo que se desea borrar. Este debe ser
-     * una cadena de dígitos (int).
+     * @param ProveedorNom Identificador del proveedor que se desea borrar. Este debe ser
+     * una cadena de letras.
      */
     @DELETE
     @Path("{ProvedorNom: [a-zA-Z][a-zA-Z]*}}")
-    public void deleteProveedor(@PathParam("vueloNum") Long vueloNum) {
+    public void deleteProveedor(@PathParam("ProveedorNom") Long proveedorNom) {
         //LOGGER.log(Level.INFO, "ProveedorResource deleteProveedor: input: {0}", ProveedorNom);
         // Invoca la lógica para borrar el proveedor
         //editorialLogic.deleteProveedor(editorialsId);
-        //LOGGER.info("VueloResource deleteVuelo: output: void");
+        //LOGGER.info("ProveedorResource deleteProveedor: output: void");
     }
 }
