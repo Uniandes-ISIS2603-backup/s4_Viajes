@@ -11,15 +11,30 @@ import co.edu.uniandes.csw.viajes.entities.TransporteTerrestreEntity;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 
 /**
  *
- * @author estudiante
+ * @author Ymespana
  */
+@Path("transportes")
+@Produces("application/json")
+@Consumes("application/json")
+@RequestScoped 
 public class TransporteTerrestreResource {
       private static final Logger LOGGER = Logger.getLogger(TransporteTerrestreResource.class.getName());
 
-//    @Inject
+    @Inject
     private TransporteTerrestreLogic transporteTerrestreLogic; // Variable para acceder a la lógica de la aplicación.
     
     
@@ -31,43 +46,43 @@ public class TransporteTerrestreResource {
      * @return JSON {@link AlojamientoDTO} - El alojamiento guardado con el atributo id.
      * @throws Exception Si la -------- ingresada es invalida.
      */
+    @POST
     public TransporteTerrestreDTO createTransporte(TransporteTerrestreDTO transporteT) throws Exception 
     {
-        LOGGER.log(Level.INFO, "TransporteTResource createTransporte: input: {0}", transporteT.toString());
-        TransporteTerrestreDTO nuevoTransporteTerrestreDTO = 
-                new TransporteTerrestreDTO(transporteTerrestreLogic.createTransporte(transporteT.toEntity())); 
-        LOGGER.log(Level.INFO, "TransporteTResource createTransporte: output: {0}", nuevoTransporteTerrestreDTO.toString());
-        return nuevoTransporteTerrestreDTO;
+//        LOGGER.log(Level.INFO, "TransporteTResource createTransporte: input: {0}", transporteT.toString());
+//        TransporteTerrestreDTO nuevoTransporteTerrestreDTO = 
+//                new TransporteTerrestreDTO(transporteTerrestreLogic.createTransporte(transporteT.toEntity())); 
+//        LOGGER.log(Level.INFO, "TransporteTResource createTransporte: output: {0}", nuevoTransporteTerrestreDTO.toString());
+//        return nuevoTransporteTerrestreDTO;
+        return transporteT; 
     }
     
-    /**
-     * Busca y devuelve todos los alojamientos que existen en la aplicacion. (DEBERIA RETORNAR DTOs)
-     * @return Todos los alojamientos.
-     */
+//    /**
+//     * Busca y devuelve todos los alojamientos que existen en la aplicacion. (DEBERIA RETORNAR DTOs)
+//     * @return Todos los alojamientos.
+//     */
 //    @GET
-    public List<TransporteTerrestreEntity> getTrasnportesTerrestres()
-    {
-        LOGGER.info("TrasnporteTResource getTrasnportes: input: void");
-        List<TransporteTerrestreEntity> listaTrasnportes = transporteTerrestreLogic.getTransportes();
-        LOGGER.log(Level.INFO, "TrasnporteResource getTrasnportes: output: {0}", listaTrasnportes.toString());
-        return listaTrasnportes;
-    }
-    
+//    public List<TransporteTerrestreEntity> getTrasnportesTerrestres()
+//    {
+//        LOGGER.info("TrasnporteTResource getTrasnportes: input: void");
+//        List<TransporteTerrestreEntity> listaTrasnportes = transporteTerrestreLogic.getTransportes();
+//        LOGGER.log(Level.INFO, "TrasnporteResource getTrasnportes: output: {0}", listaTrasnportes.toString());
+//        return listaTrasnportes;
+//    }
+//    
     /**
-     * Busca el alojamiento con el id asociado recibido en la URL y lo devuelve.
+     * Busca el transporte con el id asociado recibido en la URL y lo devuelve.
      * @param transportesId Identificador del alojamiento que se esta buscando. Este debe ser una cadena de dígitos.
-     * @return JSON {@link AlojamientoDTO}
-     * @throws Exception id invalido 
+     * @return JSON {@link transporteTerrestreDTO}
      */
-//    @GET
-//    @Path("{booksId: \\d+}")
-//    @PathParam
-    public TransporteTerrestreDTO getTransporte (Long transportesId) throws Exception 
+    @GET
+    @Path("{transportesId: \\d+}")
+    public TransporteTerrestreDTO getTransporte (@PathParam ("trasnportesId") Long transportesId) 
     {
         LOGGER.log(Level.INFO, "TrasnporteTResource getTrasnportes: input: {0}", transportesId);
         TransporteTerrestreEntity transporteTerrestreEntity = transporteTerrestreLogic.getTransporte(transportesId);
         if (transporteTerrestreEntity == null) {
-            throw new Exception("El recurso /transportes/" + transportesId + " no existe.");  
+            throw new WebApplicationException("El recurso /transportes/" + transportesId + " no existe.", 404);  
         } 
         TransporteTerrestreDTO TransporteDTO = new TransporteTerrestreDTO(transporteTerrestreEntity);
         LOGGER.log(Level.INFO, "TransporteTResource getTransporte: output: {0}", TransporteDTO.toString());
@@ -79,18 +94,16 @@ public class TransporteTerrestreResource {
      * @param transportesId Identificador del alojamientoque se desea actualizar. Este debe ser una cadena de dígitos.
      * @param transporte El alojamiento que se desea guardar.
      * @return JSON  El alojamiento guardado.
-     * @throws Exception id invalido
      */
-//    @PUT
-//    @Path("{alojamientosId: \\d+}")
-//    @Path("alojamientosId")Param("alojamientosId"
-    public TransporteTerrestreDTO updateTransporte(Long transportesId, TransporteTerrestreDTO transporte) throws Exception 
+    @PUT
+    @Path("{alojamientosId: \\d+}")
+    public TransporteTerrestreDTO updateTransporte(@PathParam("transportesId")Long transportesId, TransporteTerrestreDTO transporte)  
     {
         LOGGER.log(Level.INFO, "TransporteTResource updateTrasnporteT: input: id: {0} , transporte: {1}", 
                 new Object[]{transportesId, transporte.toString()});
         transporte.setId(transportesId);
         if (transporteTerrestreLogic.getTransporte(transportesId) == null) 
-            throw new Exception("El recurso /transportes/" + transportesId + " no existe.");
+            throw new WebApplicationException("El recurso /transportes/" + transportesId + " no existe.", 404);
         TransporteTerrestreDTO transporteDTO = 
                 new TransporteTerrestreDTO(transporteTerrestreLogic.updateTransporte(transportesId, transporte.toEntity()));
         LOGGER.log(Level.INFO, "TransporteTResource updateTrasnporte: output: {0}",transporte.toString()); 
@@ -100,17 +113,15 @@ public class TransporteTerrestreResource {
     /**
      * Borra el alojamiento con el id asociado recibido en la URL.
      * @param transportesId Identificador del alojamiento que se desea borrar. Este debe ser una cadena de dígitos.
-     * @throws Exception id invalido
      */
-//    @DELETE
-//    @Path("{booksId: \\d+}")
-//    @PathParam("booksId")
-    public void deleteTransporte(Long transportesId) throws Exception 
+    @DELETE
+    @Path("{alojamientosId: \\d+}")
+    public void deleteTransporte(@PathParam ("transportesId")Long transportesId)  
     {
         LOGGER.log(Level.INFO, "TransporteTResource deleteTransporte: input: {0}", transportesId);
         TransporteTerrestreEntity entity = transporteTerrestreLogic.getTransporte(transportesId);
         if (entity == null) 
-            throw new Exception("El recurso /transportes/" + transportesId + " no existe.");
+            throw new WebApplicationException("El recurso /transportes/" + transportesId + " no existe.", 404);
         transporteTerrestreLogic.deleteTransporte(transportesId);
         LOGGER.info("TrasnporteResource deleteTransporte: output: void");
     }
