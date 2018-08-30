@@ -25,7 +25,7 @@ import javax.ws.rs.Produces;
  *
  * @author estudiante
  */
-@Path("editorials")
+@Path("actividad")
 @Produces("application/json")
 @Consumes("application/json")
 @RequestScoped
