@@ -17,6 +17,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 public class ActividadDTO implements Serializable{
     
+    private Long id;
     private int costo;
     private boolean ofrece_guia;
     private int puntuacion;
@@ -28,6 +29,7 @@ public class ActividadDTO implements Serializable{
     
     public ActividadDTO(ActividadEntity actividadEntity) {
         if (actividadEntity != null) {
+            this.id = actividadEntity.getIdentificador();
             this.costo = actividadEntity.getCosto();
             this.ofrece_guia = actividadEntity.getOfreceGuia();
             this.puntuacion = actividadEntity.getPuntuacion();
@@ -38,6 +40,7 @@ public class ActividadDTO implements Serializable{
     }
     
     public int getCosto(){return costo;}
+    public Long getIdentificador(){return id;}
     public boolean getOfrece_guia(){return ofrece_guia;}
     public int getPuntuacion(){return puntuacion;}
     public int getDuracion(){return duracion;}
@@ -45,6 +48,7 @@ public class ActividadDTO implements Serializable{
     public double getLongitud(){return longitud;}
     
     public void setCosto(int costo){this.costo = costo;}
+    public void setIdentificador (Long id){this.id = id;}
     public void setOfrece_guia(boolean og){this.ofrece_guia = og;}
     public void setPuntuacion(int puntuacion){this.puntuacion = puntuacion;}
     public void setDuracion(int duracion){this.duracion = duracion;}
@@ -53,6 +57,7 @@ public class ActividadDTO implements Serializable{
     
     public ActividadEntity toEntity() {
         ActividadEntity actividadEntity = new ActividadEntity();
+        actividadEntity.setId(this.id);
         actividadEntity.setCosto(this.costo);
         actividadEntity.setDuracion(this.duracion);
         actividadEntity.setLatitud(this.latitud);
