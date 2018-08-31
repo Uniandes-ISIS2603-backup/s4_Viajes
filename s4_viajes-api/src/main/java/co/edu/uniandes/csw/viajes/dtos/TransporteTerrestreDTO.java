@@ -13,7 +13,7 @@ import java.io.Serializable;
  * @author estudiante
  */
 public class TransporteTerrestreDTO implements Serializable {
-     //-----------------------------------------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------------------------------------
     // Atributos
     //-----------------------------------------------------------------------------------------------------------------------
    
@@ -60,6 +60,10 @@ public class TransporteTerrestreDTO implements Serializable {
            this.numeroHoras = transporteEntity.getNumeroHoras();
            this.puntuacion = transporteEntity.getPuntuacion(); 
         }
+    }
+    
+    public TransporteTerrestreDTO (){
+        
     }
     
     //-----------------------------------------------------------------------------------------------------------------------
