@@ -21,6 +21,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 
 /**
  *
@@ -76,7 +77,8 @@ public class VueloResource {
      */
     @GET
         @Path("{numero: \\d+}")
-    public VueloDTO consultarVuelo() {
+    public VueloDTO consultarVuelo(@PathParam("numero") int vueloNum) 
+    {
         return new VueloDTO();
     }
 
@@ -86,11 +88,12 @@ public class VueloResource {
      *
      * @param nuevo (@link VueloDTO) - el vuelo que desea modificar.
      */
-    //@PUT
-    //public VueloDTO modificarVuelo(VueloDTO nuevo) {
-     //   nuevo = new VueloDTO();
-     //   return nuevo;
-    //}
+    @PUT
+    @Path("{numero: \\d+}")
+    public VueloDTO modificarVuelo(@PathParam("numero")int numero, VueloDTO nuevo) throws WebApplicationException
+    {
+       return nuevo;
+    }
 
     /**
      * Borra el vuelo con el id asociado (número) recibido en la URL.

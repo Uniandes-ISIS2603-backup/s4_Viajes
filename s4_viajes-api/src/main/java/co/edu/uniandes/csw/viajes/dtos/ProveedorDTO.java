@@ -12,8 +12,8 @@ import java.io.Serializable;
  * @author Juan Felipe Torres
  */
 public class ProveedorDTO implements Serializable {
-    //Atributos//
 
+    //Atributos//
     private String username;
     private String contrasena;
     private String nombre;

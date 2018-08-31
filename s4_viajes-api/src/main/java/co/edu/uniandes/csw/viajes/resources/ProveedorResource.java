@@ -21,12 +21,15 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 
 /**
  *
  * @author Juan Felipe Torres
  */
 @Path("proveedores")
+@Produces("application/json")
+@Consumes("application/json")
 @RequestScoped
 public class ProveedorResource {
 
@@ -74,8 +77,8 @@ public class ProveedorResource {
      * @return un proveedor y su información de acuerdo a su nombre.
      */
     @GET
-        @Path("{nombre: [a-zA-Z][a-zA-Z]*}}")
-    public ProveedorDTO consultarProveedor() {
+        @Path("{nombre: [a-zA-Z][a-zA-Z]*}")
+    public ProveedorDTO consultarProveedor(@PathParam("nombre") String nombre) {
         return new ProveedorDTO();
     }
 
@@ -87,7 +90,9 @@ public class ProveedorResource {
      * modificar.
      */
     @PUT
-    public ProveedorDTO modificarProveedor() {
+    @Path("{nombre: [a-zA-Z][a-zA-Z]*}")
+    public ProveedorDTO modificarProveedor(@PathParam("nombre") String nombre, ProveedorDTO proveedor) throws WebApplicationException
+    {
         return new ProveedorDTO();
     }
 
@@ -98,8 +103,8 @@ public class ProveedorResource {
      * una cadena de letras.
      */
     @DELETE
-    @Path("{ProvedorNom: [a-zA-Z][a-zA-Z]*}}")
-    public void deleteProveedor(@PathParam("ProveedorNom") Long proveedorNom) {
+    @Path("{nombre: [a-zA-Z][a-zA-Z]*}")
+    public void deleteProveedor(@PathParam("nombre")String proveedorNom) {
         //LOGGER.log(Level.INFO, "ProveedorResource deleteProveedor: input: {0}", ProveedorNom);
         // Invoca la lógica para borrar el proveedor
         //editorialLogic.deleteProveedor(editorialsId);
