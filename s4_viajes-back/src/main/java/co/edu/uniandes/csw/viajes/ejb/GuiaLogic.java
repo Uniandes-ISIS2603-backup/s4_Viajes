@@ -5,6 +5,7 @@
  */
 package co.edu.uniandes.csw.viajes.ejb;
 
+import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
 import co.edu.uniandes.csw.viajes.entities.GuiaEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import java.util.logging.Level;
@@ -44,7 +45,33 @@ public class GuiaLogic {
         LOGGER.log(Level.INFO, "Termina proceso de creación de la editorial");
         return guiaEntity;
     }
+    
+    public GuiaEntity getGuia(Long guiaId) {
+        
+        LOGGER.log(Level.INFO, "Inicia proceso de consultar la guia con id = {0}", guiaId);
+        // Note que, por medio de la inyección de dependencias se llama al método "find(id)" que se encuentra en la persistencia.
+        
+        /**PERSISTENCIA
+        //ActividadEntity editorialEntity = persistence.find(editorialsId);
+        if (ActividadEntity == null) {
+            LOGGER.log(Level.SEVERE, "La editorial con el id = {0} no existe", actividadId);
+        }
+        LOGGER.log(Level.INFO, "Termina proceso de consultar la editorial con id = {0}", actividadId);
+        return editorialEntity;**/
+        return new GuiaEntity();
+        
+    }
+    
+    public GuiaEntity modificarGuia(Long id, GuiaEntity guiaEntity){
+        LOGGER.log(Level.INFO, "Inicia proceso de actualizar la guia con id = {0}", id);
+        // Note que, por medio de la inyección de dependencias se llama al método "update(entity)" que se encuentra en la persistencia.
+        /**PERSISTENCIA
+        ActividadEntity newEntity = persistence.update(guiaEntity);**/
+        LOGGER.log(Level.INFO, "Termina proceso de actualizar la guia con id = {0}", guiaEntity.getId());
+        return new GuiaEntity();
+    }
 
+    
     /**
      * Borrar un editorial
      *
