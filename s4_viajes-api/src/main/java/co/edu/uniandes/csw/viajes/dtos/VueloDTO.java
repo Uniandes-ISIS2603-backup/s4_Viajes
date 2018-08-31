@@ -5,10 +5,40 @@
  */
 package co.edu.uniandes.csw.viajes.dtos;
 
+import co.edu.uniandes.csw.viajes.entities.VueloEntity;
 import java.io.Serializable;
 import java.util.List;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
+ * /**
+ * VueloDTO Objeto de transferencia de datos de Vuelos. Los DTO
+ * contienen las representaciones de los JSON que se transfieren entre el
+ * cliente y el servidor.
+ *
+ * Al serializarse como JSON esta clase implementa el siguiente modelo: <br>
+ * <pre>
+ *   {
+ *      "numero": number,
+ *      "costo": double,
+ *      "puntaje": double,
+ *      "latLongDestino" : { "latitud" : double, "longitud: double},
+ *      "latLongOrigen" : { "latitud" : double, "longitud: double}     
+ *   }
+ * </pre> Por ejemplo un vuelo se representa asi:<br>
+ *
+ * <pre>
+ *
+ *  {
+ *      "numero" : 26,     
+ *      "costo" : 100000,      
+ *      "puntuacion" : 4.5, 
+ *      "latLongDestino" : { "latitud" : 4.6098906, "longitud" : -95.08167809},
+ *      "latLongOrigen" : "4.6097100,-74.0817500"
+ *  }
+ *
+ * </pre>
  *
  * @author Juan Felipe Torres
  */
@@ -22,8 +52,28 @@ public class VueloDTO implements Serializable {
     private List latLongDestino;
 
     //Constructores//
+    
+        /**
+     * Constructor por defecto
+     */
     public VueloDTO() {
 
+    }
+    
+    /**
+     * Conviertir Entity a DTO (Crea un nuevo DTO con los valores que recibe en
+     * la entidad que viene de argumento.
+     *
+     * @param vueloEntity: Es la entidad que se va a convertir a DTO
+     */
+    public VueloDTO(VueloEntity vueloEntity) {
+        if (vueloEntity != null) {
+            this.numero = vueloEntity.getNumero();
+            this.costo = vueloEntity.getCosto();
+            this.puntuacion = vueloEntity.getPuntaje();
+            this.latLongOrigen = vueloEntity.getLatLongO();
+            this.latLongDestino = vueloEntity.getLatLongD();
+        }
     }
 
     //Métodos//
@@ -120,4 +170,25 @@ public class VueloDTO implements Serializable {
     public void setLatLongDestino(List pListD) {
         latLongDestino = pListD;
     }
+    
+    /**
+     * Convertir DTO a Entity
+     *
+     * @return Un Entity con los valores del DTO
+     */
+    public VueloEntity toEntity() {
+        VueloEntity vueloEntity = new VueloEntity();
+        vueloEntity.setNumero(this.numero);
+        vueloEntity.setCosto(this.costo);
+        vueloEntity.setPuntaje(this.puntuacion);
+        vueloEntity.setLatLongO(this.latLongOrigen);
+        vueloEntity.setLatLongD(this.latLongDestino);
+        
+        return vueloEntity;
+    }
+
+    @Override
+    public String toString() {
+         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    }    
 }

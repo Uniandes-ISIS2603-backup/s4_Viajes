@@ -5,21 +5,79 @@
  */
 package co.edu.uniandes.csw.viajes.dtos;
 
+import co.edu.uniandes.csw.viajes.entities.ProveedorEntity;
 import java.io.Serializable;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  *
+ * ProveedorDTO Objeto de transferencia de datos de Proveedores. Los DTO
+ * contienen las representaciones de los JSON que se transfieren entre el
+ * cliente y el servidor.
+ *
+ * Al serializarse como JSON esta clase implementa el siguiente modelo: <br>
+ * <pre>
+ *   {
+ *      "nombre": String,
+ *      "user": String,
+ *      "password": String,
+ *      "puntaje": Double
+ *   }
+ * </pre> Por ejemplo un proveedor se representa asi:<br>
+ *
+ * <pre>
+ *
+ *   {
+ *      "nombre": "Avianca",
+ *      "user": "avianca123",
+ *      "password": "Avianca2018",
+ *      "puntaje": 4.2
+ *   }
+ *
+ * </pre>
+ * 
  * @author Juan Felipe Torres
  */
 public class ProveedorDTO implements Serializable {
 
     //Atributos//
+    
     private String username;
+    
     private String contrasena;
+    
     private String nombre;
+    
     private int puntuacion;
 
+    //Constructores//
+    
+    /**
+     * Constructor por defecto
+     */
+    public ProveedorDTO(){
+        
+    }
+    
+    /**
+     * Conviertir Entity a DTO (Crea un nuevo DTO con los valores que recibe en
+     * la entidad que viene de argumento.
+     *
+     * @param proveedorEntity: Es la entidad que se va a convertir a DTO
+     */
+    public ProveedorDTO(ProveedorEntity proveedorEntity) {
+        if (proveedorEntity != null) {
+            this.nombre = proveedorEntity.getNombre();
+            this.username = proveedorEntity.getUser();
+            this.contrasena = proveedorEntity.getPassword();
+            this.puntuacion = proveedorEntity.getPuntaje();
+        }
+    }
+
+
     //Métodos//
+    
     /**
      * Obtiene el usuario de un proveedor.
      *
@@ -92,4 +150,24 @@ public class ProveedorDTO implements Serializable {
     public void setPuntaje(int pPuntaje) {
         puntuacion = pPuntaje;
     }
+    
+    /**
+     * Convertir DTO a Entity
+     *
+     * @return Un Entity con los valores del DTO
+     */
+    public ProveedorEntity toEntity() {
+        ProveedorEntity proveedorEntity = new ProveedorEntity();
+        proveedorEntity.setNombre(this.nombre);
+        proveedorEntity.setUser(this.username);
+        proveedorEntity.setPassword(this.contrasena);
+        proveedorEntity.setPuntaje(this.puntuacion);
+        
+        return proveedorEntity;
+    }
+
+    @Override
+    public String toString() {
+         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    }   
 }
