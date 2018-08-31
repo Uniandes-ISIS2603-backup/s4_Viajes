@@ -6,8 +6,8 @@
 package co.edu.uniandes.csw.viajes.ejb;
 
 import co.edu.uniandes.csw.viajes.entities.AlojamientoEntity;
-import java.util.ArrayList;
-import java.util.List;
+//import java.util.ArrayList;
+//import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -39,14 +39,14 @@ public class AlojamientoLogic
      * Devuelve todos los alojamientos que hay en la base de datos.
      * @return Lista de entidades de tipo alojamiento.
      */
-    public List<AlojamientoEntity> getAlojamientos() 
-    {
-        LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los alojamientos.");
-        List<AlojamientoEntity> alojamientos = new ArrayList<AlojamientoEntity>(); 
-//        List<AlojamientoEntity> alojamientos = persistence.findAll();
-        LOGGER.log(Level.INFO, "Termina proceso de consultar todos los alojamientos");
-        return alojamientos;
-    }
+//    public List<AlojamientoEntity> getAlojamientos() 
+//    {
+//        LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los alojamientos.");
+//        List<AlojamientoEntity> alojamientos = new ArrayList<AlojamientoEntity>(); 
+////        List<AlojamientoEntity> alojamientos = persistence.findAll();
+//        LOGGER.log(Level.INFO, "Termina proceso de consultar todos los alojamientos");
+//        return alojamientos;
+//    }
     
     /**
      * Busca un alojamiento por ID

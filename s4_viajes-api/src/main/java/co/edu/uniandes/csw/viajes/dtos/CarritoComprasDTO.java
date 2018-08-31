@@ -5,7 +5,7 @@
  */
 package co.edu.uniandes.csw.viajes.dtos;
 
-import co.edu.uniandes.csw.viajes.entities.CarritoComprasEntity;
+//import co.edu.uniandes.csw.viajes.entities.CarritoComprasEntity;
 import java.io.Serializable;
 
 /**
@@ -18,13 +18,13 @@ public class CarritoComprasDTO implements Serializable{
 
    public CarritoComprasDTO(){}
    
-   public CarritoComprasDTO(CarritoComprasEntity carritoComprasEntity)
+   //public CarritoComprasDTO(CarritoComprasEntity carritoComprasEntity)
    {
     
-       if(carritoComprasEntity!=null)
+       //if(carritoComprasEntity!=null)
        {
-           this.nombre = carritoComprasEntity.getNombre();
-           this.nombre = carritoComprasEntity.getNombre();
+         //  this.nombre = carritoComprasEntity.getNombre();
+           //this.nombre = carritoComprasEntity.getNombre();
           
        }
    }

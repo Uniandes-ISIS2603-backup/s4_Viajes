@@ -9,6 +9,6 @@ package co.edu.uniandes.csw.viajes.dtos;
  *
  * @author estudiante
  */
-public class VueloDetail {
+public class VueloDetailDTO {
     
 }
