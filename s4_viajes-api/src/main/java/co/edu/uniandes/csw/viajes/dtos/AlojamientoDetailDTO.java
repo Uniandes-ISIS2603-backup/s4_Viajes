@@ -21,7 +21,6 @@ public class AlojamientoDetailDTO extends AlojamientoDTO implements Serializable
     // Metodos
     //-----------------------------------------------------------------------------------------------------------------------
     public AlojamientoDetailDTO() {
-        super();
     }
 
     public AlojamientoDetailDTO(AlojamientoEntity alojamientoEntity) {
