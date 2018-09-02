@@ -6,7 +6,14 @@
 package co.edu.uniandes.csw.viajes.entities;
 
 import java.io.Serializable;
-import javax.persistence.Entity;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import javax.persistence.*;
+import javax.persistence.Id;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import uk.co.jemos.podam.common.PodamExclude;
 
 /**
  *
@@ -16,6 +23,11 @@ import javax.persistence.Entity;
 @Entity
 public class ActividadEntity extends BaseEntity implements Serializable {
     
+    @PodamExclude
+    @OneToMany(mappedBy = "actividad", fetch=FetchType.LAZY)
+    private List<GuiaEntity> guias = new LinkedList<GuiaEntity>();
+    
+    @Id
     private Long id;
     
     private int costo;
@@ -63,6 +75,29 @@ public class ActividadEntity extends BaseEntity implements Serializable {
     public double getLongitud()
     {
         return longitud;
+    }
+    
+    /**
+     * Devuelve las guias de la editorial.
+     *
+     * @return Lista de entidades de Libro.
+     */
+    public List<GuiaEntity> getGuias() {
+        return guias;
+    }
+    
+    public void setIdentificador(Long identificador)
+    {
+        this.id = identificador;
+    }
+
+    /**
+     * Modifica los libros de la editorial.
+     *
+     * @param books Los nuevos libros.
+     */
+    public void setGuias(List<GuiaEntity> books) {
+        this.guias = books;
     }
     
     public void setCosto(int pCosto){
