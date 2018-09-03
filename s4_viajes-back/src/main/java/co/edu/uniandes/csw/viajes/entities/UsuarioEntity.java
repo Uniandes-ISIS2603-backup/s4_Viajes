@@ -6,11 +6,14 @@
 package co.edu.uniandes.csw.viajes.entities;
 
 import java.io.Serializable;
+import javax.persistence.Entity;
+import uk.co.jemos.podam.common.PodamStrategyValue;
 
 /**
  *
- * @author estudiante
+ * @author n.segura
  */
+@Entity
 public class UsuarioEntity extends BaseEntity implements Serializable{
     
     private int edad;

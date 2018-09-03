@@ -6,9 +6,11 @@
 package co.edu.uniandes.csw.viajes.resources;
 
 import co.edu.uniandes.csw.viajes.dtos.UsuarioDTO;
+import co.edu.uniandes.csw.viajes.dtos.UsuarioDetailDTO;
 import co.edu.uniandes.csw.viajes.ejb.UsuarioLogic;
 import co.edu.uniandes.csw.viajes.entities.UsuarioEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import static javafx.scene.input.KeyCode.Z;
@@ -75,15 +77,16 @@ public class UsuarioResource {
   
    
    /**
-     * Obtiene un usuario con su información de acuerdo a su documento.
+     * Obtiene todos los usuarios con su información de acuerdo a su documento.
      * información que fue previamente ingresada en formato JSON.
      *
      * @return un usuario y su información de acuerdo a su documento.
      */
     @GET
-    @Path("{edad: //d+}")
-    public UsuarioDTO consultarUsuario(@PathParam("edad")int edad){
-        return new UsuarioDTO();
+    public UsuarioDTO consultarUsuarios(){
+
+    return new UsuarioDTO();
+        
     }
    
      /**
