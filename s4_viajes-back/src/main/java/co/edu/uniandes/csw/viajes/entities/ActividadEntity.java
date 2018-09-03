@@ -27,8 +27,7 @@ public class ActividadEntity extends BaseEntity implements Serializable {
     private double latitud;
     
     private double longitud;
-    
-    
+   
     public int getCosto()
     {
         return costo;

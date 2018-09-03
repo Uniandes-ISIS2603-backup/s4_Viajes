@@ -6,6 +6,8 @@
 package co.edu.uniandes.csw.viajes.entities;
 
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.ManyToOne;
 
 /**
  * Clase que representa un proveedor en la persistencia y permite su serialización
@@ -23,6 +25,15 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
     private String nombre;
     
     private int puntuacion;
+    
+    @ManyToOne
+    private List<VueloEntity> vuelos;
+    
+    @ManyToOne
+    private List<TransporteTerrestreEntity> transportes;
+    
+    @ManyToOne
+    private List<ActividadEntity> actividades;
     
     
    //Métodos//
