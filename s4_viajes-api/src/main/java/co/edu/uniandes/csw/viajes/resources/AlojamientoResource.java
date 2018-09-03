@@ -8,6 +8,8 @@ package co.edu.uniandes.csw.viajes.resources;
 import co.edu.uniandes.csw.viajes.dtos.AlojamientoDTO;
 import co.edu.uniandes.csw.viajes.ejb.AlojamientoLogic;
 import co.edu.uniandes.csw.viajes.entities.AlojamientoEntity;
+import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
+import java.util.List;
 //import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,27 +51,26 @@ public class AlojamientoResource
      * @throws Exception Si la -------- ingresada es invalida.
      */
     @POST
-    public AlojamientoDTO createAlojamiento(AlojamientoDTO alojamiento) throws Exception 
+    public AlojamientoDTO createAlojamiento(AlojamientoDTO alojamiento) throws BusinessLogicException 
     {
-//        LOGGER.log(Level.INFO, "AlojamientoResource createAlojamiento: input: {0}", alojamiento.toString());
-//        AlojamientoDTO nuevoAlojamientoDTO = new AlojamientoDTO(alojamientoLogic.createAlojamiento(alojamiento.toEntity())); 
-//        LOGGER.log(Level.INFO, "AlojamientoResource createAlojamiento: output: {0}", nuevoAlojamientoDTO.toString());
-//        return nuevoAlojamientoDTO; 
-        return alojamiento;
+        LOGGER.log(Level.INFO, "AlojamientoResource createAlojamiento: input: {0}", alojamiento.toString());
+        AlojamientoDTO nuevoAlojamientoDTO = new AlojamientoDTO(alojamientoLogic.createAlojamiento(alojamiento.toEntity())); 
+        LOGGER.log(Level.INFO, "AlojamientoResource createAlojamiento: output: {0}", nuevoAlojamientoDTO.toString());
+        return nuevoAlojamientoDTO;
     } 
     
-//    /**
-//     * Busca y devuelve todos los alojamientos que existen en la aplicacion. (DEBERIA RETORNAR DTOs)
-//     * @return Todos los alojamientos.
-//     */
-//    @GET
-//    public List<AlojamientoEntity> getAlojamientos()
-//    {
-//        LOGGER.info("AlojamientoResource getAlojamientos: input: void");
-//        List<AlojamientoEntity> listaAlojamientos = alojamientoLogic.getAlojamientos();
-//        LOGGER.log(Level.INFO, "AlojamientoResource getAlojamientos: output: {0}", listaAlojamientos.toString());
-//        return listaAlojamientos;
-//    } 
+    /**
+     * Busca y devuelve todos los alojamientos que existen en la aplicacion. (DEBERIA RETORNAR DTOs)
+     * @return Todos los alojamientos.
+     */
+    @GET
+    public List<AlojamientoEntity> getAlojamientos()
+    {
+        LOGGER.info("AlojamientoResource getAlojamientos: input: void");
+        List<AlojamientoEntity> listaAlojamientos = alojamientoLogic.getAlojamientos();
+        LOGGER.log(Level.INFO, "AlojamientoResource getAlojamientos: output: {0}", listaAlojamientos.toString());
+        return listaAlojamientos;
+    } 
      
     /**
      * Busca el alojamiento con el id asociado recibido en la URL y lo devuelve.
@@ -79,12 +80,12 @@ public class AlojamientoResource
      */
     @GET
     @Path("{alojamientosId: \\d+}")
-    public AlojamientoDTO getAlojamiento (@PathParam ("alojamientosId")Long alojamientosId) throws Exception 
+    public AlojamientoDTO getAlojamiento (@PathParam ("alojamientosId")Long alojamientosId) throws BusinessLogicException 
     {
         LOGGER.log(Level.INFO, "AlojamientoResource getALojamiento: input: {0}", alojamientosId);
         AlojamientoEntity alojamientoEntity = alojamientoLogic.getAlojamiento(alojamientosId);
         if (alojamientoEntity == null) {
-            throw new Exception("El recurso /books/" + alojamientosId + " no existe.");  
+            throw new BusinessLogicException("El recurso /books/" + alojamientosId + " no existe.");  
         } 
         AlojamientoDTO AlojamientoDTO = new AlojamientoDTO(alojamientoEntity);
         LOGGER.log(Level.INFO, "BookResource getBook: output: {0}", AlojamientoDTO.toString());
@@ -99,7 +100,7 @@ public class AlojamientoResource
      */
     @PUT
     @Path("{alojamientosId: \\d+}")
-    public AlojamientoDTO updateAlojamiento(@PathParam ("alojamientosId" )Long alojamientosId, AlojamientoDTO alojamiento)
+    public AlojamientoDTO updateAlojamiento(@PathParam ("alojamientosId" )Long alojamientosId, AlojamientoDTO alojamiento) throws BusinessLogicException
     {
         LOGGER.log(Level.INFO, "ALojamientoResource updateAlojamiento: input: id: {0} , alojamiento: {1}", 
                 new Object[]{alojamientosId, alojamiento.toString()});
