@@ -6,7 +6,10 @@
 package co.edu.uniandes.csw.viajes.dtos;
 
 //import co.edu.uniandes.csw.viajes.entities.CarritoComprasEntity;
+import co.edu.uniandes.csw.viajes.entities.CarritoComprasEntity;
 import java.io.Serializable;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  *
@@ -18,16 +21,14 @@ public class CarritoComprasDTO implements Serializable{
 
    public CarritoComprasDTO(){}
    
-   //public CarritoComprasDTO(CarritoComprasEntity carritoComprasEntity)
-   {
-    
-       //if(carritoComprasEntity!=null)
-       {
-         //  this.nombre = carritoComprasEntity.getNombre();
-           //this.nombre = carritoComprasEntity.getNombre();
+ public CarritoComprasDTO(CarritoComprasEntity carritoEntity) {
+        if (carritoEntity != null) {
           
-       }
-   }
+            this.costo = carritoEntity.getCosto();
+            this.nombre = carritoEntity.getNombre();
+            
+        }
+    }
    
    public String getNombre(){
        return nombre;
@@ -42,11 +43,28 @@ public class CarritoComprasDTO implements Serializable{
 
   
 
-    public CarritoComprasDTO toEntity() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public CarritoComprasEntity toEntity() {
+          CarritoComprasEntity carritoEntity = new CarritoComprasEntity();
+        carritoEntity.setCosto(this.costo);
+        carritoEntity.setNombre(this.nombre);
+       return carritoEntity; 
     }
       
-   
+    public void setCosto(double pCosto) {
+        costo = pCosto;
+    }
+    
+    
+     public void setNombre(String pNombre) {
+        nombre = pNombre;
+    }
+    
+    
+    
+    @Override
+    public String toString() {
+         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    }    
      
     
 }
