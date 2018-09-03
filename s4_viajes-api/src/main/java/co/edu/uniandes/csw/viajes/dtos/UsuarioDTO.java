@@ -1,25 +1,58 @@
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * and open the template in the e   ditor.
  */
 package co.edu.uniandes.csw.viajes.dtos;
 
 import co.edu.uniandes.csw.viajes.entities.UsuarioEntity;
 import java.io.Serializable;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
+ * /**
+ * UsuarioDTO Objeto de transferencia de datos de Usuarios. Los DTO
+ * contienen las representaciones de los JSON que se transfieren entre el
+ * cliente y el servidor.
  *
- * @author estudiante
+ Al serializarse como JSON esta clase implementa el siguiente modelo: <br>
+ * <pre>
+ *   {
+ *      "nombre": string, 
+ *      "edad": integer,
+ *      "user_name": string,
+ *      "hasLoggedIn" : boolean,
+ *      "documento" : string     
+ *   }
+ * </pre> Por ejemplo un usuario se representa asi:<br>
+ *
+ * <pre>
+ *
+ *  {
+ *      "nombre" : "Nicolas",     
+ *      "edad" : "19",      
+ *      "user_name" : "Nikthekill", 
+ *      "hasLoggedIn" :"true",
+ *      "documento" : "991219104108"
+ *  }
+ *
+ * </pre>
+ *
+ * @author Nicolás Segura Castro
  */
 public class UsuarioDTO implements Serializable{
-    private int edad;
+    // Atributos
     private String documento;
     private String nombre;
     private String user_name;
     private Boolean hasLoggedIn;
+    private int edad;
 
-   public UsuarioDTO(){}
+
+   public UsuarioDTO(){
+       
+   }
    
    public UsuarioDTO(UsuarioEntity usuarioEntity)
    {
@@ -35,19 +68,41 @@ public class UsuarioDTO implements Serializable{
        }
    }
    
+   //Métodos//
+    /**
+     * Obtiene el nombre de un usuario.
+     *
+     * @return nombre del usuario.
+     */
+   
    public String getNombre(){
        return nombre;
    }
    
+       /**
+     * Obtiene la edad de un usuario.
+     *
+     * @return edad del usuario.
+     */
    public int getEdad()
    {
        return edad;
    }
-   
+       /**
+     * Obtiene el documento de un usuario.
+     *
+     * @return documento del usuario.
+     */
    public String getDocumento()
    {
        return documento;
    }
+   
+       /**
+     * Obtiene el userName de un usuario.
+     *
+     * @return userName del usuario.
+     */
    
    public String getUserName()
    {
@@ -58,12 +113,57 @@ public class UsuarioDTO implements Serializable{
     {
         return hasLoggedIn;
     }
+    
+      
+   public void setNombre(String pNombre){
 
-    public UsuarioDTO toEntity() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       this.nombre = pNombre;
+   }
+   
+   public void setEdad(int pEdad)
+   {
+       this.edad = pEdad;
+   }
+   
+   public void setDocumento(String pDocumento)
+   {
+        this.documento = pDocumento;
+   }
+   
+   public void setUserName(String pUserName)
+   {
+       this.user_name= pUserName;
+        
+        }
+
+    public void setHasLoggedIn(Boolean pHasLoggedIn)
+    {
+        this.hasLoggedIn = pHasLoggedIn;
+    }
+    
+    
+    
+
+    public UsuarioEntity toEntity() {
+      
+          UsuarioEntity usuarioEntity = new UsuarioEntity();
+        usuarioEntity.setNombre(this.nombre);
+        usuarioEntity.setUserName(this.user_name);
+        usuarioEntity.setHasLoggedIn(this.hasLoggedIn);
+        usuarioEntity.setDocumento(this.documento);
+        usuarioEntity.setEdad(this.edad);
+
+       
+        
+        return usuarioEntity;
+        
+        
     }
       
-   
+    @Override
+    public String toString() {
+         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    }    
      
     
 }

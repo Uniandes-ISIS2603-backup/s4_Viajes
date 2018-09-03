@@ -17,10 +17,10 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * contienen las representaciones de los JSON que se transfieren entre el
  * cliente y el servidor.
  *
- * Al serializarse como JSON esta clase implementa el siguiente modelo: <br>
+ Al serializarse como JSON esta clase implementa el siguiente modelo: <br>
  * <pre>
  *   {
- *      "numero": number,
+ *      "numero": number,* 
  *      "costo": double,
  *      "puntaje": double,
  *      "latLongDestino" : { "latitud" : double, "longitud: double},
