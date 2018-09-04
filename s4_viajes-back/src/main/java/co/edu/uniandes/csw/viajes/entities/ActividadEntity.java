@@ -16,6 +16,8 @@ import javax.persistence.Entity;
 @Entity
 public class ActividadEntity extends BaseEntity implements Serializable {
     
+    private Long id;
+    
     private int costo;
     
     private boolean ofrece_guia;
@@ -27,7 +29,12 @@ public class ActividadEntity extends BaseEntity implements Serializable {
     private double latitud;
     
     private double longitud;
-   
+
+    public Long getIdentificador()
+    {
+        return id;
+    }
+
     public int getCosto()
     {
         return costo;

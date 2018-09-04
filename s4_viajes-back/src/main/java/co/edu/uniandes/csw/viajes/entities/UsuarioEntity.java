@@ -6,11 +6,14 @@
 package co.edu.uniandes.csw.viajes.entities;
 
 import java.io.Serializable;
+import javax.persistence.Entity;
+import uk.co.jemos.podam.common.PodamStrategyValue;
 
 /**
  *
- * @author estudiante
+ * @author n.segura
  */
+@Entity
 public class UsuarioEntity extends BaseEntity implements Serializable{
     
     private int edad;
@@ -46,27 +49,27 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
      
      public void setEdad(int pEdad)
     {
-        edad = pEdad;
+        this.edad = pEdad;
     }
     
     public void setDocumento(String pDocumento)
     {
-        documento = pDocumento;
+       this.documento = pDocumento;
     }
     
     public void setUserName(String pUserName)
     {
-        user_name= pUserName;
+       this.user_name= pUserName;
     }
     
-     public void hasLoggedIn(Boolean pHasLoggedIn)
+     public void setHasLoggedIn(Boolean pHasLoggedIn)
     {
-        hasLoggedIn= pHasLoggedIn;
+       this.hasLoggedIn= pHasLoggedIn;
     } 
     
      public void setNombre(String pNombre)
     {
-        nombre= pNombre;
+       this.nombre= pNombre;
     } 
     
 }
