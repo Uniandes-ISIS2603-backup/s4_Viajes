@@ -26,7 +26,7 @@ public class VueloPersistence {
 
     private static final Logger LOGGER = Logger.getLogger(VueloPersistence.class.getName());
 
-    @PersistenceContext(unitName = "TripBuilder")
+    @PersistenceContext(unitName = "ViajesPU")
     protected EntityManager em;
 
     /**
