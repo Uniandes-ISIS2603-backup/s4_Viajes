@@ -6,18 +6,29 @@
 package co.edu.uniandes.csw.viajes.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import uk.co.jemos.podam.common.PodamExclude;
 
 /**
  * Clase que representa un proveedor en la persistencia y permite su serialización
  * 
  * @author jf.torresp
  */
-public class ProveedorEntity extends BaseEntity implements Serializable{
+@Entity
+public class ProveedorEntity implements Serializable{
     
     //Atributos//
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String username;
     
     private String contrasena;
@@ -26,14 +37,17 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
     
     private int puntuacion;
     
-    @ManyToOne
-    private List<VueloEntity> vuelos;
+    @PodamExclude
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<VueloEntity> vuelos = new ArrayList<VueloEntity>();
     
-    @ManyToOne
-    private List<TransporteTerrestreEntity> transportes;
+    @PodamExclude
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<TransporteTerrestreEntity> transportes = new ArrayList<TransporteTerrestreEntity>();
     
-    @ManyToOne
-    private List<ActividadEntity> actividades;
+    @PodamExclude
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<ActividadEntity> actividades = new ArrayList<ActividadEntity>();
     
     
    //Métodos//
@@ -105,7 +119,7 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
     /**
      * Modifica (set) el puntaje de un proveedor por el ingresado por parámetro.
      *
-     * @param pPuntaje nuevo puntaje que modificará el actual.
+     * @param puntuacion nuevo puntaje que modificará el actual.
      */
     public void setPuntaje(int puntuacion) {
         this.puntuacion = puntuacion;

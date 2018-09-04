@@ -6,18 +6,26 @@
 package co.edu.uniandes.csw.viajes.entities;
 
 import java.io.Serializable;
-import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import uk.co.jemos.podam.common.PodamExclude;
 
 /**
  *Clase que representa un vuelo en la persistencia y permite su serialización
  * 
  * @author jf.torresp
  */
-public class VueloEntity extends BaseEntity implements Serializable
-{
+@Entity
+public class VueloEntity implements Serializable {
     //Atributos//
     
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String numero;
     
     private double costo;
@@ -32,7 +40,8 @@ public class VueloEntity extends BaseEntity implements Serializable
     
     private Long longitudDestino;
     
-    @OneToMany
+    @PodamExclude
+    @OneToMany(mappedBy = "vuelo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private ProveedorEntity proveedor;
     
     //Métodos//
