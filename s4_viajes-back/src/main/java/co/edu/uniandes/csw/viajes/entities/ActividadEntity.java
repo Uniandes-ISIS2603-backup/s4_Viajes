@@ -29,12 +29,12 @@ public class ActividadEntity extends BaseEntity implements Serializable {
     private double latitud;
     
     private double longitud;
-    
+
     public Long getIdentificador()
     {
         return id;
     }
-    
+
     public int getCosto()
     {
         return costo;
