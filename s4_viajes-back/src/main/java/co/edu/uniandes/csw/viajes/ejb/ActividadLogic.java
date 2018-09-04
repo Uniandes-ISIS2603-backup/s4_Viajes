@@ -55,5 +55,32 @@ public class ActividadLogic {
         //persistence.delete(editorialsId);
         LOGGER.log(Level.INFO, "Termina proceso de borrar la editorial con id = {0}", editorialsId);
     }
+
+    public ActividadEntity getActividad(Long actividadId) {
+        
+        LOGGER.log(Level.INFO, "Inicia proceso de consultar la editorial con id = {0}", actividadId);
+        // Note que, por medio de la inyección de dependencias se llama al método "find(id)" que se encuentra en la persistencia.
+        
+        /**PERSISTENCIA
+        //ActividadEntity editorialEntity = persistence.find(editorialsId);
+        if (ActividadEntity == null) {
+            LOGGER.log(Level.SEVERE, "La editorial con el id = {0} no existe", actividadId);
+        }
+        LOGGER.log(Level.INFO, "Termina proceso de consultar la editorial con id = {0}", actividadId);
+        return editorialEntity;**/
+        return new ActividadEntity();
+        
+    }
+    
+    public ActividadEntity modificarActividad(Long id, ActividadEntity actividadEntity){
+        LOGGER.log(Level.INFO, "Inicia proceso de actualizar la actividad con id = {0}", id);
+        // Note que, por medio de la inyección de dependencias se llama al método "update(entity)" que se encuentra en la persistencia.
+        /**PERSISTENCIA
+        ActividadEntity newEntity = persistence.update(editorialEntity);**/
+        LOGGER.log(Level.INFO, "Termina proceso de actualizar la actividad con id = {0}", actividadEntity.getId());
+        return new ActividadEntity();
+    }
+
+   
     
 }

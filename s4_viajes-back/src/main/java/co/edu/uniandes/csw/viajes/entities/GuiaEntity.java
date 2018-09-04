@@ -18,7 +18,7 @@ public class GuiaEntity extends BaseEntity implements Serializable{
     
     private int edad;
     
-    private String documento;
+    private Long documento;
     
     private String nombre;
     
@@ -31,7 +31,7 @@ public class GuiaEntity extends BaseEntity implements Serializable{
     private ActividadEntity act;
     
     public int getEdad(){return edad;}
-    public String getDocumento() {return documento;}
+    public Long getDocumento() {return documento;}
     public String getNombre() {return nombre;}
     public int getPuntuacion() {return puntuacion;}        
     public double getSueldo() {return sueldo;}
@@ -41,7 +41,7 @@ public class GuiaEntity extends BaseEntity implements Serializable{
     public void setEdad(int pEdad) {edad = pEdad;}
     public void setPuntuacion(int pPuntuacion){puntuacion = pPuntuacion;}
     public void setNombre(String nom){nombre = nom;}
-    public void setDocumento(String doc){documento = doc;}        
+    public void setDocumento(Long doc){documento = doc;}        
     public void setSueldo(double pSueldo){sueldo = pSueldo;}
     public void setIdiomas(List pIdiomas){idiomas = pIdiomas;}
     public void setIdiomasList(ActividadEntity actividad){act = actividad;}

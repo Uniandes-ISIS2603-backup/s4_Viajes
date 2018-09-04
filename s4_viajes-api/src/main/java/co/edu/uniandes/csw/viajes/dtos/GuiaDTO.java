@@ -18,7 +18,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 public class GuiaDTO implements Serializable{
     private int edad;
-    private String documento;
+    private Long documento;
     private String nombre;
     private int puntuacion;
     private double sueldo;
@@ -39,14 +39,14 @@ public class GuiaDTO implements Serializable{
     }
     
     public int getEdad(){return edad;}
-    public String getDocumento(){return documento;}
+    public Long getDocumento(){return documento;}
     public String getNombre(){return nombre;}
     public int getPuntuacion(){return puntuacion;}
     public double getSueldo(){return sueldo;}
     public List getIdiomas(){return idiomas;}
     
     public void setEdad(int edad){this.edad = edad;}
-    public void setDocumento(String doc){this.documento = doc;}
+    public void setDocumento(Long doc){this.documento = doc;}
     public void setNombre(String nombre){this.nombre = nombre;}
     public void setPuntuacion(int puntuacion){this.puntuacion = puntuacion;}
     public void setSueldo(double sueldo){this.sueldo = sueldo;}

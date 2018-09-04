@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -17,15 +17,17 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 
 /**
  *
  * @author estudiante
  */
-@Path("editorials")
+@Path("actividad")
 @Produces("application/json")
 @Consumes("application/json")
 @RequestScoped
@@ -71,24 +73,44 @@ public class ActividadResource {
     }
     
     @GET
-    public ActividadDTO consultarActividad()
+    @Path("actividadId: \\d+")
+    public ActividadDTO consultarActividad(@PathParam("actividadId") Long actividadId) throws WebApplicationException
     {
-        return new ActividadDTO();
+         LOGGER.log(Level.INFO, "EditorialResource getEditorial: input: {0}", actividadId);
+        ActividadEntity actividadEntity = actividadLogic.getActividad(actividadId);
+        if (actividadEntity == null) {
+            throw new WebApplicationException("El recurso /editorials/" + actividadId + " no existe.", 404);
+        }
+        ActividadDTO detailDTO = new ActividadDTO(actividadEntity);
+        LOGGER.log(Level.INFO, "ActividadResource getActividad: output: {0}", detailDTO.toString());
+        return detailDTO;
     }
+    
+    @PUT
+    @Path("actividadId: \\d+")
+    public ActividadDTO modificarActividad(@PathParam("actividadId") Long actividadId, ActividadDTO actividad) throws WebApplicationException {
+        LOGGER.log(Level.INFO, "EditorialResource updateEditorial: input: id:{0} , editorial: {1}", new Object[]{actividadId, actividad.toString()});
+        actividad.setIdentificador(actividadId);
+        if (actividadLogic.getActividad(actividadId) == null) {
+            throw new WebApplicationException("El recurso /editorials/" + actividadId + " no existe.", 404);
+        }
+        ActividadDTO detailDTO = new ActividadDTO(actividadLogic.modificarActividad(actividadId, actividad.toEntity()));
+        LOGGER.log(Level.INFO, "EditorialResource updateEditorial: output: {0}", detailDTO.toString());
+        return detailDTO;}
 
     /**
-     * Borra la editorial con el id asociado recibido en la URL.
+     * Borra la actividad con el id asociado recibido en la URL.
      *
-     * @param editorialsId Identificador de la actividad que se desea borrar.
+     * @param actividadId Identificador de la actividad que se desea borrar.
      * Este debe ser una cadena de dígitos.
      */
     @DELETE
-    @Path("{ActividadId: \\d+}")
-    public void deleteActividad(@PathParam("actividadId") Long editorialsId) {
-        LOGGER.log(Level.INFO, "ActividadResource deleteActividad: input: {0}", editorialsId);
+    @Path("actividadId: \\d+")
+    public void deleteActividad(@PathParam("actividadId") Long actividadId) {
+        LOGGER.log(Level.INFO, "ActividadResource deleteActividad: input: {0}", actividadId);
         // Invoca la lógica para borrar la actividad
         //editorialLogic.deleteEditorial(editorialsId);
-        LOGGER.info("EditorialResource deleteActividad: output: void");
+        LOGGER.info("ActividadResource deleteActividad: output: void");
     }
     
 }
