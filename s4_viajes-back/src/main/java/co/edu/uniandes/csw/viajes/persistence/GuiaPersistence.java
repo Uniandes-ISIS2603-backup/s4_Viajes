@@ -24,14 +24,17 @@ public class GuiaPersistence {
     
      private static final Logger LOGGER = Logger.getLogger(GuiaPersistence.class.getName());
 
-    @PersistenceContext(unitName = "TripBuilderPU")
+    /**
+     *
+     */
+    @PersistenceContext(unitName = "TripBuilderTeamPU")
     protected EntityManager em;
 
     /**
-     * Busca si hay algun premio con el id que se envía de argumento
+     * Busca si hay algun guia con el id que se envía de argumento
      *
-     * @param prizeId: id correspondiente al premio buscado.
-     * @return un premio.
+     * @param guia: guia correspondiente al guia buscado.
+     * @return un guia.
      */
     public GuiaEntity find(Long documento) {
         LOGGER.log(Level.INFO, "Consultando guia con documento = {0}", documento);
@@ -40,11 +43,11 @@ public class GuiaPersistence {
     }
 
     /**
-     * Devuelve todos los premios de la base de datos.
+     * Devuelve todos los guias de la base de datos.
      *
-     * @return una lista con todos los premios que encuentre en la base de
-     * datos, "select u from PrizeEntity u" es como un "select * from
-     * PrizeEntity;" - "SELECT * FROM table_name" en SQL.
+     * @return una lista con todos los guias que encuentre en la base de
+     * datos, "select u from GuiaEntity u" es como un "select * from
+     * GuiaEntity;" - "SELECT * FROM table_name" en SQL.
      */
     public List<GuiaEntity> findAll() {
         LOGGER.log(Level.INFO, "Consultando todos los guias");
@@ -91,4 +94,8 @@ public class GuiaPersistence {
         em.remove(entity);
     }
     
+    public String findByDocumento(Long doc)
+    {
+        return "";
+    }
 }

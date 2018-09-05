@@ -26,7 +26,6 @@ public class GuiaEntity extends BaseEntity implements Serializable{
     
     private int edad;
     
-    @Id
     private Long documento;
     
     private String nombre;

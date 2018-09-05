@@ -28,7 +28,7 @@ import javax.ws.rs.WebApplicationException;
 
 /**
  *
- * @author estudiante
+ * @author Juan Esteban Cantor
  */
 @Path("guia")
 @Produces("application/json")

@@ -25,10 +25,10 @@ public class ActividadEntity extends BaseEntity implements Serializable {
     
     @PodamExclude
     @OneToMany(mappedBy = "actividad", fetch=FetchType.LAZY)
+    
     private List<GuiaEntity> guias = new LinkedList<GuiaEntity>();
     
-    @Id
-    private Long id;
+    private String documento;
     
     private int costo;
     
@@ -52,7 +52,7 @@ public class ActividadEntity extends BaseEntity implements Serializable {
         return costo;
     }
     
-    public boolean getOfreceGuia()
+    public boolean isOfreceGuia()
     {
         return ofrece_guia;
     }
@@ -78,7 +78,7 @@ public class ActividadEntity extends BaseEntity implements Serializable {
     }
     
     /**
-     * Devuelve las guias de la editorial.
+     * Devuelve las guias de la actividad.
      *
      * @return Lista de entidades de Libro.
      */
@@ -92,7 +92,7 @@ public class ActividadEntity extends BaseEntity implements Serializable {
     }
 
     /**
-     * Modifica los libros de la editorial.
+     * Modifica las guias de la actividad.
      *
      * @param books Los nuevos libros.
      */

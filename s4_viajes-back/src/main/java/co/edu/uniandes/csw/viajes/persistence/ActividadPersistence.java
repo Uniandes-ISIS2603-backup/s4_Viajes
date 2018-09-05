@@ -13,10 +13,11 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import org.eclipse.persistence.exceptions.DatabaseException;
 
 /**
  *
- * @author estudiante
+ * @author Juan Esteban Cantor
  */
 
 @Stateless
@@ -24,7 +25,10 @@ public class ActividadPersistence {
     
     private static final Logger LOGGER = Logger.getLogger(ActividadPersistence.class.getName());
 
-    @PersistenceContext(unitName = "TripBuilderPU")
+    /**
+     *
+     */
+    @PersistenceContext(unitName = "TripBuilderTeamPU")
     protected EntityManager em;
     
     /**
@@ -35,7 +39,7 @@ public class ActividadPersistence {
      */
     public ActividadEntity create(ActividadEntity actividadEntity) {
         LOGGER.log(Level.INFO, "Creando una actividad nueva");
-        /* Note que hacemos uso de un método propio de EntityManager para persistir la editorial en la base de datos.
+        /* Note que hacemos uso de un método propio de EntityManager para persistir la actividad en la base de datos.
         Es similar a "INSERT INTO table_name (column1, column2, column3, ...) VALUES (value1, value2, value3, ...);" en SQL.
          */
         em.persist(actividadEntity);
@@ -52,17 +56,17 @@ public class ActividadPersistence {
      */
     public List<ActividadEntity> findAll() {
         LOGGER.log(Level.INFO, "Consultando todas las actividades");
-        // Se crea un query para buscar todas las editoriales en la base de datos.
+        // Se crea un query para buscar todas las actividades en la base de datos.
         TypedQuery query = em.createQuery("select u from ActividadEntity u", ActividadEntity.class);
-        // Note que en el query se hace uso del método getResultList() que obtiene una lista de editoriales.
+        // Note que en el query se hace uso del método getResultList() que obtiene una lista de actvidades.
         return query.getResultList();
     }
 	
     /**
-     * Busca si hay alguna editorial con el id que se envía de argumento
+     * Busca si hay alguna actividad con el id que se envía de argumento
      *
-     * @param actividadId: id correspondiente a la editorial buscada.
-     * @return una editorial.
+     * @param actividadId: id correspondiente a la actividad buscada.
+     * @return una actividad.
      */
     public ActividadEntity find(Long actividadId) {
         LOGGER.log(Level.INFO, "Consultando actividad con id={0}", actividadId);
@@ -74,12 +78,12 @@ public class ActividadPersistence {
     }
 
 	 /**
-     * Actualiza una editorial.
+     * Actualiza una actividad.
      *
      * @param actividadEntity: la editorial que viene con los nuevos cambios.
      * Por ejemplo el nombre pudo cambiar. En ese caso, se haria uso del método
      * update.
-     * @return una editorial con los cambios aplicados.
+     * @return una actividad con los cambios aplicados.
      */
     public ActividadEntity update(ActividadEntity actividadEntity) {
         LOGGER.log(Level.INFO, "Actualizando editorial con id = {0}", actividadEntity.getId());
@@ -93,8 +97,8 @@ public class ActividadPersistence {
 	
     /**
      *
-     * Borra una editorial de la base de datos recibiendo como argumento el id
-     * de la editorial
+     * Borra una actividad de la base de datos recibiendo como argumento el id
+     * de la actividad
      *
      * @param actividadId: id correspondiente a la editorial a borrar.
      */
@@ -110,10 +114,10 @@ public class ActividadPersistence {
     }
 	
     /**
-     * Busca si hay alguna editorial con el nombre que se envía de argumento
+     * Busca si hay alguna actividad con el nombre que se envía de argumento
      *
-     * @param name: Nombre de la editorial que se está buscando
-     * @return null si no existe ninguna editorial con el nombre del argumento.
+     * @param name: Nombre de la actividad que se está buscando
+     * @return null si no existe ninguna actividad con el nombre del argumento.
      * Si existe alguna devuelve la primera.
      */
     public ActividadEntity findByName(String name) {

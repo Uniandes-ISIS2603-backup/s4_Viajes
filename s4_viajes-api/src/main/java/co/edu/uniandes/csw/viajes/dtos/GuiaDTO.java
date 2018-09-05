@@ -14,7 +14,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  *
- * @author estudiante
+ * @author Juan Esteban Cantor
  */
 public class GuiaDTO implements Serializable{
     private int edad;

@@ -20,7 +20,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 public class ActividadDetailDTO extends ActividadDTO implements Serializable {
     
-    private LinkedList <GuiaDTO> guias;
+    private List <GuiaDTO> guias;
     
     public ActividadDetailDTO(){}
     
