@@ -129,6 +129,9 @@ public class ProveedorPersistenceTest {
 
         ProveedorEntity entity = em.find(ProveedorEntity.class, result.getId());
 
+        Assert.assertEquals(newEntity.getNombre(), newEntity.getNombre());
+        Assert.assertEquals(newEntity.getPassword(), newEntity.getPassword());
+        Assert.assertEquals(newEntity.getPuntaje(), newEntity.getPuntaje());
         Assert.assertEquals(newEntity.getUser(), entity.getUser());
     }
 
