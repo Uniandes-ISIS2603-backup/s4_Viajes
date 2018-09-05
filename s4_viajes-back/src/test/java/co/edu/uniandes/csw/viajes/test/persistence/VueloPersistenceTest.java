@@ -128,7 +128,7 @@ public class VueloPersistenceTest {
 
         Assert.assertNotNull(result);
 
-        VueloEntity entity = em.find(VueloEntity.class, result.getNumero());
+        VueloEntity entity = em.find(VueloEntity.class, result.getId());
 
         Assert.assertEquals(newEntity.getNumero(), entity.getNumero());
     }
@@ -145,7 +145,7 @@ public class VueloPersistenceTest {
         for (VueloEntity ent : list) {
             boolean found = false;
             for (VueloEntity entity : data) {
-                if (ent.getNumero().equals(entity.getNumero())) {
+                if (ent.getId().equals(entity.getId())) {
                     found = true;
                 }
             }
@@ -161,7 +161,7 @@ public class VueloPersistenceTest {
     @Test
         public void getVueloTest() {
         VueloEntity entity = data.get(0);
-        VueloEntity newEntity = vueloPersistence.find(entity.getNumero());
+        VueloEntity newEntity = vueloPersistence.find(entity.getId());
         Assert.assertNotNull(newEntity);
         Assert.assertEquals(entity.getNumero(), newEntity.getNumero());
     }
@@ -174,8 +174,8 @@ public class VueloPersistenceTest {
     @Test
     public void deleteVueloTest() {
         VueloEntity entity = data.get(0);
-        vueloPersistence.delete(entity.getNumero());
-        VueloEntity deleted = em.find(VueloEntity.class, entity.getNumero());
+        vueloPersistence.delete(entity.getId());
+        VueloEntity deleted = em.find(VueloEntity.class, entity.getId());
         Assert.assertNull(deleted);
     }
 
@@ -190,11 +190,11 @@ public class VueloPersistenceTest {
         PodamFactory factory = new PodamFactoryImpl();
         VueloEntity newEntity = factory.manufacturePojo(VueloEntity.class);
 
-        newEntity.setNumero(entity.getNumero());
+        newEntity.setId(entity.getId());
 
         vueloPersistence.update(newEntity);
 
-        VueloEntity resp = em.find(VueloEntity.class, entity.getNumero());
+        VueloEntity resp = em.find(VueloEntity.class, entity.getId());
 
         Assert.assertEquals(newEntity.getNumero(), resp.getNumero());
     }

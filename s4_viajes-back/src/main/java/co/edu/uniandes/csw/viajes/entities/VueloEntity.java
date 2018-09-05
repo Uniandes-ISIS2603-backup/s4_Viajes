@@ -9,9 +9,7 @@ import java.io.Serializable;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import uk.co.jemos.podam.common.PodamExclude;
 
@@ -21,11 +19,9 @@ import uk.co.jemos.podam.common.PodamExclude;
  * @author jf.torresp
  */
 @Entity
-public class VueloEntity implements Serializable {
+public class VueloEntity extends BaseEntity implements Serializable {
     //Atributos//
     
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String numero;
     
     private double costo;
@@ -41,8 +37,12 @@ public class VueloEntity implements Serializable {
     private Long longitudDestino;
     
     @PodamExclude
-    @OneToMany(mappedBy = "vuelo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne
     private ProveedorEntity proveedor;
+    
+    public VueloEntity(){
+    
+    }
     
     //Métodos//
     
@@ -130,7 +130,7 @@ public class VueloEntity implements Serializable {
     /**
      * Modifica el puntaje del vuelo.
      *
-     * @param npuntaje el puntaje a actualizar
+     * @param puntaje el puntaje a actualizar
      */
     public void setPuntaje(double puntaje){
         this.puntaje = puntaje;
@@ -177,7 +177,7 @@ public class VueloEntity implements Serializable {
      *
      * @return Una entidad de proveedor.
      */
-    public ProveedorEntity getProveddor() {
+    public ProveedorEntity getProveedor() {
         return proveedor;
     }
 
@@ -186,7 +186,7 @@ public class VueloEntity implements Serializable {
      *
      * @param proveedorEntity El nuevo proveedor.
      */
-    public void seProveedor(ProveedorEntity proveedorEntity) {
+    public void setProveedor(ProveedorEntity proveedorEntity) {
         this.proveedor = proveedorEntity;
     }
 }

@@ -26,7 +26,7 @@ public class VueloPersistence {
 
     private static final Logger LOGGER = Logger.getLogger(VueloPersistence.class.getName());
 
-    @PersistenceContext(unitName = "ViajesPU")
+    @PersistenceContext(unitName = "TripBuilderTeamPU")
     protected EntityManager em;
 
     /**
@@ -66,8 +66,8 @@ public class VueloPersistence {
      * @param vueloId: id correspondiente l vuelo buscado.
      * @return un vuelo.
      */
-    public VueloEntity find(String vueloId) {
-        LOGGER.log(Level.INFO, "Consultando editorial con id={0}", vueloId);
+    public VueloEntity find(Long vueloId) {
+        LOGGER.log(Level.INFO, "Consultando vuelo con id={0}", vueloId);
         /* Note que se hace uso del metodo "find" propio del EntityManager, el cual recibe como argumento 
         el tipo de la clase y el objeto que nos hara el filtro en la base de datos en este caso el "id"
         Suponga que es algo similar a "select * from VueloEntity where id=id;" - "SELECT * FROM table_name WHERE condition;" en SQL.
@@ -84,12 +84,12 @@ public class VueloPersistence {
      * @return u vuelo con los cambios aplicados.
      */
     public VueloEntity update(VueloEntity vueloEntity) {
-        LOGGER.log(Level.INFO, "Actualizando vuelo con id = {0}", vueloEntity.getNumero());
+        LOGGER.log(Level.INFO, "Actualizando vuelo con id = {0}", vueloEntity.getId());
         /* Note que hacemos uso de un método propio del EntityManager llamado merge() que recibe como argumento
         el vuelo con los cambios, esto es similar a 
         "UPDATE table_name SET column1 = value1, column2 = value2, ... WHERE condition;" en SQL.
          */
-        LOGGER.log(Level.INFO, "Saliendo de actualizar el vuelo con id = {0}", vueloEntity.getNumero());
+        LOGGER.log(Level.INFO, "Saliendo de actualizar el vuelo con id = {0}", vueloEntity.getId());
         return em.merge(vueloEntity);
     }
     
@@ -99,7 +99,7 @@ public class VueloPersistence {
      *
      * @param vueloId: id correspondiente al vuelo a borrar.
      */
-    public void delete(String vueloId) {
+    public void delete(Long vueloId) {
         LOGGER.log(Level.INFO, "Borrando vuelo con id = {0}", vueloId);
         VueloEntity entity = em.find(VueloEntity.class, vueloId);
         /* Note que una vez obtenido el objeto desde la base de datos llamado "entity", volvemos hacer uso de un método propio del
