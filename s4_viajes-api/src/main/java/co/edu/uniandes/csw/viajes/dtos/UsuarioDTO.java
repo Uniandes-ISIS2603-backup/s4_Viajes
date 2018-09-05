@@ -45,7 +45,7 @@ public class UsuarioDTO implements Serializable{
     // Atributos
     private String documento;
     private String nombre;
-    private String user_name;
+    private String userName;
     private Boolean hasLoggedIn;
     private int edad;
 
@@ -61,7 +61,7 @@ public class UsuarioDTO implements Serializable{
        {
            this.documento = usuarioEntity.getDocumento();
            this.edad = usuarioEntity.getEdad();
-           this.user_name = usuarioEntity.getUserName();
+           this.userName = usuarioEntity.getUserName();
            this.hasLoggedIn = usuarioEntity.hasLoggedIn();
            this.nombre = usuarioEntity.getNombre();
           
@@ -106,7 +106,7 @@ public class UsuarioDTO implements Serializable{
    
    public String getUserName()
    {
-      return user_name;
+      return userName;
    }
 
     public Boolean hasLoggedIn()
@@ -132,7 +132,7 @@ public class UsuarioDTO implements Serializable{
    
    public void setUserName(String pUserName)
    {
-       this.user_name= pUserName;
+       this.userName= pUserName;
         
         }
 
@@ -148,7 +148,7 @@ public class UsuarioDTO implements Serializable{
       
           UsuarioEntity usuarioEntity = new UsuarioEntity();
         usuarioEntity.setNombre(this.nombre);
-        usuarioEntity.setUserName(this.user_name);
+        usuarioEntity.setUserName(this.userName);
         usuarioEntity.setHasLoggedIn(this.hasLoggedIn);
         usuarioEntity.setDocumento(this.documento);
         usuarioEntity.setEdad(this.edad);

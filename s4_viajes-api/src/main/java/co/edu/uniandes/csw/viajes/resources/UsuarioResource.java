@@ -66,7 +66,6 @@ public class UsuarioResource {
    
       
       @POST
-
    public UsuarioDTO createUsuario(UsuarioDTO usuario) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "UsuarioResource createUsuario: input: {0}", usuario.toString());
        UsuarioEntity usuarioEntity = usuario.toEntity();
@@ -85,7 +84,7 @@ public class UsuarioResource {
     @GET
     public UsuarioDTO consultarUsuarios(){
 
-    return new UsuarioDTO();
+        return new UsuarioDTO();
         
     }
    

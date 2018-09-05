@@ -19,7 +19,7 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
     private int edad;
     private String documento;
     private String nombre;
-    private String user_name;
+    private String userName;
     private Boolean hasLoggedIn;
     
     public int getEdad()
@@ -39,7 +39,7 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
     
     public String getUserName()
     {
-        return user_name;
+        return userName;
     }
     
      public Boolean hasLoggedIn()
@@ -59,7 +59,7 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
     
     public void setUserName(String pUserName)
     {
-       this.user_name= pUserName;
+       this.userName= pUserName;
     }
     
      public void setHasLoggedIn(Boolean pHasLoggedIn)
