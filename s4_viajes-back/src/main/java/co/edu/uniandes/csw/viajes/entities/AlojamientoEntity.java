@@ -7,36 +7,40 @@ package co.edu.uniandes.csw.viajes.entities;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import uk.co.jemos.podam.common.PodamExclude;
 
 /**
  *
  * @author Ymespana
  */
-
 @Entity
-public class AlojamientoEntity extends BaseEntity implements Serializable
-{
-     //-----------------------------------------------------------------------------------------------------------------------
+public class AlojamientoEntity extends BaseEntity implements Serializable {
+    //-----------------------------------------------------------------------------------------------------------------------
     // Atributos
     //-----------------------------------------------------------------------------------------------------------------------
-  
-    private Double costo;
-   
-    private Integer estrellas; 
-  
-    private String nombre; 
-   
-    private String tipo; 
 
-    private Integer noches; 
-  
+    private Double costo;
+
+    private Integer estrellas;
+
+    private String nombre;
+
+    private String tipo;
+
+    private Integer noches;
+
     private Long latitud;
 
-    private Long longitud; 
+    private Long longitud;
 
-    private Integer puntuacion; 
+    private Integer puntuacion;
 
     private String ubicacion;
+
+    @PodamExclude
+    @ManyToOne
+    private ProveedorEntity proveedor;
 
     //-----------------------------------------------------------------------------------------------------------------------
     // Metodos
@@ -111,5 +115,13 @@ public class AlojamientoEntity extends BaseEntity implements Serializable
 
     public void setUbicacion(String ubicacion) {
         this.ubicacion = ubicacion;
-    }   
+    }
+
+    public ProveedorEntity getProveedor() {
+        return proveedor;
+    }
+
+    public void setProveedor(ProveedorEntity proveedor) {
+        this.proveedor = proveedor;
+    }
 }

@@ -108,13 +108,14 @@ public class AlojamientoLogic {
      * Eliminar un alojamiento por ID
      *
      * @param alojamientoId El ID del alojamiento a eliminar
+     * @throws BusinessLogicException
      */
-    public void deleteAlojamiento(Long alojamientoId) {
+    public void deleteAlojamiento(Long alojamientoId) throws BusinessLogicException  {
         LOGGER.log(Level.INFO, "Inicia proceso de borrar el alojamiento con id = {0}", alojamientoId);
         if (alojamientoId == null) {
-            return;
+            throw new BusinessLogicException("No se puede borrar el alojamiento con id = " + alojamientoId + " porque el id es invalido");
         }
-//        persistence.delete(alojamientoId);
+        persistence.delete(alojamientoId);
         LOGGER.log(Level.INFO, "Termina proceso de borrar el libro con id = {0}", alojamientoId);
     }
 }
