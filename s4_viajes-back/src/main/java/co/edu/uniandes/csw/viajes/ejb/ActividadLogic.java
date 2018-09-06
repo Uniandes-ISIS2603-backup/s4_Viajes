@@ -50,11 +50,13 @@ public class ActividadLogic {
      *
      * @param editorialsId: id de la editorial a borrar
      */
-    public void deleteActividad(Long actividadId) {
+
+    public void deleteActividad(String actividadId) {
         LOGGER.log(Level.INFO, "Inicia proceso de borrar la editorial con id = {0}", actividadId);
         // Note que, por medio de la inyección de dependencias se llama al método "delete(id)" que se encuentra en la persistencia.
-        persistence.delete(actividadId);
-        LOGGER.log(Level.INFO, "Termina proceso de borrar la actividad con id = {0}", actividadId);
+        //persistence.delete(editorialsId);
+        LOGGER.log(Level.INFO, "Termina proceso de borrar la editorial con id = {0}", actividadId);
+
     }
 
     public ActividadEntity getActividad(Long actividadId) {

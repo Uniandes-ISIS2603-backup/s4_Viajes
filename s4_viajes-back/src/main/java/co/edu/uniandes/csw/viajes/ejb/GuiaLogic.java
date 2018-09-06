@@ -5,10 +5,13 @@
  */
 package co.edu.uniandes.csw.viajes.ejb;
 
+
 import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
 import co.edu.uniandes.csw.viajes.entities.GuiaEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.GuiaPersistence;
+import co.edu.uniandes.csw.viajes.entities.GuiaEntity;
+import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -39,14 +42,19 @@ public class GuiaLogic {
     public GuiaEntity createGuia(GuiaEntity guiaEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación de la editorial");
         // Verifica la regla de negocio que dice que no puede haber dos editoriales con el mismo nombre
+
         if (persistence.findByDocumento(guiaEntity.getDocumento()) != null) {
             throw new BusinessLogicException("Ya existe una Guia con el documento \"" + guiaEntity.getDocumento() + "\"");
         }
+        /**if (persistence.findByName(editorialEntity.getName()) != null) {
+            throw new BusinessLogicException("Ya existe una Editorial con el nombre \"" + editorialEntity.getName() + "\"");
+        }**/
         // Invoca la persistencia para crear la editorial
         //persistence.create(editorialEntity);
         LOGGER.log(Level.INFO, "Termina proceso de creación de la editorial");
         return guiaEntity;
     }
+
     
     public GuiaEntity getGuia(Long guiaId) {
         
