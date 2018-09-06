@@ -8,6 +8,8 @@ package co.edu.uniandes.csw.viajes.dtos;
 import co.edu.uniandes.csw.viajes.entities.AdministradorEntity;
 import co.edu.uniandes.csw.viajes.entities.UsuarioEntity;
 import java.io.Serializable;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  *
@@ -16,7 +18,7 @@ import java.io.Serializable;
 public class AdministradorDTO implements Serializable{
     private String contraseña;
     private String nombre;
-    private String user_name;
+    private String userName;
 
    public AdministradorDTO(){}
    
@@ -26,7 +28,7 @@ public class AdministradorDTO implements Serializable{
        if(administradorEntity!=null)
        {
            this.contraseña = administradorEntity.getContraseña();
-           this.user_name = administradorEntity.getUserName();
+           this.userName = administradorEntity.getUserName();
            this.nombre = administradorEntity.getNombre();
           
        }
@@ -44,16 +46,30 @@ public class AdministradorDTO implements Serializable{
    
    public String getUserName()
    {
-      return user_name;
+      return userName;
    }
 
   
 
-    public AdministradorDTO toEntity() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public AdministradorEntity toEntity() {
+        
+          AdministradorEntity administradorEntity = new AdministradorEntity();
+        administradorEntity.setNombre(this.nombre);
+        administradorEntity.setContraseña(this.contraseña);
+        administradorEntity.setUserName(this.userName);
+ 
+
+       
+        
+        return administradorEntity;
+
     }
       
-   
+    @Override
+    public String toString() {
+         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    }    
+
      
     
 }

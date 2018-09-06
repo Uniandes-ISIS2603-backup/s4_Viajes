@@ -6,7 +6,10 @@
 package co.edu.uniandes.csw.viajes.dtos;
 
 //import co.edu.uniandes.csw.viajes.entities.CarritoComprasEntity;
+import co.edu.uniandes.csw.viajes.entities.CarritoComprasEntity;
 import java.io.Serializable;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  *
@@ -15,24 +18,33 @@ import java.io.Serializable;
 public class CarritoComprasDTO implements Serializable{
     private String nombre;
     private Double costo;
+    private Long id;
 
-   public CarritoComprasDTO(){}
-   
-   //public CarritoComprasDTO(CarritoComprasEntity carritoComprasEntity)
-   {
-    
-       //if(carritoComprasEntity!=null)
-       {
-         //  this.nombre = carritoComprasEntity.getNombre();
-           //this.nombre = carritoComprasEntity.getNombre();
-          
-       }
+   public CarritoComprasDTO (){
    }
+   
+ public CarritoComprasDTO(CarritoComprasEntity carritoEntity) {
+        if (carritoEntity != null) {
+          
+            this.costo = carritoEntity.getCosto();
+            this.nombre = carritoEntity.getNombre();
+            this.id = carritoEntity.getId();
+ 
+        }
+    }
    
    public String getNombre(){
        return nombre;
    }
    
+      public Long getId(){
+       return id;
+   }
+      
+       public void setId(Long pId){
+
+           this.id= pId;
+       }
  
    
    public Double getCosto()
@@ -42,11 +54,29 @@ public class CarritoComprasDTO implements Serializable{
 
   
 
-    public CarritoComprasDTO toEntity() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public CarritoComprasEntity toEntity() {
+          CarritoComprasEntity carritoEntity = new CarritoComprasEntity();
+        //carritoEntity.setCosto(this.costo);
+        carritoEntity.setNombre(this.nombre);
+        carritoEntity.setIdCarrito(this.id);
+       return carritoEntity; 
     }
       
-   
+    public void setCosto(double pCosto) {
+        this.costo = pCosto;
+    }
+    
+    
+     public void setNombre(String pNombre) {
+        this.nombre = pNombre;
+    }
+    
+    
+    
+    @Override
+    public String toString() {
+         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    }    
      
     
 }

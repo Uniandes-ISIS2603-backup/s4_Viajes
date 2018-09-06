@@ -1,0 +1,73 @@
+{
+	"info": {
+		"_postman_id": "205fe35d-a1cc-4a6f-89d6-9be0d554e017",
+		"name": "Usuario ",
+		"description": "Prueba los métodos de creación y obtención de un usuario. ",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/s4_viajes-api/api/usuarios/",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{  \"nombre\": \"Nicolas\",\r\n    \"edad\": 30,\r\n    \"userName\":\"Nicolas20\",\r\n    \"hasLoggedIn\": true,\r\n    \"documento\": \"99121904108\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/usuarios/Ramirodos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"usuarios",
+						"Ramirodos"
+					]
+				},
+				"description": "Obtiene un usuario."
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/s4_viajes-api/api/usuarios/",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{  \"nombre\": \"Nicolas\",\r\n    \"edad\": 30,\r\n    \"userName\":\"Nicolas20\",\r\n    \"hasLoggedIn\": true,\r\n    \"documento\": \"99121904108\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/usuarios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"usuarios"
+					]
+				},
+				"description": "Crea un nuevo usuario"
+			},
+			"response": []
+		}
+	]
+}

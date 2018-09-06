@@ -1,0 +1,73 @@
+{
+	"info": {
+		"_postman_id": "8a86d170-ab19-481a-855c-8452884496c5",
+		"name": "Administrador",
+		"description": "Pruebas de la clase administrador.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/s4_viajes-api/api/carritoscompras/5",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n\t{\r\n\t\"userName\": \"Nik\",\r\n\t\"nombre\": \"Nicolas\",\r\n    \"contraseña\":\"123\"\r\n\t}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/administradores",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"administradores"
+					]
+				},
+				"description": "Crea un administrador con la información obtenida."
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/s4_viajes-api/api/carritoscompras/5",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n\t{\r\n\t\"userName\": \"Nik\",\r\n\t\"nombre\": \"Nicolas\",\r\n    \"contraseña\":\"123\"\r\n\t}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/administradores/uantotri",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"administradores",
+						"uantotri"
+					]
+				},
+				"description": "Obtiene la información de un administrador. "
+			},
+			"response": []
+		}
+	]
+}
