@@ -1,0 +1,169 @@
+{
+	"info": {
+		"_postman_id": "c7ece1c4-bcdb-490e-be7e-15e584b23e88",
+		"name": "Test Proveedor",
+		"description": "Tests de las operciones báscias del recurso Proveedor.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear un proveedor",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6fbe397f-9c9b-4f5a-a43e-88588860bac7",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Postman. El proveedor se ha creado exitosamente.\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\n \t\"nombre\" : \"Avianca\", \n \t\"password\" : \"Avianca2018\", \n \t\"user\" : \"avianca123\", \n \t\"puntaje\" : 8 \n }"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/proveedores",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"proveedores"
+					]
+				},
+				"description": "Crea un proveedor identificado por su nombre y que contiene toda su información al ingresarla."
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar un proveedor",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2a635139-b06e-4d20-98e8-094c3cc77e72",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Postman. Se ha eliminado el proveedor\"] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/proveedores/Avianca",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"proveedores",
+						"Avianca"
+					]
+				},
+				"description": "Elimina un proveedor dado su nombre como identificador.\n"
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un proveedor",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d89563c8-6eb2-4e8f-9a53-402dfd24bf57",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Postman. Se ha obtenido el proveedor con nombre especificado.\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/proveedores/Avianca",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"proveedores",
+						"Avianca"
+					]
+				},
+				"description": "Obtiene un proveedor específico dado por su nombre, esto retorna toda su información.\n"
+			},
+			"response": []
+		},
+		{
+			"name": "Modificar un proveedor",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "382aca32-60ac-4c7a-8953-7dda697fcc08",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Postman. Se ha modificado el proveedor con nombre especificado.\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"puntaje\": 20,\n    \"nombre\": \"Lan\",\n    \"password\": \"Lan2018\",\n    \"user\": \"lan123\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/proveedores/Avianca",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"proveedores",
+						"Avianca"
+					]
+				},
+				"description": "Dado el identificador de nombre de un proveedor, se envía la información que se quiere cambiar de este para así modificarla."
+			},
+			"response": []
+		}
+	]
+}
