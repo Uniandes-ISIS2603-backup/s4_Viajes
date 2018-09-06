@@ -29,7 +29,7 @@ public class ActividadDTO implements Serializable{
     
     public ActividadDTO(ActividadEntity actividadEntity) {
         if (actividadEntity != null) {
-            this.id = actividadEntity.getIdentificador();
+            this.id = actividadEntity.getId();
             this.costo = actividadEntity.getCosto();
             this.ofrece_guia = actividadEntity.isOfreceGuia();
             this.puntuacion = actividadEntity.getPuntuacion();
