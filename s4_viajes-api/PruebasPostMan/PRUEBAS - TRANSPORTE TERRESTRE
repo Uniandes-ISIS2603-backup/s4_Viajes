@@ -1,0 +1,117 @@
+{
+	"info": {
+		"_postman_id": "525377f0-aa95-496d-b098-7a22575dd0f2",
+		"name": "PRUEBAS - TRANSPORTE TERRESTRE",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Obtener un transporte",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/transportes/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"transportes",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Agregar un transporte",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"id\": 12454841,\n\"costo\" : 0, \n\"destino\": \"Bogota\",\n\"numeroDias\": 5,\n\"numeroHoras\": 12,\n\"latitudOrigen\" : 13454646,\n\"longitudOrigen\" : 854852247,\n\"latitudDestino\" : 254154471,\n\"longitudDestino\" : 46578458,\n\"puntuacion\" : \"2\"\n}\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/transportes/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"transportes",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modificar un transporte",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"id\": 12454841,\n\"costo\" : 0, \n\"destino\": \"Bogota\",\n\"numeroDias\": 5,\n\"numeroHoras\": 12,\n\"latitudOrigen\" : 13454646,\n\"longitudOrigen\" : 854852247,\n\"latitudDestino\" : 254154471,\n\"longitudDestino\" : 46578458,\n\"puntuacion\" : \"2\"\n}\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/transportes/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"transportes",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar un transporte",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/transportes/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"transportes",
+						"4"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
