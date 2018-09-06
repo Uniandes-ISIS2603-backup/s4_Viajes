@@ -46,11 +46,8 @@ public class GuiaLogic {
         if (persistence.findByDocumento(guiaEntity.getDocumento()) != null) {
             throw new BusinessLogicException("Ya existe una Guia con el documento \"" + guiaEntity.getDocumento() + "\"");
         }
-        /**if (persistence.findByName(editorialEntity.getName()) != null) {
-            throw new BusinessLogicException("Ya existe una Editorial con el nombre \"" + editorialEntity.getName() + "\"");
-        }**/
         // Invoca la persistencia para crear la editorial
-        //persistence.create(editorialEntity);
+        persistence.create(guiaEntity);
         LOGGER.log(Level.INFO, "Termina proceso de creación de la editorial");
         return guiaEntity;
     }
@@ -75,8 +72,8 @@ public class GuiaLogic {
     public GuiaEntity modificarGuia(Long id, GuiaEntity guiaEntity){
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar la guia con id = {0}", id);
         // Note que, por medio de la inyección de dependencias se llama al método "update(entity)" que se encuentra en la persistencia.
-        /**PERSISTENCIA
-        ActividadEntity newEntity = persistence.update(guiaEntity);**/
+        
+        GuiaEntity newEntity = persistence.update(guiaEntity);
         LOGGER.log(Level.INFO, "Termina proceso de actualizar la guia con id = {0}", guiaEntity.getId());
         return new GuiaEntity();
     }
@@ -87,12 +84,12 @@ public class GuiaLogic {
      *
      * @param editorialsId: id de la editorial a borrar
      */
-    /**public void deleteGuia(Long editorialsId) {
+    public void deleteGuia(Long editorialsId) {
         LOGGER.log(Level.INFO, "Inicia proceso de borrar la editorial con id = {0}", editorialsId);
         // Note que, por medio de la inyección de dependencias se llama al método "delete(id)" que se encuentra en la persistencia.
-        //persistence.delete(editorialsId);
+        persistence.delete(editorialsId);
         LOGGER.log(Level.INFO, "Termina proceso de borrar la editorial con id = {0}", editorialsId);
-    }**/
+    }
     
 
 

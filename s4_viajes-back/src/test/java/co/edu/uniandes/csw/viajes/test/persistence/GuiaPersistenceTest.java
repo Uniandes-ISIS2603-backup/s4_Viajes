@@ -41,7 +41,7 @@ public class GuiaPersistenceTest {
     @Inject
     UserTransaction utx;
 
-    private List<GuiaEntity> data = new LinkedList<GuiaEntity>();
+    private List<GuiaEntity> data = new LinkedList<>();
 
     /**
      * @return Devuelve el jar que Arquillian va a desplegar en Payara embebido.
@@ -82,7 +82,7 @@ public class GuiaPersistenceTest {
      * Limpia las tablas que están implicadas en la prueba.
      */
     private void clearData() {
-        em.createQuery("delete from BookEntity").executeUpdate();
+        em.createQuery("delete from GuiaEntity").executeUpdate();
     }
 
     /**
@@ -100,7 +100,7 @@ public class GuiaPersistenceTest {
     }
 
     /**
-     * Prueba para crear un Book.
+     * Prueba para crear un Guia.
      */
     @Test
     public void createGuiaTest() {
@@ -112,7 +112,7 @@ public class GuiaPersistenceTest {
 
         GuiaEntity entity = em.find(GuiaEntity.class, result.getId());
 
-        Assert.assertEquals(newEntity.getDocumento(), entity.getDocumento());
+        Assert.assertEquals(newEntity.getId(), entity.getId());
         Assert.assertEquals(newEntity.getNombre(), entity.getNombre());
         Assert.assertEquals(newEntity.getPuntuacion(), entity.getPuntuacion());
         Assert.assertEquals(newEntity.getSueldo(), entity.getSueldo());
@@ -162,10 +162,10 @@ public class GuiaPersistenceTest {
     }
 
     /**
-     * Prueba para actualizar un Book.
+     * Prueba para actualizar un Guia.
      */
     @Test
-    public void updateBookTest() {
+    public void updateGuiaTest() {
         GuiaEntity entity = data.get(0);
         PodamFactory factory = new PodamFactoryImpl();
         GuiaEntity newEntity = factory.manufacturePojo(GuiaEntity.class);

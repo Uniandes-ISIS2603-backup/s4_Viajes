@@ -17,7 +17,7 @@ import org.eclipse.persistence.exceptions.DatabaseException;
 
 /**
  *
- * @author Juan Esteban Cantor
+ * @author estudiante
  */
 
 @Stateless
@@ -91,7 +91,6 @@ public class ActividadPersistence {
         la editorial con los cambios, esto es similar a 
         "UPDATE table_name SET column1 = value1, column2 = value2, ... WHERE condition;" en SQL.
          */
-        LOGGER.log(Level.INFO, "Saliendo de actualizar la actividad con id = {0}", actividadEntity.getId());
         return em.merge(actividadEntity);
     }
 	

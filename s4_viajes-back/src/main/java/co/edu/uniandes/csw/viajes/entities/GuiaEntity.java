@@ -21,7 +21,7 @@ import uk.co.jemos.podam.common.PodamExclude;
 public class GuiaEntity extends BaseEntity implements Serializable{
     
     @PodamExclude
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     private ActividadEntity actividad;
     
     private int edad;

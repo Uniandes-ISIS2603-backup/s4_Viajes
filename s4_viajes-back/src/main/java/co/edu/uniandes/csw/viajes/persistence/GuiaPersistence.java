@@ -13,10 +13,11 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 
 /**
  *
- * @author estudiante
+ * @author Juan Esteban Cantor
  */
 
 @Stateless
@@ -24,16 +25,13 @@ public class GuiaPersistence {
     
      private static final Logger LOGGER = Logger.getLogger(GuiaPersistence.class.getName());
 
-    /**
-     *
-     */
     @PersistenceContext(unitName = "TripBuilderTeamPU")
     protected EntityManager em;
 
     /**
      * Busca si hay algun guia con el id que se envía de argumento
      *
-     * @param guia: guia correspondiente al guia buscado.
+     * @param documento: documento correspondiente al guia buscado.
      * @return un guia.
      */
     public GuiaEntity find(Long documento) {
@@ -51,7 +49,7 @@ public class GuiaPersistence {
      */
     public List<GuiaEntity> findAll() {
         LOGGER.log(Level.INFO, "Consultando todos los guias");
-        Query q = em.createQuery("select u from GuiaEntity u");
+        TypedQuery q = em.createQuery("select u from GuiaEntity u",GuiaEntity.class);
         return q.getResultList();
     }
 
@@ -69,29 +67,35 @@ public class GuiaPersistence {
     }
 
     /**
-     * Actualiza un premio.
+     * Actualiza un guia.
      *
-     * @param prizeEntity: el premio que viene con los nuevos cambios. Por
+     * @param guiaEntity: el premio que viene con los nuevos cambios. Por
      * ejemplo el nombre pudo cambiar. En ese caso, se haria uso del método
      * update.
      * @return un premio con los cambios aplicados.
      */
     public GuiaEntity update(GuiaEntity guiaEntity) {
         LOGGER.log(Level.INFO, "Actualizando guia con id = {0}", guiaEntity.getId());
+        /* Note que hacemos uso de un método propio del EntityManager llamado merge() que recibe como argumento
+        la editorial con los cambios, esto es similar a 
+        "UPDATE table_name SET column1 = value1, column2 = value2, ... WHERE condition;" en SQL.
+         */
+        LOGGER.log(Level.INFO, "Saliendo de actualizar el guiacon id = {0}", guiaEntity.getId());
         return em.merge(guiaEntity);
     }
 
     /**
      *
-     * Borra un premio de la base de datos recibiendo como argumento el id del
-     * premio
+     * Borra un guia de la base de datos recibiendo como argumento el id del
+     * guia
      *
-     * @param prizeId: id correspondiente al premio a borrar.
+     * @param prizeId: id correspondiente al guia a borrar.
      */
     public void delete(Long guiaId) {
         LOGGER.log(Level.INFO, "Borrando guia con id = {0}", guiaId);
         GuiaEntity entity = em.find(GuiaEntity.class, guiaId);
         em.remove(entity);
+        LOGGER.log(Level.INFO, "Saliendo de borrar la actividad con id = {0}", guiaId);
     }
     
     public String findByDocumento(Long doc)
