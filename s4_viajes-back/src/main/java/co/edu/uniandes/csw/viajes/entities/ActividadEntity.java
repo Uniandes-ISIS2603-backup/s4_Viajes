@@ -7,6 +7,8 @@ package co.edu.uniandes.csw.viajes.entities;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import uk.co.jemos.podam.common.PodamExclude;
 
 /**
  *
@@ -16,7 +18,7 @@ import javax.persistence.Entity;
 @Entity
 public class ActividadEntity extends BaseEntity implements Serializable {
     
-    private Long id;
+   // private Long id;
     
     private int costo;
     
@@ -29,12 +31,16 @@ public class ActividadEntity extends BaseEntity implements Serializable {
     private double latitud;
     
     private double longitud;
+
+    //public Long getIdentificador()
+    //{
+      //  return id;
+    //}
     
-    public Long getIdentificador()
-    {
-        return id;
-    }
-    
+    @PodamExclude
+    @ManyToOne
+    private ProveedorEntity proveedor;
+
     public int getCosto()
     {
         return costo;
@@ -87,4 +93,22 @@ public class ActividadEntity extends BaseEntity implements Serializable {
     {
         longitud = pLongitud;
     }
+    /**
+     * Devuelve el proveedor a la que pertenece el libro.
+     *
+     * @return Una entidad de proveedor.
+     */
+    public ProveedorEntity getProveedor() {
+        return proveedor;
+    }
+
+    /**
+     * Modifica el proveedor al que pertenece el vuelo.
+     *
+     * @param proveedorEntity El nuevo proveedor.
+     */
+    public void setProveedor(ProveedorEntity proveedorEntity) {
+        this.proveedor = proveedorEntity;
+    }
+
 }
