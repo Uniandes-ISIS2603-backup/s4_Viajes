@@ -24,11 +24,13 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+
 import javax.ws.rs.WebApplicationException;
+
 
 /**
  *
- * @author estudiante
+ * @author Juan Esteban Cantor
  */
 @Path("guia")
 @Produces("application/json")
@@ -71,9 +73,16 @@ public class GuiaResource {
         // Invoca la lógica para crear la actividad nueva
         GuiaEntity nuevoActividadEntity = guiaLogic.createGuia(guiaEntity);
         // Como debe retornar un DTO (json) se invoca el constructor del DTO con argumento el entity nuevo
+
         GuiaDTO nuevoGuiaDTO = new GuiaDTO(guiaEntity);
         LOGGER.log(Level.INFO, "EditorialResource createEditorial: output: {0}", nuevoGuiaDTO.toString());
+       
+
+        LOGGER.log(Level.INFO, "EditorialResource createEditorial: output: {0}", nuevoGuiaDTO.toString());
+        
+        //return new GuiaDTO();
         return nuevoGuiaDTO;
+
     }
     
     @GET

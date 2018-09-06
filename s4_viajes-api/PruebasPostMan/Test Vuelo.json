@@ -1,0 +1,178 @@
+{
+	"info": {
+		"_postman_id": "58753f9b-fc4d-40f2-b33d-d0ec56bfe99c",
+		"name": "Test Vuelo",
+		"description": "Test que cumplen las funciones básicas del recurso Vuelo.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear un vuelo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fbfffd59-b25e-4a3b-9915-110c2424682b",
+						"type": "text/javascript",
+						"exec": [
+							"",
+							"tests[\"No genera error en el Postman. El vuelo se ha creado exitosamente.\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n  \"costo\" : 100000, \r\n  \"numero\" : 26, \r\n  \"puntuacion\" : 4.5, \r\n  \"latLongDestino\" : { \"latitud\" : 4.6098906, \"longitud\" : -95.08167809},\r\n  \"latLongOrigen\" : \"4.6097100,-74.0817500\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/vuelos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"vuelos"
+					]
+				},
+				"description": "Crea un nuevo vuelo a partir del identificador de número y con la infomración dada.\n"
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un vuelo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "029b0e1f-f8cc-42b4-bbd8-86f4ed2f42f4",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Postman. El vuelo con el id identificado ha sido obtenido.\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/vuelos/26",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"vuelos",
+						"26"
+					]
+				},
+				"description": "Obtiene un vuelo dado un número específico lo que retorna toda la información del vuelo\n"
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar un vuelo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3d3e153a-159f-4582-ad39-b243b913e51f",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Postman. El vuelo se ha eliminado correctamente.\"] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/vuelos/26",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"vuelos",
+						"26"
+					]
+				},
+				"description": "Elimina el vuelo especificado por el número dado.\n"
+			},
+			"response": []
+		},
+		{
+			"name": "Modificar un vuelo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a30ca128-f23e-42b4-a666-0e4e044db7b8",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Postman\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n  \"costo\" : 100000, \r\n  \"numero\" : 27, \r\n  \"puntuacion\" : 5 \r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/vuelos/26",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"vuelos",
+						"26"
+					]
+				},
+				"description": "Se cambia la información de un vuelo dado por un número donde se ingresa la información que se va a cambiar.\n"
+			},
+			"response": []
+		}
+	]
+}

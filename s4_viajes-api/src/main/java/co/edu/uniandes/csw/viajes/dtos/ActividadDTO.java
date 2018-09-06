@@ -13,7 +13,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  *
- * @author estudiante
+ * @author Juan Esteban Cantor
  */
 public class ActividadDTO implements Serializable{
     
@@ -29,9 +29,9 @@ public class ActividadDTO implements Serializable{
     
     public ActividadDTO(ActividadEntity actividadEntity) {
         if (actividadEntity != null) {
-            this.id = actividadEntity.getIdentificador();
+            this.id = actividadEntity.getId();
             this.costo = actividadEntity.getCosto();
-            this.ofrece_guia = actividadEntity.getOfreceGuia();
+            this.ofrece_guia = actividadEntity.isOfreceGuia();
             this.puntuacion = actividadEntity.getPuntuacion();
             this.duracion = actividadEntity.getDuracion();
             this.latitud = actividadEntity.getLatitud();

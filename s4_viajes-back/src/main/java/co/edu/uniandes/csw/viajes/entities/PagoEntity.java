@@ -11,4 +11,17 @@ package co.edu.uniandes.csw.viajes.entities;
  */
 public class PagoEntity {
     
+    private ComboEntity aPagar;
+
+    public PagoEntity(){}
+    
+    public ComboEntity getaPagar() {
+        return aPagar;
+    }
+
+    public void setaPagar(ComboEntity aPagar) {
+        this.aPagar = aPagar;
+    }
+    
+    
 }

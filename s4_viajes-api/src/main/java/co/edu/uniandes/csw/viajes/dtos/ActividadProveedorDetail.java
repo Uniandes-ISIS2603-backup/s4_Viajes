@@ -9,6 +9,14 @@ package co.edu.uniandes.csw.viajes.dtos;
  *
  * @author estudiante
  */
-public class ActividadDetail {
+public class ActividadProveedorDetail {
+    
+    private ProveedorDTO proveedor;
+    
+    private ActividadDTO actividades;
+    
+    public ActividadProveedorDetail(){
+        
+    }
     
 }

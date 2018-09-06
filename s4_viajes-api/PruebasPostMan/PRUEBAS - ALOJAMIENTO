@@ -1,0 +1,117 @@
+{
+	"info": {
+		"_postman_id": "13dbc833-2f1a-43e5-89f5-3adc53eeabef",
+		"name": "PRUEBAS - ALOJAMIENTO",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Obtener un alojamiento",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/alojamientos/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"alojamientos",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Agregar un alojamiento",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"id\" : 132456,\n\"costo\" : 0, \n\"estrellas\" : 2,\n\"nombre\" : \"Dann\",\n\"tipo\" : \"hotel\",\n\"noches\" : 1,\n\"latitud\" : 13454646,\n\"longitud\" : 13215454,\n\"puntuacion\" : \"2\",\n\"ubicacion\" : \"Bogota\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/alojamientos/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"alojamientos",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar un alojamiento",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/alojamientos/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"alojamientos",
+						"4"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modificar un alojamiento",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\"id\" : 132456,\n\"costo\" : 0, \n\"estrellas\" : 2,\n\"nombre\" : \"Dann\",\n\"tipo\" : \"hotel\",\n\"noches\" : 1,\n\"latitud\" : 13454646,\n\"longitud\" : 13215454,\n\"puntuacion\" : \"2\",\n\"ubicacion\" : \"Bogota\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/alojamientos/4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"alojamientos",
+						"4"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

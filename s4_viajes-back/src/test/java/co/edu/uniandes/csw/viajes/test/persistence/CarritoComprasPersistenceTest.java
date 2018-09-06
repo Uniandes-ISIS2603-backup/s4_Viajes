@@ -160,7 +160,7 @@ public class CarritoComprasPersistenceTest
     }
 
     /**
-     * Prueba para actualizar un Book.
+     * Prueba para actualizar un Carrito.
      */
     @Test
     public void updateBookTest() {
@@ -174,7 +174,7 @@ public class CarritoComprasPersistenceTest
 
         CarritoComprasEntity resp = em.find(CarritoComprasEntity.class, entity.getId());
 
-        Assert.assertEquals(newEntity.getNombre(), resp.getNombre());
+        Assert.assertEquals(newEntity.getId(), resp.getId());
     }
     
 }

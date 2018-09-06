@@ -6,7 +6,14 @@
 package co.edu.uniandes.csw.viajes.entities;
 
 import java.io.Serializable;
-import javax.persistence.Entity;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import javax.persistence.*;
+import javax.persistence.Id;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
+import uk.co.jemos.podam.common.PodamExclude;
 
 /**
  *
@@ -16,7 +23,12 @@ import javax.persistence.Entity;
 @Entity
 public class ActividadEntity extends BaseEntity implements Serializable {
     
-    private Long id;
+    @PodamExclude
+    @OneToMany(mappedBy = "actividad", fetch=FetchType.LAZY)
+    
+    private List<GuiaEntity> guias = new LinkedList<GuiaEntity>();
+    
+    private String documento;
     
     private int costo;
     
@@ -29,18 +41,22 @@ public class ActividadEntity extends BaseEntity implements Serializable {
     private double latitud;
     
     private double longitud;
-    
+
     public Long getIdentificador()
     {
         return id;
     }
     
+    @PodamExclude
+    @ManyToOne
+    private ProveedorEntity proveedor;
+
     public int getCosto()
     {
         return costo;
     }
     
-    public boolean getOfreceGuia()
+    public boolean isOfreceGuia()
     {
         return ofrece_guia;
     }
@@ -65,6 +81,29 @@ public class ActividadEntity extends BaseEntity implements Serializable {
         return longitud;
     }
     
+    /**
+     * Devuelve las guias de la actividad.
+     *
+     * @return Lista de entidades de Libro.
+     */
+    public List<GuiaEntity> getGuias() {
+        return guias;
+    }
+    
+    public void setIdentificador(Long identificador)
+    {
+        this.id = identificador;
+    }
+
+    /**
+     * Modifica las guias de la actividad.
+     *
+     * @param books Los nuevos libros.
+     */
+    public void setGuias(List<GuiaEntity> books) {
+        this.guias = books;
+    }
+    
     public void setCosto(int pCosto){
         costo = pCosto;
     }
@@ -87,4 +126,22 @@ public class ActividadEntity extends BaseEntity implements Serializable {
     {
         longitud = pLongitud;
     }
+    /**
+     * Devuelve el proveedor a la que pertenece el libro.
+     *
+     * @return Una entidad de proveedor.
+     */
+    public ProveedorEntity getProveedor() {
+        return proveedor;
+    }
+
+    /**
+     * Modifica el proveedor al que pertenece el vuelo.
+     *
+     * @param proveedorEntity El nuevo proveedor.
+     */
+    public void setProveedor(ProveedorEntity proveedorEntity) {
+        this.proveedor = proveedorEntity;
+    }
+
 }
