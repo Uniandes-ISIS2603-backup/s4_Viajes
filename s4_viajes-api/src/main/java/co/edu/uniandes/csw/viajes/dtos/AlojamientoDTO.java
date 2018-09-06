@@ -12,55 +12,52 @@ import java.io.Serializable;
  *
  * BookDTO Objeto de transferencia de datos de Editoriales. Los DTO contienen
  * las representaciones de los JSON que se transfieren entre el cliente y el
- * servidor.
- * Al serializarse como JSON esta clase implementa el siguiente modelo: <br>
+ * servidor. Al serializarse como JSON esta clase implementa el siguiente
+ * modelo: <br>
  * <pre>
- *{ 
- * "costo": "99999", 
- * "estrellas": "5", 
- * "nombre": "nombreHotel", 
- * "puntuacion": "10", 
- * "tipo": "HOTEL", 
- * "ubicacion": "enAlgunLugar", 
- * "noches": "5", 
+ *{
+ * "costo": "99999",
+ * "estrellas": "5",
+ * "nombre": "nombreHotel",
+ * "puntuacion": "10",
+ * "tipo": "HOTEL",
+ * "ubicacion": "enAlgunLugar",
+ * "noches": "5",
  * "latitud": "6.26584484",
  * "longitud": "-45.154799914"
  * }
- * </pre> 
- * 
+ * </pre>
+ *
  * @author ym.espana
  *
  */
-public class AlojamientoDTO implements Serializable
-{
+public class AlojamientoDTO implements Serializable {
     //-----------------------------------------------------------------------------------------------------------------------
     // Atributos
     //-----------------------------------------------------------------------------------------------------------------------
-   
-    private Long id; 
+
+    private Long id;
     private Double costo;
-    private Integer estrellas; 
-    private String nombre; 
-    private String tipo; 
-    private Integer noches; 
+    private Integer estrellas;
+    private String nombre;
+    private String tipo;
+    private Integer noches;
     private Long latitud;
-    private Long longitud; 
-    private Integer puntuacion; 
-    private String ubicacion;  
-    
+    private Long longitud;
+    private Integer puntuacion;
+    private String ubicacion;
+
     //-----------------------------------------------------------------------------------------------------------------------
     //Metodos
     //-----------------------------------------------------------------------------------------------------------------------
-    
     /**
      * Constructor por defecto.
-     * @param alojamientoEntity Entidad del alojamiento. 
-     */ 
-    public AlojamientoDTO(AlojamientoEntity alojamientoEntity)
-    {
-        if(alojamientoEntity != null)
-        {
-            this.id = alojamientoEntity.getId(); 
+     *
+     * @param alojamientoEntity Entidad del alojamiento.
+     */
+    public AlojamientoDTO(AlojamientoEntity alojamientoEntity) {
+        if (alojamientoEntity != null) {
+            this.id = alojamientoEntity.getId();
             this.costo = alojamientoEntity.getCosto();
             this.estrellas = alojamientoEntity.getEstrellas();
             this.latitud = alojamientoEntity.getLatitud();
@@ -69,25 +66,24 @@ public class AlojamientoDTO implements Serializable
             this.nombre = alojamientoEntity.getNombre();
             this.puntuacion = alojamientoEntity.getPuntuacion();
             this.tipo = alojamientoEntity.getTipo();
-            this.ubicacion = alojamientoEntity.getUbicacion(); 
+            this.ubicacion = alojamientoEntity.getUbicacion();
         }
     }
-    
+
     public AlojamientoDTO() {
     }
-    
+
     //-----------------------------------------------------------------------------------------------------------------------
     //-----------------------------------------------------------------------------------------------------------------------
-    
     /**
      * Método para transformar el DTO a una entidad.
+     *
      * @return La entidad del alojamiento asociado.
      */
-    public AlojamientoEntity toEntity() 
-    {
-        AlojamientoEntity alojamientoEntity = new AlojamientoEntity(); 
-       
-        alojamientoEntity.setId(this.id);  
+    public AlojamientoEntity toEntity() {
+        AlojamientoEntity alojamientoEntity = new AlojamientoEntity();
+
+        alojamientoEntity.setId(this.id);
         alojamientoEntity.setCosto(this.costo);
         alojamientoEntity.setEstrellas(this.estrellas);
         alojamientoEntity.setLatitud(this.latitud);
@@ -95,15 +91,14 @@ public class AlojamientoDTO implements Serializable
         alojamientoEntity.setNoches(this.noches);
         alojamientoEntity.setNombre(this.nombre);
         alojamientoEntity.setPuntuacion(this.puntuacion);
-        alojamientoEntity.setTipo(this.tipo); 
-        alojamientoEntity.setUbicacion(this.ubicacion); 
-        
-        return alojamientoEntity; 
-    }
-    
-    //-----------------------------------------------------------------------------------------------------------------------
-    //-----------------------------------------------------------------------------------------------------------------------
+        alojamientoEntity.setTipo(this.tipo);
+        alojamientoEntity.setUbicacion(this.ubicacion);
 
+        return alojamientoEntity;
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------------------------------------
     public Long getId() {
         return id;
     }

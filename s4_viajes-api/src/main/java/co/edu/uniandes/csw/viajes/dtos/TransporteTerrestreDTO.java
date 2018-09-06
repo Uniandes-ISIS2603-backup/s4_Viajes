@@ -10,74 +10,71 @@ import java.io.Serializable;
 
 /**
  *
- * @author estudiante
+ * @author ym.espana
  */
 public class TransporteTerrestreDTO implements Serializable {
     //-----------------------------------------------------------------------------------------------------------------------
     // Atributos
     //-----------------------------------------------------------------------------------------------------------------------
-   
+
     private Double costo;
-   
-    private String destino;  
-   
+
+    private String destino;
+
     private Long latitudOrigen;
 
     private Long longitudOrigen;
-    
+
     private Long latitudDestino;
 
     private Long longitudDestino;
 
-    private Integer numeroDias; 
-   
-    private Integer numeroHoras; 
+    private Integer numeroDias;
 
-    private Integer puntuacion; 
-    
+    private Integer numeroHoras;
+
+    private Integer puntuacion;
+
     private Long id;
-    
+
     //-----------------------------------------------------------------------------------------------------------------------
     //Metodos
     //-----------------------------------------------------------------------------------------------------------------------
-    
     /**
      * Constructor por defecto.
-     * @param transporteEntity Entidad del alojamiento. 
-     */ 
-    public TransporteTerrestreDTO(TransporteTerrestreEntity transporteEntity)
-    {
-        if(transporteEntity != null)
-        {
-           this.id = transporteEntity.getId();
-           this.costo = transporteEntity.getCosto();
-           this.destino = transporteEntity.getDestino();
-           this.latitudDestino= transporteEntity.getLatitudDestino();
-           this.latitudOrigen = transporteEntity.getLatitudOrigen();
-           this.longitudDestino = transporteEntity.getLongitudDestino();
-           this.longitudOrigen = transporteEntity.getLongitudOrigen();
-           this.numeroDias = transporteEntity.getNumeroDias();
-           this.numeroHoras = transporteEntity.getNumeroHoras();
-           this.puntuacion = transporteEntity.getPuntuacion(); 
+     *
+     * @param transporteEntity Entidad del alojamiento.
+     */
+    public TransporteTerrestreDTO(TransporteTerrestreEntity transporteEntity) {
+        if (transporteEntity != null) {
+            this.id = transporteEntity.getId();
+            this.costo = transporteEntity.getCosto();
+            this.destino = transporteEntity.getDestino();
+            this.latitudDestino = transporteEntity.getLatitudDestino();
+            this.latitudOrigen = transporteEntity.getLatitudOrigen();
+            this.longitudDestino = transporteEntity.getLongitudDestino();
+            this.longitudOrigen = transporteEntity.getLongitudOrigen();
+            this.numeroDias = transporteEntity.getNumeroDias();
+            this.numeroHoras = transporteEntity.getNumeroHoras();
+            this.puntuacion = transporteEntity.getPuntuacion();
         }
     }
-    
-    public TransporteTerrestreDTO (){
-        
+
+    public TransporteTerrestreDTO() {
+
     }
-    
+
     //-----------------------------------------------------------------------------------------------------------------------
     //-----------------------------------------------------------------------------------------------------------------------
-    
     /**
      * Método para transformar el DTO a una entidad.
+     *
      * @return La entidad del alojamiento asociado.
      */
-    public TransporteTerrestreEntity toEntity() 
-    {
-        TransporteTerrestreEntity transporteTerrestreEntity = new TransporteTerrestreEntity(); 
-       
-        transporteTerrestreEntity.setId(this.id);  
+    public TransporteTerrestreEntity toEntity() {
+        TransporteTerrestreEntity transporteTerrestreEntity = new TransporteTerrestreEntity();
+
+        transporteTerrestreEntity.setId(this.id);
         transporteTerrestreEntity.setCosto(this.costo);
         transporteTerrestreEntity.setDestino(this.destino);
         transporteTerrestreEntity.setLatitudDestino(this.latitudDestino);
@@ -87,13 +84,12 @@ public class TransporteTerrestreDTO implements Serializable {
         transporteTerrestreEntity.setNumeroDias(this.numeroDias);
         transporteTerrestreEntity.setNumeroHoras(this.numeroHoras);
         transporteTerrestreEntity.setPuntuacion(this.puntuacion);
-        
-        return transporteTerrestreEntity;   
-    }
-    
-    //-----------------------------------------------------------------------------------------------------------------------
-    //-----------------------------------------------------------------------------------------------------------------------
 
+        return transporteTerrestreEntity;
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------------------------------------
     public Double getCosto() {
         return costo;
     }
@@ -173,5 +169,5 @@ public class TransporteTerrestreDTO implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    
+
 }

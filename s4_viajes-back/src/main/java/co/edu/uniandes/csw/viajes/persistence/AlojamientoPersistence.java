@@ -86,8 +86,8 @@ public class AlojamientoPersistence {
      */
     public void delete(Long alojamientosId) {
         LOGGER.log(Level.INFO, "Borrando el libro con id={0}", alojamientosId);
-        AlojamientoEntity bookEntity = em.find(AlojamientoEntity.class, alojamientosId);
-        em.remove(bookEntity);
+        AlojamientoEntity alojamientoEntity = em.find(AlojamientoEntity.class, alojamientosId);
+        em.remove(alojamientoEntity);
     }
 
     /**
