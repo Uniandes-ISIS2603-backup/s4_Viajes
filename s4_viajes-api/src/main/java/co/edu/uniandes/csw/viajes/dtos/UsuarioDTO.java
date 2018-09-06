@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the e   ditor.
@@ -7,6 +7,7 @@ package co.edu.uniandes.csw.viajes.dtos;
 
 import co.edu.uniandes.csw.viajes.entities.UsuarioEntity;
 import java.io.Serializable;
+import java.util.List;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -146,7 +147,7 @@ public class UsuarioDTO implements Serializable{
 
     public UsuarioEntity toEntity() {
       
-          UsuarioEntity usuarioEntity = new UsuarioEntity();
+        UsuarioEntity usuarioEntity = new UsuarioEntity();
         usuarioEntity.setNombre(this.nombre);
         usuarioEntity.setUserName(this.userName);
         usuarioEntity.setHasLoggedIn(this.hasLoggedIn);

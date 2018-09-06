@@ -7,6 +7,7 @@ package co.edu.uniandes.csw.viajes.resources;
 
 import co.edu.uniandes.csw.viajes.dtos.AdministradorDTO;
 import co.edu.uniandes.csw.viajes.ejb.AdministradorLogic;
+import co.edu.uniandes.csw.viajes.entities.AdministradorEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -61,8 +62,10 @@ public class AdministradorResource {
    
    @POST
    public AdministradorDTO createAdministrador(AdministradorDTO admin) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "EditorialResource createEditorial: input: {0}", admin.toString());
-        return admin;
+        LOGGER.log(Level.INFO, "AdministradorResource createAdministrador: input: {0}", admin.toString());
+          AdministradorEntity administradorEntity = admin.toEntity();
+       AdministradorDTO nuevoAdminDTO = new AdministradorDTO(administradorEntity);
+        return nuevoAdminDTO;
     }
    
    /**
@@ -72,8 +75,8 @@ public class AdministradorResource {
      * @return un administrador y su información de acuerdo a su id.
      */
     @GET
-        @Path("{numero: \\d+}")
-    public AdministradorDTO consultarAdministrador(@PathParam("numero") int adminId){
+        @Path("{userName: [a-zA-Z][a-zA-Z]*}")
+    public AdministradorDTO consultarAdministrador(@PathParam("userName") String adminusername){
         return new AdministradorDTO();
     }
    
@@ -81,12 +84,12 @@ public class AdministradorResource {
     /**
      * Borra el administrador con el id asociado (número) recibido en la URL.
      *
-     * @param adminNum Identificador del administrador que se desea borrar. Este debe ser
-     * una cadena de dígitos (int).
+     * @param adminusername Identificador del administrador que se desea borrar. Este debe ser
+     * una cadena de caracteres (String).
      */
     @DELETE
     @Path("{UsuarioNum: \\d+}")
-    public void deleteAdministrador(@PathParam("AdministradorID") Long adminNum) {
+    public void deleteAdministrador(@PathParam("userName") String adminusername) {
     
     }
     

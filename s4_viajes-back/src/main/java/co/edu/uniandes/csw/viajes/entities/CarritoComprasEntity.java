@@ -6,21 +6,33 @@
 package co.edu.uniandes.csw.viajes.entities;
 
 import java.io.Serializable;
+import javax.persistence.Entity;
 
 /**
  *
  * @author estudiante
  */
+@Entity
 public class CarritoComprasEntity extends BaseEntity implements Serializable{
     
     private double costo;
     private String nombre;
+    private Long id;
     
     public double getCosto()
     {
         return costo;
     }
     
+    public Long getIdCarrito()
+    {
+        return id;
+    }
+    
+     public void setIdCarrito(Long pId)
+    {
+        this.id= pId;
+    }
    
     
     public String getNombre()
@@ -31,13 +43,13 @@ public class CarritoComprasEntity extends BaseEntity implements Serializable{
     
      public void setNombre(String pNombre)
     {
-        nombre= pNombre;
+        this.nombre= pNombre;
     } 
      
      
-     public void setCosto(Double pCosto)
-    {
-        costo= pCosto;
-    } 
+    // public void setCosto(Double pCosto)
+    //{
+      //  this.costo= pCosto;
+    //} 
     
 }

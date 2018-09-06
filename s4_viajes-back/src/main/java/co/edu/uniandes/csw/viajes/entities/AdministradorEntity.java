@@ -5,16 +5,24 @@
  */
 package co.edu.uniandes.csw.viajes.entities;
 import java.io.Serializable;
+import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import uk.co.jemos.podam.common.PodamExclude;
 
 /**
  *
  * @author estudiante
  */
+@Entity
 public class AdministradorEntity extends BaseEntity implements Serializable {
     
     private String contraseña;
     private String nombre;
-    private String user_name;
+    private String userName;
+      @PodamExclude
+    @OneToMany(mappedBy = "usuario")
+    private List<UsuarioEntity> usuarios;
     
     public String getNombre()
     {
@@ -23,14 +31,23 @@ public class AdministradorEntity extends BaseEntity implements Serializable {
     
     public String getUserName()
     {
-        return user_name;
+        return userName;
     }
     
-    public void getUserName(String pUserName)
+    public void setUserName(String pUserName)
     {
-        user_name= pUserName;
+        userName= pUserName;
     
     }
+    
+        public List<UsuarioEntity> getUsuarios()
+    {
+
+        return usuarios;
+        
+    }
+    
+    
       public String getContraseña()
       {
           return contraseña;

@@ -18,15 +18,18 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class CarritoComprasDTO implements Serializable{
     private String nombre;
     private Double costo;
+    private Long id;
 
-   public CarritoComprasDTO(){}
+   public CarritoComprasDTO (){
+   }
    
  public CarritoComprasDTO(CarritoComprasEntity carritoEntity) {
         if (carritoEntity != null) {
           
             this.costo = carritoEntity.getCosto();
             this.nombre = carritoEntity.getNombre();
-            
+            this.id = carritoEntity.getId();
+ 
         }
     }
    
@@ -34,6 +37,14 @@ public class CarritoComprasDTO implements Serializable{
        return nombre;
    }
    
+      public Long getId(){
+       return id;
+   }
+      
+       public void setId(Long pId){
+
+           this.id= pId;
+       }
  
    
    public Double getCosto()
@@ -45,18 +56,19 @@ public class CarritoComprasDTO implements Serializable{
 
     public CarritoComprasEntity toEntity() {
           CarritoComprasEntity carritoEntity = new CarritoComprasEntity();
-        carritoEntity.setCosto(this.costo);
+        //carritoEntity.setCosto(this.costo);
         carritoEntity.setNombre(this.nombre);
+        carritoEntity.setIdCarrito(this.id);
        return carritoEntity; 
     }
       
     public void setCosto(double pCosto) {
-        costo = pCosto;
+        this.costo = pCosto;
     }
     
     
      public void setNombre(String pNombre) {
-        nombre = pNombre;
+        this.nombre = pNombre;
     }
     
     
