@@ -6,28 +6,43 @@
 package co.edu.uniandes.csw.viajes.entities;
 
 import java.io.Serializable;
-import java.util.List;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import uk.co.jemos.podam.common.PodamExclude;
 
 /**
  *Clase que representa un vuelo en la persistencia y permite su serialización
  * 
  * @author jf.torresp
  */
-public class VueloEntity extends BaseEntity implements Serializable
-{
+@Entity
+public class VueloEntity extends BaseEntity implements Serializable {
     //Atributos//
     
-    private int numero;
+    private String numero;
     
     private double costo;
     
     private double puntaje;
     
-    private List latLongOrigen;
+    private Long latitudOrigen;
     
-    private List latLongDestino;
+    private Long longitudOrigen;
     
+    private Long latitudDestino;
+    
+    private Long longitudDestino;
+    
+    @PodamExclude
+    @ManyToOne
     private ProveedorEntity proveedor;
+    
+    public VueloEntity(){
+    
+    }
     
     //Métodos//
     
@@ -36,7 +51,7 @@ public class VueloEntity extends BaseEntity implements Serializable
      *
      * @return el numero
      */
-    public int getNumero(){
+    public String getNumero(){
         return numero;
     }
     
@@ -59,21 +74,39 @@ public class VueloEntity extends BaseEntity implements Serializable
     }
     
     /**
-     * Devuelve las coordenadas (lat, long) de origen de vuelo.
+     * Devuelve la coordenada de latitud de origen del vuelo.
      *
-     * @return coordenadas de origen
+     * @return latitud de origen
      */
-    public List getLatLongO(){
-        return latLongOrigen;
+    public Long getLatO(){
+        return latitudOrigen;
     }
     
     /**
-     * Devuelve las coordenadas (lst, long) de destino del vuelo.
+     * Devuelve la coordenada de longitud de origen del vuelo.
      *
-     * @return coordenadas de destino
+     * @return longitud de origen
      */
-    public List getLatLongD(){
-        return latLongDestino;
+    public Long getLonO(){
+        return longitudOrigen;
+    }
+    
+    /**
+     * Devuelve la coordenada de latitud de destino del vuelo.
+     *
+     * @return latitud de destino
+     */
+    public Long getLatD(){
+        return latitudDestino;
+    }
+    
+    /**
+     * Devuelve la coordenada de longitud de destino del vuelo.
+     *
+     * @return longitud de destino
+     */
+    public Long getLonD(){
+        return longitudDestino;
     }
     
     /**
@@ -81,7 +114,7 @@ public class VueloEntity extends BaseEntity implements Serializable
      *
      * @param numero el numero a actualizar
      */
-    public void setNumero(int numero){
+    public void setNumero(String numero){
         this.numero = numero;
     }
     
@@ -97,7 +130,7 @@ public class VueloEntity extends BaseEntity implements Serializable
     /**
      * Modifica el puntaje del vuelo.
      *
-     * @param npuntaje el puntaje a actualizar
+     * @param puntaje el puntaje a actualizar
      */
     public void setPuntaje(double puntaje){
         this.puntaje = puntaje;
@@ -106,19 +139,37 @@ public class VueloEntity extends BaseEntity implements Serializable
     /**
      * Modifica las coordenadas de origen del vuelo.
      *
-     * @param latLongOrigen las coordenadas a actualizar
+     * @param latitudOrigen las coordenadas a actualizar
      */
-    public void setLatLongO(List latLongOrigen){
-        this.latLongOrigen = latLongOrigen;
+    public void setLatO(Long latitudOrigen){
+        this.latitudOrigen = latitudOrigen;
+    }
+    
+        /**
+     * Modifica las coordenadas de origen del vuelo.
+     *
+     * @param longitudOrigen las coordenadas a actualizar
+     */
+    public void setLonO(Long longitudOrigen){
+        this.longitudOrigen = longitudOrigen;
     }
     
     /**
      * Modifica las coordenadas de destino del vuelo.
      *
-     * @param latLongDestino las coordenadas a actualizar
+     * @param latitudDestino las coordenadas a actualizar
      */
-    public void setLatLongD(List latLongDestino){
-        this.latLongDestino = latLongDestino;
+    public void setLatD(Long latitudDestino){
+        this.latitudDestino = latitudDestino;
+    }
+    
+        /**
+     * Modifica las coordenadas de destino del vuelo.
+     *
+     * @param longitudDestino las coordenadas a actualizar
+     */
+    public void setLonD(Long longitudDestino){
+        this.longitudDestino = longitudDestino;
     }
     
     /**
@@ -126,7 +177,7 @@ public class VueloEntity extends BaseEntity implements Serializable
      *
      * @return Una entidad de proveedor.
      */
-    public ProveedorEntity getProveddor() {
+    public ProveedorEntity getProveedor() {
         return proveedor;
     }
 
@@ -135,7 +186,7 @@ public class VueloEntity extends BaseEntity implements Serializable
      *
      * @param proveedorEntity El nuevo proveedor.
      */
-    public void seProveedor(ProveedorEntity proveedorEntity) {
+    public void setProveedor(ProveedorEntity proveedorEntity) {
         this.proveedor = proveedorEntity;
     }
 }

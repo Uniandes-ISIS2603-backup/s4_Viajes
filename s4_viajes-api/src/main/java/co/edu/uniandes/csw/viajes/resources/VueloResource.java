@@ -76,8 +76,8 @@ public class VueloResource {
      * @return un vuelo y su información de acuerdo a su nombre.
      */
     @GET
-        @Path("{numero: \\d+}")
-    public VueloDTO consultarVuelo(@PathParam("numero") int vueloNum) 
+        @Path("{numero: [a-zA-Z][a-zA-Z]*}")
+    public VueloDTO consultarVuelo(@PathParam("numero") String vueloNum) 
     {
         return new VueloDTO();
     }
@@ -89,8 +89,8 @@ public class VueloResource {
      * @param nuevo (@link VueloDTO) - el vuelo que desea modificar.
      */
     @PUT
-    @Path("{numero: \\d+}")
-    public VueloDTO modificarVuelo(@PathParam("numero")int numero, VueloDTO nuevo) throws WebApplicationException
+    @Path("{numero: [a-zA-Z][a-zA-Z]*}")
+    public VueloDTO modificarVuelo(@PathParam("numero")String numero, VueloDTO nuevo) throws WebApplicationException
     {
        return nuevo;
     }
@@ -102,8 +102,8 @@ public class VueloResource {
      * una cadena de dígitos (int).
      */
     @DELETE
-    @Path("{VueloNum: \\d+}")
-    public void deleteVuelo(@PathParam("vueloNum") Long vueloNum) {
+    @Path("{vueloNum: [a-zA-Z][a-zA-Z]*}")
+    public void deleteVuelo(@PathParam("vueloNum") String vueloNum) {
         //LOGGER.log(Level.INFO, "VueloResource deleteVuelo: input: {0}", vueloNum);
         // Invoca la lógica para borrar lel vuelo
         //editorialLogic.deleteEditorial(editorialsId);
