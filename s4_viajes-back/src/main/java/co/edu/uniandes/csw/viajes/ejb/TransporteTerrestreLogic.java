@@ -37,13 +37,13 @@ public class TransporteTerrestreLogic {
      */
     public TransporteTerrestreEntity createTransporte(TransporteTerrestreEntity transporteEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación del transporte");
-        if (transporteEntity.getId() == null || persistence.find(transporteEntity.getId()) == null) {
-            throw new BusinessLogicException("El transporte es inválido");
-        }
+//        if (transporteEntity.getId() == null || persistence.find(transporteEntity.getId()) == null) {
+//            throw new BusinessLogicException("El transporte es inválido");
+//        }
         if (!validateID(transporteEntity.getId())) {
             throw new BusinessLogicException("El id es inválido");
         }
-        persistence.create(transporteEntity);
+//        persistence.create(transporteEntity);
         LOGGER.log(Level.INFO, "Termina proceso de creación del transporte");
 
         return transporteEntity;
@@ -60,9 +60,11 @@ public class TransporteTerrestreLogic {
      */
     public List<TransporteTerrestreEntity> getTransportes() {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los transportes.");
-        List<TransporteTerrestreEntity> transportes = persistence.findAll();
+//        List<TransporteTerrestreEntity> transportes = persistence.findAll();
+
         LOGGER.log(Level.INFO, "Termina proceso de consultar todos los transportes");
-        return transportes;
+//        return transportes;
+    return null;
     }
 
     /**
@@ -73,12 +75,13 @@ public class TransporteTerrestreLogic {
      */
     public TransporteTerrestreEntity getTransporte(Long transporteId) {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar el transporte con id = {0}", transporteId);
-        TransporteTerrestreEntity transporteEntity = persistence.find(transporteId);
+//        TransporteTerrestreEntity transporteEntity = persistence.find(transporteId);
         if (transporteId == null) {
             LOGGER.log(Level.SEVERE, "El transporte con el id = {0} no existe", transporteId);
         }
         LOGGER.log(Level.INFO, "Termina proceso de consultar el transporte con id = {0}", transporteId);
-        return transporteEntity;
+//        return transporteEntity;
+return null;
     }
 
     /**
@@ -96,9 +99,10 @@ public class TransporteTerrestreLogic {
             throw new BusinessLogicException("El id es invalido");
         }
 
-        TransporteTerrestreEntity newEntity = persistence.update(transporteTerrestreEntity);
+//        TransporteTerrestreEntity newEntity = persistence.update(transporteTerrestreEntity);
         LOGGER.log(Level.INFO, "Termina proceso de actualizar el transporte con id = {0}", transporteTerrestreEntity.getId());
-        return newEntity;
+//        return newEntity;
+return null;
     }
 
     /**
@@ -111,7 +115,7 @@ public class TransporteTerrestreLogic {
         if (transporteId == null) {
             return;
         }
-        persistence.delete(transporteId);   
+//        persistence.delete(transporteId);   
         LOGGER.log(Level.INFO, "Termina proceso de borrar el transporte con id = {0}", transporteId);
     }
 }
