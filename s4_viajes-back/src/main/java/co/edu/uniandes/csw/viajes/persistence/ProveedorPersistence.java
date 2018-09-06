@@ -26,7 +26,7 @@ public class ProveedorPersistence {
     
     private static final Logger LOGGER = Logger.getLogger(ProveedorPersistence.class.getName());
 
-    @PersistenceContext(unitName = "TripBuilder")
+    @PersistenceContext(unitName = "TripBuilderTeamPU")
     protected EntityManager em;
     
         /**
@@ -66,7 +66,7 @@ public class ProveedorPersistence {
      * @param proveedorId: id correspondiente l vuelo buscado.
      * @return un vuelo.
      */
-    public ProveedorEntity find(String proveedorId) {
+    public ProveedorEntity find(Long proveedorId) {
         LOGGER.log(Level.INFO, "Consultando proveedor con id={0}", proveedorId);
         /* Note que se hace uso del metodo "find" propio del EntityManager, el cual recibe como argumento 
         el tipo de la clase y el objeto que nos hara el filtro en la base de datos en este caso el "id"
@@ -99,7 +99,7 @@ public class ProveedorPersistence {
      *
      * @param proveedorId: id correspondiente al proveedor a borrar.
      */
-    public void delete(String proveedorId) {
+    public void delete(Long proveedorId) {
         LOGGER.log(Level.INFO, "Borrando vuelo con id = {0}", proveedorId);
         ProveedorEntity entity = em.find(ProveedorEntity.class, proveedorId);
         /* Note que una vez obtenido el objeto desde la base de datos llamado "entity", volvemos hacer uso de un método propio del

@@ -15,6 +15,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import uk.co.jemos.podam.common.PodamExclude;
 
 /**
@@ -23,12 +24,10 @@ import uk.co.jemos.podam.common.PodamExclude;
  * @author jf.torresp
  */
 @Entity
-public class ProveedorEntity implements Serializable{
+public class ProveedorEntity extends BaseEntity implements Serializable{
     
     //Atributos//
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     private String username;
     
     private String contrasena;
@@ -38,15 +37,15 @@ public class ProveedorEntity implements Serializable{
     private int puntuacion;
     
     @PodamExclude
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany (mappedBy = "proveedor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<VueloEntity> vuelos = new ArrayList<VueloEntity>();
     
     @PodamExclude
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<TransporteTerrestreEntity> transportes = new ArrayList<TransporteTerrestreEntity>();
     
     @PodamExclude
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ActividadEntity> actividades = new ArrayList<ActividadEntity>();
     
     
