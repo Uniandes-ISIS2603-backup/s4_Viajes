@@ -21,6 +21,7 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 
 /**
  *
@@ -75,8 +76,9 @@ public class VueloResource {
      * @return un vuelo y su información de acuerdo a su nombre.
      */
     @GET
-        @Path("{numero: \\d+}")
-    public VueloDTO consultarVuelo() {
+        @Path("{numero: [a-zA-Z][a-zA-Z]*}")
+    public VueloDTO consultarVuelo(@PathParam("numero") String vueloNum) 
+    {
         return new VueloDTO();
     }
 
@@ -86,11 +88,12 @@ public class VueloResource {
      *
      * @param nuevo (@link VueloDTO) - el vuelo que desea modificar.
      */
-    //@PUT
-    //public VueloDTO modificarVuelo(VueloDTO nuevo) {
-     //   nuevo = new VueloDTO();
-     //   return nuevo;
-    //}
+    @PUT
+    @Path("{numero: [a-zA-Z][a-zA-Z]*}")
+    public VueloDTO modificarVuelo(@PathParam("numero")String numero, VueloDTO nuevo) throws WebApplicationException
+    {
+       return nuevo;
+    }
 
     /**
      * Borra el vuelo con el id asociado (número) recibido en la URL.
@@ -99,8 +102,8 @@ public class VueloResource {
      * una cadena de dígitos (int).
      */
     @DELETE
-    @Path("{VueloNum: \\d+}")
-    public void deleteVuelo(@PathParam("vueloNum") Long vueloNum) {
+    @Path("{vueloNum: [a-zA-Z][a-zA-Z]*}")
+    public void deleteVuelo(@PathParam("vueloNum") String vueloNum) {
         //LOGGER.log(Level.INFO, "VueloResource deleteVuelo: input: {0}", vueloNum);
         // Invoca la lógica para borrar lel vuelo
         //editorialLogic.deleteEditorial(editorialsId);

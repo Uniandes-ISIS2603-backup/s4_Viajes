@@ -80,7 +80,7 @@ public class ActividadPersistence {
 	 /**
      * Actualiza una actividad.
      *
-     * @param actividadEntity: la editorial que viene con los nuevos cambios.
+     * @param actividadEntity: la actividad que viene con los nuevos cambios.
      * Por ejemplo el nombre pudo cambiar. En ese caso, se haria uso del método
      * update.
      * @return una actividad con los cambios aplicados.

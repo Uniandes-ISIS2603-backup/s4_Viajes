@@ -114,7 +114,7 @@ public class ActividadPersistenceTest {
 
         ActividadEntity entity = em.find(ActividadEntity.class, result.getId());
 
-        Assert.assertEquals(newEntity.getIdentificador(), entity.getIdentificador());
+        Assert.assertEquals(newEntity.getId(), entity.getId());
     }
 
     /**
@@ -143,7 +143,7 @@ public class ActividadPersistenceTest {
         ActividadEntity entity = data.get(0);
         ActividadEntity newEntity = actividadPersistence.find(entity.getId());
         Assert.assertNotNull(newEntity);
-        Assert.assertEquals(entity.getIdentificador(), newEntity.getIdentificador());
+        Assert.assertEquals(entity.getId(), newEntity.getId());
         Assert.assertEquals(entity.getCosto(), newEntity.getCosto());
     }
 

@@ -36,8 +36,8 @@ public class ActividadLogic {
     public ActividadEntity createActividad(ActividadEntity actividadEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación de la editorial");
         // Verifica la regla de negocio que dice que no puede haber dos actividades con el mismo id
-        if (persistence.findByName(actividadEntity.getIdentificador().toString()) != null) {
-            throw new BusinessLogicException("Ya existe una Actividad con el mismo id \"" + actividadEntity.getIdentificador() + "\"");
+        if (persistence.findByName(actividadEntity.getId().toString()) != null) {
+            throw new BusinessLogicException("Ya existe una Actividad con el mismo id \"" + actividadEntity.getId() + "\"");
         }
         // Invoca la persistencia para crear la editorial
         persistence.create(actividadEntity);

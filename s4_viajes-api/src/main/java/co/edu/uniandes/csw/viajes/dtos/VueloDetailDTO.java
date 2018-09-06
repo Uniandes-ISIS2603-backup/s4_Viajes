@@ -7,8 +7,16 @@ package co.edu.uniandes.csw.viajes.dtos;
 
 /**
  *
- * @author estudiante
+ * @author jf.torresp
  */
-public class VueloDetail {
+public class VueloDetailDTO {
+    
+    private VueloDTO vuelos;
+    
+    private ProveedorDTO proveedores;
+    
+    public VueloDetailDTO(){
+        
+    }
     
 }

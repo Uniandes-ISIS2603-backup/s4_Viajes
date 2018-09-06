@@ -8,6 +8,8 @@ package co.edu.uniandes.csw.viajes.dtos;
 import co.edu.uniandes.csw.viajes.entities.AdministradorEntity;
 import co.edu.uniandes.csw.viajes.entities.UsuarioEntity;
 import java.io.Serializable;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  *
@@ -49,11 +51,23 @@ public class AdministradorDTO implements Serializable{
 
   
 
-    public AdministradorDTO toEntity() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public AdministradorEntity toEntity() {
+        
+          AdministradorEntity administradorEntity = new AdministradorEntity();
+        administradorEntity.setNombre(this.nombre);
+        administradorEntity.setContraseña(this.contraseña);
+
+       
+        
+        return administradorEntity;
+
     }
       
-   
+    @Override
+    public String toString() {
+         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    }    
+
      
     
 }

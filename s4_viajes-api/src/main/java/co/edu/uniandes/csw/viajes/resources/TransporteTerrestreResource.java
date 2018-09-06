@@ -8,6 +8,7 @@ package co.edu.uniandes.csw.viajes.resources;
 import co.edu.uniandes.csw.viajes.dtos.TransporteTerrestreDTO;
 import co.edu.uniandes.csw.viajes.ejb.TransporteTerrestreLogic;
 import co.edu.uniandes.csw.viajes.entities.TransporteTerrestreEntity;
+import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,27 +50,26 @@ public class TransporteTerrestreResource {
     @POST
     public TransporteTerrestreDTO createTransporte(TransporteTerrestreDTO transporteT) throws Exception 
     {
-//        LOGGER.log(Level.INFO, "TransporteTResource createTransporte: input: {0}", transporteT.toString());
-//        TransporteTerrestreDTO nuevoTransporteTerrestreDTO = 
-//                new TransporteTerrestreDTO(transporteTerrestreLogic.createTransporte(transporteT.toEntity())); 
-//        LOGGER.log(Level.INFO, "TransporteTResource createTransporte: output: {0}", nuevoTransporteTerrestreDTO.toString());
-//        return nuevoTransporteTerrestreDTO;
-        return transporteT; 
+        LOGGER.log(Level.INFO, "TransporteTResource createTransporte: input: {0}", transporteT.toString());
+        TransporteTerrestreDTO nuevoTransporteTerrestreDTO = 
+                new TransporteTerrestreDTO(transporteTerrestreLogic.createTransporte(transporteT.toEntity())); 
+        LOGGER.log(Level.INFO, "TransporteTResource createTransporte: output: {0}", nuevoTransporteTerrestreDTO.toString());
+        return nuevoTransporteTerrestreDTO; 
     }
     
-//    /**
-//     * Busca y devuelve todos los alojamientos que existen en la aplicacion. (DEBERIA RETORNAR DTOs)
-//     * @return Todos los alojamientos.
-//     */
-//    @GET
-//    public List<TransporteTerrestreEntity> getTrasnportesTerrestres()
-//    {
-//        LOGGER.info("TrasnporteTResource getTrasnportes: input: void");
-//        List<TransporteTerrestreEntity> listaTrasnportes = transporteTerrestreLogic.getTransportes();
-//        LOGGER.log(Level.INFO, "TrasnporteResource getTrasnportes: output: {0}", listaTrasnportes.toString());
-//        return listaTrasnportes;
-//    }
-//    
+    /**
+     * Busca y devuelve todos los alojamientos que existen en la aplicacion. (DEBERIA RETORNAR DTOs)
+     * @return Todos los alojamientos.
+     */
+    @GET
+    public List<TransporteTerrestreEntity> getTransportesTerrestres()
+    {
+        LOGGER.info("TrasnporteTResource getTrasnportes: input: void");
+        List<TransporteTerrestreEntity> listaTrasnportes = transporteTerrestreLogic.getTransportes(); 
+        LOGGER.log(Level.INFO, "TrasnporteResource getTrasnportes: output: {0}", listaTrasnportes.toString());
+        return listaTrasnportes;
+    }
+    
     /**
      * Busca el transporte con el id asociado recibido en la URL y lo devuelve.
      * @param transportesId Identificador del alojamiento que se esta buscando. Este debe ser una cadena de dígitos.
@@ -94,10 +94,11 @@ public class TransporteTerrestreResource {
      * @param transportesId Identificador del alojamientoque se desea actualizar. Este debe ser una cadena de dígitos.
      * @param transporte El alojamiento que se desea guardar.
      * @return JSON  El alojamiento guardado.
+     * @throws BusinessLogicException
      */
     @PUT
     @Path("{alojamientosId: \\d+}")
-    public TransporteTerrestreDTO updateTransporte(@PathParam("transportesId")Long transportesId, TransporteTerrestreDTO transporte)  
+    public TransporteTerrestreDTO updateTransporte(@PathParam("transportesId")Long transportesId, TransporteTerrestreDTO transporte)  throws BusinessLogicException
     {
         LOGGER.log(Level.INFO, "TransporteTResource updateTrasnporteT: input: id: {0} , transporte: {1}", 
                 new Object[]{transportesId, transporte.toString()});
