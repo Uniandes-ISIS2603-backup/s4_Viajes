@@ -10,10 +10,12 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import uk.co.jemos.podam.common.PodamExclude;
-import uk.co.jemos.podam.common.PodamStrategyValue;
+
 
 /**
  *
@@ -26,13 +28,19 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
     private String documento;
     private String nombre;
     private String userName;
+    
     @PodamExclude
-    @OneToMany(mappedBy = "usuario")
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PagoEntity> pagos = new ArrayList<PagoEntity>();
     private Boolean hasLoggedIn;
+    
+    @PodamExclude
     @OneToOne(mappedBy="usuario", cascade = CascadeType.PERSIST)
     private CarritoComprasEntity carritoCompras;
     
+    @PodamExclude
+    @ManyToOne
+    private AdministradorEntity administrador;
     
       /**
      * Devuelve la edad del usuario.

@@ -75,8 +75,8 @@ public class ComboResource {
      * @return un combo y su información de acuerdo a su nombre.
      */
     @GET
-    @Path("comboId")
-    public ComboDTO consultarCombo(@PathParam("comboId") Long comboId) throws WebApplicationException
+    @Path("{comboId: [a-zA-Z][a-zA-Z]*}")
+    public ComboDTO consultarCombo(@PathParam("comboId") Long combo) throws WebApplicationException
     {
         // LOGGER.log(Level.INFO, "EditorialResource getEditorial: input: {0}", nombreCombo);
         //ComboEntity comboEntity = ActividadLogicgic.getActividad(nombreCombo);
@@ -95,7 +95,7 @@ public class ComboResource {
      * @param nuevo (@link VueloDTO) - el vuelo que desea modificar.
      */
     @PUT
-    @Path("{comboId")
+    @Path("comboId")
     public VueloDTO modificarCombo(@PathParam("comboId")int comboId, VueloDTO nuevo) throws WebApplicationException
     {
        return nuevo;
@@ -108,7 +108,7 @@ public class ComboResource {
      * una cadena de dígitos (int).
      */
     @DELETE
-    @Path("{comboId")
+    @Path("comboId")
     public void deleteCombo(@PathParam("comboId") Long comboId) {
         //LOGGER.log(Level.INFO, "VueloResource deleteVuelo: input: {0}", vueloNum);
         // Invoca la lógica para borrar lel vuelo

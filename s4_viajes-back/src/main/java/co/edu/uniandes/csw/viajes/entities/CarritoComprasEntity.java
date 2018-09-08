@@ -7,6 +7,8 @@ package co.edu.uniandes.csw.viajes.entities;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
+import uk.co.jemos.podam.common.PodamExclude;
 
 /**
  *
@@ -17,6 +19,10 @@ public class CarritoComprasEntity extends BaseEntity implements Serializable{
     
     private double costo;
     private String nombre;
+    
+    @PodamExclude
+    @OneToOne
+    private UsuarioEntity usuario;
     
     public double getCosto()
     {
