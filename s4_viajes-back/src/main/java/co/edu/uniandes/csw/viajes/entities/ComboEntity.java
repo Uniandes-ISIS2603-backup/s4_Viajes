@@ -5,19 +5,21 @@
  */
 package co.edu.uniandes.csw.viajes.entities;
 
+import java.io.Serializable;
+import javax.persistence.Entity;
+
 /**
  *
  * @author estudiante
  */
-public class ComboEntity {
+@Entity
+public class ComboEntity  extends BaseEntity implements Serializable {
     //-----------------------------------------------------------------------------------------------------------------------
     // Atributos
     //-----------------------------------------------------------------------------------------------------------------------
   
     private double costo;
     
-    private String id;
-  
     private String nombre;
     
     private int dias;
@@ -29,15 +31,7 @@ public class ComboEntity {
     //-----------------------------------------------------------------------------------------------------------------------
     // Metodos
     //-----------------------------------------------------------------------------------------------------------------------
-    
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-    
+        
     public double getCosto() {
         return costo;
     }

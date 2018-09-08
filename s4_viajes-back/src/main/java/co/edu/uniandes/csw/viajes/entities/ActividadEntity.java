@@ -25,7 +25,6 @@ public class ActividadEntity extends BaseEntity implements Serializable {
     
     @PodamExclude
     @OneToMany(mappedBy = "actividad", fetch=FetchType.LAZY)
-    
     private List<GuiaEntity> guias = new LinkedList<GuiaEntity>();
     
     private String documento;
