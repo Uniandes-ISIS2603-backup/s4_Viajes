@@ -42,6 +42,14 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
     @ManyToOne
     private AdministradorEntity administrador;
     
+    @PodamExclude
+    @OneToMany
+    private List<EntradaEntity> entradas = new ArrayList<EntradaEntity>();
+    
+    @PodamExclude
+    @OneToMany
+    private List<MedallaEntity> medallas = new ArrayList<MedallaEntity>();
+    
       /**
      * Devuelve la edad del usuario.
      *
@@ -102,6 +110,49 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
         return pagos;
     }
     
+      /**
+     * Devuelve la lista de entradas del usuario.
+     *
+     * @return lista de entradas
+     */
+    
+    public List<EntradaEntity> getEntradas()
+    {
+        return entradas;
+    }
+    
+          /**
+     * Devuelve la lista de medalla del usuario.
+     *
+     * @return lista de medallas
+     */
+    
+    public List<MedallaEntity> getMedallas()
+    {
+        return medallas;
+    }
+    
+                  /**
+     * Actualiza la lista de entradas del usuario con la que entra por parametro.
+     *
+     * @param pMedallas nueva lista de medallas
+     */
+    
+    public void setEntradas(List<EntradaEntity> pEntradas)
+    {
+        this.entradas = pEntradas;
+    }
+    
+              /**
+     * Actualiza la lista de medallas del usuario con la que entra por parametro.
+     *
+     * @param pMedallas nueva lista de medallas
+     */
+    
+    public void setMedallas(List<MedallaEntity> pMedallas)
+    {
+        this.medallas = pMedallas;
+    }
     
          /**
      * Devuelve la ocndición del usuario en la aplicación.
