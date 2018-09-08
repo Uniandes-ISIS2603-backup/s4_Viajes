@@ -124,9 +124,9 @@ public class UsuarioResource {
      * @param documento El documento del usuario con respecto al cual se accede a la entrada.
      * @return El servicio de Entradas para ese usuario en paricular.\
      * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
-     * Error de lógica que se genera cuando no se encuentra el libro.
+     * Error de lógica que se genera cuando no se encuentra el usuario.
      */
-    @Path("{documento: [a-zA-Z][a-zA-Z]*}/reviews")
+    @Path("{documento: [a-zA-Z][a-zA-Z]*}/entradas")
     public Class<EntradaResource> getEntradaResource(@PathParam("documento") String documento) {
     //    if (usuarioLogic.getUsuario(documento) == null) {
     //      throw new WebApplicationException("El recurso /books/" + documento + "/reviews no existe.", 404);

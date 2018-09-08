@@ -43,7 +43,7 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
     private AdministradorEntity administrador;
     
     @PodamExclude
-    @OneToMany
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<EntradaEntity> entradas = new ArrayList<EntradaEntity>();
     
     @PodamExclude
@@ -135,7 +135,7 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
                   /**
      * Actualiza la lista de entradas del usuario con la que entra por parametro.
      *
-     * @param pMedallas nueva lista de medallas
+     * @param pEntradas nueva lista de entradas
      */
     
     public void setEntradas(List<EntradaEntity> pEntradas)

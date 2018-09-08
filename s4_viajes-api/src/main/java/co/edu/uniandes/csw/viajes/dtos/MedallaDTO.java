@@ -7,6 +7,8 @@ package co.edu.uniandes.csw.viajes.dtos;
 
 import co.edu.uniandes.csw.viajes.entities.MedallaEntity;
 import java.io.Serializable;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  *
@@ -61,7 +63,10 @@ public class MedallaDTO implements Serializable{
         return medallaEntity;
     }
       
-   
+    @Override
+    public String toString() {
+         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    }   
      
     
 }

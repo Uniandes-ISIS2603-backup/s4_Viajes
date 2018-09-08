@@ -11,6 +11,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import uk.co.jemos.podam.common.PodamExclude;
 
 /**
@@ -23,6 +24,9 @@ public class EntradaEntity extends BaseEntity implements Serializable{
     @PodamExclude
     @ManyToOne
     private UsuarioEntity autor;
+    @PodamExclude
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<ComentarioEntity> comentarios;
     private int numero;
     private String titulo;
     private String textoContenido;
@@ -31,8 +35,14 @@ public class EntradaEntity extends BaseEntity implements Serializable{
     private double calificacionComunidad;
     private Calendar fecha;
     
-    public UsuarioEntity getAutor(){
+    public UsuarioEntity getAutor()
+    {
         return autor;
+    }
+    
+    public List<ComentarioEntity> getComentarios()
+    {
+        return comentarios;
     }
     
     public int getNumero()
@@ -75,6 +85,10 @@ public class EntradaEntity extends BaseEntity implements Serializable{
        autor = pAutor;  
     } 
         
+     public void setComentarios(List<ComentarioEntity> pComentarios)
+     {
+         comentarios = pComentarios;
+     }
          
      public void setNumero(int pNumero)
     {

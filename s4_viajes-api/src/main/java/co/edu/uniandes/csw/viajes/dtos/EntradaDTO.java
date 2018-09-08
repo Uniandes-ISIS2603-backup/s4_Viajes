@@ -9,6 +9,8 @@ import co.edu.uniandes.csw.viajes.entities.EntradaEntity;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  *
@@ -88,7 +90,10 @@ public class EntradaDTO implements Serializable{
         return entradaEntity;
     }
       
-   
+    @Override
+    public String toString() {
+         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    }   
      
     
 }

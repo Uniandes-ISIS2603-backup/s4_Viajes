@@ -6,7 +6,6 @@
 package co.edu.uniandes.csw.viajes.resources;
 
 import co.edu.uniandes.csw.viajes.dtos.EntradaDTO;
-import co.edu.uniandes.csw.viajes.dtos.VueloDTO;
 //import co.edu.uniandes.csw.viajes.ejb.EntradaLogic;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import java.util.ArrayList;
@@ -31,7 +30,7 @@ import javax.ws.rs.WebApplicationException;
  */
 @Produces("application/json")
 @Consumes("application/json")
-@Path("entradas")
+//@Path("entradas")
 @RequestScoped
 public class EntradaResource {
      /**
@@ -65,11 +64,11 @@ public class EntradaResource {
     }
     
         /**
-     * Busca y devuelve todas las reseñas que existen en un libro.
+     * Busca y devuelve todas las entradas que existen de un usuario.
      *
      * @param documento El documento del usuario del cual se buscan las entradas
-     * @return JSONArray {@link ReviewDTO} - Las reseñas encontradas en el
-     * libro. Si no hay ninguna retorna una lista vacía.
+     * @return JSONArray {@link ReviewDTO} - Las entradas encontradas en el
+     * usuario. Si no hay ninguna retorna una lista vacía.
      */
     @GET
     public List<EntradaDTO> getEntradas(@PathParam("documento") String userName) {
@@ -96,11 +95,11 @@ public class EntradaResource {
      * formato JSON.
      * @param documento El documento del usuario del cual se guarda la reseña
      * @param entradaNum El numero de la entrada que se va a actualizar
-     * @param nueva (@link EntradaDTO) - el vuelo que desea modificar.
+     * @param nueva (@link EntradaDTO) - la entrada que desea modificar.
      */
     @PUT
     @Path("{numero: \\d+}")
-    public EntradaDTO modificarEntrada(@PathParam("userName") String userName,@PathParam("numero")int entradaNum, EntradaDTO nueva) throws WebApplicationException
+    public EntradaDTO modificarEntrada(@PathParam("documento") String documento,@PathParam("numero")int entradaNum, EntradaDTO nueva) throws WebApplicationException
     {
        return nueva;
     }
@@ -109,15 +108,35 @@ public class EntradaResource {
      * Borra la reseña con el id asociado recibido en la URL.
      *
      * @param documento El documento del usuario del cual se va a eliminar la entrada.
-     * @param entradaNum El numero de la reseña que se va a eliminar.
+     * @param entradaNum El numero de la entrada que se va a eliminar.
      * @throws BusinessLogicException {@link BusinessLogicExceptionMapper} -
      * Error de lógica que se genera cuando no se puede eliminar la entrada.
      * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
-     * Error de lógica que se genera cuando no se encuentra la reseña.
+     * Error de lógica que se genera cuando no se encuentra la entrada.
      */
     @DELETE
     @Path("{numero: \\d+}")
     public void deleteEntrada(@PathParam("documento") String documento, @PathParam("numero") int entradaNum) {
         
+    }
+    
+            /**
+     * Conexión con el servicio de comentarios para un entrada. {@link ComentarioResource}
+     *
+     * Este método conecta la ruta de /entradas con las rutas de /comentarios que
+     * dependen del usuario, es una redirección al servicio que maneja el segmento
+     * de la URL que se encarga de las entradas.
+     *
+     * @param numero El numero de la entrada con respecto a la cual se accede al comentario.
+     * @return El servicio de Comentarios para ese usuario en paricular.\
+     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
+     * Error de lógica que se genera cuando no se encuentra la entrada.
+     */
+    @Path("{numero: \\d+}/comentarios")
+    public Class<ComentarioResource> getComentarioResource(@PathParam("numero") int numero) {
+    //    if (usuarioLogic.getUsuario(documento) == null) {
+    //      throw new WebApplicationException("El recurso /books/" + documento + "/reviews no existe.", 404);
+    //  }
+        return ComentarioResource.class;
     }
 }
