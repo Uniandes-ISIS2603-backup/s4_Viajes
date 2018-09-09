@@ -12,7 +12,7 @@ import uk.co.jemos.podam.common.PodamExclude;
 
 /**
  *
- * @author estudiante
+ * @author n.segura 
  */
 @Entity
 public class AdministradorEntity extends BaseEntity implements Serializable {
@@ -21,7 +21,7 @@ public class AdministradorEntity extends BaseEntity implements Serializable {
     private String nombre;
     private String userName;
       @PodamExclude
-    @OneToMany(mappedBy = "usuario")
+    @OneToMany(mappedBy = "usuarios")
     private List<UsuarioEntity> usuarios;
     
     public String getNombre()

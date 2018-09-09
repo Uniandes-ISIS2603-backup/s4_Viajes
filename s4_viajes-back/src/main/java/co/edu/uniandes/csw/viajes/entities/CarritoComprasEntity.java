@@ -17,7 +17,7 @@ public class CarritoComprasEntity extends BaseEntity implements Serializable{
     
     private double costo;
     private String nombre;
-    private Long id;
+    private Long carritoId;
     
     public double getCosto()
     {
@@ -26,12 +26,12 @@ public class CarritoComprasEntity extends BaseEntity implements Serializable{
     
     public Long getIdCarrito()
     {
-        return id;
+        return carritoId;
     }
     
      public void setIdCarrito(Long pId)
     {
-        this.id= pId;
+        this.carritoId= pId;
     }
    
     

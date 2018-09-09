@@ -119,7 +119,7 @@ public class UsuarioPersistenceTest {
      * Prueba para consultar la lista de Books.
      */
     @Test
-    public void getBooksTest() {
+    public void getUsuariosTest() {
         List<UsuarioEntity> list = usuarioPersistence.findAll();
         Assert.assertEquals(data.size(), list.size());
         for (UsuarioEntity ent : list) {
