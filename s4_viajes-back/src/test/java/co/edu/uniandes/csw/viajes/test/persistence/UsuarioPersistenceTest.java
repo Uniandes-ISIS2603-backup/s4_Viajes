@@ -51,7 +51,7 @@ public class UsuarioPersistenceTest {
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
                 .addPackage(UsuarioEntity.class.getPackage())
-                .addPackage(UsuarioEntity.class.getPackage())
+                .addPackage(UsuarioPersistence.class.getPackage())
                 .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
                 .addAsManifestResource("META-INF/beans.xml", "beans.xml");
     }
@@ -81,7 +81,7 @@ public class UsuarioPersistenceTest {
      * Limpia las tablas que están implicadas en la prueba.
      */
     private void clearData() {
-        em.createQuery("delete from BookEntity").executeUpdate();
+        em.createQuery("delete from UsuarioEntity").executeUpdate();
     }
 
     /**
@@ -116,16 +116,16 @@ public class UsuarioPersistenceTest {
     }
 
     /**
-     * Prueba para consultar la lista de Books.
+     * Prueba para consultar la lista de Usuarios.
      */
     @Test
-    public void getBooksTest() {
+    public void getUsuariosTest() {
         List<UsuarioEntity> list = usuarioPersistence.findAll();
         Assert.assertEquals(data.size(), list.size());
         for (UsuarioEntity ent : list) {
             boolean found = false;
             for (UsuarioEntity entity : data) {
-                if (ent.getId().equals(entity.getId())) {
+                if (ent.getNombre().equals(entity.getNombre())) {
                     found = true;
                 }
             }
@@ -137,7 +137,7 @@ public class UsuarioPersistenceTest {
      * Prueba para consultar un Usuario.
      */
     @Test
-    public void getBookTest() {
+    public void getUsuarioTest() {
         UsuarioEntity entity = data.get(0);
         UsuarioEntity newEntity = usuarioPersistence.find(entity.getId());
         Assert.assertNotNull(newEntity);
@@ -149,9 +149,9 @@ public class UsuarioPersistenceTest {
      * Prueba para eliminar un Usuario.
      */
     @Test
-    public void deleteBookTest() {
+    public void deleteUsuarioTest() {
         UsuarioEntity entity = data.get(0);
-        usuarioPersistence.delete(entity.getDocumento());
+        usuarioPersistence.delete(entity.getId());
         UsuarioEntity deleted = em.find(UsuarioEntity.class, entity.getId());
         Assert.assertNull(deleted);
     }
@@ -160,7 +160,7 @@ public class UsuarioPersistenceTest {
      * Prueba para actualizar un Book.
      */
     @Test
-    public void updateBookTest() {
+    public void updateUsuarioTest() {
         UsuarioEntity entity = data.get(0);
         PodamFactory factory = new PodamFactoryImpl();
         UsuarioEntity newEntity = factory.manufacturePojo(UsuarioEntity.class);
@@ -173,7 +173,5 @@ public class UsuarioPersistenceTest {
 
         Assert.assertEquals(newEntity.getNombre(), resp.getNombre());
     }
-
-    
 
 }

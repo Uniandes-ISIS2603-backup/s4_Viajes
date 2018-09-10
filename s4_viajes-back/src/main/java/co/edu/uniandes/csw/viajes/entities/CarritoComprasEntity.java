@@ -41,9 +41,9 @@ public class CarritoComprasEntity extends BaseEntity implements Serializable{
     } 
      
      
-    // public void setCosto(Double pCosto)
-    //{
-      //  this.costo= pCosto;
-    //} 
+     public void setCosto(Double pCosto)
+    {
+        this.costo= pCosto;
+    } 
     
 }

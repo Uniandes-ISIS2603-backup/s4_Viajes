@@ -61,16 +61,16 @@ public class AdministradorPersistence {
     /**
      * Busca si hay usuario con el documento que se envía de argumento
      *
-     * @param documento: id correspondiente a la author buscada.
+     * @param administradorId
      * @return un usuario.
      */
-    public AdministradorEntity find(String userName) {
-        LOGGER.log(Level.INFO, "Consultando el administrador con id={0}", userName);
+    public AdministradorEntity find(Long administradorId) {
+        LOGGER.log(Level.INFO, "Consultando el administrador con id={0}", administradorId);
         /* Note que se hace uso del metodo "find" propio del EntityManager, el cual recibe como argumento 
         el tipo de la clase y el objeto que nos hara el filtro en la base de datos en este caso el "id"
         Suponga que es algo similar a "select * from UsuarioEntity where id=id;" - "SELECT * FROM table_name WHERE condition;" en SQL.
          */
-        return em.find(AdministradorEntity.class, userName);
+        return em.find(AdministradorEntity.class, administradorId);
     }
 
     /**
@@ -94,13 +94,13 @@ public class AdministradorPersistence {
      * Borra un usuario de la base de datos recibiendo como argumento el id de
      * la author
      *
-     * @param documento: documento correspondiente al usuario a borrar.
+     * @param administradorId
      */
-    public void delete(String userName) {
+    public void delete(Long administradorId) {
 
-        LOGGER.log(Level.INFO, "Borrando el administrador con id={0}", userName);
+        LOGGER.log(Level.INFO, "Borrando el administrador con id={0}", administradorId);
         // Se hace uso de mismo método que esta explicado en public UsuarioEntity find(Long id) para obtener el usuario a borrar.
-       AdministradorEntity administradorEntity = em.find(AdministradorEntity.class, userName);
+       AdministradorEntity administradorEntity = em.find(AdministradorEntity.class, administradorId);
         /* Note que una vez obtenido el objeto desde la base de datos llamado "entity", volvemos hacer uso de un método propio del
         EntityManager para eliminar de la base de datos el objeto que encontramos y queremos borrar.
         Es similar a "delete from UsuarioEntity where id=id;" - "DELETE FROM table_name WHERE condition;" en SQL.*/

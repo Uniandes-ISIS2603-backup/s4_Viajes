@@ -38,12 +38,12 @@ public class UsuarioPersistence {
      * @return devuelve la entidad creada con un id dado por la base de datos.
      */
     public UsuarioEntity create(UsuarioEntity usuarioEntity) {
-        LOGGER.log(Level.INFO, "Creando un autor nuevo");
+        LOGGER.log(Level.INFO, "Creando un usuario nuevo");
         /* Note que hacemos uso de un método propio de EntityManager para persistir la author en la base de datos.
         Es similar a "INSERT INTO table_name (column1, column2, column3, ...) VALUES (value1, value2, value3, ...);" en SQL.
          */
         em.persist(usuarioEntity);
-       LOGGER.log(Level.INFO, "Autor creado");
+       LOGGER.log(Level.INFO, "Usuario creado");
         return usuarioEntity;
     }
 
@@ -65,16 +65,16 @@ public class UsuarioPersistence {
     /**
      * Busca si hay usuario con el documento que se envía de argumento
      *
-     * @param documento: id correspondiente a la author buscada.
+     * @param usuarioId: Id correspondiente al usuario a buscar.
      * @return un usuario.
      */
-    public UsuarioEntity find(Long id) {
-        LOGGER.log(Level.INFO, "Consultando el autor con id={0}", id);
+    public UsuarioEntity find(Long usuarioId) {
+        LOGGER.log(Level.INFO, "Consultando el usuario con id={0}", usuarioId);
         /* Note que se hace uso del metodo "find" propio del EntityManager, el cual recibe como argumento 
         el tipo de la clase y el objeto que nos hara el filtro en la base de datos en este caso el "id"
         Suponga que es algo similar a "select * from UsuarioEntity where id=id;" - "SELECT * FROM table_name WHERE condition;" en SQL.
          */
-        return em.find(UsuarioEntity.class, id);
+        return em.find(UsuarioEntity.class, usuarioId);
     }
 
     /**
@@ -100,11 +100,11 @@ public class UsuarioPersistence {
      *
      * @param documento: documento correspondiente al usuario a borrar.
      */
-    public void delete(String documento) {
+    public void delete(Long usuarioId) {
 
-        LOGGER.log(Level.INFO, "Borrando el author con id={0}", documento);
+        LOGGER.log(Level.INFO, "Borrando el usuario con id={0}", usuarioId);
         // Se hace uso de mismo método que esta explicado en public UsuarioEntity find(Long id) para obtener el usuario a borrar.
-       UsuarioEntity usuarioEntity = em.find(UsuarioEntity.class, documento);
+       UsuarioEntity usuarioEntity = em.find(UsuarioEntity.class, usuarioId);
         /* Note que una vez obtenido el objeto desde la base de datos llamado "entity", volvemos hacer uso de un método propio del
         EntityManager para eliminar de la base de datos el objeto que encontramos y queremos borrar.
         Es similar a "delete from UsuarioEntity where id=id;" - "DELETE FROM table_name WHERE condition;" en SQL.*/
