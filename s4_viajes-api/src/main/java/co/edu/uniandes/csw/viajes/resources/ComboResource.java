@@ -75,8 +75,8 @@ public class ComboResource {
      * @return un combo y su información de acuerdo a su nombre.
      */
     @GET
-    @Path("{comboId: [a-zA-Z][a-zA-Z]*}")
-    public ComboDTO consultarCombo(@PathParam("comboId") Long combo) throws WebApplicationException
+        @Path("{comboId: [a-zA-Z][a-zA-Z]*}")
+    public ComboDTO consultarCombo(@PathParam("comboId") String comboId) throws WebApplicationException
     {
         // LOGGER.log(Level.INFO, "EditorialResource getEditorial: input: {0}", nombreCombo);
         //ComboEntity comboEntity = ActividadLogicgic.getActividad(nombreCombo);
@@ -84,6 +84,8 @@ public class ComboResource {
         //    throw new WebApplicationException("El recurso /editorials/" + nombreCombo + " no existe.", 404);
         //}
         ComboDTO comboDTO = new ComboDTO();
+        comboDTO.setId(comboId);
+       
         //LOGGER.log(Level.INFO, "ActividadResource getActividad: output: {0}", comboDTO.toString());
         return comboDTO;
     }

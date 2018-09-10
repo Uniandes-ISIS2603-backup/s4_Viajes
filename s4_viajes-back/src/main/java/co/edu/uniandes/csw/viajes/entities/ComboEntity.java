@@ -6,6 +6,7 @@
 package co.edu.uniandes.csw.viajes.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 
 /**
@@ -27,6 +28,17 @@ public class ComboEntity  extends BaseEntity implements Serializable {
     private double horas;
 
     private int puntuacion;
+    
+    private List<VueloEntity> vuelos;
+    
+    private List<AlojamientoEntity> alojamientos;
+
+    private List<ActividadEntity> actividades;
+    
+    private List<TransporteTerrestreEntity> transporteTerrestre;
+
+    
+
     
     //-----------------------------------------------------------------------------------------------------------------------
     // Metodos
@@ -72,4 +84,35 @@ public class ComboEntity  extends BaseEntity implements Serializable {
         this.puntuacion = puntuacion;
     }
     
+    public List<VueloEntity> getVuelos() {
+        return vuelos;
+    }
+
+    public void setVuelos(List<VueloEntity> vuelos) {
+        this.vuelos = vuelos;
+    }
+
+    public List<AlojamientoEntity> getAlojamientos() {
+        return alojamientos;
+    }
+
+    public void setAlojamientos(List<AlojamientoEntity> alojamientos) {
+        this.alojamientos = alojamientos;
+    }
+
+    public List<ActividadEntity> getActividades() {
+        return actividades;
+    }
+
+    public void setActividades(List<ActividadEntity> actividades) {
+        this.actividades = actividades;
+    }
+
+    public List<TransporteTerrestreEntity> getTransporteTerrestre() {
+        return transporteTerrestre;
+    }
+
+    public void setTransporteTerrestre(List<TransporteTerrestreEntity> transporteTerrestre) {
+        this.transporteTerrestre = transporteTerrestre;
+    }
 }

@@ -21,6 +21,8 @@ public class ComboDTO{
     private int dias;
     private double horas;
     private int puntuacion;
+    private String id;
+
       
     /**
      * Constructor por vacio.
@@ -105,4 +107,12 @@ public class ComboDTO{
     public String toString() {
          return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }    
+    
+     public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }
