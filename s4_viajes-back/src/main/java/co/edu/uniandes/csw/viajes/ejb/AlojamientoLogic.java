@@ -42,6 +42,7 @@ public class AlojamientoLogic {
 
         String nombreParam = alojamientoEntity.getNombre();
 
+        //Valida que el nombre de la entidad parametro no genere excepcion
         if (persistence.find(alojamientoEntity.getId()) == null) {
             throw new BusinessLogicException("El alojamiento es inválido");
         }
@@ -51,6 +52,8 @@ public class AlojamientoLogic {
         if (persistence.findByNombre(nombreParam) != null) {
             throw new BusinessLogicException("El nombre ingresado ya existe:" + nombreParam);
         }
+        
+        //Crea el alojamiento en la persistencia
         persistence.create(alojamientoEntity);
 
         LOGGER.log(Level.INFO, "Termina proceso de creación del alojamiento");
@@ -71,7 +74,7 @@ public class AlojamientoLogic {
     public List<AlojamientoEntity> getAlojamientos() {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los alojamientos.");
         List<AlojamientoEntity> alojamientos = persistence.findAll();
-        LOGGER.log(Level.INFO, "Termina proceso de consultar todos los alojamientos");
+        LOGGER.log(Level.INFO, "Termina proceso de consultar todos los alojamientos.");
         return alojamientos;
     }
 
