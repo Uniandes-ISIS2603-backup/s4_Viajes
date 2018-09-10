@@ -37,9 +37,9 @@ public class TransporteTerrestreLogic {
      */
     public TransporteTerrestreEntity createTransporte(TransporteTerrestreEntity transporteEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación del transporte");
-//        if (transporteEntity.getId() == null || persistence.find(transporteEntity.getId()) == null) {
-//            throw new BusinessLogicException("El transporte es inválido");
-//        }
+        if (transporteEntity.getId() == null || persistence.find(transporteEntity.getId()) == null) {
+            throw new BusinessLogicException("El transporte es inválido");
+        }
         if (!validateID(transporteEntity.getId())) {
             throw new BusinessLogicException("El id es inválido");
         }

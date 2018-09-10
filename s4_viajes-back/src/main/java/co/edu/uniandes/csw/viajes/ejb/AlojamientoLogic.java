@@ -9,10 +9,10 @@ import co.edu.uniandes.csw.viajes.entities.AlojamientoEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.AlojamientoPersistence;
 import java.util.List;
-//import java.util.ArrayList;
-//import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -39,22 +39,28 @@ public class AlojamientoLogic {
      */
     public AlojamientoEntity createAlojamiento(AlojamientoEntity alojamientoEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación del alojamiento");
-//        if (alojamientoEntity.getNombre() == null || persistence.find(alojamientoEntity.getId()) == null) {
-//            throw new BusinessLogicException("La editorial es inválida");
-//        }
-        if (!validateNombre(alojamientoEntity.getNombre())) {
-            throw new BusinessLogicException("El nombre es inválido");
+
+        String nombreParam = alojamientoEntity.getNombre();
+
+        if (persistence.find(alojamientoEntity.getId()) == null) {
+            throw new BusinessLogicException("El alojamiento es inválido");
         }
-//        if (persistence.findByNombre(alojamientoEntity.getNombre()) != null) {
-//            throw new BusinessLogicException("El nombre ya existe");
-//        }
-//        persistence.create(alojamientoEntity);
+        if (!validateNombre(nombreParam)) {
+            throw new BusinessLogicException("El nombre ingresado es inválido:" + nombreParam);
+        }
+        if (persistence.findByNombre(nombreParam) != null) {
+            throw new BusinessLogicException("El nombre ingresado ya existe:" + nombreParam);
+        }
+        persistence.create(alojamientoEntity);
+
         LOGGER.log(Level.INFO, "Termina proceso de creación del alojamiento");
         return alojamientoEntity;
     }
 
     private boolean validateNombre(String nombre) {
-        return !(nombre == null || nombre.isEmpty());
+        Pattern pat = Pattern.compile("[a-zA-Z]{1,15}");
+        Matcher mat = pat.matcher(nombre);
+        return (mat.matches() && !(nombre == null || nombre.isEmpty()));
     }
 
     /**
@@ -64,10 +70,9 @@ public class AlojamientoLogic {
      */
     public List<AlojamientoEntity> getAlojamientos() {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los alojamientos.");
-//        List<AlojamientoEntity> alojamientos = persistence.findAll(); 
+        List<AlojamientoEntity> alojamientos = persistence.findAll();
         LOGGER.log(Level.INFO, "Termina proceso de consultar todos los alojamientos");
-//        return alojamientos;
-return null;
+        return alojamientos;
     }
 
     /**
@@ -84,7 +89,7 @@ return null;
         }
         LOGGER.log(Level.INFO, "Termina proceso de consultar el alojamiento con id = {0}", alojamientoId);
 //        return alojamientoEntity;
-return null;
+        return null;
     }
 
     /**
@@ -94,9 +99,10 @@ return null;
      * @param alojamientoEntity La entidad del aoljamiento con los cambios
      * deseados
      * @return La entidad del alojamiento luego de actualizarla
-     * @throws BusinessLogicException Si el nombre de la actualización es inválido
+     * @throws BusinessLogicException Si el nombre de la actualización es
+     * inválido
      */
-    public AlojamientoEntity updateAlojamiento(Long alojamientoId, AlojamientoEntity alojamientoEntity) throws BusinessLogicException{
+    public AlojamientoEntity updateAlojamiento(Long alojamientoId, AlojamientoEntity alojamientoEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar el alojamiento con id = {0}", alojamientoId);
         if (!validateNombre(alojamientoEntity.getNombre())) {
             throw new BusinessLogicException("El nombre es inválido");
@@ -104,7 +110,7 @@ return null;
 //        AlojamientoEntity newEntity = persistence.update(alojamientoEntity);
         LOGGER.log(Level.INFO, "Termina proceso de actualizar el alojamiento con id = {0}", alojamientoEntity.getId());
 //        return newEntity; 
-return null;
+        return null;
 
     }
 
@@ -114,7 +120,7 @@ return null;
      * @param alojamientoId El ID del alojamiento a eliminar
      * @throws BusinessLogicException
      */
-    public void deleteAlojamiento(Long alojamientoId) throws BusinessLogicException  {
+    public void deleteAlojamiento(Long alojamientoId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de borrar el alojamiento con id = {0}", alojamientoId);
         if (alojamientoId == null) {
             throw new BusinessLogicException("No se puede borrar el alojamiento con id = " + alojamientoId + " porque el id es invalido");
