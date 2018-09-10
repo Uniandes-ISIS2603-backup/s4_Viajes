@@ -95,7 +95,7 @@ public class ComboResource {
      * @param nuevo (@link VueloDTO) - el vuelo que desea modificar.
      */
     @PUT
-    @Path("{comboId")
+    @Path("comboId")
     public VueloDTO modificarCombo(@PathParam("comboId")int comboId, VueloDTO nuevo) throws WebApplicationException
     {
        return nuevo;
@@ -108,7 +108,7 @@ public class ComboResource {
      * una cadena de dígitos (int).
      */
     @DELETE
-    @Path("{comboId")
+    @Path("comboId")
     public void deleteCombo(@PathParam("comboId") Long comboId) {
         //LOGGER.log(Level.INFO, "VueloResource deleteVuelo: input: {0}", vueloNum);
         // Invoca la lógica para borrar lel vuelo
