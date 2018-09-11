@@ -32,7 +32,7 @@ public class CarritoComprasPersistence {
     /**
      * Crea un usuario en la base de datos
      *
-     * @param CarritoComprasEntity objeto usuario que se creará en la base de datos
+     * @param carritoComprasEntity objeto usuario que se creará en la base de datos
      * @return devuelve la entidad creada con un id dado por la base de datos.
      */
     public CarritoComprasEntity create(CarritoComprasEntity carritoComprasEntity) {
@@ -63,22 +63,22 @@ public class CarritoComprasPersistence {
     /**
      * Busca si hay usuario con el documento que se envía de argumento
      *
-     * @param documento: id correspondiente a la author buscada.
+     * @param carritoId
      * @return un usuario.
      */
-    public CarritoComprasEntity find(Long id) {
-        LOGGER.log(Level.INFO, "Consultando el carrito con id={0}", id);
+    public CarritoComprasEntity find(Long carritoComprasId) {
+        LOGGER.log(Level.INFO, "Consultando el carrito con id={0}", carritoComprasId);
         /* Note que se hace uso del metodo "find" propio del EntityManager, el cual recibe como argumento 
         el tipo de la clase y el objeto que nos hara el filtro en la base de datos en este caso el "id"
         Suponga que es algo similar a "select * from UsuarioEntity where id=id;" - "SELECT * FROM table_name WHERE condition;" en SQL.
          */
-        return em.find(CarritoComprasEntity.class, id);
+        return em.find(CarritoComprasEntity.class, carritoComprasId);
     }
 
     /**
      * Actualiza un Carrito de Compras.
      *
-     * @param CarritoComprasEntity: El carrito que viene con los nuevos cambios. Por
+     * @param carritoComprasEntity: El carrito que viene con los nuevos cambios. Por
      * ejemplo el nombre pudo cambiar. En ese caso, se haria uso del método
      * update.
      * @return una carrito con los cambios aplicados.
@@ -98,11 +98,11 @@ public class CarritoComprasPersistence {
      *
      * @param documento: documento correspondiente al usuario a borrar.
      */
-    public void delete(Long id) {
+    public void delete(Long carritoComprasId) {
 
-        LOGGER.log(Level.INFO, "Borrando el author con id={0}", id);
+        LOGGER.log(Level.INFO, "Borrando el author con id={0}", carritoComprasId);
         // Se hace uso de mismo método que esta explicado en public UsuarioEntity find(Long id) para obtener el usuario a borrar.
-       CarritoComprasEntity carritoEntity = em.find(CarritoComprasEntity.class, id);
+       CarritoComprasEntity carritoEntity = em.find(CarritoComprasEntity.class, carritoComprasId);
         /* Note que una vez obtenido el objeto desde la base de datos llamado "entity", volvemos hacer uso de un método propio del
         EntityManager para eliminar de la base de datos el objeto que encontramos y queremos borrar.
         Es similar a "delete from UsuarioEntity where id=id;" - "DELETE FROM table_name WHERE condition;" en SQL.*/

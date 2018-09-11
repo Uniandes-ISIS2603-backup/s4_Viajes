@@ -58,7 +58,6 @@ public class CarritoComprasDTO implements Serializable{
           CarritoComprasEntity carritoEntity = new CarritoComprasEntity();
         //carritoEntity.setCosto(this.costo);
         carritoEntity.setNombre(this.nombre);
-        carritoEntity.setIdCarrito(this.id);
        return carritoEntity; 
     }
       

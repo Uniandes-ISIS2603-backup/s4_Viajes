@@ -7,6 +7,8 @@ package co.edu.uniandes.csw.viajes.entities;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
+import uk.co.jemos.podam.common.PodamExclude;
 
 /**
  *
@@ -17,7 +19,13 @@ public class CarritoComprasEntity extends BaseEntity implements Serializable{
     
     private double costo;
     private String nombre;
+
     private Long carritoId;
+
+    
+    @PodamExclude
+    @OneToOne
+    private UsuarioEntity usuario;
     
     public double getCosto()
     {
@@ -34,8 +42,7 @@ public class CarritoComprasEntity extends BaseEntity implements Serializable{
         this.carritoId= pId;
     }
    
-    
-    public String getNombre()
+     public String getNombre()
     {
         return nombre;
     }
@@ -47,9 +54,11 @@ public class CarritoComprasEntity extends BaseEntity implements Serializable{
     } 
      
      
-    // public void setCosto(Double pCosto)
-    //{
-      //  this.costo= pCosto;
-    //} 
+     public void setCosto(Double pCosto)
+    {
+        this.costo= pCosto;
+    } 
+    
+   
     
 }
