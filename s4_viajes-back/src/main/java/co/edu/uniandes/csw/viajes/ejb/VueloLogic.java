@@ -5,13 +5,14 @@
  */
 package co.edu.uniandes.csw.viajes.ejb;
 
-import co.edu.uniandes.csw.viajes.entities.ProveedorEntity;
 import co.edu.uniandes.csw.viajes.entities.VueloEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.VueloPersistence;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -44,9 +45,45 @@ public class VueloLogic {
             throw new BusinessLogicException("Ya existe un Vuelo con el nombre \"" + vueloEntity.getNumero() + "\"");
         }
         
-        //FALTAN LAS DEMAS REGLAS DE NEGOCIO
+        String input = vueloEntity.getNumero();
         
-        // Invoca la persistencia para crear la editorial
+        // Verifica la regla de negocio que dice que el número del vuelo debe empezar por tres letras mayúsculas que identifican la aerolínea.
+        Pattern p1 = Pattern.compile("^[A-Z]{3}");
+        Matcher m1 = p1.matcher(input);
+        
+        if(m1.find() == false)
+        {
+            throw new BusinessLogicException("El numero del vuelo debería empezar por tres letras mayúsculas identificando la aerolínea");
+        }
+        
+        // Verifica la regla de negocio que dice que el final del número de vuelo deben ser 4 números máximos que van después del identificador de la aerolínea.
+        Pattern p2 = Pattern.compile("[\\d]$ {4}");
+        Matcher m2 = p2.matcher(input);
+        
+        if(m2.find() == false)
+        {
+            throw new BusinessLogicException("El numero del vuelo debe tener máximo 4 números después del identificador de la aerolínea");
+        }
+        
+        // Verifica la regla de negocio que dice que las coordenadas (lat, long) de origen y destino no pueden ser nulas.
+        if(vueloEntity.getLatO() == (null) && vueloEntity.getLonO() == (null) && vueloEntity.getLatD() == (null) && vueloEntity.getLonD() == (null))
+        {
+            throw new BusinessLogicException("Las coordenadas (latitud, longitud) de origen y destino deben exsitir, no pueden ser vacías");
+        }
+ 
+        // Verifica la regla de negocio que dice que las coordenadas (lat, long) de origen y destino no pueden ser iguales.        
+        if(vueloEntity.getLatO().equals(vueloEntity.getLatD()) && vueloEntity.getLonO().equals(vueloEntity.getLonD()) )
+        {
+           throw new BusinessLogicException("Las coordenadas (latitud, longitud) de origen y destino no pueden ser iguales");
+        }
+        
+        // Verifica la regla de negocio que dice que las fechas de salida y de llegada deben ser válidas y exisitir (not null). 
+        if(vueloEntity.getFechaSalida().equals(null) && vueloEntity.getFechaLlegada().equals(null))
+        {
+           throw new BusinessLogicException("Las fechas de salida y de llegada deben exisitir y ser vàlidas");            
+        }
+        
+        // Invoca la persistencia para crear el vuelo
         persistence.create(vueloEntity);
         LOGGER.log(Level.INFO, "Termina proceso de creación del vuelo");
         return vueloEntity;
@@ -57,7 +94,7 @@ public class VueloLogic {
      *
      * @return una lista de vuelos.
      */
-    public List<VueloEntity> getVueloss() {
+    public List<VueloEntity> getVuelos() {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los vuelos");
         // Note que, por medio de la inyección de dependencias se llama al método "findAll()" que se encuentra en la persistencia.
         List<VueloEntity> vuelos = persistence.findAll();
@@ -92,8 +129,15 @@ public class VueloLogic {
      * por ejemplo el nombre.
      * @return el vuelo con los cambios actualizados en la base de datos.
      */
-    public VueloEntity updateVuelo(Long vueloId, VueloEntity vueloEntity) {
+    public VueloEntity updateVuelo(Long vueloId, VueloEntity vueloEntity) throws BusinessLogicException 
+    {
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar el vuelo con id = {0}", vueloId);
+        // Verifica la regla de negocio que dice que no se puede actualizar el id de un vuelo con un vuelo que ya tenga ese id.
+        if (persistence.find(vueloEntity.getId()) != null) 
+        {
+            throw new BusinessLogicException("Ya existe un Vuelo con el id que quiere cambiar \"" + vueloEntity.getId() + "\"");
+        }        
+
         // Note que, por medio de la inyección de dependencias se llama al método "update(entity)" que se encuentra en la persistencia.
         VueloEntity newEntity = persistence.update(vueloEntity);
         LOGGER.log(Level.INFO, "Termina proceso de actualizar el vuelo con id = {0}", vueloEntity.getId());
@@ -109,13 +153,10 @@ public class VueloLogic {
     public void deleteVuelov(Long vueloId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de borrar el vuelo con id = {0}", vueloId);
         // Note que, por medio de la inyección de dependencias se llama al método "delete(id)" que se encuentra en la persistencia.
-        //List<ProveedorEntity> proveedores = getVuelo(vueloId).getProveedor();
-        ////if (proveedores != null && !books.isEmpty()) {
-        //    throw new BusinessLogicException("No se puede borrar la editorial con id = " + editorialsId + " porque tiene books asociados");
+        if (vueloId == null) {
+            throw new BusinessLogicException("No se puede borrar el vuelo con id = " + vueloId + " porque no existe");
         }
-        //persistence.delete(vueloId);
-        //LOGGER.log(Level.INFO, "Termina proceso de borrar la editorial con id = {0}", editorialsId);
-    //}
-
-    
+        persistence.delete(vueloId);
+        LOGGER.log(Level.INFO, "Termina proceso de borrar el vuelo con id = {0}", vueloId);
+    }    
 }
