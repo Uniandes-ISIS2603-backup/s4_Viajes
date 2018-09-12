@@ -6,10 +6,14 @@
 package co.edu.uniandes.csw.viajes.resources;
 
 import co.edu.uniandes.csw.viajes.dtos.ComboDTO;
+import co.edu.uniandes.csw.viajes.dtos.ComboDetailDTO;
 import co.edu.uniandes.csw.viajes.dtos.VueloDTO;
 import co.edu.uniandes.csw.viajes.ejb.ComboLogic;
+import co.edu.uniandes.csw.viajes.entities.ComboEntity;
 
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
@@ -63,9 +67,32 @@ public class ComboResource {
      */
     @POST
     public ComboDTO crearCombo(ComboDTO combo) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "EditorialResource createEditorial: input: {0}", combo.toString());
-
-        return combo;
+        
+        LOGGER.log(Level.INFO, "ComboResource createCombo: input: {0}", combo.toString());
+        // Convierte el DTO (json) en un objeto Entity para ser manejado por la lógica.
+        ComboEntity comboEntity = combo.toEntity();
+        // Invoca la lógica para crear la editorial nueva
+        ComboEntity nuevoComboEntity = comboLogic.createCombo(comboEntity);
+        // Como debe retornar un DTO (json) se invoca el constructor del DTO con argumento el entity nuevo
+        ComboDTO nuevoComboDTO = new ComboDTO(nuevoComboEntity);
+        LOGGER.log(Level.INFO, "ComboResource createCombo: output: {0}", nuevoComboDTO.toString());
+        return nuevoComboDTO;
+       
+//        return combo;
+    }
+    
+     /**
+     * Busca y devuelve todas las editoriales que existen en la aplicacion.
+     *
+     * @return JSONArray {@link EditorialDetailDTO} - Las editoriales
+     * encontradas en la aplicación. Si no hay ninguna retorna una lista vacía.
+     */
+    @GET
+    public List<ComboDetailDTO> getCombos() {
+        LOGGER.info("ComboResource getCombos: input: void");
+        List<ComboDetailDTO> listaCombos = listEntity2DetailDTO(comboLogic.getCombos());
+        LOGGER.log(Level.INFO, "ComboResource getCombos: output: {0}", listaCombos.toString());
+        return listaCombos;
     }
     
     /**
@@ -78,29 +105,45 @@ public class ComboResource {
         @Path("{comboId: [a-zA-Z][a-zA-Z]*}")
     public ComboDTO consultarCombo(@PathParam("comboId") String comboId) throws WebApplicationException
     {
-        // LOGGER.log(Level.INFO, "EditorialResource getEditorial: input: {0}", nombreCombo);
-        //ComboEntity comboEntity = ActividadLogicgic.getActividad(nombreCombo);
-        //if (comboEntity == null) {
-        //    throw new WebApplicationException("El recurso /editorials/" + nombreCombo + " no existe.", 404);
-        //}
+//        LOGGER.log(Level.INFO, "ComboResource getCombo: input: {0}", comboId);
+//        ComboEntity comboEntity = comboLogic.getCombo(comboId);
+//        if (comboEntity == null) {
+//            throw new WebApplicationException("El recurso /combos/" + comboId + " no existe.", 404);
+//        }
+//        ComboDetailDTO comboDetailDTO=new ComboDetailDTO(comboEntity);
+//        LOGGER.log(Level.INFO, "ComboResource getCombo: output: {0}", comboDetailDTO.toString());
+        
         ComboDTO comboDTO = new ComboDTO();
         comboDTO.setId(comboId);
-       
-        //LOGGER.log(Level.INFO, "ActividadResource getActividad: output: {0}", comboDTO.toString());
         return comboDTO;
     }
   
     /**
-     * Modifica la informacion de un vuelo dado por la información ingresada en
-     * formato JSON.
+     * Actualiza la combo con el id recibido en la URL con la informacion
+ que se recibe en el cuerpo de la petición.
      *
-     * @param nuevo (@link VueloDTO) - el vuelo que desea modificar.
+     * @param editorialsId Identificador de la combo que se desea
+ actualizar. Este debe ser una cadena de dígitos.
+     * @param combo {@link EditorialDetailDTO} La combo que se desea
+ guardar.
+     * @return JSON {@link EditorialDetailDTO} - La combo guardada.
+     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
+ Error de lógica que se genera cuando no se encuentra la combo a
+ actualizar.
      */
     @PUT
-    @Path("comboId")
-    public VueloDTO modificarCombo(@PathParam("comboId")int comboId, VueloDTO nuevo) throws WebApplicationException
-    {
-       return nuevo;
+    @Path("{comboId: [a-zA-Z][a-zA-Z]*}")
+    public ComboDetailDTO updateCombo(@PathParam("comboId") String comboId, ComboDetailDTO combo) throws WebApplicationException {
+        LOGGER.log(Level.INFO, "EditorialResource updateEditorial: input: id:{0} , editorial: {1}", new Object[]{comboId, combo.toString()});
+        combo.setId(comboId);
+  
+        if (comboLogic.getCombo(comboId) == null) {
+            throw new WebApplicationException("El recurso /combos/" + comboId + " no existe.", 404);
+        }
+        ComboDetailDTO comboDetailDTO = new ComboDetailDTO(comboLogic.updateCombo(comboId, combo.toEntity()));
+        LOGGER.log(Level.INFO, "ComboResource updateCombo: output: {0}", comboDetailDTO.toString());
+        return comboDetailDTO;
+
     }
 
         /**
@@ -118,5 +161,22 @@ public class ComboResource {
         //LOGGER.info("VueloResource deleteVuelo: output: void");
     }
     
+    /**
+     * Convierte una lista de entidades a DTO.
+     *
+     * Este método convierte una lista de objetos EditorialEntity a una lista de
+     * objetos EditorialDetailDTO (json)
+     *
+     * @param entityList corresponde a la lista de editoriales de tipo Entity
+     * que vamos a convertir a DTO.
+     * @return la lista de editoriales en forma DTO (json)
+     */
+    private List<ComboDetailDTO> listEntity2DetailDTO(List<ComboEntity> entityList) {
+        List<ComboDetailDTO> list = new ArrayList<>();
+        for (ComboEntity entity : entityList) {
+            list.add(new ComboDetailDTO(entity));
+        }
+        return list;
+    }
     
 }

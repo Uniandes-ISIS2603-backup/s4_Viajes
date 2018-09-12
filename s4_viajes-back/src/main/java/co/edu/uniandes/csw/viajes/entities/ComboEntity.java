@@ -35,7 +35,7 @@ public class ComboEntity  extends BaseEntity implements Serializable {
 
     private List<ActividadEntity> actividades;
     
-    private List<TransporteTerrestreEntity> transporteTerrestre;
+    private List<TransporteTerrestreEntity> transportesTerrestres;
 
     
 
@@ -109,10 +109,10 @@ public class ComboEntity  extends BaseEntity implements Serializable {
     }
 
     public List<TransporteTerrestreEntity> getTransporteTerrestre() {
-        return transporteTerrestre;
+        return transportesTerrestres;
     }
 
-    public void setTransporteTerrestre(List<TransporteTerrestreEntity> transporteTerrestre) {
-        this.transporteTerrestre = transporteTerrestre;
+    public void setTransporteTerrestre(List<TransporteTerrestreEntity> transportesTerrestres) {
+        this.transportesTerrestres = transportesTerrestres;
     }
 }
