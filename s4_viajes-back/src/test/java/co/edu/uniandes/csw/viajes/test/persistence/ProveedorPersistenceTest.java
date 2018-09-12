@@ -25,13 +25,14 @@ import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 /**
- * Pruebas de persistencia de Proveedor
+ * Pruebas de persistencia para la clase ProveedorPersistence
  *
  * @author jf.torresp
  */
 @RunWith(Arquillian.class)
 public class ProveedorPersistenceTest {
-        /**
+    
+    /**
      * Inyección de la dependencia a la clase ProveedorPersistence cuyos métodos
      * se van a probar.
      */
@@ -117,10 +118,10 @@ public class ProveedorPersistenceTest {
     }
 
     /**
-     * Prueba para crear una Editorial.
+     * Prueba para crear un Proveedor.
      */
     @Test
-    public void createEditorialTest() {
+    public void createProveedorTest() {
         PodamFactory factory = new PodamFactoryImpl();
         ProveedorEntity newEntity = factory.manufacturePojo(ProveedorEntity.class);
         ProveedorEntity result = proveedorPersistence.create(newEntity);
@@ -136,12 +137,12 @@ public class ProveedorPersistenceTest {
     }
 
     /**
-     * Prueba para consultar la lista de Editoriales.
+     * Prueba para consultar la lista de Proveedores.
      *
      *
      */
     @Test
-    public void getEditorialsTest() {
+    public void getProveedoresTest() {
         List<ProveedorEntity> list = proveedorPersistence.findAll();
         Assert.assertEquals(data.size(), list.size());
         for (ProveedorEntity ent : list) {
@@ -156,12 +157,12 @@ public class ProveedorPersistenceTest {
     }
 
     /**
-     * Prueba para consultar una Editorial.
+     * Prueba para consultar un Proveedor.
      *
      *
      */
     @Test
-    public void getEditorialTest() {
+    public void getProveedorTest() {
         ProveedorEntity entity = data.get(0);
         ProveedorEntity newEntity = proveedorPersistence.find(entity.getId());
         Assert.assertNotNull(newEntity);
@@ -169,12 +170,12 @@ public class ProveedorPersistenceTest {
     }
 
     /**
-     * Prueba para eliminar una Editorial.
+     * Prueba para eliminar un Proveedor.
      *
      *
      */
     @Test
-    public void deleteEditorialTest() {
+    public void deleteProveedorTest() {
         ProveedorEntity entity = data.get(0);
         proveedorPersistence.delete(entity.getId());
         ProveedorEntity deleted = em.find(ProveedorEntity.class, entity.getId());
@@ -182,12 +183,12 @@ public class ProveedorPersistenceTest {
     }
 
     /**
-     * Prueba para actualizar una Editorial.
+     * Prueba para actualizar un Proveedor.
      *
      *
      */
     @Test
-    public void updateEditorialTest() {
+    public void updateProveedorTest() {
         ProveedorEntity entity = data.get(0);
         PodamFactory factory = new PodamFactoryImpl();
         ProveedorEntity newEntity = factory.manufacturePojo(ProveedorEntity.class);
@@ -202,12 +203,12 @@ public class ProveedorPersistenceTest {
     }
 
     /**
-     * Prueba para consultar una Editorial por nombre.
+     * Prueba para consultar un Proveedor por nombre.
      *
      *
      */
     @Test
-    public void findEditorialByNameTest() {
+    public void findProveedorByNameTest() {
         ProveedorEntity entity = data.get(0);
         ProveedorEntity newEntity = proveedorPersistence.findByName(entity.getNombre());
         Assert.assertNotNull(newEntity);

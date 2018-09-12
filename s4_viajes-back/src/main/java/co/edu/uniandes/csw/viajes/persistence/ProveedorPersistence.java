@@ -16,7 +16,7 @@ import javax.persistence.TypedQuery;
 
 /**
  *
- * Clase que maneja la persistencia para Proveedor. Se conecta a través Entity
+ * Clase que maneja la persistencia para el Proveedor. Se conecta a través Entity
  * Manager de javax.persistance con la base de datos SQL.
  * 
  * @author jf.torresp
@@ -29,7 +29,7 @@ public class ProveedorPersistence {
     @PersistenceContext(unitName = "TripBuilderTeamPU")
     protected EntityManager em;
     
-        /**
+    /**
      * Método para persisitir la entidad (Proveedor) en la base de datos.
      *
      * @param proveedorEntity objeto proveedor que se creará en la base de datos
