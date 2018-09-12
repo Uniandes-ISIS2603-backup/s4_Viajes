@@ -18,7 +18,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class AdministradorDTO implements Serializable{
     private String contraseña;
     private String nombre;
-    private String user_name;
+    private String userName;
 
    public AdministradorDTO(){}
    
@@ -28,7 +28,7 @@ public class AdministradorDTO implements Serializable{
        if(administradorEntity!=null)
        {
            this.contraseña = administradorEntity.getContraseña();
-           this.user_name = administradorEntity.getUserName();
+           this.userName = administradorEntity.getUserName();
            this.nombre = administradorEntity.getNombre();
           
        }
@@ -46,7 +46,7 @@ public class AdministradorDTO implements Serializable{
    
    public String getUserName()
    {
-      return user_name;
+      return userName;
    }
 
   
@@ -56,6 +56,8 @@ public class AdministradorDTO implements Serializable{
           AdministradorEntity administradorEntity = new AdministradorEntity();
         administradorEntity.setNombre(this.nombre);
         administradorEntity.setContraseña(this.contraseña);
+        administradorEntity.setUserName(this.userName);
+ 
 
        
         

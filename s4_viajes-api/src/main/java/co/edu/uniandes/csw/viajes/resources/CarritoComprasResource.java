@@ -36,7 +36,7 @@ public class CarritoComprasResource {
     
     private static final Logger LOGGER = Logger.getLogger(ActividadResource.class.getName());
 
-    @Inject
+    @Inject 
     CarritoComprasLogic carritoComprasLogic; // Variable para acceder a la lógica de la aplicación. Es una inyección de dependencias.
 
     /**
@@ -53,24 +53,27 @@ public class CarritoComprasResource {
      */
    @POST
     public CarritoComprasDTO createCarritoCompras(CarritoComprasDTO carritoCompras) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "EditorialResource createEditorial: input: {0}", carritoCompras.toString());
+        LOGGER.log(Level.INFO, "CarritoComprasResource createCarritoCompras: input: {0}", carritoCompras.toString());
         // Convierte el DTO (json) en un objeto Entity para ser manejado por la lógica.
+        CarritoComprasEntity carritoComprasEntity = carritoCompras.toEntity();
+        CarritoComprasDTO nuevocarritoDTO = new CarritoComprasDTO(carritoComprasEntity);
         return carritoCompras;
     }
     
     @GET
-    @Path("carritoscompras: \\d+")
-    public CarritoComprasDTO consultarCarritoCompras(@PathParam("carritoComprasID") String carritoComprasID)
+    @Path("{id: \\d+}")   
+    public CarritoComprasDTO consultarCarritoCompras(@PathParam("id") Long id)
     {
-         LOGGER.log(Level.INFO, "CarritoComprasResource getCarritoCompras: input: {0}", carritoComprasID);
+         LOGGER.log(Level.INFO, "CarritoComprasResource getCarritoCompras: input: {0}", id);
            return new CarritoComprasDTO();
     }
     
     @PUT
-    @Path("numero: \\d+")
-    public CarritoComprasDTO modificarCarrito(@PathParam("carritoComprasID") Long carritoComprasID, CarritoComprasDTO nuevo) throws WebApplicationException {
+    @Path("id: \\d+")
+    public CarritoComprasDTO modificarCarrito(@PathParam("id") Long id, CarritoComprasDTO nuevo) throws WebApplicationException {
 
-        return nuevo;}
+        return nuevo;
+    }
 
     /**
      * Borra la actividad con el id asociado recibido en la URL.
@@ -79,9 +82,9 @@ public class CarritoComprasResource {
      * Este debe ser una cadena de dígitos.
      */
     @DELETE
-    @Path("actividadId: \\d+")
-    public void deleteCarritoCompras(@PathParam("carritoID") Long carritoID) {
-        LOGGER.log(Level.INFO, "CarritoComprasResource deleteCarritoCompras: input: {0}", carritoID);
+    @Path("id: \\d+")
+    public void deleteCarritoCompras(@PathParam("id") Long id) {
+        LOGGER.log(Level.INFO, "CarritoComprasResource deleteCarritoCompras: input: {0}", id);
         // Invoca la lógica para borrar la actividad
         //editorialLogic.deleteEditorial(editorialsId);
         LOGGER.info("ActividadResource deleteActividad: output: void");

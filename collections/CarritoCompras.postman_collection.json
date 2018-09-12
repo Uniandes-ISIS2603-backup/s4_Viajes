@@ -1,0 +1,73 @@
+{
+	"info": {
+		"_postman_id": "3fde2cb3-0118-411c-8c3a-5aefeb6f6101",
+		"name": "CarritoCompras",
+		"description": "Realiza las pruebas de un carrito de compras. ",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/s4_viajes-api/api/usuarios/",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n\t{\r\n\t\"costo\": 30,\r\n\t\"nombre\": \"carrito\",\r\n    \"id\":\"502030\"\r\n\t\t\r\n\t}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/carritoscompras",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"carritoscompras"
+					]
+				},
+				"description": "Crea un nuevo carrito de compras. "
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/s4_viajes-api/api/carritoscompras/5",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n\t{\r\n\t\"costo\": 30,\r\n\t\"nombre\": \"carrito\",\r\n    \"id\":\"502030\"\r\n\t\t\r\n\t}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/carritoscompras/20",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"carritoscompras",
+						"20"
+					]
+				},
+				"description": "Obtiene un carrito de compras. "
+			},
+			"response": []
+		}
+	]
+}

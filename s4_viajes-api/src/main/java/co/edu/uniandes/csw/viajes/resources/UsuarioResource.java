@@ -66,7 +66,6 @@ public class UsuarioResource {
    
       
       @POST
-
    public UsuarioDTO createUsuario(UsuarioDTO usuario) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "UsuarioResource createUsuario: input: {0}", usuario.toString());
        UsuarioEntity usuarioEntity = usuario.toEntity();
@@ -77,15 +76,16 @@ public class UsuarioResource {
   
    
    /**
-     * Obtiene todos los usuarios con su información de acuerdo a su documento.
+     * Obtiene un usuario con su información de acuerdo a su documento.
      * información que fue previamente ingresada en formato JSON.
      *
      * @return un usuario y su información de acuerdo a su documento.
      */
     @GET
-    public UsuarioDTO consultarUsuarios(){
+    @Path("{documento: [a-zA-Z][a-zA-Z]*}")
+    public UsuarioDTO consultarUsuarios(@PathParam("documento") String documento){
 
-    return new UsuarioDTO();
+        return new UsuarioDTO();
         
     }
    
@@ -96,7 +96,7 @@ public class UsuarioResource {
      * @param nuevo (@link UsuarioDTO) - el usuario que desea modificar.
      */
     @PUT
-    @Path("{documento: \\d+}")
+    @Path("{documento: [a-zA-Z][a-zA-Z]*}")
     public UsuarioDTO modificarUsuario(@PathParam("documento")int documento, UsuarioDTO nuevo) throws WebApplicationException
     {
        return nuevo;
@@ -109,7 +109,7 @@ public class UsuarioResource {
      * una cadena de dígitos (int).
      */
     @DELETE
-    @Path("{documento: \\d+}")
+    @Path("{documento: [a-zA-Z][a-zA-Z]*}")
     public void deleteUsuario(@PathParam("documento") Long documento) {
     
     }

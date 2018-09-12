@@ -7,13 +7,21 @@ package co.edu.uniandes.csw.viajes.entities;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.*;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import uk.co.jemos.podam.common.PodamExclude;
 
 /**
  *
  * @author estudiante
  */
+
+@Entity
 public class GuiaEntity extends BaseEntity implements Serializable{
     
+    @PodamExclude
+    @ManyToOne(fetch = FetchType.LAZY)
     private ActividadEntity actividad;
     
     private int edad;
@@ -28,7 +36,7 @@ public class GuiaEntity extends BaseEntity implements Serializable{
     
     private List<String> idiomas;
     
-    private ActividadEntity act;
+    
     
     public int getEdad(){return edad;}
     public Long getDocumento() {return documento;}
@@ -36,7 +44,7 @@ public class GuiaEntity extends BaseEntity implements Serializable{
     public int getPuntuacion() {return puntuacion;}        
     public double getSueldo() {return sueldo;}
     public List getIdiomasList() {return idiomas;}
-    public ActividadEntity getActividad(){return act;}
+    public ActividadEntity getActividad(){return actividad;}
     
     public void setEdad(int pEdad) {edad = pEdad;}
     public void setPuntuacion(int pPuntuacion){puntuacion = pPuntuacion;}
@@ -44,7 +52,7 @@ public class GuiaEntity extends BaseEntity implements Serializable{
     public void setDocumento(Long doc){documento = doc;}        
     public void setSueldo(double pSueldo){sueldo = pSueldo;}
     public void setIdiomas(List pIdiomas){idiomas = pIdiomas;}
-    public void setIdiomasList(ActividadEntity actividad){act = actividad;}
+    public void setActividad(ActividadEntity actividad){this.actividad = actividad;}
     public void agregarIdioma(String pIdioma){idiomas.add(pIdioma);}
             
 }

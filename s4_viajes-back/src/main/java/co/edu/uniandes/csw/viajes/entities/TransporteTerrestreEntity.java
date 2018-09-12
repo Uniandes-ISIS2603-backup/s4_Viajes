@@ -15,30 +15,31 @@ import uk.co.jemos.podam.common.PodamExclude;
  * @author Ymespana
  */
 @Entity
-public class TransporteTerrestreEntity extends BaseEntity implements Serializable{
+public class TransporteTerrestreEntity extends BaseEntity implements Serializable {
     //-----------------------------------------------------------------------------------------------------------------------
     // Atributos
     //-----------------------------------------------------------------------------------------------------------------------
-  
-    public static final Double COSTO_MILLA_LIMOSINA = 123.0; 
-    
-    public static final Double COSTO_MILLA_UBER = 15.0; 
-    
+
+    public static final Double COSTO_MILLA_LIMOSINA = 123.0;
+
+    public static final Double COSTO_MILLA_UBER = 15.0;
+
     private Double costo;
-   
-    private String destino; 
-   
+
+    private String destino;
+
     private Long latitudOrigen;
 
     private Long longitudOrigen;
-    
+
     private Long latitudDestino;
 
     private Long longitudDestino;
 
-    private Integer numeroDias; 
-   
-    private Integer numeroHoras; 
+    private Integer numeroDias;
+
+    private Integer numeroHoras;
+
 
     private Integer puntuacion; 
     
@@ -50,6 +51,13 @@ public class TransporteTerrestreEntity extends BaseEntity implements Serializabl
     //-----------------------------------------------------------------------------------------------------------------------
     // Metodos
     //-----------------------------------------------------------------------------------------------------------------------
+    public ProveedorEntity getProveedor() {
+        return proveedor;
+    }
+
+    public void setProveedor(ProveedorEntity proveedor) {
+        this.proveedor = proveedor;
+    }
 
     public Double getCosto() {
         return costo;

@@ -7,39 +7,59 @@ package co.edu.uniandes.csw.viajes.dtos;
 
 import co.edu.uniandes.csw.viajes.entities.TransporteTerrestreEntity;
 import java.io.Serializable;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  *
  * @author Ymespana
  */
-public class TransporteDetailDTO extends TransporteTerrestreDTO implements Serializable
-{
-   //-----------------------------------------------------------------------------------------------------------------------
-   // Atributos
-   //-----------------------------------------------------------------------------------------------------------------------
+public class TransporteDetailDTO extends TransporteTerrestreDTO implements Serializable {
+    //-----------------------------------------------------------------------------------------------------------------------
+    // Atributos
+    //-----------------------------------------------------------------------------------------------------------------------
 
-   
-   //-----------------------------------------------------------------------------------------------------------------------
-   // Metodos
-   //-----------------------------------------------------------------------------------------------------------------------
-   
-   public TransporteDetailDTO(){
-       
-   }
-   
-   public TransporteDetailDTO(TransporteTerrestreEntity transporteEntity)
-   {
-       super(transporteEntity);
-      //INCOMPLETO 
-   }
-   
-   /**
-     * Convierte un objeto TransporteDetailDTO a TransporteEntity incluyendo los atributos de TransporteDTO.
+    private ProveedorDTO proveedor;
+    //-----------------------------------------------------------------------------------------------------------------------
+    // Metodos
+    //-----------------------------------------------------------------------------------------------------------------------
+
+    public TransporteDetailDTO() {
+        super();
+    }
+
+    public TransporteDetailDTO(TransporteTerrestreEntity transporteEntity) {
+        super(transporteEntity);
+        if (transporteEntity.getProveedor() != null) {
+            this.proveedor = new ProveedorDTO(transporteEntity.getProveedor());
+        }
+    }
+
+    /**
+     * Convierte un objeto TransporteDetailDTO a TransporteEntity incluyendo los
+     * atributos de TransporteDTO.
+     *
      * @return Nueva objeto TransporteEntity.
      */
     @Override
     public TransporteTerrestreEntity toEntity() {
-       //INCOMPLETO
-       return new TransporteTerrestreEntity();
+        TransporteTerrestreEntity entity = super.toEntity();
+        if (getProveedor() != null) {
+            entity.setProveedor(getProveedor().toEntity());
+        }
+        return entity;
+    }
+
+    public ProveedorDTO getProveedor() {
+        return proveedor;
+    }
+
+    public void setProveedor(ProveedorDTO proveedor) {
+        this.proveedor = proveedor;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
 }

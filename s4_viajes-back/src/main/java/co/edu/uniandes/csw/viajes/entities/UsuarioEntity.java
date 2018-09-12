@@ -6,8 +6,16 @@
 package co.edu.uniandes.csw.viajes.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import uk.co.jemos.podam.common.PodamStrategyValue;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import uk.co.jemos.podam.common.PodamExclude;
+
 
 /**
  *
@@ -19,28 +27,88 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
     private int edad;
     private String documento;
     private String nombre;
-    private String user_name;
+    private String userName;
+    
+    @PodamExclude
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<PagoEntity> pagos = new ArrayList<PagoEntity>();
     private Boolean hasLoggedIn;
     
+    @PodamExclude
+    @OneToOne(mappedBy="usuario", cascade = CascadeType.PERSIST)
+    private CarritoComprasEntity carritoCompras;
+    
+    @PodamExclude
+    @ManyToOne
+    private AdministradorEntity administrador;
+    
+      /**
+     * Devuelve la edad del usuario.
+     *
+     * @return the edad
+     */
     public int getEdad()
     {
         return edad;
     }
-    
+     /**
+     * Devuelve el documento del usuario.
+     *
+     * @return the documento
+     */
     public String getDocumento()
     {
         return documento;
     }
     
+    
+    public CarritoComprasEntity getCarrito()
+    {
+        return carritoCompras;
+    }
+    
+    public CarritoComprasEntity setCarrito()
+    {
+        return carritoCompras;
+    }
+     /**
+     * Devuelve el nombre del usuario.
+     *
+     * @return the nombre
+     */
     public String getNombre()
     {
         return nombre;
     }
+     /**
+     * Devuelve el user name del usuario.
+     *
+     * @return the user name
+     */
     
     public String getUserName()
     {
-        return user_name;
+        return userName;
     }
+    
+     /**
+     * Devuelve la lista de pagos del usuario.
+     *
+     * @return the user name
+     */
+    
+    public List<PagoEntity> getPagos()
+    {
+        return pagos;
+    }
+    
+    
+         /**
+     * Devuelve la ocndición del usuario en la aplicación.
+     *
+     * @return the user state
+     */
+    
     
      public Boolean hasLoggedIn()
     {
@@ -59,7 +127,7 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
     
     public void setUserName(String pUserName)
     {
-       this.user_name= pUserName;
+       this.userName= pUserName;
     }
     
      public void setHasLoggedIn(Boolean pHasLoggedIn)

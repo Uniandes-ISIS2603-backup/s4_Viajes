@@ -6,8 +6,13 @@
 package co.edu.uniandes.csw.viajes.entities;
 
 import java.io.Serializable;
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import javax.persistence.*;
+import javax.persistence.Id;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import uk.co.jemos.podam.common.PodamExclude;
 
 /**
@@ -18,7 +23,11 @@ import uk.co.jemos.podam.common.PodamExclude;
 @Entity
 public class ActividadEntity extends BaseEntity implements Serializable {
     
-   // private Long id;
+    @PodamExclude
+    @OneToMany(mappedBy = "actividad", fetch=FetchType.LAZY)
+    private List<GuiaEntity> guias = new LinkedList<GuiaEntity>();
+    
+    private String documento;
     
     private int costo;
     
@@ -32,10 +41,10 @@ public class ActividadEntity extends BaseEntity implements Serializable {
     
     private double longitud;
 
-    //public Long getIdentificador()
-    //{
-      //  return id;
-    //}
+    public Long getIdentificador()
+    {
+        return id;
+    }
     
     @PodamExclude
     @ManyToOne
@@ -46,7 +55,7 @@ public class ActividadEntity extends BaseEntity implements Serializable {
         return costo;
     }
     
-    public boolean getOfreceGuia()
+    public boolean isOfreceGuia()
     {
         return ofrece_guia;
     }
@@ -69,6 +78,29 @@ public class ActividadEntity extends BaseEntity implements Serializable {
     public double getLongitud()
     {
         return longitud;
+    }
+    
+    /**
+     * Devuelve las guias de la actividad.
+     *
+     * @return Lista de entidades de Libro.
+     */
+    public List<GuiaEntity> getGuias() {
+        return guias;
+    }
+    
+    public void setIdentificador(Long identificador)
+    {
+        this.id = identificador;
+    }
+
+    /**
+     * Modifica las guias de la actividad.
+     *
+     * @param books Los nuevos libros.
+     */
+    public void setGuias(List<GuiaEntity> books) {
+        this.guias = books;
     }
     
     public void setCosto(int pCosto){
