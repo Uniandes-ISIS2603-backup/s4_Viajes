@@ -109,7 +109,7 @@ public class ProveedorPersistence {
         LOGGER.log(Level.INFO, "Saliendo de borrar el vuelo con id = {0}", proveedorId);
     }
     
-        /**
+    /**
      * Busca si hay algun proveedor con elnombre que se envía de argumento
      *
      * @param nombre: Nombre del proveedor que se está buscando
