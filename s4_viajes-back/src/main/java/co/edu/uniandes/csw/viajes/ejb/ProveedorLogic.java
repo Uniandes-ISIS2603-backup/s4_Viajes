@@ -6,6 +6,7 @@
 package co.edu.uniandes.csw.viajes.ejb;
 
 import co.edu.uniandes.csw.viajes.entities.ProveedorEntity;
+import co.edu.uniandes.csw.viajes.entities.VueloEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.ProveedorPersistence;
 import java.util.List;
@@ -40,10 +41,11 @@ public class ProveedorLogic {
     public ProveedorEntity createProveedor(ProveedorEntity proveedorEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación del proveedor");
         // Verifica la regla de negocio que dice que no puede haber dos proveedores con el mismo nombre
-        if(persistence.find(proveedorEntity.getId()) == null)
-        {
-            throw new BusinessLogicException("Ya existe un proveedor con el id \"" + proveedorEntity.getId() + "\"");
-        }
+        
+        //if(persistence.find(proveedorEntity.getId()) == null)
+        //{
+          //  throw new BusinessLogicException("Ya existe un proveedor con el id \"" + proveedorEntity.getId() + "\"");
+        //}
         
         String input = proveedorEntity.getNombre();
          
@@ -132,11 +134,16 @@ public class ProveedorLogic {
     public ProveedorEntity updateProveedor(Long proveedorId, ProveedorEntity proveedorEntity) throws BusinessLogicException
     {
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar el proveedor con id = {0}", proveedorId);
-        // Verifica la regla de negocio que dice que no se puede actualizar el id de un vuelo con un vuelo que ya tenga ese id.
-        if (persistence.find(proveedorEntity.getId()) != null) 
+         //Verifica la regla de negocio que dice que no se puede actualizar el id de un vuelo con un vuelo que ya tenga ese id.
+        if (persistence.find(proveedorEntity.getId()) == null) 
         {
             throw new BusinessLogicException("Ya existe un proveedor con el id que quiere cambiar \"" + proveedorEntity.getId() + "\"");
-        } 
+        }
+        
+        //List<VueloEntity> vuelos = getProveedor(proveedorId).getVuelos();
+        //if (vuelos != null && !vuelos.isEmpty()) {
+        //    throw new BusinessLogicException("No se puede borrar el proveedor con id = " + proveedorId + " porque tiene vuelos asociados");
+       // }
         // Note que, por medio de la inyección de dependencias se llama al método "update(entity)" que se encuentra en la persistencia.
         ProveedorEntity newEntity = persistence.update(proveedorEntity);
         LOGGER.log(Level.INFO, "Termina proceso de actualizar el proveedor con id = {0}", proveedorEntity.getId());
