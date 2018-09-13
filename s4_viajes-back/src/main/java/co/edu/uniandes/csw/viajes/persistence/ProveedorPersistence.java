@@ -104,9 +104,9 @@ public class ProveedorPersistence {
         ProveedorEntity entity = em.find(ProveedorEntity.class, proveedorId);
         /* Note que una vez obtenido el objeto desde la base de datos llamado "entity", volvemos hacer uso de un método propio del
          EntityManager para eliminar de la base de datos el objeto que encontramos y queremos borrar.
-         Es similar a "delete from EditorialEntity where id=id;" - "DELETE FROM table_name WHERE condition;" en SQL.*/
+         Es similar a "delete from VueloEntity where id=id;" - "DELETE FROM table_name WHERE condition;" en SQL.*/
         em.remove(entity);
-        LOGGER.log(Level.INFO, "Saliendo de borrar el vuelo con id = {0}", proveedorId);
+        LOGGER.log(Level.INFO, "Saliendo de borrar el proveedor con id = {0}", proveedorId);
     }
     
     /**
