@@ -21,7 +21,7 @@ import uk.co.jemos.podam.common.PodamExclude;
 public class GuiaEntity extends BaseEntity implements Serializable{
     
     @PodamExclude
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     private ActividadEntity actividad;
     
     private int edad;
@@ -34,7 +34,7 @@ public class GuiaEntity extends BaseEntity implements Serializable{
     
     private double sueldo;
     
-    private List<String> idiomas;
+    private String hablaIdioma;
     
     
     
@@ -43,7 +43,7 @@ public class GuiaEntity extends BaseEntity implements Serializable{
     public String getNombre() {return nombre;}
     public int getPuntuacion() {return puntuacion;}        
     public double getSueldo() {return sueldo;}
-    public List getIdiomasList() {return idiomas;}
+    public String getIdioma() {return hablaIdioma;}
     public ActividadEntity getActividad(){return actividad;}
     
     public void setEdad(int pEdad) {edad = pEdad;}
@@ -51,8 +51,8 @@ public class GuiaEntity extends BaseEntity implements Serializable{
     public void setNombre(String nom){nombre = nom;}
     public void setDocumento(Long doc){documento = doc;}        
     public void setSueldo(double pSueldo){sueldo = pSueldo;}
-    public void setIdiomas(List pIdiomas){idiomas = pIdiomas;}
+    public void setIdioma(String pIdiomas){hablaIdioma = pIdiomas;}
     public void setActividad(ActividadEntity actividad){this.actividad = actividad;}
-    public void agregarIdioma(String pIdioma){idiomas.add(pIdioma);}
+    
             
 }
