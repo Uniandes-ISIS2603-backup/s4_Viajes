@@ -50,6 +50,7 @@ public class AdministradorEntity extends BaseEntity implements Serializable {
         
     }
     
+        
     
       public String getContraseña()
       {
