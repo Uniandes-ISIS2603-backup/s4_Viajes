@@ -5,8 +5,10 @@
  */
 package co.edu.uniandes.csw.viajes.ejb;
 
+import co.edu.uniandes.csw.viajes.entities.ProveedorEntity;
 import co.edu.uniandes.csw.viajes.entities.VueloEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
+import co.edu.uniandes.csw.viajes.persistence.ProveedorPersistence;
 import co.edu.uniandes.csw.viajes.persistence.VueloPersistence;
 import java.util.List;
 import java.util.logging.Level;
@@ -30,6 +32,8 @@ public class VueloLogic {
     @Inject
     private VueloPersistence persistence; // Variable para acceder a la persistencia de la aplicación. Es una inyección de dependencias.
 
+    @Inject
+    private ProveedorPersistence proveedorPersistence;
     /**
      * Crea un vuelo en la persistencia.
      *
@@ -40,7 +44,20 @@ public class VueloLogic {
      */
     public VueloEntity createVuelo(VueloEntity vueloEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación del vuelo");
+         if (vueloEntity.getProveedor() == null) {
+            throw new BusinessLogicException("El proveedor es inválido");
+        }
+        ProveedorEntity proveedorEntity = proveedorPersistence.find(vueloEntity.getProveedor().getId());
+        if (proveedorEntity == null) {
+            throw new BusinessLogicException("El proveedor es inválida");
+        }
+        
+        if (!validateNumero(vueloEntity.getNumero())) {
+            throw new BusinessLogicException("El Numero de vuelo es inválido");
+        }
+
         // Verifica la regla de negocio que dice que no puede haber dos vuelos con el mismo numero
+        
         if (persistence.findByNumber(vueloEntity.getNumero()) != null) {
             throw new BusinessLogicException("Ya existe un Vuelo con el nombre \"" + vueloEntity.getNumero() + "\"");
         }
@@ -85,6 +102,7 @@ public class VueloLogic {
         
         // Invoca la persistencia para crear el vuelo
         persistence.create(vueloEntity);
+        proveedorEntity.getVuelos().add(vueloEntity);
         LOGGER.log(Level.INFO, "Termina proceso de creación del vuelo");
         return vueloEntity;
     }
@@ -133,10 +151,15 @@ public class VueloLogic {
     {
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar el vuelo con id = {0}", vueloId);
         // Verifica la regla de negocio que dice que no se puede actualizar el id de un vuelo con un vuelo que ya tenga ese id.
+
         if (persistence.find(vueloEntity.getId()) != null) 
         {
             throw new BusinessLogicException("Ya existe un Vuelo con el id que quiere cambiar \"" + vueloEntity.getId() + "\"");
-        }        
+        } 
+        
+        if (!validateNumero(vueloEntity.getNumero())) {
+            throw new BusinessLogicException("El Numero de vuelo es inválido");
+        }
 
         // Note que, por medio de la inyección de dependencias se llama al método "update(entity)" que se encuentra en la persistencia.
         VueloEntity newEntity = persistence.update(vueloEntity);
@@ -148,9 +171,9 @@ public class VueloLogic {
      * Borrar un vuelo
      *
      * @param vueloId: id del vuelol a borrar
-     * @throws BusinessLogicException Si el vuelo a eliminar tiene usuarios.
+     * @throws BusinessLogicException Si el vuelo a eliminar no existe.
      */
-    public void deleteVuelov(Long vueloId) throws BusinessLogicException {
+    public void deleteVuelo(Long vueloId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de borrar el vuelo con id = {0}", vueloId);
         // Note que, por medio de la inyección de dependencias se llama al método "delete(id)" que se encuentra en la persistencia.
         if (vueloId == null) {
@@ -158,5 +181,15 @@ public class VueloLogic {
         }
         persistence.delete(vueloId);
         LOGGER.log(Level.INFO, "Termina proceso de borrar el vuelo con id = {0}", vueloId);
+    }
+
+    /**
+     * Verifica que el Numero no sea invalido.
+     *
+     * @param numero a verificar
+     * @return true si el numero es valido.
+     */
+    private boolean validateNumero(String numero) {
+        return !(numero == null || numero.isEmpty());
     }    
 }
