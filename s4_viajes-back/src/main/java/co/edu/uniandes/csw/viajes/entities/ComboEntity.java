@@ -23,6 +23,8 @@ public class ComboEntity  extends BaseEntity implements Serializable {
     
     private String nombre;
     
+    private String comboId;
+
     private int dias;
     
     private double horas;
@@ -39,11 +41,20 @@ public class ComboEntity  extends BaseEntity implements Serializable {
 
     
 
-    
     //-----------------------------------------------------------------------------------------------------------------------
     // Metodos
     //-----------------------------------------------------------------------------------------------------------------------
-        
+    
+    
+    public String getComboId() {
+        return comboId;
+    }
+
+    public void setComboId(String comboId) {    
+        this.comboId = comboId;
+    }
+
+
     public double getCosto() {
         return costo;
     }
@@ -108,11 +119,11 @@ public class ComboEntity  extends BaseEntity implements Serializable {
         this.actividades = actividades;
     }
 
-    public List<TransporteTerrestreEntity> getTransporteTerrestre() {
+     public List<TransporteTerrestreEntity> getTransportesTerrestres() {
         return transportesTerrestres;
     }
-
-    public void setTransporteTerrestre(List<TransporteTerrestreEntity> transportesTerrestres) {
+    
+    public void setTransportesTerrestres(List<TransporteTerrestreEntity> transportesTerrestres) {
         this.transportesTerrestres = transportesTerrestres;
     }
 }

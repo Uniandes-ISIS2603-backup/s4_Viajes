@@ -64,8 +64,8 @@ public class ComboDetailDTO extends ComboDTO implements Serializable{
             if(comboEntity.getVuelos()!=null)
                  for(VueloEntity vuelo:comboEntity.getVuelos())
                      vuelos.add(new VueloDTO(vuelo));
-            if(comboEntity.getTransporteTerrestre()!=null)
-                for(TransporteTerrestreEntity transporte:comboEntity.getTransporteTerrestre())
+            if(comboEntity.getTransportesTerrestres()!=null)
+                for(TransporteTerrestreEntity transporte:comboEntity.getTransportesTerrestres())
                     transportesTerrestres.add(new TransporteTerrestreDTO(transporte));
             if(comboEntity.getActividades()!=null)
                 for(ActividadEntity actividad:comboEntity.getActividades())
@@ -106,7 +106,7 @@ public class ComboDetailDTO extends ComboDTO implements Serializable{
             for (TransporteTerrestreDTO transporteTerrestreDTO : transportesTerrestres) {
                 transportesTerrestresEntity.add(transporteTerrestreDTO.toEntity());
             }
-            comboEntity.setTransporteTerrestre(transportesTerrestresEntity);
+            comboEntity.setTransportesTerrestres(transportesTerrestresEntity);
         }
         if (actividades != null) {
             List<ActividadEntity> actividadesEntity = new ArrayList<ActividadEntity>();

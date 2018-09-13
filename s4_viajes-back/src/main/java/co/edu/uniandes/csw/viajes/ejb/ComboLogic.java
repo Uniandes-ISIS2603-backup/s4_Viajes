@@ -85,7 +85,7 @@ public class ComboLogic {
      * Eliminar un combo por ID
      * @param comboId El ID del combo a eliminar
      */
-    public void deleteCombo(Long comboId) 
+    public void deleteCombo(String comboId) 
     {
         LOGGER.log(Level.INFO, "Inicia proceso de borrar el combo con id = {0}", comboId);
       if(comboId == null)

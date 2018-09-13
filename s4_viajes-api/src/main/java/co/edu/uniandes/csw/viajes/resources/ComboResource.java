@@ -82,10 +82,10 @@ public class ComboResource {
     }
     
      /**
-     * Busca y devuelve todas las editoriales que existen en la aplicacion.
+     * Busca y devuelve todos los combos que existen en la aplicacion.
      *
-     * @return JSONArray {@link EditorialDetailDTO} - Las editoriales
-     * encontradas en la aplicación. Si no hay ninguna retorna una lista vacía.
+     * @return JSONArray {@link EditorialDetailDTO} - Los combos
+     * encontradas en la aplicación. Si no hay ninguni retorna una lista vacía.
      */
     @GET
     public List<ComboDetailDTO> getCombos() {
@@ -95,11 +95,14 @@ public class ComboResource {
         return listaCombos;
     }
     
-    /**
-     * Obtiene un combo con su información dada por su nombre, se retorna esta
-     * información que fue previamente ingresada en formato JSON.
+   /**
+     * Busca el combo con el id asociado recibido en la URL y la devuelve.
      *
-     * @return un combo y su información de acuerdo a su nombre.
+     * @param comboId Identificador del combo que se esta buscando.
+     * Este debe ser una cadena de caracteres.
+     * @return JSON {@link ComboDetailDTO} - El combo buscado
+     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
+     * Error de lógica que se genera cuando no se encuentra el combo.
      */
     @GET
         @Path("{comboId: [a-zA-Z][a-zA-Z]*}")
@@ -119,16 +122,16 @@ public class ComboResource {
     }
   
     /**
-     * Actualiza la combo con el id recibido en la URL con la informacion
+     * Actualiza el combo con el id recibido en la URL con la informacion
  que se recibe en el cuerpo de la petición.
      *
-     * @param editorialsId Identificador de la combo que se desea
- actualizar. Este debe ser una cadena de dígitos.
-     * @param combo {@link EditorialDetailDTO} La combo que se desea
+     * @param comboId Identificador del combo que se desea
+ actualizar. Este debe ser una cadena de caracteres.
+     * @param combo {@link EditorialDetailDTO} El combo que se desea
  guardar.
-     * @return JSON {@link EditorialDetailDTO} - La combo guardada.
+     * @return JSON {@link ComboDetailDTO} - EL combo guardado.
      * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
- Error de lógica que se genera cuando no se encuentra la combo a
+ Error de lógica que se genera cuando no se encuentra el combo a
  actualizar.
      */
     @PUT
@@ -146,21 +149,26 @@ public class ComboResource {
 
     }
 
-        /**
-     * Borra el vuelo con el id asociado (número) recibido en la URL.
+      /**
+     * Borra la editorial con el id asociado recibido en la URL.
      *
-     * @param vueloNum Identificador dl vuelo que se desea borrar. Este debe ser
-     * una cadena de dígitos (int).
+     * @param comboId Identificador del combo que se desea borrar.
+     * Este debe ser una cadena de caracteres.
+     * @throws BusinessLogicException {@link BusinessLogicExceptionMapper} -
+     * Error de lógica que se genera cuando no se puede eliminar el combo.
+     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
+     * Error de lógica que se genera cuando no se encuentra el combo.
      */
     @DELETE
-    @Path("comboId")
-    public void deleteCombo(@PathParam("comboId") Long comboId) {
-        //LOGGER.log(Level.INFO, "VueloResource deleteVuelo: input: {0}", vueloNum);
-        // Invoca la lógica para borrar lel vuelo
-        //editorialLogic.deleteEditorial(editorialsId);
-        //LOGGER.info("VueloResource deleteVuelo: output: void");
+    @Path("{comboId: [a-zA-Z][a-zA-Z]*}")
+    public void deleteEditorial(@PathParam("comboId") String comboId) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "ComboResource deleteCombo: input: {0}", comboId);
+        if (comboLogic.getCombo(comboId) == null) {
+            throw new WebApplicationException("El recurso /combos/" + comboId + " no existe.", 404);
+        }
+        comboLogic.deleteCombo(comboId);
+        LOGGER.info("ComboResource deleteCombo: output: void");
     }
-    
     /**
      * Convierte una lista de entidades a DTO.
      *
