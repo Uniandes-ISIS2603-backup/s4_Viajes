@@ -3,20 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.edu.uniandes.csw.viajes.dtos;
+package co.edu.uniandes.csw.test.logic;
 
 /**
  *
  * @author estudiante
  */
-public class ActividadProveedorDetail {
-    
-    private ProveedorDTO proveedor;
-    
-    private ActividadDTO actividades;
-    
-    public ActividadProveedorDetail(){
-        
-    }
+public class ActividadLogicTest {
     
 }
