@@ -147,7 +147,7 @@ public class GuiaLogicTest {
     public void createGuiaTestConDocInvalido() throws BusinessLogicException {
         GuiaEntity newEntity = factory.manufacturePojo(GuiaEntity.class);
         newEntity.setActividad(actividadData.get(0));
-        newEntity.setDocumento(0.0);
+        newEntity.setDocumento(0000L);
         guiaLogic.createGuia(newEntity);
     }
 
@@ -170,7 +170,7 @@ public class GuiaLogicTest {
      * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
      */
     @Test(expected = BusinessLogicException.class)
-    public void createBookTestConDocumentoExistente() throws BusinessLogicException {
+    public void createGuiaTestConDocumentoExistente() throws BusinessLogicException {
         GuiaEntity newEntity = factory.manufacturePojo(GuiaEntity.class);
         newEntity.setActividad(actividadData.get(0));
         newEntity.setDocumento(guiaData.get(0).getDocumento());
@@ -178,37 +178,37 @@ public class GuiaLogicTest {
     }
 
     /**
-     * Prueba para crear un Book con una editorial que no existe.
+     * Prueba para crear un Guia con un Documento que no existe.
      *
      * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
      */
     @Test(expected = BusinessLogicException.class)
-    public void createBookTestConEditorialInexistente() throws BusinessLogicException {
-        BookEntity newEntity = factory.manufacturePojo(BookEntity.class);
-        EditorialEntity editorialEntity = new EditorialEntity();
-        editorialEntity.setId(Long.MIN_VALUE);
-        newEntity.setEditorial(editorialEntity);
-        bookLogic.createBook(newEntity);
+    public void createGuiaTestConActividadInexistente() throws BusinessLogicException {
+        GuiaEntity newEntity = factory.manufacturePojo(GuiaEntity.class);
+        ActividadEntity actividadEntity = new ActividadEntity();
+        newEntity.setDocumento(Long.MIN_VALUE);
+        newEntity.setActividad(actividadEntity);
+        guiaLogic.createGuia(newEntity);
     }
 
     /**
-     * Prueba para crear un Book con editorial en null.
+     * Prueba para crear un Guia con actividad en null.
      *
      * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
      */
     @Test(expected = BusinessLogicException.class)
-    public void createBookTestConNullEditorial() throws BusinessLogicException {
-        BookEntity newEntity = factory.manufacturePojo(BookEntity.class);
-        newEntity.setEditorial(null);
-        bookLogic.createBook(newEntity);
+    public void createGuiaTestConNullActividad() throws BusinessLogicException {
+        GuiaEntity newEntity = factory.manufacturePojo(GuiaEntity.class);
+        newEntity.setActividad(null);
+        guiaLogic.createGuia(newEntity);
     }
 
     /**
-     * Prueba para consultar la lista de Books.
+     * Prueba para consultar la lista de guias.
      */
-    @Test
+    /**@Test
     public void getBooksTest() {
-        List<BookEntity> list = bookLogic.getBooks();
+        List<GuiaEntity> list = guiaLogic.getGuias();
         Assert.assertEquals(data.size(), list.size());
         for (BookEntity entity : list) {
             boolean found = false;
@@ -226,84 +226,84 @@ public class GuiaLogicTest {
      */
     @Test
     public void getBookTest() {
-        BookEntity entity = data.get(0);
-        BookEntity resultEntity = bookLogic.getBook(entity.getId());
+        GuiaEntity entity = guiaData.get(0);
+        GuiaEntity resultEntity = guiaLogic.getGuia(entity.getId());
         Assert.assertNotNull(resultEntity);
         Assert.assertEquals(entity.getId(), resultEntity.getId());
-        Assert.assertEquals(entity.getName(), resultEntity.getName());
-        Assert.assertEquals(entity.getDescription(), resultEntity.getDescription());
-        Assert.assertEquals(entity.getIsbn(), resultEntity.getIsbn());
-        Assert.assertEquals(entity.getImage(), resultEntity.getImage());
+        Assert.assertEquals(entity.getDocumento(), resultEntity.getDocumento());
+        Assert.assertEquals(entity.getSueldo(), resultEntity.getSueldo());
+        Assert.assertEquals(entity.getPuntuacion(), resultEntity.getPuntuacion());
+        Assert.assertEquals(entity.getNombre(), resultEntity.getNombre());
     }
 
     /**
-     * Prueba para actualizar un Book.
+     * Prueba para actualizar un Guia.
      *
      * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
      */
     @Test
     public void updateBookTest() throws BusinessLogicException {
-        BookEntity entity = data.get(0);
-        BookEntity pojoEntity = factory.manufacturePojo(BookEntity.class);
+        GuiaEntity entity = guiaData.get(0);
+        GuiaEntity pojoEntity = factory.manufacturePojo(GuiaEntity.class);
         pojoEntity.setId(entity.getId());
-        bookLogic.updateBook(pojoEntity.getId(), pojoEntity);
-        BookEntity resp = em.find(BookEntity.class, entity.getId());
+        guiaLogic.modificarGuia(pojoEntity.getId(), pojoEntity);
+        GuiaEntity resp = em.find(GuiaEntity.class, entity.getId());
         Assert.assertEquals(pojoEntity.getId(), resp.getId());
-        Assert.assertEquals(pojoEntity.getName(), resp.getName());
-        Assert.assertEquals(pojoEntity.getDescription(), resp.getDescription());
-        Assert.assertEquals(pojoEntity.getIsbn(), resp.getIsbn());
-        Assert.assertEquals(pojoEntity.getImage(), resp.getImage());
+        Assert.assertEquals(pojoEntity.getNombre(), resp.getNombre());
+        Assert.assertEquals(pojoEntity.getDocumento(), resp.getDocumento());
+        Assert.assertEquals(pojoEntity.getSueldo(), resp.getSueldo());
+        Assert.assertEquals(pojoEntity.getPuntuacion(), resp.getPuntuacion());
     }
 
     /**
-     * Prueba para actualizar un Book con ISBN inválido.
+     * Prueba para actualizar un Guia con Documento inválido.
      *
      * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
      */
     @Test(expected = BusinessLogicException.class)
-    public void updateBookConISBNInvalidoTest() throws BusinessLogicException {
-        BookEntity entity = data.get(0);
-        BookEntity pojoEntity = factory.manufacturePojo(BookEntity.class);
-        pojoEntity.setIsbn("");
+    public void updateGuiaConDocumentoInvalidoTest() throws BusinessLogicException {
+        GuiaEntity entity = guiaData.get(0);
+        GuiaEntity pojoEntity = factory.manufacturePojo(GuiaEntity.class);
+        pojoEntity.setDocumento(0L);
         pojoEntity.setId(entity.getId());
-        bookLogic.updateBook(pojoEntity.getId(), pojoEntity);
+        guiaLogic.modificarGuia(pojoEntity.getId(), pojoEntity);
     }
 
     /**
-     * Prueba para actualizar un Book con ISBN inválido.
+     * Prueba para actualizar un Guia con Documento inválido.
      *
      * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
      */
     @Test(expected = BusinessLogicException.class)
-    public void updateBookConISBNInvalidoTest2() throws BusinessLogicException {
-        BookEntity entity = data.get(0);
-        BookEntity pojoEntity = factory.manufacturePojo(BookEntity.class);
-        pojoEntity.setIsbn(null);
+    public void updateGuiaConGuiaInvalidoTest2() throws BusinessLogicException {
+        GuiaEntity entity = guiaData.get(0);
+        GuiaEntity pojoEntity = factory.manufacturePojo(GuiaEntity.class);
+        pojoEntity.setDocumento(null);
         pojoEntity.setId(entity.getId());
-        bookLogic.updateBook(pojoEntity.getId(), pojoEntity);
+        guiaLogic.modificarGuia(pojoEntity.getId(), pojoEntity);
     }
 
     /**
-     * Prueba para eliminar un Book.
+     * Prueba para eliminar un Guia.
      *
      * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
      */
     @Test
     public void deleteBookTest() throws BusinessLogicException {
-        BookEntity entity = data.get(0);
-        bookLogic.deleteBook(entity.getId());
-        BookEntity deleted = em.find(BookEntity.class, entity.getId());
+        GuiaEntity entity = guiaData.get(0);
+        guiaLogic.deleteGuia(entity.getId());
+        GuiaEntity deleted = em.find(GuiaEntity.class, entity.getId());
         Assert.assertNull(deleted);
     }
 
     /**
-     * Prueba para eliminar un Book.
+     * Prueba para eliminar un Guia.
      *
      * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
      */
     @Test(expected = BusinessLogicException.class)
-    public void deleteBookWithAuthorTest() throws BusinessLogicException {
-        BookEntity entity = data.get(1);
-        bookLogic.deleteBook(entity.getId());
+    public void deleteGuiaWithActividadTest() throws BusinessLogicException {
+        GuiaEntity entity = guiaData.get(1);
+        guiaLogic.deleteGuia(entity.getId());
     }
 }
