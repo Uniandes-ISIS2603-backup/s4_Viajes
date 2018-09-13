@@ -27,7 +27,7 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 /**
  *
- * @author estudiante
+ * @author n.segura
  */
 @RunWith(Arquillian.class)
 
@@ -53,8 +53,8 @@ public class CarritoComprasPersistenceTest
     @Deployment
     public static JavaArchive createDeployment() {
         return ShrinkWrap.create(JavaArchive.class)
-                .addPackage(UsuarioEntity.class.getPackage())
-                .addPackage(UsuarioEntity.class.getPackage())
+                .addPackage(CarritoComprasEntity.class.getPackage())
+                .addPackage(CarritoComprasPersistence.class.getPackage())
                 .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
                 .addAsManifestResource("META-INF/beans.xml", "beans.xml");
     }
@@ -84,7 +84,7 @@ public class CarritoComprasPersistenceTest
      * Limpia las tablas que están implicadas en la prueba.
      */
     private void clearData() {
-        em.createQuery("delete from BookEntity").executeUpdate();
+        em.createQuery("delete from CarritoComprasEntity").executeUpdate();
     }
 
     /**
@@ -112,9 +112,9 @@ public class CarritoComprasPersistenceTest
 
         Assert.assertNotNull(result);
 
-        UsuarioEntity entity = em.find(UsuarioEntity.class, result.getId());
+        CarritoComprasEntity entity = em.find(CarritoComprasEntity.class, result.getId());
 
-        Assert.assertEquals(newEntity.getId(), entity.getId());
+        Assert.assertEquals(newEntity.getNombre(), entity.getNombre());
      
     }
 
@@ -128,7 +128,7 @@ public class CarritoComprasPersistenceTest
         for (CarritoComprasEntity ent : list) {
             boolean found = false;
             for (CarritoComprasEntity entity : data) {
-                if (ent.getId().equals(entity.getId())) {
+                if (ent.getNombre().equals(entity.getNombre())) {
                     found = true;
                 }
             }
@@ -144,7 +144,7 @@ public class CarritoComprasPersistenceTest
         CarritoComprasEntity entity = data.get(0);
         CarritoComprasEntity newEntity = carritoComprasPersistence.find(entity.getId());
         Assert.assertNotNull(newEntity);
-        Assert.assertEquals(entity.getId(), newEntity.getId());
+        Assert.assertEquals(entity.getNombre(), newEntity.getNombre());
      
     }
 
@@ -155,7 +155,7 @@ public class CarritoComprasPersistenceTest
     public void deleteCarritoTest() {
         CarritoComprasEntity entity = data.get(0);
         carritoComprasPersistence.delete(entity.getId());
-        UsuarioEntity deleted = em.find(UsuarioEntity.class, entity.getId());
+        CarritoComprasEntity deleted = em.find(CarritoComprasEntity.class, entity.getId());
         Assert.assertNull(deleted);
     }
 
@@ -163,7 +163,7 @@ public class CarritoComprasPersistenceTest
      * Prueba para actualizar un Carrito.
      */
     @Test
-    public void updateBookTest() {
+    public void updateCarritoComprasTest() {
         CarritoComprasEntity entity = data.get(0);
         PodamFactory factory = new PodamFactoryImpl();
         CarritoComprasEntity newEntity = factory.manufacturePojo(CarritoComprasEntity.class);

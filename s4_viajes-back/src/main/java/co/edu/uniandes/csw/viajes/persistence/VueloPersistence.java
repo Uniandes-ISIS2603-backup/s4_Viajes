@@ -109,4 +109,31 @@ public class VueloPersistence {
         LOGGER.log(Level.INFO, "Saliendo de borrar el vuelo con id = {0}", vueloId);
     }
     
+        /**
+     * Busca si hay algun proveedor con elnombre que se envía de argumento
+     *
+     * @param nombre: Nombre del proveedor que se está buscando
+     * @return null si no existe ningun proveedor con el nombre del argumento. Si
+     * existe alguno devuelve el primero.
+     */
+    public VueloEntity findByNumber(String numero) {
+        LOGGER.log(Level.INFO, "Consultando vuelos por numero ", numero);
+        // Se crea un query para buscar vuelos con el umero que recibe el método como argumento. ":numero" es un placeholder que debe ser remplazado
+        TypedQuery query = em.createQuery("Select e From VueloEntity e where e.numero = :numero", VueloEntity.class);
+        // Se remplaza el placeholder ":numero" con el valor del argumento 
+        query = query.setParameter("nombre", numero);
+        // Se invoca el query se obtiene la lista resultado
+        List<VueloEntity> sameNumero = query.getResultList();
+        VueloEntity result;
+        if (sameNumero == null) {
+            result = null;
+        } else if (sameNumero.isEmpty()) {
+            result = null;
+        } else {
+            result = sameNumero.get(0);
+        }
+        LOGGER.log(Level.INFO, "Saliendo de consultar vuelo por numero ", numero);
+        return result;
+    }
+    
 }
