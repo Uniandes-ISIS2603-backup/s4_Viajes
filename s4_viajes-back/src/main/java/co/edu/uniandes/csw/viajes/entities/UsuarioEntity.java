@@ -43,7 +43,7 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
     private AdministradorEntity administrador;
     
     @PodamExclude
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<EntradaEntity> entradas = new ArrayList<EntradaEntity>();
     
     @PodamExclude
