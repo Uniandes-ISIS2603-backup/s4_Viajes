@@ -88,6 +88,36 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
     }
 
     /**
+     * Obtiene los vuelos de un proveedor.
+     *
+     * @return vuelos del proveedor.
+     */
+    public List<VueloEntity> getVuelos()
+    {
+        return vuelos;
+    }
+
+    /**
+     * Obtiene los transportes terrestres de un proveedor.
+     *
+     * @return transportes terrestres del proveedor.
+     */
+    public List<TransporteTerrestreEntity> getTransportes()
+    {
+        return transportes;
+    }
+    
+    /**
+     * Obtiene las actividades del proveedor
+     *
+     * @return actividades del proveedor.
+     */
+    public List<ActividadEntity> getActividades()
+    {
+        return actividades;
+    }
+
+    /**
      * Modifica (set) el usuario de un proveedor por el ingresado por parámetro.
      *
      * @param username nuevo usuario que modificará el actual.
