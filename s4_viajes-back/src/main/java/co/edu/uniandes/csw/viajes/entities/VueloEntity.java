@@ -6,11 +6,9 @@
 package co.edu.uniandes.csw.viajes.entities;
 
 import java.io.Serializable;
-import javax.persistence.CascadeType;
+import java.util.Calendar;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import uk.co.jemos.podam.common.PodamExclude;
 
 /**
@@ -35,6 +33,10 @@ public class VueloEntity extends BaseEntity implements Serializable {
     private Long latitudDestino;
     
     private Long longitudDestino;
+    
+    private Calendar fechaSalida;
+    
+    private Calendar fechaLlegada;
     
     @PodamExclude
     @ManyToOne
@@ -109,6 +111,24 @@ public class VueloEntity extends BaseEntity implements Serializable {
         return longitudDestino;
     }
     
+        /**
+     * Devuelve la fecha de salida del vuelo.
+     *
+     * @return fecha de salida del vuelo
+     */
+    public Calendar getFechaSalida(){
+        return fechaSalida;
+    }
+    
+        /**
+     * Devuelve la fecha de llegada del vuelo.
+     *
+     * @return fecha de llegada del vuelo.
+     */
+    public Calendar getFechaLlegada(){
+        return fechaLlegada;
+    }
+    
     /**
      * Modifica el numero del vuelo
      *
@@ -163,13 +183,31 @@ public class VueloEntity extends BaseEntity implements Serializable {
         this.latitudDestino = latitudDestino;
     }
     
-        /**
+    /**
      * Modifica las coordenadas de destino del vuelo.
      *
      * @param longitudDestino las coordenadas a actualizar
      */
     public void setLonD(Long longitudDestino){
         this.longitudDestino = longitudDestino;
+    }
+    
+    /**
+     * Modifica la fecha de salida del vuelo.
+     *
+     * @param fechaSalida la fecha a actualizar
+     */
+    public void setFechaSalida(Calendar fechaSalida){
+        this.fechaSalida = fechaSalida;
+    }
+    
+    /**
+     * Modifica la fecha de llegada del vuelo.
+     *
+     * @param fechaLlegada la fecha a actualizar
+     */
+    public void setFechaLlegada(Calendar fechaLlegada){
+        this.fechaLlegada = fechaLlegada;
     }
     
     /**

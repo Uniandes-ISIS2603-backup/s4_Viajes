@@ -5,6 +5,10 @@
  */
 package co.edu.uniandes.csw.viajes.dtos;
 
+import co.edu.uniandes.csw.viajes.entities.VueloEntity;
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author jf.torresp

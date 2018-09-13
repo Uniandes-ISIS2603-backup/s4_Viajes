@@ -5,6 +5,15 @@
     <jta-data-source>java:app/jdbc/tripBuilderTeamDB</jta-data-source>
     <class>co.edu.uniandes.csw.viajes.entities.ProveedorEntity</class>
     <class>co.edu.uniandes.csw.viajes.entities.VueloEntity</class>
+    <class>co.edu.uniandes.csw.viajes.entities.ActividadEntity</class>
+    <class>co.edu.uniandes.csw.viajes.entities.AdministradorEntity</class>
+    <class>co.edu.uniandes.csw.viajes.entities.AlojamientoEntity</class>
+    <class>co.edu.uniandes.csw.viajes.entities.CarritoComprasEntity</class>
+    <class>co.edu.uniandes.csw.viajes.entities.ComboEntity</class>
+    <class>co.edu.uniandes.csw.viajes.entities.GuiaEntity</class>
+    <class>co.edu.uniandes.csw.viajes.entities.PagoEntity</class>
+    <class>co.edu.uniandes.csw.viajes.entities.TransporteTerrestreEntity</class>
+    <class>co.edu.uniandes.csw.viajes.entities.UsuarioEntity</class>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
     <properties>
       <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
