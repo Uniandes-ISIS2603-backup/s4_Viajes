@@ -88,12 +88,14 @@ public class AlojamientoLogic {
      *
      * @param alojamientoId El id del alojamiento a buscar
      * @return El alojamiento encontrado.
+     * @throws BusinessLogicException
      */
-    public AlojamientoEntity getAlojamiento(Long alojamientoId) {
+    public AlojamientoEntity getAlojamiento(Long alojamientoId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar el alojamiento con id = {0}", alojamientoId);
         //Aun no esta definido si un ID es 0
         if (alojamientoId == null) {
             LOGGER.log(Level.SEVERE, "El alojamiento con el id = {0} no existe", alojamientoId);
+             throw new BusinessLogicException("Error en el id buscado" + alojamientoId);
         }
         AlojamientoEntity alojamientoEntity = persistence.find(alojamientoId);
         LOGGER.log(Level.INFO, "Termina proceso de consultar el alojamiento con id = {0}", alojamientoId);
