@@ -153,4 +153,13 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
     public void setPuntaje(int puntuacion) {
         this.puntuacion = puntuacion;
     }
+    
+    /**
+     * Modifica los vuelos del proveedor.
+     *
+     * @param vuelos Los nuevos vuelos.
+     */
+    public void setVuelos(List<VueloEntity> vuelos) {
+        this.vuelos = vuelos;
+    }
 }

@@ -138,6 +138,8 @@ public class VueloPersistenceTest {
         Assert.assertEquals(newEntity.getLonD(), entity.getLonD());
         Assert.assertEquals(newEntity.getPuntaje(), entity.getPuntaje(), 0);
         Assert.assertEquals(newEntity.getProveedor(), entity.getProveedor());
+        Assert.assertEquals(newEntity.getFechaSalida(), entity.getFechaSalida());
+        Assert.assertEquals(newEntity.getFechaLlegada(), entity.getFechaLlegada());
     }
     
         /**
