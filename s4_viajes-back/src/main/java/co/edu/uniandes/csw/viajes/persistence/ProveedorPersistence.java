@@ -53,7 +53,7 @@ public class ProveedorPersistence {
      * "SELECT * FROM table_name" en SQL.
      */
     public List<ProveedorEntity> findAll() {
-        LOGGER.log(Level.INFO, "Consultando todos los vproveedores");
+        LOGGER.log(Level.INFO, "Consultando todos los proveedores");
         // Se crea un query para buscar todos los proveedores en la base de datos.
         TypedQuery query = em.createQuery("select u from ProveedorEntity u", ProveedorEntity.class);
         // Note que en el query se hace uso del método getResultList() que obtiene una lista de vuelos.

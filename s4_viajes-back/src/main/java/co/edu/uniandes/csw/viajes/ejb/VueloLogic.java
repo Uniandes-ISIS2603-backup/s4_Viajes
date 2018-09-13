@@ -148,7 +148,7 @@ public class VueloLogic {
      * Borrar un vuelo
      *
      * @param vueloId: id del vuelol a borrar
-     * @throws BusinessLogicException Si el vuelo a eliminar tiene usuarios.
+     * @throws BusinessLogicException Si el vuelo a eliminar no existe.
      */
     public void deleteVuelov(Long vueloId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de borrar el vuelo con id = {0}", vueloId);
