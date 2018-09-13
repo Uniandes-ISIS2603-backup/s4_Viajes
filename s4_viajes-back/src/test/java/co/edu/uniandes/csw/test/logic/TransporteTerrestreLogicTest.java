@@ -1,12 +1,12 @@
-///*
+/*
 // * To change this license header, choose License Headers in Project Properties.
 // * To change this template file, choose Tools | Templates
 // * and open the template in the editor.
 // */
 //package co.edu.uniandes.csw.test.logic;
 //
-//import co.edu.uniandes.csw.viajes.ejb.AlojamientoLogic;
-//import co.edu.uniandes.csw.viajes.entities.AlojamientoEntity;
+//import co.edu.uniandes.csw.viajes.ejb.TransporteTerrestreLogic;
+//import co.edu.uniandes.csw.viajes.entities.TransporteTerrestreEntity;
 //import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 //import java.util.ArrayList;
 //import java.util.List;
@@ -30,10 +30,10 @@
 // * @author Ymespana
 // */
 //@RunWith(Arquillian.class)
-//public class AlojamientoLogicTest {
+//public class TransporteTerrestreLogicTest {
 //
 //    @Inject
-//    private AlojamientoLogic alojamientoLogic;
+//    private TransporteTerrestreLogic transporteTerrestreLogic;
 //
 //    @PersistenceContext
 //    private EntityManager em;
@@ -41,7 +41,7 @@
 //    @Inject
 //    UserTransaction utx;
 //
-//    private List<AlojamientoEntity> data = new ArrayList<AlojamientoEntity>();
+//    private List<TransporteTerrestreEntity> data = new ArrayList<TransporteTerrestreEntity>();
 //
 //    /**
 //     * @return Devuelve el jar que Arquillian va a desplegar en Payara embebido.
@@ -51,8 +51,8 @@
 //    @Deployment
 //    public static JavaArchive createDeployment() {
 //        return ShrinkWrap.create(JavaArchive.class)
-//                .addPackage(AlojamientoEntity.class.getPackage())
-//                .addPackage(AlojamientoLogic.class.getPackage())
+//                .addPackage(TransporteTerrestreEntity.class.getPackage())
+//                .addPackage(TransporteTerrestreLogic.class.getPackage())
 //                .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
 //                .addAsManifestResource("META-INF/beans.xml", "beans.xml");
 //    }
@@ -82,7 +82,7 @@
 //     * Limpia las tablas que están implicadas en la prueba.
 //     */
 //    private void clearData() {
-//        em.createQuery("delete from AlojamientoEntity").executeUpdate();
+//        em.createQuery("delete from TransporteTerrestreEntity").executeUpdate();
 //    }
 //
 //    /**
@@ -92,7 +92,7 @@
 //    private void insertData() {
 //        PodamFactory factory = new PodamFactoryImpl();
 //        for (int i = 0; i < 3; i++) {
-//            AlojamientoEntity entity = factory.manufacturePojo(AlojamientoEntity.class);
+//            TransporteTerrestreEntity entity = factory.manufacturePojo(TransporteTerrestreEntity.class);
 //
 //            em.persist(entity);
 //            data.add(entity);
@@ -100,93 +100,65 @@
 //    }
 //
 //    /**
-//     * Pruebas para crear un Alojamiento.
+//     * Pruebas para crear un TransporteTerrestre.
 //     *
 //     * @throws BusinessLogicException
 //     */
 //    //Prueba basica
 //    @Test
-//    public void createAlojamientoTest() throws BusinessLogicException {
+//    public void createTransporteTerrestreTest() throws BusinessLogicException {
 //        PodamFactory factory = new PodamFactoryImpl();
-//        AlojamientoEntity newEntity = factory.manufacturePojo(AlojamientoEntity.class);
+//        TransporteTerrestreEntity newEntity = factory.manufacturePojo(TransporteTerrestreEntity.class);
 //
-//        alojamientoLogic.createAlojamiento(newEntity);
+//        TransporteTerrestreLogic.createTransporteTerrestre(newEntity);
 //
-//        AlojamientoEntity entity = em.find(AlojamientoEntity.class, newEntity.getId());
+//        TransporteTerrestreEntity entity = em.find(TransporteTerrestreEntity.class, newEntity.getId());
 //
 //        Assert.assertNotNull(entity); 
 //        
 //    }
 //
 //    /**
-//     * En caso que el nombre del alojamiento sea null y/o vacio.
+//     * En caso que el id del TransporteTerrestre sea null y/o vacio.
 //     *
 //     * @throws BusinessLogicException
 //     */
 //    @Test(expected = BusinessLogicException.class)
 //    public void createAlojamientoTest2() throws BusinessLogicException {
 //        PodamFactory factory = new PodamFactoryImpl();
-//        AlojamientoEntity newEntity = factory.manufacturePojo(AlojamientoEntity.class);
-//        newEntity.setNombre(null);
+//        TransporteTerrestreEntity newEntity = factory.manufacturePojo(TransporteTerrestreEntity.class);
+//        newEntity.setId(null);
 //
-//        alojamientoLogic.createAlojamiento(newEntity);
-//
-//    }
-//
-//    /**
-//     * En caso que el nombre del alojamiento sea mayor a 25 caracteres.
-//     *
-//     * @throws BusinessLogicException
-//     */
-//    @Test(expected = BusinessLogicException.class)
-//    public void createAlojamientoTest3() throws BusinessLogicException {
-//        PodamFactory factory = new PodamFactoryImpl();
-//        AlojamientoEntity newEntity = factory.manufacturePojo(AlojamientoEntity.class);
-//        newEntity.setNombre("rstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyz");
-//
-//        alojamientoLogic.createAlojamiento(newEntity);
+//        transporteTerrestreLogic.createTransporteTerrestre(newEntity);
 //
 //    }
 //
 //    /**
-//     * En caso que el costo del alojamiento sea menor a 0.
+//     * En caso que el costo del TransporteTerrestre sea menor a 0.
 //     *
 //     * @throws BusinessLogicException
 //     */
 //    @Test(expected = BusinessLogicException.class)
-//    public void createAlojamientoTest4() throws BusinessLogicException {
+//    public void createTransporteTerrestreTest4() throws BusinessLogicException {
 //        PodamFactory factory = new PodamFactoryImpl();
-//        AlojamientoEntity newEntity = factory.manufacturePojo(AlojamientoEntity.class);
+//        TransporteTerrestreEntity newEntity = factory.manufacturePojo(TransporteTerrestreEntity.class);
 //        newEntity.setCosto(-5.00);
 //
-//        alojamientoLogic.createAlojamiento(newEntity);
+//        transporteTerrestreLogic.createTransporteTerrestre(newEntity);
 //
 //    }
-//
-//    /**
-//     * En caso que las estrellas sean menor a 0.
-//     *
-//     * @throws BusinessLogicException
-//     */
-//    @Test(expected = BusinessLogicException.class)
-//    public void createAlojamientoTest5() throws BusinessLogicException {
-//        PodamFactory factory = new PodamFactoryImpl();
-//        AlojamientoEntity newEntity = factory.manufacturePojo(AlojamientoEntity.class);
-//        newEntity.setEstrellas(-5);
-//
-//        alojamientoLogic.createAlojamiento(newEntity);
-//    }
+
 //
 //    /**
 //     * Prueba para consultar la lista de Alojamientos.
 //     */
 //    @Test
-//    public void getAlojamientosTest() {
-//        List<AlojamientoEntity> list = alojamientoLogic.getAlojamientos();
+//    public void getTransportesTest() {
+//        List<TransporteTerrestreEntity> list = transporteTerrestreLogic.getTransportes();
 //        Assert.assertEquals(data.size(), list.size());
-//        for (AlojamientoEntity ent : list) {
+//        for (TransporteTerrestreEntity ent : list) {
 //            boolean found = false;
-//            for (AlojamientoEntity entity : data) {
+//            for (TransporteTerrestreEntity entity : data) {
 //                if (ent.getId().equals(entity.getId())) {
 //                    found = true;
 //                }
@@ -196,94 +168,83 @@
 //    }
 //
 //    /**
-//     * Prueba para consultar un Alojamiento.
+//     * Prueba para consultar un TransporteTerrestre.
 //     *
 //     * @throws BusinessLogicException
 //     */
 //    @Test
-//    public void getAlojamientoTest() throws BusinessLogicException {
-//        AlojamientoEntity entity = data.get(0);
+//    public void getTransporteTerrestreTest() throws BusinessLogicException {
+//        TransporteTerrestreEntity entity = data.get(0);
 //
 //        AlojamientoEntity newEntity = alojamientoLogic.getAlojamiento(entity.getId());
 //        Assert.assertNotNull(newEntity);
-//        Assert.assertEquals(newEntity.getNombre(), entity.getNombre());
 //        Assert.assertEquals(newEntity.getProveedor(), entity.getProveedor());
 //        Assert.assertEquals(newEntity.getCosto(), entity.getCosto());
 //        Assert.assertEquals(newEntity.getPuntuacion(), entity.getPuntuacion());
-//        Assert.assertEquals(newEntity.getEstrellas(), entity.getEstrellas());
 //        Assert.assertEquals(newEntity.getLatitud(), entity.getLatitud());
 //        Assert.assertEquals(newEntity.getLongitud(), entity.getLongitud());
-//        Assert.assertEquals(newEntity.getNoches(), entity.getNoches());
-//        Assert.assertEquals(newEntity.getTipo(), entity.getTipo());
-//        Assert.assertEquals(newEntity.getUbicacion(), entity.getUbicacion());
 //    }
 //
 //    /**
-//     * Prueba para consultar un Alojamiento con id invalido.
+//     * Prueba para consultar un TransporteTerrestre con id invalido.
 //     *
 //     * @throws BusinessLogicException
 //     */
 //    @Test(expected = BusinessLogicException.class)
-//    public void getAlojamientoTest2() throws BusinessLogicException {
-//        AlojamientoEntity entity = data.get(0);
+//    public void getTransporteTerrestreTest2() throws BusinessLogicException {
+//        TransporteTerrestreEntity entity = data.get(0);
 //        entity.setId(null);
-//        AlojamientoEntity newEntity = alojamientoLogic.getAlojamiento(entity.getId());
+//        TransporteTerrestreEntity newEntity = transporteTerrestreLogic.getTransporteTerrestre(entity.getId());
 //
 //    }
 //
 //    /**
-//     * Prueba para eliminar un Alojamiento.
+//     * Prueba para eliminar un TransporteTerrestre.
 //     *
 //     * @throws BusinessLogicException
 //     */
 //    @Test
 //    public void deleteAlojamientoTest() throws BusinessLogicException {
-//        AlojamientoEntity entity = data.get(0);
-//        alojamientoLogic.deleteAlojamiento(entity.getId());
-//        AlojamientoEntity deleted = em.find(AlojamientoEntity.class, entity.getId());
+//        TransporteTerrestreEntity entity = data.get(0);
+//        transporteTerrestreLogic.deleteTransporte(entity.getId());
+//        TransporteTerrestreEntity deleted = em.find(TransporteTerrestreEntity.class, entity.getId());
 //        Assert.assertNull(deleted);
 //    }
 //
 //    /**
-//     * Prueba para eliminar un Alojamiento con id invalido.
+//     * Prueba para eliminar un TransporteTerrestre con id invalido.
 //     *
 //     * @throws BusinessLogicException
 //     */
 //    @Test(expected = BusinessLogicException.class) 
-//    public void deleteAlojamientoTest2() throws BusinessLogicException {
-//        AlojamientoEntity entity = data.get(0);
+//    public void deleteTransporteTerrestreTest2() throws BusinessLogicException {
+//        TransporteTerrestreEntity entity = data.get(0);
 //        entity.setId(null);
-//        alojamientoLogic.deleteAlojamiento(entity.getId());
-//        AlojamientoEntity deleted = em.find(AlojamientoEntity.class, entity.getId());
+//        transporteTerrestreLogic.deleteTransporteTerrestre(entity.getId());
+//        TransporteTerrestreEntity deleted = em.find(TransporteTerrestreEntity.class, entity.getId());
 //        Assert.assertNull(deleted);
 //    }
 //
 //    /**
-//     * Prueba para actualizar un Alojamiento.
+//     * Prueba para actualizar un TransporteTerrestre.
 //     *
 //     * @throws BusinessLogicException
 //     */
 //    @Test
-//    public void updateAlojamientoTest() throws BusinessLogicException {
-//        AlojamientoEntity entity = data.get(0);
+//    public void updateTransporteTerrestreTest() throws BusinessLogicException {
+//        TransporteTerrestreEntity entity = data.get(0);
 //        PodamFactory factory = new PodamFactoryImpl();
-//        AlojamientoEntity newEntity = factory.manufacturePojo(AlojamientoEntity.class);
+//        TransporteTerrestreEntity newEntity = factory.manufacturePojo(TransporteTerrestreEntity.class);
 //
 //        newEntity.setId(entity.getId());
 //
-//        alojamientoLogic.updateAlojamiento(newEntity.getId(), newEntity);
+//        transporteTerrestreLogic.updateTransporteTerrestre(newEntity.getId(), newEntity);
 //
-//        AlojamientoEntity resp = em.find(AlojamientoEntity.class, entity.getId());
+//        TransporteTerrestreEntity resp = em.find(TransporteTerrestreEntity.class, entity.getId());
 //
-//        Assert.assertEquals(newEntity.getNombre(), resp.getNombre());
 //        Assert.assertEquals(newEntity.getProveedor(), resp.getProveedor());
 //        Assert.assertEquals(newEntity.getCosto(), resp.getCosto());
 //        Assert.assertEquals(newEntity.getPuntuacion(), resp.getPuntuacion());
-//        Assert.assertEquals(newEntity.getEstrellas(), resp.getEstrellas());
-//        Assert.assertEquals(newEntity.getLatitud(), resp.getLatitud());
-//        Assert.assertEquals(newEntity.getLongitud(), resp.getLongitud());
-//        Assert.assertEquals(newEntity.getNoches(), resp.getNoches());
 //        Assert.assertEquals(newEntity.getTipo(), resp.getTipo());
-//        Assert.assertEquals(newEntity.getUbicacion(), resp.getUbicacion());
 //    }
 //}
