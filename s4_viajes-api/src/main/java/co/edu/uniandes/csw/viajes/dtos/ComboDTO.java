@@ -7,6 +7,7 @@ package co.edu.uniandes.csw.viajes.dtos;
 
 import co.edu.uniandes.csw.viajes.entities.AlojamientoEntity;
 import co.edu.uniandes.csw.viajes.entities.ComboEntity;
+import java.io.Serializable;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -14,13 +15,16 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  *
  * @author estudiante
  */
-public class ComboDTO{ 
+public class ComboDTO implements Serializable{ 
 
     private double costo;
     private String nombre;
+    private String comboId;
     private int dias;
     private double horas;
     private int puntuacion;
+    private String id;
+
       
     /**
      * Constructor por vacio.
@@ -39,6 +43,7 @@ public class ComboDTO{
             dias=comboEntity.getDias();
             horas=comboEntity.getHoras();
             puntuacion=comboEntity.getPuntuacion();
+            comboId=comboEntity.getComboId();
         }
          
      }
@@ -56,7 +61,7 @@ public class ComboDTO{
         comboEntity.setPuntuacion(puntuacion);
         comboEntity.setDias(dias);
         comboEntity.setHoras(horas);
-
+        comboEntity.setComboId(comboId);
         
         return comboEntity; 
     }
@@ -101,8 +106,25 @@ public class ComboDTO{
         this.puntuacion = puntuacion;
     }
 
+    public String getComboId() {
+        return comboId;
+    }
+
+    public void setComboId(String comboId) {
+        this.comboId = comboId;
+    }
+    
+
     @Override
     public String toString() {
          return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }    
+    
+     public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

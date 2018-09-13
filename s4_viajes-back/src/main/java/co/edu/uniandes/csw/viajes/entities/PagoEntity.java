@@ -18,7 +18,8 @@ import uk.co.jemos.podam.common.PodamExclude;
 public class PagoEntity extends BaseEntity implements Serializable  {
     
     private ComboEntity aPagar;
-    
+    private String pagoId;
+
     @PodamExclude
     @ManyToOne
     private UsuarioEntity usuario;
@@ -32,6 +33,15 @@ public class PagoEntity extends BaseEntity implements Serializable  {
     public void setaPagar(ComboEntity aPagar) {
         this.aPagar = aPagar;
     }
+    
+        public String getPagoId() {
+        return pagoId;
+    }
+
+    public void setPagoId(String pagoId) {
+        this.pagoId = pagoId;
+    }
+    
     
     
 }

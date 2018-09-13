@@ -6,6 +6,7 @@
 package co.edu.uniandes.csw.viajes.entities;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.persistence.Entity;
 
 /**
@@ -22,16 +23,38 @@ public class ComboEntity  extends BaseEntity implements Serializable {
     
     private String nombre;
     
+    private String comboId;
+
     private int dias;
     
     private double horas;
 
     private int puntuacion;
     
+    private List<VueloEntity> vuelos;
+    
+    private List<AlojamientoEntity> alojamientos;
+
+    private List<ActividadEntity> actividades;
+    
+    private List<TransporteTerrestreEntity> transportesTerrestres;
+
+    
+
     //-----------------------------------------------------------------------------------------------------------------------
     // Metodos
     //-----------------------------------------------------------------------------------------------------------------------
-        
+    
+    
+    public String getComboId() {
+        return comboId;
+    }
+
+    public void setComboId(String comboId) {    
+        this.comboId = comboId;
+    }
+
+
     public double getCosto() {
         return costo;
     }
@@ -72,4 +95,35 @@ public class ComboEntity  extends BaseEntity implements Serializable {
         this.puntuacion = puntuacion;
     }
     
+    public List<VueloEntity> getVuelos() {
+        return vuelos;
+    }
+
+    public void setVuelos(List<VueloEntity> vuelos) {
+        this.vuelos = vuelos;
+    }
+
+    public List<AlojamientoEntity> getAlojamientos() {
+        return alojamientos;
+    }
+
+    public void setAlojamientos(List<AlojamientoEntity> alojamientos) {
+        this.alojamientos = alojamientos;
+    }
+
+    public List<ActividadEntity> getActividades() {
+        return actividades;
+    }
+
+    public void setActividades(List<ActividadEntity> actividades) {
+        this.actividades = actividades;
+    }
+
+     public List<TransporteTerrestreEntity> getTransportesTerrestres() {
+        return transportesTerrestres;
+    }
+    
+    public void setTransportesTerrestres(List<TransporteTerrestreEntity> transportesTerrestres) {
+        this.transportesTerrestres = transportesTerrestres;
+    }
 }

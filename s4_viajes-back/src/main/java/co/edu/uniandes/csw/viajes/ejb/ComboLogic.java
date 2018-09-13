@@ -5,6 +5,7 @@
  */
 package co.edu.uniandes.csw.viajes.ejb;
 import co.edu.uniandes.csw.viajes.entities.ComboEntity;
+import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,11 +25,11 @@ public class ComboLogic {
      * @return La entidad luego de persistirla
      * @throws Exception En caso que la entidad sea nula.
      */
-    public ComboEntity createAlojamiento(ComboEntity comboEntity) throws Exception
+    public ComboEntity createCombo(ComboEntity comboEntity) throws BusinessLogicException
     {
         LOGGER.log(Level.INFO, "Inicia proceso de creación del combo"); 
         if(comboEntity == null)
-            throw new Exception("Error en el formato.");
+            throw new BusinessLogicException("Error en el formato.");
         LOGGER.log(Level.INFO, "Termina proceso de creación del combo");
         return comboEntity; 
     }
@@ -51,7 +52,7 @@ public class ComboLogic {
      * @param comboId El id del combo a buscar
      * @return El combo encontrado, null si no lo encuentra.
      */
-    public ComboEntity getCombo(Long comboId) 
+    public ComboEntity getCombo(String comboId) 
     {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar el combo con id = {0}", comboId);
         ComboEntity comboEntity = new ComboEntity();
@@ -69,7 +70,7 @@ public class ComboLogic {
      * @param comboEntity La entidad del aoljamiento con los cambios deseados
      * @return La entidad del alojamiento luego de actualizarla
      */
-    public ComboEntity updateCombo(Long comboId, ComboEntity comboEntity) 
+    public ComboEntity updateCombo(String comboId, ComboEntity comboEntity) 
     {
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar el combo con id = {0}", comboId);
         ComboEntity newEntity = new ComboEntity();
@@ -84,7 +85,7 @@ public class ComboLogic {
      * Eliminar un combo por ID
      * @param comboId El ID del combo a eliminar
      */
-    public void deleteCombo(Long comboId) 
+    public void deleteCombo(String comboId) 
     {
         LOGGER.log(Level.INFO, "Inicia proceso de borrar el combo con id = {0}", comboId);
       if(comboId == null)
