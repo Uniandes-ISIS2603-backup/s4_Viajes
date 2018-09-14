@@ -9,6 +9,7 @@ import co.edu.uniandes.csw.viajes.entities.ComboEntity;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -17,6 +18,7 @@ import javax.persistence.TypedQuery;
  *
  * @author estudiante
  */
+@Stateless
 public class ComboPersistence {
         
     private static final Logger LOGGER = Logger.getLogger(ComboPersistence.class.getName());
@@ -62,7 +64,7 @@ public class ComboPersistence {
      * @param comboId: id correspondiente al combo buscado.
      * @return un combo.
      */
-    public ComboEntity find(String comboId) {
+    public ComboEntity find(Long comboId) {
         LOGGER.log(Level.INFO, "Consultando combo con id={0}", comboId);
         /* Note que se hace uso del metodo "find" propio del EntityManager, el cual recibe como argumento 
         el tipo de la clase y el objeto que nos hara el filtro en la base de datos en este caso el "id"
@@ -96,7 +98,7 @@ public class ComboPersistence {
      *
      * @param comboId: id correspondiente al combo a borrar.
      */
-    public void delete(String comboId) {
+    public void delete(Long comboId) {
         LOGGER.log(Level.INFO, "Borrando combo con id = {0}", comboId);
         // Se hace uso de mismo método que esta explicado en public ComboEntity find(String id) para obtener la editorial a borrar.
         ComboEntity entity = em.find(ComboEntity.class, comboId);
@@ -110,16 +112,16 @@ public class ComboPersistence {
     /**
      * Busca si hay algun combo con el nombre que se envía de argumento
      *
-     * @param name: Nombre del combo que se está buscando
+     * @param nombre: Nombre del combo que se está buscando
      * @return null si no existe ningun combo con el nombre del argumento.
      * Si existe alguna devuelve la primera.
      */
-    public ComboEntity findByName(String name) {
-        LOGGER.log(Level.INFO, "Consultando combo por nombre ", name);
+    public ComboEntity findByName(String nombre) {
+        LOGGER.log(Level.INFO, "Consultando combo por nombre ", nombre);
         // Se crea un query para buscar editoriales con el nombre que recibe el método como argumento. ":name" es un placeholder que debe ser remplazado
-        TypedQuery query = em.createQuery("Select e From ComboEntity e where e.name = :name", ComboEntity.class);
+        TypedQuery query = em.createQuery("Select e From ComboEntity e where e.nombre = :nombre", ComboEntity.class);
         // Se remplaza el placeholder ":name" con el valor del argumento 
-        query = query.setParameter("name", name);
+        query = query.setParameter("nombre", nombre);
         // Se invoca el query se obtiene la lista resultado
         List<ComboEntity> sameName = query.getResultList();
         ComboEntity result;
@@ -130,7 +132,7 @@ public class ComboPersistence {
         } else {
             result = sameName.get(0);
         }
-        LOGGER.log(Level.INFO, "Saliendo de consultar combo por nombre ", name);
+        LOGGER.log(Level.INFO, "Saliendo de consultar combo por nombre ", nombre);
         return result;
     }
     

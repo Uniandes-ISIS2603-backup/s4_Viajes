@@ -19,7 +19,7 @@ public class ComboDTO implements Serializable{
 
     private double costo;
     private String nombre;
-    private String comboId;
+    private Long comboId;
     private int dias;
     private double horas;
     private int puntuacion;
@@ -106,11 +106,11 @@ public class ComboDTO implements Serializable{
         this.puntuacion = puntuacion;
     }
 
-    public String getComboId() {
+    public Long getComboId() {
         return comboId;
     }
 
-    public void setComboId(String comboId) {
+    public void setComboId(Long comboId) {
         this.comboId = comboId;
     }
     

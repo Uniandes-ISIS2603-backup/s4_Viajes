@@ -7,10 +7,16 @@ package co.edu.uniandes.csw.viajes.entities;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import uk.co.jemos.podam.common.PodamExclude;
 
 /**
- *
+ * Clase que representa un combo en la persistencia y permite su
+ * serialización.
  * @author estudiante
  */
 @Entity
@@ -23,7 +29,7 @@ public class ComboEntity  extends BaseEntity implements Serializable {
     
     private String nombre;
     
-    private String comboId;
+    private Long comboId;
 
     private int dias;
     
@@ -31,12 +37,20 @@ public class ComboEntity  extends BaseEntity implements Serializable {
 
     private int puntuacion;
     
+    @PodamExclude
+    @OneToMany(mappedBy = "combo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<VueloEntity> vuelos;
     
+    @PodamExclude
+    @OneToMany(mappedBy = "combo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<AlojamientoEntity> alojamientos;
 
+    @PodamExclude
+    @OneToMany(mappedBy = "combo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ActividadEntity> actividades;
     
+    @PodamExclude
+    @OneToMany(mappedBy = "combo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<TransporteTerrestreEntity> transportesTerrestres;
 
     
@@ -46,11 +60,11 @@ public class ComboEntity  extends BaseEntity implements Serializable {
     //-----------------------------------------------------------------------------------------------------------------------
     
     
-    public String getComboId() {
+    public Long getComboId() {
         return comboId;
     }
 
-    public void setComboId(String comboId) {    
+    public void setComboId(Long comboId) {    
         this.comboId = comboId;
     }
 
