@@ -68,7 +68,7 @@ public class VueloLogic {
         Pattern p1 = Pattern.compile("^[A-Z]{3}");
         Matcher m1 = p1.matcher(input);
         
-        if(m1.find() == false)
+        if(m1.find())
         {
             throw new BusinessLogicException("El numero del vuelo debería empezar por tres letras mayúsculas identificando la aerolínea");
         }
@@ -77,7 +77,7 @@ public class VueloLogic {
         Pattern p2 = Pattern.compile("[\\d]$ {4}");
         Matcher m2 = p2.matcher(input);
         
-        if(m2.find() == false)
+        if(m2.find())
         {
             throw new BusinessLogicException("El numero del vuelo debe tener máximo 4 números después del identificador de la aerolínea");
         }
@@ -95,7 +95,7 @@ public class VueloLogic {
         }
         
         // Verifica la regla de negocio que dice que las fechas de salida y de llegada deben ser válidas y exisitir (not null). 
-        if(vueloEntity.getFechaSalida().equals(null) && vueloEntity.getFechaLlegada().equals(null))
+        if(vueloEntity.getFechaSalida() == (null) && vueloEntity.getFechaLlegada() == (null))
         {
            throw new BusinessLogicException("Las fechas de salida y de llegada deben exisitir y ser vàlidas");            
         }
