@@ -30,7 +30,7 @@ public class EntradaEntity extends BaseEntity implements Serializable{
     private int numero;
     private String titulo;
     private String textoContenido;
-    private List multimedia;
+    private List<String> multimedia;
     private double puntuacion;
     private double calificacionComunidad;
     private Calendar fecha;
@@ -60,7 +60,7 @@ public class EntradaEntity extends BaseEntity implements Serializable{
         return textoContenido;
     }
     
-    public List getMultimedia()
+    public List<String> getMultimedia()
     {
         return multimedia;
     }
@@ -105,7 +105,7 @@ public class EntradaEntity extends BaseEntity implements Serializable{
         textoContenido = pTextoContenido;
     }
     
-    public void setMultimedia(List pMultimedia)
+    public void setMultimedia(List<String> pMultimedia)
     {
         multimedia= pMultimedia;
     }

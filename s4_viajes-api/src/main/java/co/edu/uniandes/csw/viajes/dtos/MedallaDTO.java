@@ -53,6 +53,26 @@ public class MedallaDTO implements Serializable{
     {
         return descripcion;
     }
+    
+         public void setNumero(int pNumero)
+    {
+        numero = pNumero;
+    }
+    
+    public void setNombre(String pNombre)
+    {
+        nombre = pNombre;
+    }
+    
+    public void setRutaImagen(String pRutaImg)
+    {
+        rutaImagen = pRutaImg;
+    }
+    
+    public void setDescripcion(String pDescripcion)
+    {
+        descripcion= pDescripcion;
+    }
 
     public MedallaEntity toEntity() {
         MedallaEntity medallaEntity = new MedallaEntity();

@@ -54,7 +54,7 @@ public class EntradaResource {
      * @return JSON {@link EntradaDTO} - La entrada guardada con el atributo id
      * autogenerado.
      * @throws BusinessLogicException {@link BusinessLogicExceptionMapper} -
-     * Error de lógica que se genera cuando ya existe el vuelo.
+     * Error de lógica que se genera cuando ya existe la entrada.
      */
     @POST
     public EntradaDTO crearEntrada(@PathParam("documento") String userName,EntradaDTO entrada) throws BusinessLogicException {

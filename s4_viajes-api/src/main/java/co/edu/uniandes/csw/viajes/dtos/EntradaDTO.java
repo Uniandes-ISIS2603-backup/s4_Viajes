@@ -20,7 +20,7 @@ public class EntradaDTO implements Serializable{
     private int numero;
     private String titulo;
     private String textoContenido;
-    private List multimedia;
+    private List<String> multimedia;
     private double puntuacion;
     private double calificacionComunidad;
     private Calendar fecha;
@@ -58,7 +58,7 @@ public class EntradaDTO implements Serializable{
         return textoContenido;
     }
     
-    public List getMultimedia()
+    public List<String> getMultimedia()
     {
         return multimedia;
     }
@@ -77,6 +77,41 @@ public class EntradaDTO implements Serializable{
     {
          return fecha;
     }
+         
+           public void setNumero(int pNumero)
+    {
+        numero = pNumero;
+    }
+    
+    public void setTitulo(String pTitulo)
+    {
+        titulo = pTitulo;
+    }
+    
+    public void setTextoContenido(String pTextoContenido)
+    {
+        textoContenido = pTextoContenido;
+    }
+    
+    public void setMultimedia(List<String> pMultimedia)
+    {
+        multimedia= pMultimedia;
+    }
+    
+     public void setPuntuacion(double pPuntuacion)
+    {
+        puntuacion = pPuntuacion;
+    } 
+    
+     public void setCalificacionComunidad(double pCalifComunidad)
+    {
+        calificacionComunidad = pCalifComunidad;
+    } 
+     
+     public void setFecha(Calendar pFecha)
+    {
+        fecha = pFecha;
+    } 
 
     public EntradaEntity toEntity() {
        EntradaEntity entradaEntity = new EntradaEntity();

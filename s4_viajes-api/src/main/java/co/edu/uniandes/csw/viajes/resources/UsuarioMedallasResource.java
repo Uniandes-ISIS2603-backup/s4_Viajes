@@ -100,7 +100,7 @@ public class UsuarioMedallasResource {
     @PUT
     public List<MedallaDTO> replaceMedallas(@PathParam("documento") String documento, List<MedallaDTO> medallas) {
         LOGGER.log(Level.INFO, "UsuarioMedallasResource replaceMedallas: input: documento: {0} , medallas: {1}", new Object[]{documento, medallas.toString()});
-        List<MedallaDTO> listaMedallaDTOS = new ArrayList<MedallaDTO>();
-        return listaMedallaDTOS;
+
+        return medallas;
     }
 }

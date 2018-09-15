@@ -111,7 +111,7 @@ public class ComentarioResource {
      */
     @DELETE
     @Path("{numeroCom: \\d+}")
-    public void deleteEntrada(@PathParam("numero") int numEntrada, @PathParam("numeroCom") int numComment) {
+    public void deleteComentario(@PathParam("numero") int numEntrada, @PathParam("numeroCom") int numComment) {
         
     }
 }
