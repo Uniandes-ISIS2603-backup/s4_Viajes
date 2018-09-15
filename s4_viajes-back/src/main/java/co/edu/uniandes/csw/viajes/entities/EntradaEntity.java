@@ -12,6 +12,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import uk.co.jemos.podam.common.PodamExclude;
 
 /**
@@ -27,6 +28,9 @@ public class EntradaEntity extends BaseEntity implements Serializable{
     @PodamExclude
     @OneToMany(cascade = CascadeType.ALL)
     private List<ComentarioEntity> comentarios;
+    @PodamExclude
+    @OneToOne
+    private ComboEntity comboEntrada;
     private int numero;
     private String titulo;
     private String textoContenido;
@@ -79,6 +83,11 @@ public class EntradaEntity extends BaseEntity implements Serializable{
     {
          return fecha;
     }
+         
+    public ComboEntity getCombo()
+    {
+        return comboEntrada;
+    }
      
      public void setAutor(UsuarioEntity pAutor)
     {
@@ -89,6 +98,11 @@ public class EntradaEntity extends BaseEntity implements Serializable{
      {
          comentarios = pComentarios;
      }
+     
+     public void setCombo(ComboEntity pCombo)
+    {
+        comboEntrada = pCombo;
+    }
          
      public void setNumero(int pNumero)
     {
