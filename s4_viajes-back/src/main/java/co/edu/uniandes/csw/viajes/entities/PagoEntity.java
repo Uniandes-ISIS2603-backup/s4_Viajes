@@ -8,6 +8,7 @@ package co.edu.uniandes.csw.viajes.entities;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import uk.co.jemos.podam.common.PodamExclude;
 
 /**
@@ -16,9 +17,13 @@ import uk.co.jemos.podam.common.PodamExclude;
  */
 @Entity
 public class PagoEntity extends BaseEntity implements Serializable  {
+   
     
+    @OneToOne
     private ComboEntity aPagar;
-    private String pagoId;
+    private Long pagoId;
+    private boolean pagaConTarjeta;
+    private String tarjeta;
 
     @PodamExclude
     @ManyToOne
@@ -34,12 +39,28 @@ public class PagoEntity extends BaseEntity implements Serializable  {
         this.aPagar = aPagar;
     }
     
-        public String getPagoId() {
+        public Long getPagoId() {
         return pagoId;
     }
 
-    public void setPagoId(String pagoId) {
+    public void setPagoId(Long pagoId) {
         this.pagoId = pagoId;
+    }
+
+    public boolean isPagaConTarjeta() {
+        return pagaConTarjeta;
+    }
+
+    public void setPagaConTarjeta(boolean pagaConTarjeta) {
+        this.pagaConTarjeta = pagaConTarjeta;
+    }
+
+    public String getTarjeta() {
+        return tarjeta;
+    }
+
+    public void setTarjeta(String tarjeta) {
+        this.tarjeta = tarjeta;
     }
     
     

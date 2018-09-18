@@ -29,7 +29,7 @@ public class ComboEntity  extends BaseEntity implements Serializable {
     
     private String nombre;
     
-    private Long comboId;
+    private Long comboIdLong;
 
     private int dias;
     
@@ -60,12 +60,12 @@ public class ComboEntity  extends BaseEntity implements Serializable {
     //-----------------------------------------------------------------------------------------------------------------------
     
     
-    public Long getComboId() {
-        return comboId;
+    public Long getComboIdLong() {
+        return comboIdLong;
     }
 
-    public void setComboId(Long comboId) {    
-        this.comboId = comboId;
+    public void setComboIdLong(Long comboId) {    
+        this.comboIdLong = comboId;
     }
 
 

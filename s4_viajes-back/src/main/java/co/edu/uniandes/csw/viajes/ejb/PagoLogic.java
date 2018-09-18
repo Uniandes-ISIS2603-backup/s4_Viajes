@@ -7,6 +7,8 @@ package co.edu.uniandes.csw.viajes.ejb;
 
 import co.edu.uniandes.csw.viajes.entities.PagoEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
+import co.edu.uniandes.csw.viajes.persistence.ComboPersistence;
+import co.edu.uniandes.csw.viajes.persistence.PagoPersistence;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -20,11 +22,11 @@ import javax.inject.Inject;
 public class PagoLogic {
      private static final Logger LOGGER = Logger.getLogger(PagoLogic.class.getName());
 
-//    @Inject
-//    private BookPersistence persistence;
-//
-//    @Inject
-//    private EditorialPersistence editorialPersistence;
+    @Inject
+    private PagoPersistence persistence;
+
+    @Inject
+    private ComboPersistence comboPersistence;
 
     /**
      * Guardar un nuevo pago
@@ -36,14 +38,22 @@ public class PagoLogic {
      */
     public PagoEntity createPago(PagoEntity pagoEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación del pago");
-//        if (pagoEntity.getEditorial() == null || editorialPersistence.find(pagoEntity.getEditorial().getId()) == null) {
-//            throw new BusinessLogicException("La editorial es inválida");
+        if(pagoEntity==null)
+            throw new BusinessLogicException("Error en el formato.");
+
+//        if (pagoEntity.getaPagar() == null || comboPersistence.find(pagoEntity.getaPagar().getId()) == null) {
+//            throw new BusinessLogicException("El combo es del pago es invalido");
 //        }
          if (pagoEntity.getaPagar() == null) {
             throw new BusinessLogicException("El pago es inválido");
         }
-       
-//        persistence.create(pagoEntity);
+         if(pagoEntity.isPagaConTarjeta())
+         {
+             if(pagoEntity.getTarjeta().trim().equals(""))
+                throw new BusinessLogicException("No introdujo ninguna tarjeta");
+//              revisar resto reglas de negocio sobre una tarjeta
+         }
+//      pagoEntity = persistence.create(pagoEntity);
         LOGGER.log(Level.INFO, "Termina proceso de creación del pago");
         return pagoEntity;
     }
@@ -67,7 +77,7 @@ public class PagoLogic {
      * @param pagoId El id del pago a buscar
      * @return El pago encontrado, null si no lo encuentra.
      */
-    public PagoEntity getPago(String pagoId) {
+    public PagoEntity getPago(Long pagoId) {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar el pago con id = {0}", pagoId);
        PagoEntity pagoEntity =new PagoEntity();
 //        PagoEntity pagoEntity = persistence.find(pagoId);
@@ -86,7 +96,7 @@ public class PagoLogic {
      * @return La entidad del libro luego de actualizarla
      * @throws BusinessLogicException Si el IBN de la actualización es inválido
      */
-    public PagoEntity updatePago(String pagoId, PagoEntity pagoEntity) throws BusinessLogicException {
+    public PagoEntity updatePago(Long pagoId, PagoEntity pagoEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar el pago con id = {0}", pagoId);
 //        if (!validateISBN(pagoEntity.getIsbn())) {
 //            throw new BusinessLogicException("El ISBN es inválido");
@@ -103,7 +113,7 @@ public class PagoLogic {
      * @param pagoId El ID del pago a eliminar
      * @throws BusinessLogicException si el pago...
      */
-    public void deletePago(String pagoId) throws BusinessLogicException {
+    public void deletePago(Long pagoId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de borrar el pago con id = {0}", pagoId);
         
 //        persistence.delete(pagoId);
