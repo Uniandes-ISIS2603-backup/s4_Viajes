@@ -6,7 +6,6 @@
 package co.edu.uniandes.csw.viajes.resources;
 
 import co.edu.uniandes.csw.viajes.dtos.VueloDTO;
-import co.edu.uniandes.csw.viajes.dtos.VueloDetailDTO;
 import co.edu.uniandes.csw.viajes.ejb.VueloLogic;
 import co.edu.uniandes.csw.viajes.entities.VueloEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;

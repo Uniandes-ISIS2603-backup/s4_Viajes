@@ -52,15 +52,16 @@ public class VueloLogic {
             throw new BusinessLogicException("El proveedor es inválida");
         }
         
-        if (!validateNumero(vueloEntity.getNumero())) {
+        if (!validateNumero(vueloEntity.getNumero())) 
+        {
             throw new BusinessLogicException("El Numero de vuelo es inválido");
         }
 
         // Verifica la regla de negocio que dice que no puede haber dos vuelos con el mismo numero
         
-        if (persistence.findByNumber(vueloEntity.getNumero()) != null) {
-            throw new BusinessLogicException("Ya existe un Vuelo con el nombre \"" + vueloEntity.getNumero() + "\"");
-        }
+//        if (persistence.findByNumber(vueloEntity.getNumero()) != null) {
+//            throw new BusinessLogicException("Ya existe un Vuelo con el nombre \"" + vueloEntity.getNumero() + "\"");
+//        }
         
         String input = vueloEntity.getNumero();
         
@@ -83,7 +84,7 @@ public class VueloLogic {
         }
         
         // Verifica la regla de negocio que dice que las coordenadas (lat, long) de origen y destino no pueden ser nulas.
-        if(vueloEntity.getLatO() == (null) && vueloEntity.getLonO() == (null) && vueloEntity.getLatD() == (null) && vueloEntity.getLonD() == (null))
+        if(vueloEntity.getLatO() == null && vueloEntity.getLonO() == null && vueloEntity.getLatD() == null && vueloEntity.getLonD() == null)
         {
             throw new BusinessLogicException("Las coordenadas (latitud, longitud) de origen y destino deben exsitir, no pueden ser vacías");
         }
