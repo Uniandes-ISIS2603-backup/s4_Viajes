@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package co.edu.uniandes.csw.viajes.test.persistence;
+
 
 import co.edu.uniandes.csw.viajes.ejb.ComboLogic;
 import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
@@ -148,6 +148,7 @@ public class ComboLogicTest {
         }
     }
 
+   
     /**
      * Prueba para crear un Combo.
      *
@@ -167,7 +168,7 @@ public class ComboLogicTest {
         Assert.assertEquals(newEntity.getNombre(), entity.getNombre());
     }
     /**
-     * Prueba para intentar actualizar un combo con una puntuación mayor a 5.
+     * Prueba para intentar crear un combo.
      */
     @Test(expected = BusinessLogicException.class)
     public void failCreateComboPuntuacionMayorA5Test() throws BusinessLogicException {
@@ -180,7 +181,7 @@ public class ComboLogicTest {
         
     }
     /**
-     * Prueba para intentar actualizar un combo con una puntuación menor a 0.
+     * Prueba para intentar crear un combo.
      */
     @Test(expected = BusinessLogicException.class)
     public void failCreateComboPuntuacionMenorA0Test() throws BusinessLogicException {
@@ -193,7 +194,7 @@ public class ComboLogicTest {
         
     }
        /**
-     * Prueba para intentar actualizar un combo con una puntuación mayor a 5.
+     * Prueba para intentar crear un combo.
      */
     @Test(expected = BusinessLogicException.class)
     public void failCreateComboCostoMenorA0Test() throws BusinessLogicException {
@@ -206,7 +207,7 @@ public class ComboLogicTest {
         
     }
     /**
-     * Prueba para intentar actualizar un combo con una puntuación menor a 0.
+     * Prueba para intentar crear un combo.
      */
     @Test(expected = BusinessLogicException.class)
     public void failCreateComboHorasMenorA0Test() throws BusinessLogicException {
@@ -220,7 +221,7 @@ public class ComboLogicTest {
     }
     
     /**
-     * Prueba para intentar actualizar un combo con una puntuación menor a 0.
+     * Prueba para intentar crear un combo.
      */
     @Test(expected = BusinessLogicException.class)
     public void failCreateComboDiasMenorA1Test() throws BusinessLogicException {
@@ -234,7 +235,7 @@ public class ComboLogicTest {
     }
     
     /**
-     * Prueba para intentar actualizar un combo con una puntuación menor a 0.
+     * Prueba para intentar crear un combo.
      */
     @Test(expected = BusinessLogicException.class)
     public void failCreateComboNombreVacioTest() throws BusinessLogicException {
@@ -247,7 +248,7 @@ public class ComboLogicTest {
         comboLogic.createCombo(newEntity);
     }
  /**
-     * Prueba para intentar actualizar un combo con una puntuación menor a 0.
+     * Prueba para intentar crear un combo.
      */
     @Test(expected = BusinessLogicException.class)
     public void failCreateComboConNullTest() throws BusinessLogicException {
@@ -370,7 +371,7 @@ public class ComboLogicTest {
     }
     
     /**
-     * Prueba para intentar actualizar un combo con una puntuación menor a 0.
+     * Prueba para intentar actualizar.
      */
     @Test(expected = BusinessLogicException.class)
     public void failUpdateComboDiasMenorA1Test() throws BusinessLogicException {
@@ -386,7 +387,7 @@ public class ComboLogicTest {
     }
     
     /**
-     * Prueba para intentar actualizar un combo con una puntuación menor a 0.
+     * Prueba para intentar actualizar un combo
      */
     @Test(expected = BusinessLogicException.class)
     public void failUpdateComboNombreVacioTest() throws BusinessLogicException {
@@ -401,7 +402,7 @@ public class ComboLogicTest {
         comboLogic.updateCombo(newEntity.getId(), newEntity);
     }
  /**
-     * Prueba para intentar actualizar un combo con una puntuación menor a 0.
+     * Prueba para intentar actualizar un combo.
      */
     @Test(expected = BusinessLogicException.class)
     public void failUpdateComboConNullTest() throws BusinessLogicException {
@@ -409,7 +410,7 @@ public class ComboLogicTest {
         comboLogic.updateCombo(entity.getId(), null); 
     }
      /**
-     * Prueba para intentar actualizar un combo con una puntuación menor a 0.
+     * Prueba para intentar actualizar un combo.
      */
     @Test(expected = BusinessLogicException.class)
     public void failUpdateComboConIdNullTest() throws BusinessLogicException {
