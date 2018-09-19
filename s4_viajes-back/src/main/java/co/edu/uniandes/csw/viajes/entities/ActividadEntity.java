@@ -41,6 +41,9 @@ public class ActividadEntity extends BaseEntity implements Serializable {
     
     private double longitud;
 
+    @PodamExclude
+    @ManyToOne
+    private ComboEntity combo;  
     public Long getIdentificador()
     {
         return id;
@@ -147,4 +150,12 @@ public class ActividadEntity extends BaseEntity implements Serializable {
         this.proveedor = proveedorEntity;
     }
 
+    
+    public ComboEntity getCombo() {
+        return combo;
+    }
+
+    public void setCombo(ComboEntity combo) {
+        this.combo = combo;
+    }    
 }

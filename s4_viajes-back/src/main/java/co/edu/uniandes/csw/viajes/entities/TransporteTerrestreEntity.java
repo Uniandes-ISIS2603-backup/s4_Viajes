@@ -46,6 +46,10 @@ public class TransporteTerrestreEntity extends BaseEntity implements Serializabl
     @PodamExclude
     @ManyToOne
     private ProveedorEntity proveedor;
+    
+    @PodamExclude
+    @ManyToOne
+    private ComboEntity combo;
 
 
     //-----------------------------------------------------------------------------------------------------------------------
@@ -130,4 +134,12 @@ public class TransporteTerrestreEntity extends BaseEntity implements Serializabl
     public void setPuntuacion(Integer puntuacion) {
         this.puntuacion = puntuacion;
     }
+    
+    public ComboEntity getCombo() {
+        return combo;
+    }
+
+    public void setCombo(ComboEntity combo) {
+        this.combo = combo;
+    }    
 }
