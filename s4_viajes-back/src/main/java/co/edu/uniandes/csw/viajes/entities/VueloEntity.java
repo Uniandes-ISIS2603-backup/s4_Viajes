@@ -26,13 +26,13 @@ public class VueloEntity extends BaseEntity implements Serializable {
     
     private double puntaje;
     
-    private Long latitudOrigen;
+    private double latitudOrigen;
     
-    private Long longitudOrigen;
+    private double longitudOrigen;
     
-    private Long latitudDestino;
+    private double latitudDestino;
     
-    private Long longitudDestino;
+    private double longitudDestino;
     
     private Calendar fechaSalida;
     
@@ -76,7 +76,7 @@ public class VueloEntity extends BaseEntity implements Serializable {
      *
      * @return latitud de origen
      */
-    public Long getLatO(){
+    public double getLatO(){
         return latitudOrigen;
     }
     
@@ -85,7 +85,7 @@ public class VueloEntity extends BaseEntity implements Serializable {
      *
      * @return longitud de origen
      */
-    public Long getLonO(){
+    public double getLonO(){
         return longitudOrigen;
     }
     
@@ -94,7 +94,7 @@ public class VueloEntity extends BaseEntity implements Serializable {
      *
      * @return latitud de destino
      */
-    public Long getLatD(){
+    public double getLatD(){
         return latitudDestino;
     }
     
@@ -103,7 +103,7 @@ public class VueloEntity extends BaseEntity implements Serializable {
      *
      * @return longitud de destino
      */
-    public Long getLonD(){
+    public double getLonD(){
         return longitudDestino;
     }
     
@@ -157,7 +157,7 @@ public class VueloEntity extends BaseEntity implements Serializable {
      *
      * @param latitudOrigen las coordenadas a actualizar
      */
-    public void setLatO(Long latitudOrigen){
+    public void setLatO(double latitudOrigen){
         this.latitudOrigen = latitudOrigen;
     }
     
@@ -166,7 +166,7 @@ public class VueloEntity extends BaseEntity implements Serializable {
      *
      * @param longitudOrigen las coordenadas a actualizar
      */
-    public void setLonO(Long longitudOrigen){
+    public void setLonO(double longitudOrigen){
         this.longitudOrigen = longitudOrigen;
     }
     
@@ -175,7 +175,7 @@ public class VueloEntity extends BaseEntity implements Serializable {
      *
      * @param latitudDestino las coordenadas a actualizar
      */
-    public void setLatD(Long latitudDestino){
+    public void setLatD(double latitudDestino){
         this.latitudDestino = latitudDestino;
     }
     
@@ -184,7 +184,7 @@ public class VueloEntity extends BaseEntity implements Serializable {
      *
      * @param longitudDestino las coordenadas a actualizar
      */
-    public void setLonD(Long longitudDestino){
+    public void setLonD(double longitudDestino){
         this.longitudDestino = longitudDestino;
     }
     

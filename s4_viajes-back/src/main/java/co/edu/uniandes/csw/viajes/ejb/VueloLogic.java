@@ -59,9 +59,9 @@ public class VueloLogic {
 
         // Verifica la regla de negocio que dice que no puede haber dos vuelos con el mismo numero
         
-//        if (persistence.findByNumber(vueloEntity.getNumero()) != null) {
-//            throw new BusinessLogicException("Ya existe un Vuelo con el nombre \"" + vueloEntity.getNumero() + "\"");
-//        }
+        if (persistence.findByNumber(vueloEntity.getNumero()) != null) {
+            throw new BusinessLogicException("Ya existe un Vuelo con el nombre \"" + vueloEntity.getNumero() + "\"");
+        }
         
         String input = vueloEntity.getNumero();
         
@@ -84,13 +84,13 @@ public class VueloLogic {
         }
         
         // Verifica la regla de negocio que dice que las coordenadas (lat, long) de origen y destino no pueden ser nulas.
-        if(vueloEntity.getLatO() == null && vueloEntity.getLonO() == null && vueloEntity.getLatD() == null && vueloEntity.getLonD() == null)
+        if(vueloEntity.getLatO() == 0 && vueloEntity.getLonO() == 0 && vueloEntity.getLatD() == 0 && vueloEntity.getLonD() == 0)
         {
             throw new BusinessLogicException("Las coordenadas (latitud, longitud) de origen y destino deben exsitir, no pueden ser vacías");
         }
  
         // Verifica la regla de negocio que dice que las coordenadas (lat, long) de origen y destino no pueden ser iguales.        
-        if(vueloEntity.getLatO().equals(vueloEntity.getLatD()) && vueloEntity.getLonO().equals(vueloEntity.getLonD()) )
+        if(vueloEntity.getLatO() == vueloEntity.getLatD() && vueloEntity.getLonO() == vueloEntity.getLonD())
         {
            throw new BusinessLogicException("Las coordenadas (latitud, longitud) de origen y destino no pueden ser iguales");
         }
