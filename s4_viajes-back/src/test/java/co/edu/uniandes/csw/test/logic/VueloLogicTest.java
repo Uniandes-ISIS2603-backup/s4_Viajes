@@ -88,8 +88,8 @@ public class VueloLogicTest {
      * Limpia las tablas que están implicadas en la prueba.
      */
     private void clearData() {
-        em.createQuery("delete from ProveedorEntity").executeUpdate();
         em.createQuery("delete from VueloEntity").executeUpdate();
+        em.createQuery("delete from ProveedorEntity").executeUpdate();
     }
     
         /**
@@ -116,26 +116,26 @@ public class VueloLogicTest {
      *
      * @throws BusinessLogicException
      */
-//    @Test
-//    public void createVueloTest() throws BusinessLogicException {
-//        VueloEntity newEntity = factory.manufacturePojo(VueloEntity.class);
-//        newEntity.setProveedor(proveedorData.get(0));
-//        VueloEntity result = vueloLogic.createVuelo(newEntity);
-//        Assert.assertNotNull(result);
-//        VueloEntity entity = em.find(VueloEntity.class, result.getId());
-//        Assert.assertEquals(newEntity.getId(), entity.getId());
-//        Assert.assertEquals(newEntity.getNumero(), entity.getNumero());
-//        Assert.assertEquals(newEntity.getCosto(), entity.getCosto(), 0);
-//        Assert.assertEquals(newEntity.getPuntaje(), entity.getPuntaje(), 0);
-//        Assert.assertEquals(newEntity.getLatO(), entity.getLatO());
-//        Assert.assertEquals(newEntity.getLatD(), entity.getLatD());
-//        Assert.assertEquals(newEntity.getLonO(), entity.getLonO());
-//        Assert.assertEquals(newEntity.getLonD(), entity.getLonD());
-//        Assert.assertEquals(newEntity.getFechaSalida(), entity.getFechaSalida());
-//        Assert.assertEquals(newEntity.getFechaLlegada(), entity.getFechaLlegada());
-//        Assert.assertEquals(newEntity.getProveedor(), entity.getProveedor());
-//    }
-    
+    @Test
+    public void createVueloTest() throws BusinessLogicException {
+        VueloEntity newEntity = factory.manufacturePojo(VueloEntity.class);
+        newEntity.setProveedor(proveedorData.get(0));
+        VueloEntity result = vueloLogic.createVuelo(newEntity);
+        Assert.assertNotNull(result);
+        VueloEntity entity = em.find(VueloEntity.class, result.getId());
+        Assert.assertEquals(newEntity.getId(), entity.getId());
+        Assert.assertEquals(newEntity.getNumero(), entity.getNumero());
+        Assert.assertEquals(newEntity.getCosto(), entity.getCosto(), 0);
+        Assert.assertEquals(newEntity.getPuntaje(), entity.getPuntaje(), 0);
+        Assert.assertEquals(newEntity.getLatO(), entity.getLatO());
+        Assert.assertEquals(newEntity.getLatD(), entity.getLatD());
+        Assert.assertEquals(newEntity.getLonO(), entity.getLonO());
+        Assert.assertEquals(newEntity.getLonD(), entity.getLonD());
+        Assert.assertEquals(newEntity.getFechaSalida(), entity.getFechaSalida());
+        Assert.assertEquals(newEntity.getFechaLlegada(), entity.getFechaLlegada());
+        Assert.assertEquals(newEntity.getProveedor(), entity.getProveedor());
+    }
+  
     /**
      * Prueba para crear un Vuelo con número inválido.
      *
