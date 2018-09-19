@@ -45,7 +45,7 @@ public class VueloLogicTest {
     @Inject
     private UserTransaction utx;
 
-    private List<VueloEntity> data = new ArrayList<>();
+    private List<VueloEntity> data = new ArrayList<VueloEntity>();
     
     private List<ProveedorEntity> proveedorData = new ArrayList();
  
@@ -119,8 +119,16 @@ public class VueloLogicTest {
      */
     @Test
     public void createVueloTest() throws BusinessLogicException {
-        VueloEntity newEntity = factory.manufacturePojo(VueloEntity.class);
-        newEntity.setProveedor(proveedorData.get(0));
+        VueloEntity newEntity = factory.manufacturePojo(VueloEntity.class);       
+        newEntity.setNumero("AVI1234");
+        newEntity.setCosto(120.000);
+        newEntity.setPuntaje(4);
+        newEntity.setLatO(4.6097100);
+        newEntity.setLonO(-74.0817500);
+        newEntity.setLatD(39.9075000);
+        newEntity.setLonD(116.3972300);
+
+        
         VueloEntity result = vueloLogic.createVuelo(newEntity);
         Assert.assertNotNull(result);
         VueloEntity entity = em.find(VueloEntity.class, result.getId());
@@ -168,13 +176,13 @@ public class VueloLogicTest {
      *
      * @throws BusinessLogicException
      */
-//    @Test(expected = BusinessLogicException.class)
-//    public void createVueloTestConNumeroExistente() throws BusinessLogicException {
-//        VueloEntity newEntity = factory.manufacturePojo(VueloEntity.class);
-//        newEntity.setProveedor(proveedorData.get(0));
-//        newEntity.setNumero(data.get(0).getNumero());
-//        vueloLogic.createVuelo(newEntity);
-//    }
+    @Test(expected = BusinessLogicException.class)
+    public void createVueloTestConNumeroExistente() throws BusinessLogicException {
+        VueloEntity newEntity = factory.manufacturePojo(VueloEntity.class);
+        newEntity.setProveedor(proveedorData.get(0));
+        newEntity.setNumero(data.get(0).getNumero());
+        vueloLogic.createVuelo(newEntity);
+    }
 
     /**
      * Prueba para crear un Vuelo con un proveedor que no existe.
@@ -205,106 +213,106 @@ public class VueloLogicTest {
        /**
      * Prueba para consultar la lista de Vuelos.
      */
-//    @Test
-//    public void getVuelosTest() {
-//        List<VueloEntity> list = vueloLogic.getVuelos();
-//        Assert.assertEquals(data.size(), list.size());
-//        for (VueloEntity entity : list) {
-//            boolean found = false;
-//            for (VueloEntity storedEntity : data) {
-//                if (entity.getId().equals(storedEntity.getId())) {
-//                    found = true;
-//                }
-//            }
-//            Assert.assertTrue(found);
-//        }
-//    }
+    @Test
+    public void getVuelosTest() {
+        List<VueloEntity> list = vueloLogic.getVuelos();
+        Assert.assertEquals(data.size(), list.size());
+        for (VueloEntity entity : list) {
+            boolean found = false;
+            for (VueloEntity storedEntity : data) {
+                if (entity.getId().equals(storedEntity.getId())) {
+                    found = true;
+                }
+            }
+            Assert.assertTrue(found);
+        }
+    }
 
     /**
      * Prueba para consultar un Vuelo.
      */
-//    @Test
-//    public void getVueloTest() {
-//        VueloEntity entity = data.get(0);
-//        VueloEntity resultEntity = vueloLogic.getVuelo(entity.getId());
-//        Assert.assertNotNull(resultEntity);
-//        Assert.assertEquals(entity.getId(), resultEntity.getId());
-//        Assert.assertEquals(entity.getNumero(), resultEntity.getNumero());
-//        Assert.assertEquals(entity.getCosto(), resultEntity.getCosto(), 0);
-//        Assert.assertEquals(entity.getPuntaje(), resultEntity.getPuntaje(), 0);
-//        Assert.assertEquals(entity.getLatO(), resultEntity.getLatO());
-//        Assert.assertEquals(entity.getLatD(), resultEntity.getLatD());
-//        Assert.assertEquals(entity.getLonO(), resultEntity.getLonO());
-//        Assert.assertEquals(entity.getLonD(), resultEntity.getLonD());
-//        Assert.assertEquals(entity.getFechaSalida(), resultEntity.getFechaSalida());
-//        Assert.assertEquals(entity.getFechaLlegada(), resultEntity.getFechaLlegada());
-//        Assert.assertEquals(entity.getProveedor(), resultEntity.getProveedor());
-//    }
+    @Test
+    public void getVueloTest() {
+        VueloEntity entity = data.get(0);
+        VueloEntity resultEntity = vueloLogic.getVuelo(entity.getId());
+        Assert.assertNotNull(resultEntity);
+        Assert.assertEquals(entity.getId(), resultEntity.getId());
+        Assert.assertEquals(entity.getNumero(), resultEntity.getNumero());
+        Assert.assertEquals(entity.getCosto(), resultEntity.getCosto(), 0);
+        Assert.assertEquals(entity.getPuntaje(), resultEntity.getPuntaje(), 0);
+        Assert.assertEquals(entity.getLatO(), resultEntity.getLatO());
+        Assert.assertEquals(entity.getLatD(), resultEntity.getLatD());
+        Assert.assertEquals(entity.getLonO(), resultEntity.getLonO());
+        Assert.assertEquals(entity.getLonD(), resultEntity.getLonD());
+        Assert.assertEquals(entity.getFechaSalida(), resultEntity.getFechaSalida());
+        Assert.assertEquals(entity.getFechaLlegada(), resultEntity.getFechaLlegada());
+        Assert.assertEquals(entity.getProveedor(), resultEntity.getProveedor());
+    }
 
     /**
      * Prueba para actualizar un Vuelo.
      *
      * @throws BusinessLogicException
      */
-//    @Test
-//    public void updateVueloTest() throws BusinessLogicException {
-//        VueloEntity entity = data.get(0);
-//        VueloEntity pojoEntity = factory.manufacturePojo(VueloEntity.class);
-//        pojoEntity.setId(entity.getId());
-//        vueloLogic.updateVuelo(pojoEntity.getId(), pojoEntity);
-//        VueloEntity resp = em.find(VueloEntity.class, entity.getId());
-//        Assert.assertEquals(pojoEntity.getId(), resp.getId());
-//        Assert.assertEquals(pojoEntity.getNumero(), resp.getNumero());
-//        Assert.assertEquals(entity.getCosto(), entity.getCosto(), 0);
-//        Assert.assertEquals(pojoEntity.getPuntaje(), entity.getPuntaje(), 0);
-//        Assert.assertEquals(pojoEntity.getLatO(), entity.getLatO());
-//        Assert.assertEquals(pojoEntity.getLatD(), entity.getLatD());
-//        Assert.assertEquals(pojoEntity.getLonO(), entity.getLonO());
-//        Assert.assertEquals(pojoEntity.getLonD(), entity.getLonD());
-//        Assert.assertEquals(pojoEntity.getFechaSalida(), entity.getFechaSalida());
-//        Assert.assertEquals(pojoEntity.getFechaLlegada(), entity.getFechaLlegada());
-//        Assert.assertEquals(pojoEntity.getProveedor(), entity.getProveedor());
-//    }
+    @Test
+    public void updateVueloTest() throws BusinessLogicException {
+        VueloEntity entity = data.get(0);
+        VueloEntity pojoEntity = factory.manufacturePojo(VueloEntity.class);
+        pojoEntity.setId(entity.getId());
+        vueloLogic.updateVuelo(pojoEntity.getId(), pojoEntity);
+        VueloEntity resp = em.find(VueloEntity.class, entity.getId());
+        Assert.assertEquals(pojoEntity.getId(), resp.getId());
+        Assert.assertEquals(pojoEntity.getNumero(), resp.getNumero());
+        Assert.assertEquals(entity.getCosto(), entity.getCosto(), 0);
+        Assert.assertEquals(pojoEntity.getPuntaje(), entity.getPuntaje(), 0);
+        Assert.assertEquals(pojoEntity.getLatO(), entity.getLatO());
+        Assert.assertEquals(pojoEntity.getLatD(), entity.getLatD());
+        Assert.assertEquals(pojoEntity.getLonO(), entity.getLonO());
+        Assert.assertEquals(pojoEntity.getLonD(), entity.getLonD());
+        Assert.assertEquals(pojoEntity.getFechaSalida(), entity.getFechaSalida());
+        Assert.assertEquals(pojoEntity.getFechaLlegada(), entity.getFechaLlegada());
+        Assert.assertEquals(pojoEntity.getProveedor(), entity.getProveedor());
+    }
     
     /**
      * Prueba para actualizar un Vuelo con Proveedor inválido.
      *
      * @throws BusinessLogicException
      */
-//    @Test(expected = BusinessLogicException.class)
-//    public void updateVueloConProveedornvalidoTest() throws BusinessLogicException {
-//        VueloEntity entity = data.get(0);
-//        VueloEntity pojoEntity = factory.manufacturePojo(VueloEntity.class);
-//        pojoEntity.setNumero("");
-//        pojoEntity.setId(entity.getId());
-//        vueloLogic.updateVuelo(pojoEntity.getId(), pojoEntity);
-//    }
+    @Test(expected = BusinessLogicException.class)
+    public void updateVueloConProveedornvalidoTest() throws BusinessLogicException {
+        VueloEntity entity = data.get(0);
+        VueloEntity pojoEntity = factory.manufacturePojo(VueloEntity.class);
+        pojoEntity.setNumero("");
+        pojoEntity.setId(entity.getId());
+        vueloLogic.updateVuelo(pojoEntity.getId(), pojoEntity);
+    }
 
     /**
      * Prueba para actualizar un Vuelo conProveedor inválido.
      *
      * @throws BusinessLogicException
      */
-//    @Test(expected = BusinessLogicException.class)
-//    public void updateVueloConProveedorInvalidoTest2() throws BusinessLogicException {
-//        VueloEntity entity = data.get(0);
-//        VueloEntity pojoEntity = factory.manufacturePojo(VueloEntity.class);
-//        pojoEntity.setNumero(null);
-//        pojoEntity.setId(entity.getId());
-//        vueloLogic.updateVuelo(pojoEntity.getId(), pojoEntity);
-//    }
+    @Test(expected = BusinessLogicException.class)
+    public void updateVueloConProveedorInvalidoTest2() throws BusinessLogicException {
+        VueloEntity entity = data.get(0);
+        VueloEntity pojoEntity = factory.manufacturePojo(VueloEntity.class);
+        pojoEntity.setNumero(null);
+        pojoEntity.setId(entity.getId());
+        vueloLogic.updateVuelo(pojoEntity.getId(), pojoEntity);
+    }
 
     /**
      * Prueba para eliminar un Vuelo.
      *
      * @throws BusinessLogicException
      */
-//    @Test
-//    public void deleteVueloTest() throws BusinessLogicException {
-//        VueloEntity entity = data.get(0);
-//        vueloLogic.deleteVuelo(entity.getId());
-//        VueloEntity deleted = em.find(VueloEntity.class, entity.getId());
-//        Assert.assertNull(deleted);
-//    }
+    @Test
+    public void deleteVueloTest() throws BusinessLogicException {
+        VueloEntity entity = data.get(0);
+        vueloLogic.deleteVuelo(entity.getId());
+        VueloEntity deleted = em.find(VueloEntity.class, entity.getId());
+        Assert.assertNull(deleted);
+    }
 
 }
