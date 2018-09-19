@@ -14,57 +14,71 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  *
  * @author Ymespana
  */
-public class AlojamientoDetailDTO extends AlojamientoDTO implements Serializable {
-    //-----------------------------------------------------------------------------------------------------------------------
-    // Atributos
-    //-----------------------------------------------------------------------------------------------------------------------
-
-    private ProveedorDTO proveedor;
-
-    //-----------------------------------------------------------------------------------------------------------------------
-    // Metodos
-    //-----------------------------------------------------------------------------------------------------------------------
-    public AlojamientoDetailDTO() {
-        super();
-    }
-
-    /**
-     * Constructor para transformar un Entity a un DTO
-     *
-     * @param alojamientoEntity La entidad de la cual se construye el DTO
-     */
-    public AlojamientoDetailDTO(AlojamientoEntity alojamientoEntity) {
-        super(alojamientoEntity);
-        if (alojamientoEntity.getProveedor() != null) {
-            this.proveedor = new ProveedorDTO(alojamientoEntity.getProveedor());
-        }
-    }
-
-    /**
-     * Convierte un objeto AlojamientoDetailDTO a AlojamientoEntity incluyendo
-     * los atributos de AlojamientoDTO.
-     *
-     * @return Nueva objeto AlojamientoEntity.
-     */
-    @Override
-    public AlojamientoEntity toEntity() {
-        AlojamientoEntity entity = super.toEntity();
-        if (getProveedor() != null) {
-            entity.setProveedor(getProveedor().toEntity());
-        }
-        return entity;
-    }
-
-    public ProveedorDTO getProveedor() {
-        return proveedor;
-    }
-
-    public void setProveedor(ProveedorDTO proveedor) {
-        this.proveedor = proveedor;
-    }
-
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
-    }
+public class AlojamientoDetailDTO {
+//        extends AlojamientoDTO implements Serializable {
+//    //-----------------------------------------------------------------------------------------------------------------------
+//    // Atributos
+//    //-----------------------------------------------------------------------------------------------------------------------
+//
+//    private ProveedorDTO proveedor;
+//
+//    //-----------------------------------------------------------------------------------------------------------------------
+//    // Metodos
+//    //-----------------------------------------------------------------------------------------------------------------------
+//    /**
+//     * Constructor Defecto.
+//     */
+//    public AlojamientoDetailDTO() {
+//        super();
+//    }
+//
+//    /**
+//     * Constructor para transformar un Entity a un DTO
+//     *
+//     * @param alojamientoEntity La entidad de la cual se construye el DTO
+//     */
+//    public AlojamientoDetailDTO(AlojamientoEntity alojamientoEntity) {
+//        super(alojamientoEntity);
+//        if (alojamientoEntity.getProveedor() != null) {
+//            this.proveedor = new ProveedorDTO(alojamientoEntity.getProveedor());
+//        }
+//    }
+//
+//    /**
+//     * Convierte un objeto AlojamientoDetailDTO a AlojamientoEntity incluyendo
+//     * los atributos de AlojamientoDTO.
+//     *
+//     * @return Nueva objeto AlojamientoEntity.
+//     */
+//    @Override
+//    public AlojamientoEntity toEntity() {
+//        AlojamientoEntity entity = super.toEntity();
+//        if (getProveedor() != null) {
+//            entity.setProveedor(getProveedor().toEntity());
+//        }
+//        return entity;
+//    }
+//
+//    /**
+//     * Proveedor del alojamiento.
+//     *
+//     * @return proveedor
+//     */
+//    public ProveedorDTO getProveedor() {
+//        return proveedor;
+//    }
+//
+//    /**
+//     * Anade un proveedor al alojamiento.
+//     *
+//     * @param proveedor
+//     */
+//    public void setProveedor(ProveedorDTO proveedor) {
+//        this.proveedor = proveedor;
+//    }
+//
+//    @Override
+//    public String toString() {
+//        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+//    }
 }

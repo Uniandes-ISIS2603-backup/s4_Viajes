@@ -20,24 +20,55 @@ public class AlojamientoEntity extends BaseEntity implements Serializable {
     // Atributos
     //-----------------------------------------------------------------------------------------------------------------------
 
+    /**
+     * Costo del alojamiento.
+     */
     private Double costo;
 
+    /**
+     * Estrellas del alojamiento.
+     */
     private Integer estrellas;
 
+    /**
+     * Nombre del alojamiento.
+     */
     private String nombre;
 
+    /**
+     * Tipo del alojamiento.
+     */
     private String tipo;
 
+    /**
+     * Noches del alojamiento.
+     */
     private Integer noches;
 
+    /**
+     * Latitud del alojamiento.
+     */
     private Long latitud;
 
+    /**
+     * Longitud del alojamiento.
+     */
     private Long longitud;
 
+    /**
+     * Puntuacion del alojamiento.
+     */
     private Integer puntuacion;
 
+    /**
+     * Ubicacion del alojamiento.
+     */
     private String ubicacion;
 
+    /**
+     * Proveedor del alojamiento. 
+     * Relacion muchos a uno. 
+     */
     @PodamExclude
     @ManyToOne
     private ProveedorEntity proveedor;

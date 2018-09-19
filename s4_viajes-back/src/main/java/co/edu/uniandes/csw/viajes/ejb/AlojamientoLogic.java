@@ -6,8 +6,10 @@
 package co.edu.uniandes.csw.viajes.ejb;
 
 import co.edu.uniandes.csw.viajes.entities.AlojamientoEntity;
+import co.edu.uniandes.csw.viajes.entities.ProveedorEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.AlojamientoPersistence;
+import co.edu.uniandes.csw.viajes.persistence.ProveedorPersistence;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,6 +30,9 @@ public class AlojamientoLogic {
     @Inject
     private AlojamientoPersistence persistence;
 
+    @Inject
+    private ProveedorPersistence proveedorPersistence;
+
     /**
      * Guardar un nuevo alojamiento
      *
@@ -39,28 +44,37 @@ public class AlojamientoLogic {
      */
     public AlojamientoEntity createAlojamiento(AlojamientoEntity alojamientoEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación del alojamiento");
+        if (alojamientoEntity.getProveedor() == null || proveedorPersistence.find(alojamientoEntity.getProveedor().getId()) == null) {
+            throw new BusinessLogicException("El proveedor es inválido");
+        }
+        if (!validateNombre(alojamientoEntity.getNombre())) {
+            throw new BusinessLogicException("El nombre ingresado es inválido:" + alojamientoEntity.getNombre());
+        }
+        if (persistence.findByNombre(alojamientoEntity.getNombre()) != null) {
+            throw new BusinessLogicException("El nombre ingresado ya existe:" + alojamientoEntity.getNombre());
+        }
 
-        String nombreParam = alojamientoEntity.getNombre();
+//        if (persistence.find(alojamientoEntity.getId()) != null) {
+//            throw new BusinessLogicException("El alojamiento es inválido");
+//        }
+//
+//        ProveedorEntity proveedorEntity = proveedorPersistence.find(alojamientoEntity.getProveedor().getId());
+//        proveedorEntity.getAlojamientos().add(alojamientoEntity);
+//        if (proveedorEntity == null) {
+//            throw new BusinessLogicException("El proveedor es inválido");
+//        }
 
+        persistence.create(alojamientoEntity);
         //Valida que el nombre de la entidad parametro no genere excepcion
-        if (persistence.find(alojamientoEntity.getId()) == null) {
-            throw new BusinessLogicException("El alojamiento es inválido");
-        }
-        if (!validateNombre(nombreParam)) {
-            throw new BusinessLogicException("El nombre ingresado es inválido:" + nombreParam);
-        }
-        if (persistence.findByNombre(nombreParam) != null) {
-            throw new BusinessLogicException("El nombre ingresado ya existe:" + nombreParam);
-        }
-        if (alojamientoEntity.getCosto() <= 0) {
-            throw new BusinessLogicException("El costo ingresado es invalido:" + alojamientoEntity.getCosto());
-        }
-        if (alojamientoEntity.getEstrellas() <= 0) {
-            throw new BusinessLogicException("Las estrellas ingresadas son invalidas:" + alojamientoEntity.getEstrellas());
-        }
+//
+//        if (alojamientoEntity.getCosto() <= 0) {
+//            throw new BusinessLogicException("El costo ingresado es invalido:" + alojamientoEntity.getCosto());
+//        }
+//        if (alojamientoEntity.getEstrellas() <= 0) {
+//            throw new BusinessLogicException("Las estrellas ingresadas son invalidas:" + alojamientoEntity.getEstrellas());
+//        }
 
         //Crea el alojamiento en la persistencia
-        persistence.create(alojamientoEntity);
         LOGGER.log(Level.INFO, "Termina proceso de creación del alojamiento");
         return alojamientoEntity;
     }
@@ -95,7 +109,7 @@ public class AlojamientoLogic {
         //Aun no esta definido si un ID es 0
         if (alojamientoId == null) {
             LOGGER.log(Level.SEVERE, "El alojamiento con el id = {0} no existe", alojamientoId);
-             throw new BusinessLogicException("Error en el id buscado" + alojamientoId);
+            throw new BusinessLogicException("Error en el id buscado" + alojamientoId);
         }
         AlojamientoEntity alojamientoEntity = persistence.find(alojamientoId);
         LOGGER.log(Level.INFO, "Termina proceso de consultar el alojamiento con id = {0}", alojamientoId);

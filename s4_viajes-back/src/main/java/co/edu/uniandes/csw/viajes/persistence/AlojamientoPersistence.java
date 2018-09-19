@@ -91,11 +91,11 @@ public class AlojamientoPersistence {
     }
 
     /**
-     * Busca si hay algun libro con el ISBN que se envía de argumento
+     * Busca si hay algun alojamiento con el nombre que se envía de argumento
      *
-     * @param nombreAlojamiento: ISBN de la editorial que se está buscando
-     * @return null si no existe ningun libro con el isbn del argumento. Si
-     * existe alguno devuelve el primero.
+     * @param nombreAlojamiento: nombre de alojamiento que se está buscando
+     * @return null si no existe ningun alojameinto con el nombre del argumento.
+     * Si existe alguno devuelve el primero.
      */
     public AlojamientoEntity findByNombre(String nombreAlojamiento) {
         LOGGER.log(Level.INFO, "Consultando alojamientos por nombre ", nombreAlojamiento);
