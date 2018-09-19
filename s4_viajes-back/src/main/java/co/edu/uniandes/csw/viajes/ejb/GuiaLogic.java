@@ -47,7 +47,7 @@ public class GuiaLogic {
             throw new BusinessLogicException("No se puede encontrar la actividad especificada");
         }
         
-        if (guiaEntity.getDocumento() >= 0)
+        if (!validarDocumento(guiaEntity.getDocumento()))
         {
             throw new BusinessLogicException("El documento del guia es invalido");
         }
@@ -80,7 +80,7 @@ public class GuiaLogic {
     public GuiaEntity modificarGuia(Long id, GuiaEntity guiaEntity)throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar la guia con id = {0}", id);
         // Note que, por medio de la inyección de dependencias se llama al método "update(entity)" que se encuentra en la persistencia.
-        if (guiaEntity.getDocumento() <= 0 || id == null)
+        if (!validarDocumento(guiaEntity.getDocumento()))
         {
             throw new BusinessLogicException("El id es invalido");
         }
@@ -105,6 +105,10 @@ public class GuiaLogic {
         LOGGER.log(Level.INFO, "Termina proceso de borrar la actividad con id = {0}", guiaId);
     }
     
+    private boolean validarDocumento(Long doc)
+    {
+    return !(doc == null || doc <= 0L);
+     }
 
 
 } 

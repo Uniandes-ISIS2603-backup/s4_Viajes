@@ -36,10 +36,21 @@ public class ActividadLogic {
      * @throws BusinessLogicException Si la editorial a persistir ya existe.
      */
     public ActividadEntity createActividad(ActividadEntity actividadEntity) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de creación de la editorial");
+        LOGGER.log(Level.INFO, "Inicia proceso de creación de la actividad");
         // Verifica la regla de negocio que dice que no puede haber dos actividades con el mismo id
-        if (persistence.findByName(actividadEntity.getId().toString()) != null) {
+         if (!validarId(actividadEntity.getId()))
+        {
+            throw new BusinessLogicException("La actividad tiene un identificador no valido");
+        }
+        
+        if (persistence.find(actividadEntity.getId()) != null) {
             throw new BusinessLogicException("Ya existe una Actividad con el mismo id \"" + actividadEntity.getId() + "\"");
+        }
+    
+       if (actividadEntity.getGuias() == null)
+        {
+            throw new BusinessLogicException("La lista de guias no se ha inicializado correctamente");
+
         }
         // Invoca la persistencia para crear la editorial
         persistence.create(actividadEntity);
@@ -80,13 +91,17 @@ public class ActividadLogic {
         
     }
     
-    public ActividadEntity modificarActividad(Long id, ActividadEntity actividadEntity){
+    public ActividadEntity modificarActividad(Long id, ActividadEntity actividadEntity)throws BusinessLogicException{
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar la actividad con id = {0}", id);
+        if (!validarId(id))
+        {
+            throw new BusinessLogicException("El id a actualizar es inválido");
+        }
         // Note que, por medio de la inyección de dependencias se llama al método "update(entity)" que se encuentra en la persistencia.
         //PERSISTENCIA
         ActividadEntity newEntity = persistence.update(actividadEntity);
         LOGGER.log(Level.INFO, "Termina proceso de actualizar la actividad con id = {0}", actividadEntity.getId());
-        return new ActividadEntity();
+        return newEntity;
     }
     
       /**
@@ -99,6 +114,11 @@ public class ActividadLogic {
         List<ActividadEntity> actividades = persistence.findAll();
         LOGGER.log(Level.INFO, "Termina proceso de consultar todos las actividades");
         return actividades;
+    }
+    
+    private boolean validarId(Long id)
+    {
+        return !(id == null || id <= 0L);
     }
     
     

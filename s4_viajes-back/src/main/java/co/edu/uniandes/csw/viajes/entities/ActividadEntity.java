@@ -103,6 +103,10 @@ public class ActividadEntity extends BaseEntity implements Serializable {
         this.guias = books;
     }
     
+    public void agregarGuia(GuiaEntity guia){
+        guias.add(guia);
+    }
+    
     public void setCosto(int pCosto){
         costo = pCosto;
     }

@@ -154,14 +154,14 @@ public class GuiaLogicTest {
      * Prueba para crear un Guia con documento inválido
      *
      * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
-     
+     */
     @Test(expected = BusinessLogicException.class)
     public void createGuiaTestConDocInvalido2() throws BusinessLogicException {
         GuiaEntity newEntity = factory.manufacturePojo(GuiaEntity.class);
         newEntity.setActividad(actividadData.get(0));
         newEntity.setDocumento(null);
         guiaLogic.createGuia(newEntity);
-    }*/
+    }
 
     /**
      * Prueba para crear un Book con Documento existente.
@@ -180,7 +180,7 @@ public class GuiaLogicTest {
      * Prueba para crear un Guia con un Documento que no existe.
      *
      * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
-     
+     */
     @Test(expected = BusinessLogicException.class)
     public void createGuiaTestConActividadInexistente() throws BusinessLogicException {
         GuiaEntity newEntity = factory.manufacturePojo(GuiaEntity.class);
@@ -188,7 +188,7 @@ public class GuiaLogicTest {
         newEntity.setDocumento(Long.MIN_VALUE);
         newEntity.setActividad(actividadEntity);
         guiaLogic.createGuia(newEntity);
-    }*/
+    }
 
     /**
      * Prueba para crear un Guia con actividad en null.
@@ -203,28 +203,10 @@ public class GuiaLogicTest {
     }
 
     /**
-     * Prueba para consultar la lista de guias.
-     */
-    /**@Test
-    public void getBooksTest() {
-        List<GuiaEntity> list = guiaLogic.getGuias();
-        Assert.assertEquals(data.size(), list.size());
-        for (BookEntity entity : list) {
-            boolean found = false;
-            for (BookEntity storedEntity : data) {
-                if (entity.getId().equals(storedEntity.getId())) {
-                    found = true;
-                }
-            }
-            Assert.assertTrue(found);
-        }
-    }
-
-    /**
      * Prueba para consultar un Book.
      */
     @Test
-    public void getBookTest() {
+    public void getGuiaTest() {
         GuiaEntity entity = guiaData.get(0);
         GuiaEntity resultEntity = guiaLogic.getGuia(entity.getId());
         Assert.assertNotNull(resultEntity);
@@ -237,10 +219,11 @@ public class GuiaLogicTest {
     /**
      * Prueba para actualizar un Guia.
      *
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
      */
     @Test
-    public void updateBookTest() throws BusinessLogicException {
+    public void updateGuiaTest() throws BusinessLogicException {
         GuiaEntity entity = guiaData.get(0);
         GuiaEntity pojoEntity = factory.manufacturePojo(GuiaEntity.class);
         pojoEntity.setId(entity.getId());
@@ -255,6 +238,7 @@ public class GuiaLogicTest {
     /**
      * Prueba para actualizar un Guia con Documento inválido.
      *
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
      */
     @Test(expected = BusinessLogicException.class)
@@ -271,7 +255,7 @@ public class GuiaLogicTest {
      * Prueba para actualizar un Guia con Documento inválido.
      *
      * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
-     
+     */
     @Test(expected = BusinessLogicException.class)
     public void updateGuiaConGuiaInvalidoTest2() throws BusinessLogicException {
         GuiaEntity entity = guiaData.get(0);
@@ -280,7 +264,7 @@ public class GuiaLogicTest {
         pojoEntity.setId(entity.getId());
         
         guiaLogic.modificarGuia(pojoEntity.getId(), pojoEntity);
-    }*/
+    }
 
     /**
      * Prueba para eliminar un Guia.
