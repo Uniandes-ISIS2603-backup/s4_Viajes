@@ -32,7 +32,7 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
  */
 @RunWith(Arquillian.class)
 public class PagoPersistenceTest {
-     @Inject
+    @Inject
     private PagoPersistence pagoPersistence;
 
     @PersistenceContext
@@ -114,14 +114,19 @@ public class PagoPersistenceTest {
 
         PagoEntity entity = em.find(PagoEntity.class, result.getId());
 
-        Assert.assertEquals(newEntity.getaPagar().getNombre(), entity.getaPagar().getNombre());
+//        Assert.assertEquals(newEntity.getaPagar().getNombre(), entity.getaPagar().getNombre());
+        Assert.assertEquals(newEntity.isPagaConTarjeta(), entity.isPagaConTarjeta());
+        Assert.assertEquals(newEntity.getTarjeta(), entity.getTarjeta());
+        Assert.assertEquals(newEntity.getPagoId(), entity.getPagoId());
+
+    
     }
 
     /**
      * Prueba para consultar la lista de Editoriales.
      */
     @Test
-    public void getCombosTest() {
+    public void getPagosTest() {
         List<PagoEntity> list = pagoPersistence.findAll();
         Assert.assertEquals(data.size(), list.size());
         for (PagoEntity ent : list) {
@@ -143,7 +148,11 @@ public class PagoPersistenceTest {
         PagoEntity entity = data.get(0);
         PagoEntity newEntity = pagoPersistence.find(entity.getId());
         Assert.assertNotNull(newEntity);
-        Assert.assertEquals(entity.getaPagar().getNombre(), newEntity.getaPagar().getNombre());
+//        Assert.assertEquals(entity.getaPagar().getNombre(), newEntity.getaPagar().getNombre());
+        Assert.assertEquals(newEntity.isPagaConTarjeta(), entity.isPagaConTarjeta());
+        Assert.assertEquals(newEntity.getTarjeta(), entity.getTarjeta());
+        Assert.assertEquals(newEntity.getPagoId(), entity.getPagoId());
+
     }
 
     /**
@@ -172,14 +181,18 @@ public class PagoPersistenceTest {
 
         PagoEntity resp = em.find(PagoEntity.class, entity.getId());
 
-        Assert.assertEquals(newEntity.getaPagar().getNombre(), resp.getaPagar().getNombre());
+//        Assert.assertEquals(newEntity.getaPagar().getNombre(), resp.getaPagar().getNombre());
+        Assert.assertEquals(newEntity.isPagaConTarjeta(), resp.isPagaConTarjeta());
+        Assert.assertEquals(newEntity.getTarjeta(), resp.getTarjeta());
+        Assert.assertEquals(newEntity.getPagoId(), resp.getPagoId());
+
     }
 
 //    /**
 //     * Prueba para consultar una Editorial por nombre.
 //     */
 //    @Test
-//    public void findComboByNombreTest() {
+//    public void findPagoByIdComboTest() {
 //        PagoEntity entity = data.get(0);
 //        PagoEntity newEntity = pagoPersistence.findByName(entity.getNombre());
 //        Assert.assertNotNull(newEntity);

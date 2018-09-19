@@ -7,6 +7,7 @@ package co.edu.uniandes.csw.viajes.entities;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import uk.co.jemos.podam.common.PodamExclude;
@@ -19,7 +20,8 @@ import uk.co.jemos.podam.common.PodamExclude;
 public class PagoEntity extends BaseEntity implements Serializable  {
    
     
-    @OneToOne
+    @PodamExclude
+    @OneToOne(mappedBy = "pago", fetch=FetchType.LAZY)    
     private ComboEntity aPagar;
     private Long pagoId;
     private boolean pagaConTarjeta;

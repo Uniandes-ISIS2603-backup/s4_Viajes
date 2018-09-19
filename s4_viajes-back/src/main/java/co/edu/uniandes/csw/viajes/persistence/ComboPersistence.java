@@ -24,7 +24,6 @@ public class ComboPersistence {
     private static final Logger LOGGER = Logger.getLogger(ComboPersistence.class.getName());
 
     @PersistenceContext(unitName = "TripBuilderTeamPU")
-
     protected EntityManager em;
 
     /**

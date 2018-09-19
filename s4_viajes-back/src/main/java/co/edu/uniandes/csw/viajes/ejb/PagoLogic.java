@@ -65,10 +65,10 @@ public class PagoLogic {
      */
     public List<PagoEntity> getPagos() {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los pagos");
-         List<PagoEntity> books =new  ArrayList<PagoEntity>();
-//        List<PagoEntity> books = persistence.findAll();
+         List<PagoEntity> pagos =new  ArrayList<PagoEntity>();
+//        List<PagoEntity> pagos = persistence.findAll();
         LOGGER.log(Level.INFO, "Termina proceso de consultar todos los pagos");
-        return books;
+        return pagos;
     }
 
     /**
@@ -98,10 +98,22 @@ public class PagoLogic {
      */
     public PagoEntity updatePago(Long pagoId, PagoEntity pagoEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar el pago con id = {0}", pagoId);
-//        if (!validateISBN(pagoEntity.getIsbn())) {
-//            throw new BusinessLogicException("El ISBN es inválido");
+         if(pagoEntity==null)
+            throw new BusinessLogicException("Error en el formato.");
+
+//        if (pagoEntity.getaPagar() == null || comboPersistence.find(pagoEntity.getaPagar().getId()) == null) {
+//            throw new BusinessLogicException("El combo es del pago es invalido");
 //        }
-//        PagoEntity newEntity = persistence.update(pagoEntity);
+         if (pagoEntity.getaPagar() == null) {
+            throw new BusinessLogicException("El pago es inválido");
+        }
+         if(pagoEntity.isPagaConTarjeta())
+         {
+             if(pagoEntity.getTarjeta().trim().equals(""))
+                throw new BusinessLogicException("No introdujo ninguna tarjeta");
+//              revisar resto reglas de negocio sobre una tarjeta
+         }
+//      PagoEntity newEntity = persistence.update(pagoEntity);
         PagoEntity newEntity = new PagoEntity();
         LOGGER.log(Level.INFO, "Termina proceso de actualizar el pago con id = {0}", pagoEntity.getId());
         return newEntity;
@@ -115,8 +127,10 @@ public class PagoLogic {
      */
     public void deletePago(Long pagoId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de borrar el pago con id = {0}", pagoId);
-        
-//        persistence.delete(pagoId);
+        if(pagoId == null)
+          throw new BusinessLogicException("Identificador del pago inexistente.");
+
+//      persistence.delete(pagoId);
         LOGGER.log(Level.INFO, "Termina proceso de borrar el pago con id = {0}", pagoId);
     }
 

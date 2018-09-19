@@ -12,6 +12,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import uk.co.jemos.podam.common.PodamExclude;
 
 /**
@@ -53,7 +54,9 @@ public class ComboEntity  extends BaseEntity implements Serializable {
     @OneToMany(mappedBy = "combo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<TransporteTerrestreEntity> transportesTerrestres;
 
-    
+    @PodamExclude
+    @OneToOne
+    private PagoEntity pago;
 
     //-----------------------------------------------------------------------------------------------------------------------
     // Metodos
@@ -140,4 +143,14 @@ public class ComboEntity  extends BaseEntity implements Serializable {
     public void setTransportesTerrestres(List<TransporteTerrestreEntity> transportesTerrestres) {
         this.transportesTerrestres = transportesTerrestres;
     }
+
+    public PagoEntity getPago() {
+        return pago;
+    }
+
+    public void setPago(PagoEntity pago) {
+        this.pago = pago;
+    }
+
+    
 }
