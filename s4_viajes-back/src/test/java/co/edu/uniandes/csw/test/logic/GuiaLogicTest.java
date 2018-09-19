@@ -134,7 +134,7 @@ public class GuiaLogicTest {
         Assert.assertEquals(newEntity.getId(), entity.getId());
         Assert.assertEquals(newEntity.getDocumento(), entity.getDocumento());
         Assert.assertEquals(newEntity.getEdad(), entity.getEdad());
-        Assert.assertEquals(newEntity.getSueldo(), entity.getSueldo());
+        Assert.assertEquals(newEntity.getSueldo(), entity.getSueldo(), 0);
         Assert.assertEquals(newEntity.getNombre(), entity.getNombre());
     }
 

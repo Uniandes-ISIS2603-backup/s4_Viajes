@@ -49,10 +49,10 @@ public class VueloDTO implements Serializable {
     private String numero;
     private double costo;
     private double puntuacion;
-    private Long latitudOrigen;
-    private Long longitudOrigen;
-    private Long latitudDestino;
-    private Long longitudDestino;
+    private double latitudOrigen;
+    private double longitudOrigen;
+    private double latitudDestino;
+    private double longitudDestino;
     private Calendar fechaSalida;
     private Calendar fechaLlegada;
 
@@ -118,7 +118,7 @@ public class VueloDTO implements Serializable {
      *
      * @return coordenadas (lat) de origen del vuelo.
      */
-    public Long getLatitudOrigen() {
+    public double getLatitudOrigen() {
         return latitudOrigen;
     }
 
@@ -127,7 +127,7 @@ public class VueloDTO implements Serializable {
      *
      * @return coordenadas (long) de origen del vuelo.
      */    
-    public Long getLongitudOrigen(){
+    public double getLongitudOrigen(){
         return longitudOrigen;
     }
 
@@ -136,7 +136,7 @@ public class VueloDTO implements Serializable {
      *
      * @return coordenadas (lat) de destino del vuelo.
      */
-    public Long getLatitudDestino() {
+    public double getLatitudDestino() {
         return latitudDestino;
     }
     
@@ -145,7 +145,7 @@ public class VueloDTO implements Serializable {
      *
      * @return coordenadas (long) de destino del vuelo.
      */    
-    public Long getLongitudDestino(){
+    public double getLongitudDestino(){
         return longitudDestino;
     }
     
@@ -200,7 +200,7 @@ public class VueloDTO implements Serializable {
      *
      * @param pLatO nuevas coordenadas de origen que modificarán las actuales.
      */
-    public void setLatitudOrigen(Long pLatO) {
+    public void setLatitudOrigen(double pLatO) {
         latitudOrigen = pLatO;
     }
 
@@ -210,7 +210,7 @@ public class VueloDTO implements Serializable {
      *
      * @param pLonO nuevas coordenadas de origen que modificarán las actuales.
      */    
-    public void setLongitudOrigen(Long pLonO){
+    public void setLongitudOrigen(double pLonO){
         longitudOrigen = pLonO;
     }
 
@@ -220,7 +220,7 @@ public class VueloDTO implements Serializable {
      *
      * @param pLatD nuevas coordenadas de destino que modificarán las actuales.
      */
-    public void setLatitudDestino(Long pLatD) {
+    public void setLatitudDestino(double pLatD) {
         latitudDestino = pLatD;
     }
     
@@ -230,7 +230,7 @@ public class VueloDTO implements Serializable {
      *
      * @param pLonD nuevas coordenadas de destino que modificarán las actuales.
      */
-    public void setLongitudDestino(Long pLonD){
+    public void setLongitudDestino(double pLonD){
         longitudDestino = pLonD;
     }
     

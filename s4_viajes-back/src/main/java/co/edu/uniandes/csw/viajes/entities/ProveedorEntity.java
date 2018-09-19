@@ -11,10 +11,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import uk.co.jemos.podam.common.PodamExclude;
 
@@ -161,5 +157,23 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
      */
     public void setVuelos(List<VueloEntity> vuelos) {
         this.vuelos = vuelos;
+    }
+    
+    /**
+     * Modifica los transportes del proveedor.
+     *
+     * @param transportes Los nuevos transportes.
+     */
+    public void setTransportes(List<TransporteTerrestreEntity> transportes) {
+        this.transportes = transportes;
+    }
+    
+    /**
+     * Modifica as actividades del proveedor.
+     *
+     * @param actividades Las nuevas actividades.
+     */
+    public void setActividades(List<ActividadEntity> actividades) {
+        this.actividades = actividades;
     }
 }

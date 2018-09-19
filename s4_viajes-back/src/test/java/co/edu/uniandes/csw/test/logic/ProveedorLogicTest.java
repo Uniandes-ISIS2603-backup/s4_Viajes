@@ -6,7 +6,9 @@
 package co.edu.uniandes.csw.test.logic;
 
 import co.edu.uniandes.csw.viajes.ejb.ProveedorLogic;
+import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
 import co.edu.uniandes.csw.viajes.entities.ProveedorEntity;
+import co.edu.uniandes.csw.viajes.entities.TransporteTerrestreEntity;
 import co.edu.uniandes.csw.viajes.entities.VueloEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.ProveedorPersistence;
@@ -48,6 +50,10 @@ public class ProveedorLogicTest {
     private List<ProveedorEntity> data = new ArrayList<ProveedorEntity>();
 
     private List<VueloEntity> vuelosData = new ArrayList();
+    
+    private List<TransporteTerrestreEntity> transportesData = new ArrayList();
+    
+    private List<ActividadEntity> actividadesData = new ArrayList();
 
     /**
      * @return Devuelve el jar que Arquillian va a desplegar en Payara embebido.
@@ -89,6 +95,8 @@ public class ProveedorLogicTest {
      */
     private void clearData() {
         em.createQuery("delete from VueloEntity").executeUpdate();
+        em.createQuery("delete from TransporteTerrestreEntity").executeUpdate();
+        em.createQuery("delete from ActividadEntity").executeUpdate();
         em.createQuery("delete from ProveedorEntity").executeUpdate();
     }
 
@@ -103,12 +111,19 @@ public class ProveedorLogicTest {
             vuelosData.add(vuelos);
         }
         for (int i = 0; i < 3; i++) {
-            ProveedorEntity entity = factory.manufacturePojo(ProveedorEntity.class);
+           TransporteTerrestreEntity transportes = factory.manufacturePojo(TransporteTerrestreEntity.class); 
+           em.persist(transportes);
+            transportesData.add(transportes);
+        }
+        for (int i = 0; i < 3; i++) {
+            ActividadEntity actividades = factory.manufacturePojo(ActividadEntity.class);
+            em.persist(actividades);
+            actividadesData.add(actividades);
+        }
+        for (int i = 0; i < 3; i++) {
+            ProveedorEntity entity = factory.manufacturePojo(ProveedorEntity.class);  
             em.persist(entity);
             data.add(entity);
-            if (i == 0) {
-                vuelosData.get(i).setProveedor(entity);
-            }
         }
     }
 
@@ -117,19 +132,24 @@ public class ProveedorLogicTest {
      *
      * @throws BusinessLogicException
      */
-//    @Test
-//    public void createProveedorTest() throws BusinessLogicException {
-//        ProveedorEntity newEntity = factory.manufacturePojo(ProveedorEntity.class);
-//        ProveedorEntity result = proveedorLogic.createProveedor(newEntity);
-//        Assert.assertNotNull(result);
-//        ProveedorEntity entity = em.find(ProveedorEntity.class, result.getId());
-//        Assert.assertEquals(newEntity.getId(), entity.getId());
-//        Assert.assertEquals(newEntity.getNombre(), entity.getNombre());
-//        Assert.assertEquals(newEntity.getPassword(), entity.getPassword());
-//        Assert.assertEquals(newEntity.getPuntaje(), entity.getPuntaje());
-//        Assert.assertEquals(newEntity.getUser(), entity.getUser());
-//        Assert.assertEquals(newEntity.getVuelos(), entity.getVuelos());
-//    }
+    @Test
+    public void createProveedorTest() throws BusinessLogicException {
+        ProveedorEntity newEntity = factory.manufacturePojo(ProveedorEntity.class);
+
+        newEntity.setNombre("Proveedor sas");
+        newEntity.setUser("proveedor99");
+        newEntity.setPassword("Proveedor123");
+        newEntity.setPuntaje(4);
+        ProveedorEntity result = proveedorLogic.createProveedor(newEntity);
+        
+        Assert.assertNotNull(result);
+        ProveedorEntity entity = em.find(ProveedorEntity.class, result.getId());
+        Assert.assertEquals(newEntity.getId(), entity.getId());
+        Assert.assertEquals(newEntity.getNombre(), entity.getNombre());
+        Assert.assertEquals(newEntity.getUser(), entity.getUser());
+        Assert.assertEquals(newEntity.getPassword(), entity.getPassword());
+        Assert.assertEquals(newEntity.getPuntaje(), entity.getPuntaje());
+    }
 
     /**
      * Prueba para crear un Proveedor con el mismo nombre de un Proveedor que ya
@@ -175,7 +195,6 @@ public class ProveedorLogicTest {
         Assert.assertEquals(entity.getPassword(), resultEntity.getPassword());
         Assert.assertEquals(entity.getUser(), resultEntity.getUser());
         Assert.assertEquals(entity.getPuntaje(), resultEntity.getPuntaje());
-        Assert.assertEquals(entity.getVuelos(), resultEntity.getVuelos());
     }
 
     /**
@@ -192,9 +211,7 @@ public class ProveedorLogicTest {
         Assert.assertEquals(pojoEntity.getNombre(), resp.getNombre());
         Assert.assertEquals(pojoEntity.getUser(), resp.getUser());
         Assert.assertEquals(pojoEntity.getPassword(), resp.getPassword());
-        Assert.assertEquals(pojoEntity.getPuntaje(), resp.getPuntaje());
-        Assert.assertEquals(pojoEntity.getVuelos(), resp.getVuelos());
-        
+        Assert.assertEquals(pojoEntity.getPuntaje(), resp.getPuntaje());       
     }
 
     /**
@@ -215,9 +232,10 @@ public class ProveedorLogicTest {
      *
      * @throws BusinessLogicException
      */
-//    @Test(expected = BusinessLogicException.class)
-//    public void deleteProveedorConVuelosAsociadosTest() throws BusinessLogicException {
-//        ProveedorEntity entity = data.get(0);
-//        proveedorLogic.deleteProveedor(entity.getId());
-//    }
+    @Test
+    public void deleteProveedorConInfoAsociadosTest() throws BusinessLogicException {
+        ProveedorEntity entity = data.get(0);
+        proveedorLogic.deleteProveedor(entity.getId());
+    }
+
 }
