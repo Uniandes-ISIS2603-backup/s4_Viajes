@@ -42,7 +42,15 @@ public class GuiaLogic {
     public GuiaEntity createGuia(GuiaEntity guiaEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación de la editorial");
         // Verifica la regla de negocio que dice que no puede haber dos editoriales con el mismo nombre
-
+        if (guiaEntity.getActividad() == null)
+        {
+            throw new BusinessLogicException("No se puede encontrar la actividad especificada");
+        }
+        
+        if (guiaEntity.getDocumento() >= 0)
+        {
+            throw new BusinessLogicException("El documento del guia es invalido");
+        }
         if (persistence.findByDocumento(guiaEntity.getDocumento()) != null) {
             throw new BusinessLogicException("Ya existe una Guia con el documento \"" + guiaEntity.getDocumento() + "\"");
         }
@@ -69,10 +77,14 @@ public class GuiaLogic {
         
     }
     
-    public GuiaEntity modificarGuia(Long id, GuiaEntity guiaEntity){
+    public GuiaEntity modificarGuia(Long id, GuiaEntity guiaEntity)throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar la guia con id = {0}", id);
         // Note que, por medio de la inyección de dependencias se llama al método "update(entity)" que se encuentra en la persistencia.
-        
+        if (guiaEntity.getDocumento() <= 0 || id == null)
+        {
+            throw new BusinessLogicException("El id es invalido");
+        }
+ 
         GuiaEntity newEntity = persistence.update(guiaEntity);
         LOGGER.log(Level.INFO, "Termina proceso de actualizar la guia con id = {0}", guiaEntity.getId());
         return new GuiaEntity();
@@ -84,11 +96,13 @@ public class GuiaLogic {
      *
      * @param editorialsId: id de la editorial a borrar
      */
-    public void deleteGuia(Long editorialsId) {
-        LOGGER.log(Level.INFO, "Inicia proceso de borrar la editorial con id = {0}", editorialsId);
+    public void deleteGuia(Long guiaId) {
+        LOGGER.log(Level.INFO, "Inicia proceso de borrar la actividad con id = {0}", guiaId);
+        
+        
         // Note que, por medio de la inyección de dependencias se llama al método "delete(id)" que se encuentra en la persistencia.
-        persistence.delete(editorialsId);
-        LOGGER.log(Level.INFO, "Termina proceso de borrar la editorial con id = {0}", editorialsId);
+        persistence.delete(guiaId);
+        LOGGER.log(Level.INFO, "Termina proceso de borrar la actividad con id = {0}", guiaId);
     }
     
 
