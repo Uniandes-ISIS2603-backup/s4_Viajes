@@ -88,6 +88,7 @@ public class VueloLogicTest {
      * Limpia las tablas que están implicadas en la prueba.
      */
     private void clearData() {
+        em.createQuery("delete from ProveedorEntity").executeUpdate();
         em.createQuery("delete from VueloEntity").executeUpdate();
         em.createQuery("delete from ProveedorEntity").executeUpdate();
     }
@@ -140,27 +141,27 @@ public class VueloLogicTest {
      * Prueba para crear un Vuelo con número inválido.
      *
      * @throws BusinessLogicException
-//     */
-//    @Test(expected = BusinessLogicException.class)
-//    public void createVueloTestConNumeronvalido() throws BusinessLogicException {
-//        VueloEntity newEntity = factory.manufacturePojo(VueloEntity.class);
-//        newEntity.setProveedor(proveedorData.get(0));
-//        newEntity.setNumero("");
-//        vueloLogic.createVuelo(newEntity);
-//    }
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void createVueloTestConNumeronvalido() throws BusinessLogicException {
+        VueloEntity newEntity = factory.manufacturePojo(VueloEntity.class);
+        newEntity.setProveedor(proveedorData.get(0));
+        newEntity.setNumero("");
+        vueloLogic.createVuelo(newEntity);
+    }
     
     /**
      * Prueba para crear un Vuelo con número inválido2.
      *
      * @throws BusinessLogicException
      */
-//    @Test(expected = BusinessLogicException.class)
-//    public void createVueloTestConNumerovalido2() throws BusinessLogicException {
-//        VueloEntity newEntity = factory.manufacturePojo(VueloEntity.class);
-//        newEntity.setProveedor(proveedorData.get(0));
-//        newEntity.setNumero(null);
-//        vueloLogic.createVuelo(newEntity);
-//    }
+    @Test(expected = BusinessLogicException.class)
+    public void createVueloTestConNumerovalido2() throws BusinessLogicException {
+        VueloEntity newEntity = factory.manufacturePojo(VueloEntity.class);
+        newEntity.setProveedor(proveedorData.get(0));
+        newEntity.setNumero(null);
+        vueloLogic.createVuelo(newEntity);
+    }
     
     /**
      * Prueba para crear un Vuelo con Numero existente.
