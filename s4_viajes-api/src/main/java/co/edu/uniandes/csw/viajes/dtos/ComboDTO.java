@@ -19,11 +19,10 @@ public class ComboDTO implements Serializable{
 
     private double costo;
     private String nombre;
-    private String comboId;
+    private Long comboIdLong;
     private int dias;
     private double horas;
     private int puntuacion;
-    private String id;
 
       
     /**
@@ -43,7 +42,7 @@ public class ComboDTO implements Serializable{
             dias=comboEntity.getDias();
             horas=comboEntity.getHoras();
             puntuacion=comboEntity.getPuntuacion();
-            comboId=comboEntity.getComboId();
+            comboIdLong=comboEntity.getComboIdLong();
         }
          
      }
@@ -61,7 +60,7 @@ public class ComboDTO implements Serializable{
         comboEntity.setPuntuacion(puntuacion);
         comboEntity.setDias(dias);
         comboEntity.setHoras(horas);
-        comboEntity.setComboId(comboId);
+        comboEntity.setComboIdLong(comboIdLong);
         
         return comboEntity; 
     }
@@ -106,12 +105,12 @@ public class ComboDTO implements Serializable{
         this.puntuacion = puntuacion;
     }
 
-    public String getComboId() {
-        return comboId;
+    public Long getComboIdLong() {
+        return comboIdLong;
     }
 
-    public void setComboId(String comboId) {
-        this.comboId = comboId;
+    public void setComboIdLong(Long comboId) {
+        this.comboIdLong = comboId;
     }
     
 
@@ -120,11 +119,5 @@ public class ComboDTO implements Serializable{
          return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }    
     
-     public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+   
 }

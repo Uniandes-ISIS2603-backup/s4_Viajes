@@ -98,8 +98,8 @@ public class PagoResource {
      * Error de lógica que se genera cuando no se encuentra el pago.
      */
     @GET
-        @Path("{pagoId: [a-zA-Z][a-zA-Z]*}")
-    public PagoDTO consultarPago(@PathParam("pagoId") String pagoId) throws WebApplicationException
+        @Path("{pagoId: \\d+}")
+    public PagoDTO consultarPago(@PathParam("pagoId") Long pagoId) throws WebApplicationException
     {
         LOGGER.log(Level.INFO, "ComboResource getCombo: input: {0}", pagoId);
 //        PagoEntity pagoEntity = pagoLogic.getPago(pagoId);
@@ -128,8 +128,8 @@ public class PagoResource {
  actualizar.
      */
     @PUT
-    @Path("{pagoId: [a-zA-Z][a-zA-Z]*}")
-    public PagoDTO updatePago(@PathParam("pagoId") String pagoId, PagoDTO pago) throws BusinessLogicException {
+    @Path("{pagoId: \\d+}")
+    public PagoDTO updatePago(@PathParam("pagoId") Long pagoId, PagoDTO pago) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "PagoResource updatePago: input: id:{0} , pago: {1}", new Object[]{pagoId, pago.toString()});
         pago.setPagoId(pagoId);
   
@@ -153,8 +153,8 @@ public class PagoResource {
      * Error de lógica que se genera cuando no se encuentra el pago.
      */
     @DELETE
-    @Path("{pagoId: [a-zA-Z][a-zA-Z]*}")
-    public void deletePago(@PathParam("pagoId") String pagoId) throws BusinessLogicException {
+    @Path("{pagoId: \\d+}")
+    public void deletePago(@PathParam("pagoId") Long pagoId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "PagoResource deletePago: input: {0}", pagoId);
         if (pagoLogic.getPago(pagoId) == null) {
             throw new WebApplicationException("El recurso /pagos/" + pagoId + " no existe.", 404);

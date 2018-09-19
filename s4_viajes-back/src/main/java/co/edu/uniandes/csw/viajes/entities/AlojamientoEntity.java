@@ -37,6 +37,10 @@ public class AlojamientoEntity extends BaseEntity implements Serializable {
     private Integer puntuacion;
 
     private String ubicacion;
+    
+    @PodamExclude
+    @ManyToOne
+    private ComboEntity combo;
 
     @PodamExclude
     @ManyToOne
@@ -124,4 +128,12 @@ public class AlojamientoEntity extends BaseEntity implements Serializable {
     public void setProveedor(ProveedorEntity proveedor) {
         this.proveedor = proveedor;
     }
+    
+    public ComboEntity getCombo() {
+        return combo;
+    }
+
+    public void setCombo(ComboEntity combo) {
+        this.combo = combo;
+    }    
 }
