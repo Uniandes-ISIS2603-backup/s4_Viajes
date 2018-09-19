@@ -106,7 +106,7 @@ public class ActividadResource {
     
     @PUT
     @Path("actividadId: \\d+")
-    public ActividadDTO modificarActividad(@PathParam("actividadId") Long actividadId, ActividadDTO actividad) throws WebApplicationException {
+    public ActividadDTO modificarActividad(@PathParam("actividadId") Long actividadId, ActividadDTO actividad) throws WebApplicationException, BusinessLogicException {
         LOGGER.log(Level.INFO, "ActividadResource updateActividad: input: id:{0} , actividad: {1}", new Object[]{actividadId, actividad.toString()});
         actividad.setIdentificador(actividadId);
         if (actividadLogic.getActividad(actividadId) == null) {
@@ -115,7 +115,6 @@ public class ActividadResource {
         ActividadDTO detailDTO = new ActividadDTO(actividadLogic.modificarActividad(actividadId, actividad.toEntity()));
         LOGGER.log(Level.INFO, "ActividadResource updateActividad: output: {0}", detailDTO.toString());
         return detailDTO;}
-
     /**
      * Borra la actividad con el id asociado recibido en la URL.
      *
