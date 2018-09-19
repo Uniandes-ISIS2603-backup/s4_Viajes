@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Calendar;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Temporal;
 import uk.co.jemos.podam.common.PodamExclude;
 
 /**
@@ -34,8 +35,10 @@ public class VueloEntity extends BaseEntity implements Serializable {
     
     private double longitudDestino;
     
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar fechaSalida;
     
+    @Temporal(javax.persistence.TemporalType.DATE)
     private Calendar fechaLlegada;
     
     @PodamExclude

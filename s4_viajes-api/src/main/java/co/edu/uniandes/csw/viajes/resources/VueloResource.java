@@ -88,21 +88,7 @@ public class VueloResource {
         return vueloDTO;
     }
     
-    /**
-     * Busca y devuelve todos los vuelos.
-     *
-     * @param vueloId El ID del vuelo del cual se buscan las reseñas
-     * @return JSONArray {@link ReviewDTO} - Los vuelos encontrados. Si no hay ninguna retorna una lista vacía.
-     */
-    @GET
-    @Path("{vueloId: \\d+}")
-    public List<VueloDTO> getVuelos(@PathParam("vueloId") Long vueloId) {
-        LOGGER.log(Level.INFO, "VueloResource getVuelos: input: {0}", vueloId);
-        List<VueloDTO> listaDTOs = listEntity2DTO(vueloLogic.getVuelos());
-        LOGGER.log(Level.INFO, "VueloResource getVuelos: output: {0}", listaDTOs.toString());
-        return listaDTOs;
-    }
-    
+  
     /**
      * Modifica la informacion de un vuelo dado por la información ingresada en
      * formato JSON.
@@ -144,12 +130,5 @@ public class VueloResource {
         vueloLogic.deleteVuelo(vueloId);
         LOGGER.info("VueloResource deleteVuelo: output: void");
     }
-    
-    private List<VueloDTO> listEntity2DTO(List<VueloEntity> entityList) {
-        List<VueloDTO> list = new ArrayList<VueloDTO>();
-        for (VueloEntity entity : entityList) {
-            list.add(new VueloDTO(entity));
-        }
-        return list;
-    }
+
 }
