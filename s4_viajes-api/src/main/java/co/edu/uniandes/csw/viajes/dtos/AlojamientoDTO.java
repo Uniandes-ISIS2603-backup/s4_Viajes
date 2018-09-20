@@ -88,10 +88,21 @@ public class AlojamientoDTO implements Serializable {
      */
     private String ubicacion;
 
+    /**
+     * Proveedor del alojamiento.
+     */
+    private ProveedorDTO proveedor;
 
     //-----------------------------------------------------------------------------------------------------------------------
     //Metodos
     //-----------------------------------------------------------------------------------------------------------------------
+  
+    /**
+     * Constructor defecto. 
+     */
+    public AlojamientoDTO(){
+    }
+    
     /**
      * Constructor a partir de la entidad.
      *
@@ -109,13 +120,13 @@ public class AlojamientoDTO implements Serializable {
             this.puntuacion = alojamientoEntity.getPuntuacion();
             this.tipo = alojamientoEntity.getTipo();
             this.ubicacion = alojamientoEntity.getUbicacion();
+            if(alojamientoEntity.getProveedor() != null){
+                this.proveedor = new ProveedorDTO(alojamientoEntity.getProveedor());
+            }
+            else{
+                this.proveedor = null; 
+            }
         }
-    }
-
-    /**
-     * Constructor por defecto.
-     */
-    public AlojamientoDTO() {
     }
 
     //-----------------------------------------------------------------------------------------------------------------------
@@ -138,6 +149,9 @@ public class AlojamientoDTO implements Serializable {
         alojamientoEntity.setPuntuacion(this.puntuacion);
         alojamientoEntity.setTipo(this.tipo);
         alojamientoEntity.setUbicacion(this.ubicacion);
+        if(this.proveedor != null){
+            alojamientoEntity.setProveedor(this.proveedor.toEntity()); 
+        }
 
         return alojamientoEntity;
     }

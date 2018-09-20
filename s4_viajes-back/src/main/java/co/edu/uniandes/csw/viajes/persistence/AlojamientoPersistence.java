@@ -41,28 +41,28 @@ public class AlojamientoPersistence {
         return alojamientoEntity;
     }
 
-    /**
-     * Devuelve todos los alojamientos de la base de datos.
-     *
-     * @return una lista con todos los alojamientos que encuentre en la base de
-     * datos, "select u from AlojamientoEntity u" es como un "select * from
-     * AlojamientoEntity;" - "SELECT * FROM table_name" en SQL.
-     */
-    public List<AlojamientoEntity> findAll() {
-        LOGGER.log(Level.INFO, "Consultando todos los alojamientos");
-        Query q = em.createQuery("select u from AlojamientoEntity u");
-        return q.getResultList();
-    }
-
-    /**
+        /**
      * Busca si hay algun alojamiento con el id que se envía de argumento
      *
      * @param alojamientosId: id correspondiente al alojamiento buscado.
+     * @param proveedoresId: id del proveedor.
      * @return un alojamiento.
      */
-    public AlojamientoEntity find(Long alojamientosId) {
-        LOGGER.log(Level.INFO, "Consultando el alojamiento con id={0}", alojamientosId);
-        return em.find(AlojamientoEntity.class, alojamientosId);
+    public AlojamientoEntity find(Long proveedoresId,Long alojamientosId) {
+        LOGGER.log(Level.INFO, "Consultando el alojamiento con id={0} del proveedor con id = " + proveedoresId, alojamientosId);
+        TypedQuery<AlojamientoEntity> q = em.createQuery("select p from AlojamientoEntity where{p.proveedor.id = :proveedoresid} and {p.id = : alojamientosId}", AlojamientoEntity.class);
+        q.setParameter("proveedoresid", proveedoresId);
+        q.setParameter("alojamientosId", alojamientosId); 
+        List<AlojamientoEntity> alojamientos = q.getResultList();
+        AlojamientoEntity alojamiento = null; 
+        if(alojamientos == null){
+            alojamiento = null;
+        } else if(alojamientos.isEmpty()){
+            alojamiento = null;
+        } else if(alojamientos.size() >= 1){
+            alojamiento = alojamientos.get(0); 
+        }
+        return alojamiento;
     }
 
     /**
@@ -85,9 +85,10 @@ public class AlojamientoPersistence {
      * @param alojamientosId: id correspondiente al alojamiento a borrar.
      */
     public void delete(Long alojamientosId) {
-        LOGGER.log(Level.INFO, "Borrando el libro con id={0}", alojamientosId);
+        LOGGER.log(Level.INFO, "Borrando el alojamiento con id={0}", alojamientosId);
         AlojamientoEntity alojamientoEntity = em.find(AlojamientoEntity.class, alojamientosId);
         em.remove(alojamientoEntity);
+        LOGGER.log(Level.INFO, "Saliendo de borrar El alojamiento con id = {0}", alojamientosId);
     }
 
     /**
