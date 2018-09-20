@@ -40,7 +40,7 @@ public class ComboEntity  extends BaseEntity implements Serializable {
     
     public ComboEntity()
     {
-        setComboIdLong(getId());
+        comboIdLong=getId();
     }
     
     @PodamExclude
@@ -69,6 +69,7 @@ public class ComboEntity  extends BaseEntity implements Serializable {
     
     
     public Long getComboIdLong() {
+        comboIdLong=getId();
         return comboIdLong;
     }
 
