@@ -152,5 +152,24 @@ public class ComboEntity  extends BaseEntity implements Serializable {
         this.pago = pago;
     }
 
-    
+    public void addActividad(ActividadEntity actividad)
+    {
+        if(actividad!=null)
+             actividades.add(actividad);
+    }
+    public void addAlojamiento(AlojamientoEntity alojamiento)
+    {
+        if(alojamiento!=null)
+             alojamientos.add(alojamiento);
+    }
+    public void addTransporteTerrestre(TransporteTerrestreEntity transporteTerrestre)
+    {
+        if(transporteTerrestre!=null)
+             transportesTerrestres.add(transporteTerrestre);
+    }
+    public void addVuelo(VueloEntity vuelo)
+    {
+        if(vuelo!=null)
+             vuelos.add(vuelo);
+    }
 }
