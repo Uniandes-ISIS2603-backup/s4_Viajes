@@ -1,3 +1,5 @@
+package co.edu.uniandes.csw.test.logic;
+
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
@@ -115,16 +117,10 @@ public class PagoLogicTest {
             combo.setCosto((int)(Math.random()*1000));
             combo.setDias(((int)(Math.random()*1000))+1);
             combo.setHoras((int)(Math.random()*1000));
-            try
-            {
-            combo.addVuelo(new VueloEntity());
-            throw new Exception("");
-            }
-            catch(Exception e)
-            {
+           
             em.persist(combo);
             comboData.add(combo);
-            }
+            
         }
         for (int i = 0; i < 3; i++) {
             PagoEntity entity = factory.manufacturePojo(PagoEntity.class);
@@ -140,14 +136,17 @@ public class PagoLogicTest {
      * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException .
      */
     @Test
-    public void createPagoTest() throws BusinessLogicException {
+    public void createPagoConTarjetaTest() throws BusinessLogicException {
 
 //            Assert.assertTrue(!data.isEmpty());
 //            Assert.assertTrue(!comboData.isEmpty());
 
         PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
         newEntity.setaPagar(comboData.get(0));
+        newEntity.setPagaConTarjeta(true);
+        newEntity.setTarjeta("8502479655552748");
         PagoEntity result = pagoLogic.createPago(newEntity);
+
 
         Assert.assertNotNull(result);
         PagoEntity entity = em.find(PagoEntity.class, result.getId());
@@ -159,6 +158,32 @@ public class PagoLogicTest {
         Assert.assertEquals(newEntity.getaPagar(), entity.getaPagar());
     }
 
+    /**
+     * Prueba para crear un Organization.
+     *
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
+     * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException .
+     */
+    @Test
+    public void createPagoSinTarjetaTest() throws BusinessLogicException {
+
+//            Assert.assertTrue(!data.isEmpty());
+//            Assert.assertTrue(!comboData.isEmpty());
+
+        PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
+        newEntity.setaPagar(comboData.get(0));
+        newEntity.setPagaConTarjeta(false);
+        PagoEntity result = pagoLogic.createPago(newEntity);
+
+        Assert.assertNotNull(result);
+        PagoEntity entity = em.find(PagoEntity.class, result.getId());
+        Assert.assertEquals(newEntity.getId(), entity.getId());
+        Assert.assertEquals(newEntity.isPagaConTarjeta(), entity.isPagaConTarjeta());
+        if(newEntity.isPagaConTarjeta())
+          Assert.assertEquals(newEntity.getTarjeta(), entity.getTarjeta());
+
+        Assert.assertEquals(newEntity.getaPagar(), entity.getaPagar());
+    }
 
 
     /**
@@ -196,15 +221,39 @@ public class PagoLogicTest {
      * Prueba para actualizar un Organization.
      */
     @Test
-    public void updatePagoTest() throws BusinessLogicException {
+    public void updatePagoSinTarjetaTest() throws BusinessLogicException {
         PagoEntity entity = data.get(0);
         PagoEntity pojoEntity = factory.manufacturePojo(PagoEntity.class);
 
         pojoEntity.setId(entity.getId());
         pojoEntity.setaPagar(comboData.get(2));
-
-
+        pojoEntity.setPagaConTarjeta(false);
+        
         pagoLogic.updatePago(pojoEntity.getId(), pojoEntity);
+       
+
+        PagoEntity resp = em.find(PagoEntity.class, entity.getId());
+
+        Assert.assertEquals(pojoEntity.getId(), resp.getId());
+//        Assert.assertEquals(pojoEntity.getName(), resp.getName());
+//        Assert.assertEquals(pojoEntity.getTipo(), resp.getTipo());
+    }
+    
+    /**
+     * Prueba para actualizar un Organization.
+     */
+    @Test
+    public void updatePagoConTarjetaTest() throws BusinessLogicException {
+        PagoEntity entity = data.get(0);
+        PagoEntity pojoEntity = factory.manufacturePojo(PagoEntity.class);
+
+        pojoEntity.setId(entity.getId());
+        pojoEntity.setaPagar(comboData.get(2));
+        pojoEntity.setPagaConTarjeta(true);
+        pojoEntity.setTarjeta("8502479655552748");
+        
+        pagoLogic.updatePago(pojoEntity.getId(), pojoEntity);
+       
 
         PagoEntity resp = em.find(PagoEntity.class, entity.getId());
 
