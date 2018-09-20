@@ -6,8 +6,13 @@
 package co.edu.uniandes.csw.viajes.resources;
 
 import co.edu.uniandes.csw.viajes.dtos.EntradaDTO;
+import co.edu.uniandes.csw.viajes.ejb.EntradaLogic;
+import co.edu.uniandes.csw.viajes.entities.EntradaEntity;
+import co.edu.uniandes.csw.viajes.entities.UsuarioEntity;
 //import co.edu.uniandes.csw.viajes.ejb.EntradaLogic;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
+import co.edu.uniandes.csw.viajes.mappers.BusinessLogicExceptionMapper;
+import co.edu.uniandes.csw.viajes.mappers.WebApplicationExceptionMapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -39,6 +44,9 @@ public class EntradaResource {
      * @version 1.0
      */
     private static final Logger LOGGER = Logger.getLogger(EntradaResource.class.getName());
+    
+    @Inject 
+    private EntradaLogic entradaLogic;
 
     //@Inject
     //EntradaLogic entradaLogic; //variable para acceder a la lógica de la aplicación. Es una inyección de independencias.
@@ -56,22 +64,29 @@ public class EntradaResource {
      * Error de lógica que se genera cuando ya existe la entrada.
      */
     @POST
-    public EntradaDTO crearEntrada(@PathParam("documento") String documento,EntradaDTO entrada) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "EntradaResouce createEntrada: input: {0}", entrada.toString());
+    public EntradaDTO crearEntrada(@PathParam("usuarioId") Long userId,EntradaDTO entrada) throws BusinessLogicException {
 
-        return entrada;
+        LOGGER.log(Level.INFO, "EntradaResouce createEntrada: input: {0}", entrada.toString());
+        
+        EntradaEntity entradaEntity = entrada.toEntity();
+        EntradaDTO nuevaEntradaDTO = new EntradaDTO(entradaLogic.createEntrada(userId, entradaEntity));
+        return nuevaEntradaDTO;
     }
     
         /**
      * Busca y devuelve todas las entradas que existen de un usuario.
      *
      * @param documento El documento del usuario del cual se buscan las entradas
-     * @return JSONArray {@link ReviewDTO} - Las entradas encontradas en el
+     * @return JSONArray {@link EntradaDTO} - Las entradas encontradas en el
      * usuario. Si no hay ninguna retorna una lista vacía.
      */
     @GET
-    public List<EntradaDTO> getEntradas(@PathParam("documento") String documento) {
-        return new ArrayList<EntradaDTO>();
+    public List<EntradaDTO> getEntradas(@PathParam("usuarioId") Long userId)
+    {
+        LOGGER.log(Level.INFO, "EntradaResource getEntradas: input: {0}", userId);
+        List<EntradaDTO> listaDTOs = listEntity2DTO(entradaLogic.getEntradas(userId));
+        LOGGER.log(Level.INFO, "EditorialBooksResource getBooks: output: {0}", listaDTOs.toString());
+        return listaDTOs;
     }
     
      /**
@@ -84,9 +99,16 @@ public class EntradaResource {
      */
     @GET
         @Path("{id: \\d+}")
-    public EntradaDTO consultarEntrada(@PathParam("documento") String documento, @PathParam("numero") Long entradaId) 
+    public EntradaDTO consultarEntrada(@PathParam("usuarioId") Long userId, @PathParam("numero") Long entradaId) 
     {
-        return new EntradaDTO();
+        LOGGER.log(Level.INFO, "EntradaResource getEntrada: input: {0}", entradaId);
+        EntradaEntity entity = entradaLogic.getEntrada(userId, entradaId);
+        if (entity == null) {
+            throw new WebApplicationException("El recurso /usuarios/" + userId + "/entradas/" + entradaId + " no existe.", 404);
+        }
+        EntradaDTO entradaDTO = new EntradaDTO(entity);
+        LOGGER.log(Level.INFO, "EntradaResource getEntrada: output: {0}", entradaDTO.toString());
+        return entradaDTO;
     }
     
     /**
@@ -98,9 +120,20 @@ public class EntradaResource {
      */
     @PUT
     @Path("{id: \\d+}")
-    public EntradaDTO modificarEntrada(@PathParam("documento") String documento,@PathParam("id")Long entradaId, EntradaDTO nueva) throws WebApplicationException
+    public EntradaDTO modificarEntrada(@PathParam("usuarioId") Long userId,@PathParam("id")Long entradaId, EntradaDTO nueva) throws WebApplicationException, BusinessLogicException
     {
-       return nueva;
+        LOGGER.log(Level.INFO, "EntradaResource updateEntrada: input: userId: {0} , entradaId: {1} , entrada:{2}", new Object[]{userId, entradaId, nueva.toString()});
+        if (entradaId.equals(nueva.getId())) {
+            throw new BusinessLogicException("Los ids del Entrada no coinciden.");
+        }
+        EntradaEntity entity = entradaLogic.getEntrada(userId, entradaId);
+        if (entity == null) {
+            throw new WebApplicationException("El recurso /usuarios/" + userId + "/entradas/" + entradaId + " no existe.", 404);
+
+        }
+        EntradaDTO entradaDTO = new EntradaDTO(entradaLogic.updateEntrada(userId, nueva.toEntity()));
+        LOGGER.log(Level.INFO, "EntradaResource updateEntrada: output:{0}", entradaDTO.toString());
+        return entradaDTO;
     }
     
         /**
@@ -115,8 +148,12 @@ public class EntradaResource {
      */
     @DELETE
     @Path("{id: \\d+}")
-    public void deleteEntrada(@PathParam("documento") String documento, @PathParam("id") Long entradaId) {
-        
+    public void deleteEntrada(@PathParam("idUsuario") Long userId, @PathParam("id") Long entradaId) throws BusinessLogicException {
+        EntradaEntity entity = entradaLogic.getEntrada(userId, entradaId);
+        if (entity == null) {
+            throw new WebApplicationException("El recurso /usuarios/" + userId + "/entradas/" + entradaId + " no existe.", 404);
+        }
+        entradaLogic.deleteEntrada(userId, entradaId);
     }
     
             /**
@@ -133,9 +170,14 @@ public class EntradaResource {
      */
     @Path("{id: \\d+}/comentarios")
     public Class<ComentarioResource> getComentarioResource(@PathParam("id") Long entradaId) {
-    //    if (usuarioLogic.getUsuario(documento) == null) {
-    //      throw new WebApplicationException("El recurso /books/" + documento + "/reviews no existe.", 404);
-    //  }
         return ComentarioResource.class;
+    }
+
+    private List<EntradaDTO> listEntity2DTO(List<EntradaEntity> entradas) {
+        List<EntradaDTO> list = new ArrayList<EntradaDTO>();
+        for (EntradaEntity entity : entradas) {
+            list.add(new EntradaDTO(entity));
+        }
+        return list;
     }
 }
