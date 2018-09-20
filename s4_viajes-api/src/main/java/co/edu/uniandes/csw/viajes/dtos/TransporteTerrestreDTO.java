@@ -7,6 +7,8 @@ package co.edu.uniandes.csw.viajes.dtos;
 
 import co.edu.uniandes.csw.viajes.entities.TransporteTerrestreEntity;
 import java.io.Serializable;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  *
@@ -21,13 +23,13 @@ public class TransporteTerrestreDTO implements Serializable {
 
     private String destino;
 
-    private Long latitudOrigen;
+    private double latitudOrigen;
 
-    private Long longitudOrigen;
+    private double longitudOrigen;
 
-    private Long latitudDestino;
+    private double latitudDestino;
 
-    private Long longitudDestino;
+    private double longitudDestino;
 
     private Integer numeroDias;
 
@@ -36,6 +38,8 @@ public class TransporteTerrestreDTO implements Serializable {
     private Integer puntuacion;
 
     private Long id;
+    
+    private ProveedorDTO proveedor;
 
     //-----------------------------------------------------------------------------------------------------------------------
     //Metodos
@@ -57,6 +61,12 @@ public class TransporteTerrestreDTO implements Serializable {
             this.numeroDias = transporteEntity.getNumeroDias();
             this.numeroHoras = transporteEntity.getNumeroHoras();
             this.puntuacion = transporteEntity.getPuntuacion();
+            if(transporteEntity.getProveedor() != null){
+                this.proveedor = new ProveedorDTO(transporteEntity.getProveedor());
+            }
+            else{
+                this.proveedor = null; 
+            } 
         }
     }
 
@@ -84,6 +94,9 @@ public class TransporteTerrestreDTO implements Serializable {
         transporteTerrestreEntity.setNumeroDias(this.numeroDias);
         transporteTerrestreEntity.setNumeroHoras(this.numeroHoras);
         transporteTerrestreEntity.setPuntuacion(this.puntuacion);
+        if(this.proveedor != null){
+            transporteTerrestreEntity.setProveedor(this.proveedor.toEntity()); 
+        }
 
         return transporteTerrestreEntity;
     }
@@ -106,7 +119,7 @@ public class TransporteTerrestreDTO implements Serializable {
         this.destino = destino;
     }
 
-    public Long getLatitudOrigen() {
+    public double getLatitudOrigen() {
         return latitudOrigen;
     }
 
@@ -114,7 +127,7 @@ public class TransporteTerrestreDTO implements Serializable {
         this.latitudOrigen = latitudOrigen;
     }
 
-    public Long getLongitudOrigen() {
+    public double getLongitudOrigen() {
         return longitudOrigen;
     }
 
@@ -122,7 +135,7 @@ public class TransporteTerrestreDTO implements Serializable {
         this.longitudOrigen = longitudOrigen;
     }
 
-    public Long getLatitudDestino() {
+    public double getLatitudDestino() {
         return latitudDestino;
     }
 
@@ -130,7 +143,7 @@ public class TransporteTerrestreDTO implements Serializable {
         this.latitudDestino = latitudDestino;
     }
 
-    public Long getLongitudDestino() {
+    public double getLongitudDestino() {
         return longitudDestino;
     }
 
@@ -168,6 +181,12 @@ public class TransporteTerrestreDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+    
+    
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
 
 }

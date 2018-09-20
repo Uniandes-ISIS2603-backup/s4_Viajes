@@ -7,7 +7,9 @@
 //
 //import co.edu.uniandes.csw.viajes.ejb.AlojamientoLogic;
 //import co.edu.uniandes.csw.viajes.entities.AlojamientoEntity;
+//import co.edu.uniandes.csw.viajes.entities.ProveedorEntity;
 //import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
+//import co.edu.uniandes.csw.viajes.persistence.AlojamientoPersistence;
 //import java.util.ArrayList;
 //import java.util.List;
 //import javax.inject.Inject;
@@ -32,6 +34,8 @@
 //@RunWith(Arquillian.class)
 //public class AlojamientoLogicTest {
 //
+//    private PodamFactory factory = new PodamFactoryImpl();
+//     
 //    @Inject
 //    private AlojamientoLogic alojamientoLogic;
 //
@@ -42,6 +46,8 @@
 //    UserTransaction utx;
 //
 //    private List<AlojamientoEntity> data = new ArrayList<AlojamientoEntity>();
+//    
+//    private List<ProveedorEntity> proveedorData = new ArrayList<ProveedorEntity>();
 //
 //    /**
 //     * @return Devuelve el jar que Arquillian va a desplegar en Payara embebido.
@@ -53,6 +59,7 @@
 //        return ShrinkWrap.create(JavaArchive.class)
 //                .addPackage(AlojamientoEntity.class.getPackage())
 //                .addPackage(AlojamientoLogic.class.getPackage())
+//                .addPackage(AlojamientoPersistence.class.getPackage()) 
 //                .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
 //                .addAsManifestResource("META-INF/beans.xml", "beans.xml");
 //    }
@@ -64,7 +71,6 @@
 //    public void configTest() {
 //        try {
 //            utx.begin();
-//            em.joinTransaction();
 //            clearData();
 //            insertData();
 //            utx.commit();
@@ -82,6 +88,7 @@
 //     * Limpia las tablas que están implicadas en la prueba.
 //     */
 //    private void clearData() {
+//        em.createQuery("delete from ProveedorEntity").executeUpdate();
 //        em.createQuery("delete from AlojamientoEntity").executeUpdate();
 //    }
 //
@@ -90,10 +97,15 @@
 //     * pruebas.
 //     */
 //    private void insertData() {
-//        PodamFactory factory = new PodamFactoryImpl();
+//        for (int i = 0; i < 3; i++) {
+//            ProveedorEntity proveedor = factory.manufacturePojo(ProveedorEntity.class);
+//            em.persist(proveedor);
+//            proveedorData.add(proveedor);
+//        }
+//        
 //        for (int i = 0; i < 3; i++) {
 //            AlojamientoEntity entity = factory.manufacturePojo(AlojamientoEntity.class);
-//
+//            entity.setProveedor(proveedorData.get(1)); 
 //            em.persist(entity);
 //            data.add(entity);
 //        }
@@ -107,83 +119,71 @@
 //    //Prueba basica
 //    @Test
 //    public void createAlojamientoTest() throws BusinessLogicException {
-//        PodamFactory factory = new PodamFactoryImpl();
-//        AlojamientoEntity newEntity = factory.manufacturePojo(AlojamientoEntity.class);
-//
-//        alojamientoLogic.createAlojamiento(newEntity);
-//
+//        AlojamientoEntity newEntity = factory.manufacturePojo(AlojamientoEntity.class);   
+//        newEntity.setProveedor(proveedorData.get(1));
+//        newEntity.setCosto(1.1);
+//        newEntity.setEstrellas(4);
+//        newEntity.setLatitud(4.8555555); 
+//        newEntity.setLongitud(4.3265656);
+//        newEntity.setNoches(1);
+//        newEntity.setNombre("Funciono"); 
+//        newEntity.setPuntuacion(1);
+//        newEntity.setTipo("Hotel");
+//        newEntity.setUbicacion("Bogota"); 
+//        
+//        
+//        AlojamientoEntity result = alojamientoLogic.createAlojamiento(proveedorData.get(1).getId(), newEntity);
+//        Assert.assertNotNull(result); 
 //        AlojamientoEntity entity = em.find(AlojamientoEntity.class, newEntity.getId());
-//
-//        Assert.assertNotNull(entity); 
+//        Assert.assertEquals(newEntity.getId(), entity.getId()); 
+//        Assert.assertEquals(newEntity.getCosto(), entity.getCosto());
+//        Assert.assertEquals(newEntity.getEstrellas(), entity.getEstrellas()); 
+//        Assert.assertEquals(newEntity.getNoches(), entity.getNoches());
+//        Assert.assertEquals(newEntity.getNombre(), entity.getNombre());
+//        Assert.assertEquals(newEntity.getPuntuacion(), entity.getPuntuacion());
+//        Assert.assertEquals(newEntity.getTipo(), entity.getTipo());
+//        Assert.assertEquals(newEntity.getUbicacion(), entity.getUbicacion()); 
 //        
 //    }
 //
-//    /**
-//     * En caso que el nombre del alojamiento sea null y/o vacio.
-//     *
-//     * @throws BusinessLogicException
-//     */
-//    @Test(expected = BusinessLogicException.class)
-//    public void createAlojamientoTest2() throws BusinessLogicException {
-//        PodamFactory factory = new PodamFactoryImpl();
-//        AlojamientoEntity newEntity = factory.manufacturePojo(AlojamientoEntity.class);
-//        newEntity.setNombre(null);
-//
-//        alojamientoLogic.createAlojamiento(newEntity);
-//
-//    }
-//
-//    /**
-//     * En caso que el nombre del alojamiento sea mayor a 25 caracteres.
-//     *
-//     * @throws BusinessLogicException
-//     */
-//    @Test(expected = BusinessLogicException.class)
-//    public void createAlojamientoTest3() throws BusinessLogicException {
-//        PodamFactory factory = new PodamFactoryImpl();
-//        AlojamientoEntity newEntity = factory.manufacturePojo(AlojamientoEntity.class);
-//        newEntity.setNombre("rstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyz");
-//
-//        alojamientoLogic.createAlojamiento(newEntity);
-//
-//    }
-//
-//    /**
-//     * En caso que el costo del alojamiento sea menor a 0.
-//     *
-//     * @throws BusinessLogicException
-//     */
-//    @Test(expected = BusinessLogicException.class)
-//    public void createAlojamientoTest4() throws BusinessLogicException {
-//        PodamFactory factory = new PodamFactoryImpl();
-//        AlojamientoEntity newEntity = factory.manufacturePojo(AlojamientoEntity.class);
-//        newEntity.setCosto(-5.00);
-//
-//        alojamientoLogic.createAlojamiento(newEntity);
-//
-//    }
-//
-//    /**
-//     * En caso que las estrellas sean menor a 0.
-//     *
-//     * @throws BusinessLogicException
-//     */
-//    @Test(expected = BusinessLogicException.class)
-//    public void createAlojamientoTest5() throws BusinessLogicException {
-//        PodamFactory factory = new PodamFactoryImpl();
-//        AlojamientoEntity newEntity = factory.manufacturePojo(AlojamientoEntity.class);
-//        newEntity.setEstrellas(-5);
-//
-//        alojamientoLogic.createAlojamiento(newEntity);
-//    }
+////    /**
+////     * En caso que el nombre del alojamiento sea null y/o vacio.
+////     *
+////     * @throws BusinessLogicException
+////     */
+////    @Test(expected = BusinessLogicException.class)
+////    public void createAlojamientoTest2() throws BusinessLogicException {
+////        PodamFactory factory = new PodamFactoryImpl();
+////        AlojamientoEntity newEntity = factory.manufacturePojo(AlojamientoEntity.class);
+////        newEntity.setNombre(null);
+////
+////        alojamientoLogic.createAlojamiento(newEntity);
+////
+////    }
+////
+////    /**
+////     * En caso que el nombre del alojamiento sea mayor a 25 caracteres.
+////     *
+////     * @throws BusinessLogicException
+////     */
+////    @Test(expected = BusinessLogicException.class)
+////    public void createAlojamientoTest3() throws BusinessLogicException {
+////        PodamFactory factory = new PodamFactoryImpl();
+////        AlojamientoEntity newEntity = factory.manufacturePojo(AlojamientoEntity.class);
+////        newEntity.setNombre("rstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyzAbcdefghijklmnopqrstuvwxyz");
+////
+////        alojamientoLogic.createAlojamiento(newEntity);
+////
+////    }
 //
 //    /**
 //     * Prueba para consultar la lista de Alojamientos.
 //     */
 //    @Test
 //    public void getAlojamientosTest() {
-//        List<AlojamientoEntity> list = alojamientoLogic.getAlojamientos();
-//        Assert.assertEquals(data.size(), list.size());
+//        
+//        List<AlojamientoEntity> list = alojamientoLogic.getAlojamientos(proveedorData.get(1).getId()); 
+//        Assert.assertEquals(data.size(), list.size()); 
 //        for (AlojamientoEntity ent : list) {
 //            boolean found = false;
 //            for (AlojamientoEntity entity : data) {
@@ -203,33 +203,30 @@
 //    @Test
 //    public void getAlojamientoTest() throws BusinessLogicException {
 //        AlojamientoEntity entity = data.get(0);
-//
-//        AlojamientoEntity newEntity = alojamientoLogic.getAlojamiento(entity.getId());
+//        AlojamientoEntity newEntity = alojamientoLogic.getAlojamiento(proveedorData.get(1).getId(), entity.getId());
 //        Assert.assertNotNull(newEntity);
 //        Assert.assertEquals(newEntity.getNombre(), entity.getNombre());
 //        Assert.assertEquals(newEntity.getProveedor(), entity.getProveedor());
 //        Assert.assertEquals(newEntity.getCosto(), entity.getCosto());
 //        Assert.assertEquals(newEntity.getPuntuacion(), entity.getPuntuacion());
 //        Assert.assertEquals(newEntity.getEstrellas(), entity.getEstrellas());
-//        Assert.assertEquals(newEntity.getLatitud(), entity.getLatitud());
-//        Assert.assertEquals(newEntity.getLongitud(), entity.getLongitud());
 //        Assert.assertEquals(newEntity.getNoches(), entity.getNoches());
 //        Assert.assertEquals(newEntity.getTipo(), entity.getTipo());
 //        Assert.assertEquals(newEntity.getUbicacion(), entity.getUbicacion());
 //    }
 //
-//    /**
-//     * Prueba para consultar un Alojamiento con id invalido.
-//     *
-//     * @throws BusinessLogicException
-//     */
-//    @Test(expected = BusinessLogicException.class)
-//    public void getAlojamientoTest2() throws BusinessLogicException {
-//        AlojamientoEntity entity = data.get(0);
-//        entity.setId(null);
-//        AlojamientoEntity newEntity = alojamientoLogic.getAlojamiento(entity.getId());
-//
-//    }
+////    /**
+////     * Prueba para consultar un Alojamiento con id invalido.
+////     *
+////     * @throws BusinessLogicException
+////     */
+////    @Test(expected = BusinessLogicException.class)
+////    public void getAlojamientoTest2() throws BusinessLogicException {
+////        AlojamientoEntity entity = data.get(0);
+////        entity.setId(null);
+////        AlojamientoEntity newEntity = alojamientoLogic.getAlojamiento(entity.getId());
+////
+////    }
 //
 //    /**
 //     * Prueba para eliminar un Alojamiento.
@@ -239,7 +236,7 @@
 //    @Test
 //    public void deleteAlojamientoTest() throws BusinessLogicException {
 //        AlojamientoEntity entity = data.get(0);
-//        alojamientoLogic.deleteAlojamiento(entity.getId());
+//        alojamientoLogic.deleteAlojamiento(proveedorData.get(1).getId() , entity.getId());
 //        AlojamientoEntity deleted = em.find(AlojamientoEntity.class, entity.getId());
 //        Assert.assertNull(deleted);
 //    }
@@ -252,10 +249,7 @@
 //    @Test(expected = BusinessLogicException.class) 
 //    public void deleteAlojamientoTest2() throws BusinessLogicException {
 //        AlojamientoEntity entity = data.get(0);
-//        entity.setId(null);
-//        alojamientoLogic.deleteAlojamiento(entity.getId());
-//        AlojamientoEntity deleted = em.find(AlojamientoEntity.class, entity.getId());
-//        Assert.assertNull(deleted);
+//        alojamientoLogic.deleteAlojamiento(proveedorData.get(0).getId() , entity.getId());
 //    }
 //
 //    /**
@@ -266,12 +260,11 @@
 //    @Test
 //    public void updateAlojamientoTest() throws BusinessLogicException {
 //        AlojamientoEntity entity = data.get(0);
-//        PodamFactory factory = new PodamFactoryImpl();
 //        AlojamientoEntity newEntity = factory.manufacturePojo(AlojamientoEntity.class);
-//
+//        
 //        newEntity.setId(entity.getId());
 //
-//        alojamientoLogic.updateAlojamiento(newEntity.getId(), newEntity);
+//        alojamientoLogic.updateAlojamiento(proveedorData.get(1).getId(), newEntity);
 //
 //        AlojamientoEntity resp = em.find(AlojamientoEntity.class, entity.getId());
 //
@@ -284,6 +277,6 @@
 //        Assert.assertEquals(newEntity.getLongitud(), resp.getLongitud());
 //        Assert.assertEquals(newEntity.getNoches(), resp.getNoches());
 //        Assert.assertEquals(newEntity.getTipo(), resp.getTipo());
-//        Assert.assertEquals(newEntity.getUbicacion(), resp.getUbicacion());
+//        Assert.assertEquals(newEntity.getUbicacion(), resp.getUbicacion()); 
 //    }
 //}

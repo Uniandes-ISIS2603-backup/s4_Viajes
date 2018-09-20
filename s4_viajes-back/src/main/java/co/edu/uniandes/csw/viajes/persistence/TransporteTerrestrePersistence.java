@@ -60,9 +60,21 @@ public class TransporteTerrestrePersistence {
      * @param transportesId: id correspondiente al alojamiento buscado.
      * @return un alojamiento.
      */
-    public TransporteTerrestreEntity find(Long transportesId) {
-        LOGGER.log(Level.INFO, "Consultando el alojamiento con id={0}", transportesId);
-        return em.find(TransporteTerrestreEntity.class, transportesId);
+    public TransporteTerrestreEntity find(Long proveedoresId, Long transportesId) {
+        LOGGER.log(Level.INFO, "Consultando el transporte con id={0} del proveedor con id = " + proveedoresId, transportesId);
+        TypedQuery<TransporteTerrestreEntity> q = em.createQuery("select p from TransporteTerrestreEntity where{p.proveedor.id = :proveedoresid} and {p.id = : transportesId}", TransporteTerrestreEntity.class);
+        q.setParameter("proveedoresid", proveedoresId);
+        q.setParameter("alojamientosId", transportesId);  
+        List<TransporteTerrestreEntity> transportes = q.getResultList();
+        TransporteTerrestreEntity transporte = null; 
+        if(transportes == null){
+            transporte = null;
+        } else if(transportes.isEmpty()){
+            transporte = null;
+        } else if(transportes.size() >= 1){
+            transporte = transportes.get(0); 
+        }
+        return transporte;
     }
 
     /**
