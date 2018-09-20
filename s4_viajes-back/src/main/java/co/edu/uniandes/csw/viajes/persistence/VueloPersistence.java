@@ -112,7 +112,7 @@ public class VueloPersistence {
         /**
      * Busca si hay algun proveedor con elnombre que se envía de argumento
      *
-     * @param nombre: Nombre del proveedor que se está buscando
+     * @param numero: Nombre del proveedor que se está buscando
      * @return null si no existe ningun proveedor con el nombre del argumento. Si
      * existe alguno devuelve el primero.
      */
@@ -121,7 +121,7 @@ public class VueloPersistence {
         // Se crea un query para buscar vuelos con el umero que recibe el método como argumento. ":numero" es un placeholder que debe ser remplazado
         TypedQuery query = em.createQuery("Select e From VueloEntity e where e.numero = :numero", VueloEntity.class);
         // Se remplaza el placeholder ":numero" con el valor del argumento 
-        query = query.setParameter("nombre", numero);
+        query = query.setParameter("numero", numero);
         // Se invoca el query se obtiene la lista resultado
         List<VueloEntity> sameNumero = query.getResultList();
         VueloEntity result;

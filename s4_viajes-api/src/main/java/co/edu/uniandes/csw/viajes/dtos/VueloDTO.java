@@ -46,6 +46,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class VueloDTO implements Serializable {
 
     //Atributos//
+    private Long id;
     private String numero;
     private double costo;
     private double puntuacion;
@@ -73,6 +74,7 @@ public class VueloDTO implements Serializable {
      */
     public VueloDTO(VueloEntity vueloEntity) {
         if (vueloEntity != null) {
+            this.id = vueloEntity.getId();
             this.numero = vueloEntity.getNumero();
             this.costo = vueloEntity.getCosto();
             this.puntuacion = vueloEntity.getPuntaje();
@@ -86,6 +88,16 @@ public class VueloDTO implements Serializable {
     }
 
     //Métodos//
+    
+    /**
+     * Obtiene el id de un vuelo.
+     *
+     * @return id del vuelo.
+     */
+    public Long getId() {
+        return id;
+    }
+    
     /**
      * Obtiene el número de un vuelo.
      *
@@ -165,6 +177,14 @@ public class VueloDTO implements Serializable {
      */    
     public Calendar getFechaLlegada(){
         return fechaLlegada;
+    }
+    /**
+     * Modifica (set) el id de un vuelo ingresado por parámetro.
+     *
+     * @param pId nuevo id que modificará el actual.
+     */
+    public void setId(Long pId) {
+        id = pId;
     }
     
     /**
@@ -261,6 +281,7 @@ public class VueloDTO implements Serializable {
      */
     public VueloEntity toEntity() {
         VueloEntity vueloEntity = new VueloEntity();
+        vueloEntity.setId(this.id);
         vueloEntity.setNumero(this.numero);
         vueloEntity.setCosto(this.costo);
         vueloEntity.setPuntaje(this.puntuacion);
