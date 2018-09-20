@@ -6,8 +6,10 @@
 package co.edu.uniandes.csw.viajes.ejb;
 
 import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
+import co.edu.uniandes.csw.viajes.entities.GuiaEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.ActividadPersistence;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -34,10 +36,21 @@ public class ActividadLogic {
      * @throws BusinessLogicException Si la editorial a persistir ya existe.
      */
     public ActividadEntity createActividad(ActividadEntity actividadEntity) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de creación de la editorial");
+        LOGGER.log(Level.INFO, "Inicia proceso de creación de la actividad");
         // Verifica la regla de negocio que dice que no puede haber dos actividades con el mismo id
-        if (persistence.findByName(actividadEntity.getId().toString()) != null) {
+         if (!validarId(actividadEntity.getId()))
+        {
+            throw new BusinessLogicException("La actividad tiene un identificador no valido");
+        }
+        
+        if (persistence.find(actividadEntity.getId()) != null) {
             throw new BusinessLogicException("Ya existe una Actividad con el mismo id \"" + actividadEntity.getId() + "\"");
+        }
+    
+       if (actividadEntity.getGuias() == null)
+        {
+            throw new BusinessLogicException("La lista de guias no se ha inicializado correctamente");
+
         }
         // Invoca la persistencia para crear la editorial
         persistence.create(actividadEntity);
@@ -46,17 +59,20 @@ public class ActividadLogic {
     }
 
     /**
-     * Borrar un editorial
+     * Borrar una actividad
      *
-     * @param editorialsId: id de la editorial a borrar
+     * @param actividadId: id de la actividad a borrar
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      */
 
-    public void deleteActividad(String actividadId) {
-        LOGGER.log(Level.INFO, "Inicia proceso de borrar la editorial con id = {0}", actividadId);
-        // Note que, por medio de la inyección de dependencias se llama al método "delete(id)" que se encuentra en la persistencia.
-        //persistence.delete(editorialsId);
-        LOGGER.log(Level.INFO, "Termina proceso de borrar la editorial con id = {0}", actividadId);
-
+    public void deleteActividad(Long actividadId) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "Inicia proceso de borrar el libro con id = {0}", actividadId);
+        List<GuiaEntity> guias = getActividad(actividadId).getGuias();
+        if (guias != null && !guias.isEmpty()) {
+            throw new BusinessLogicException("No se puede borrar la actividad con id = " + actividadId + " porque tiene guias asociados");
+        }
+        persistence.delete(actividadId);
+        LOGGER.log(Level.INFO, "Termina proceso de borrar la actividad con id = {0}", actividadId);
     }
 
     public ActividadEntity getActividad(Long actividadId) {
@@ -75,14 +91,38 @@ public class ActividadLogic {
         
     }
     
-    public ActividadEntity modificarActividad(Long id, ActividadEntity actividadEntity){
+    public ActividadEntity modificarActividad(Long id, ActividadEntity actividadEntity)throws BusinessLogicException{
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar la actividad con id = {0}", id);
+        if (!validarId(id))
+        {
+            throw new BusinessLogicException("El id a actualizar es inválido");
+        }
         // Note que, por medio de la inyección de dependencias se llama al método "update(entity)" que se encuentra en la persistencia.
         //PERSISTENCIA
         ActividadEntity newEntity = persistence.update(actividadEntity);
         LOGGER.log(Level.INFO, "Termina proceso de actualizar la actividad con id = {0}", actividadEntity.getId());
-        return new ActividadEntity();
+        return newEntity;
     }
+    
+      /**
+     * Devuelve todos las actividades que hay en la base de datos.
+     *
+     * @return Lista de actividades de tipo libro.
+     */
+    public List<ActividadEntity> getActividades() {
+        LOGGER.log(Level.INFO, "Inicia proceso de consultar todos las actividades");
+        List<ActividadEntity> actividades = persistence.findAll();
+        LOGGER.log(Level.INFO, "Termina proceso de consultar todos las actividades");
+        return actividades;
+    }
+    
+    private boolean validarId(Long id)
+    {
+        return !(id == null || id <= 0L);
+    }
+    
+    
+    
 
    
     

@@ -1,0 +1,33 @@
+{
+	"info": {
+		"_postman_id": "12a472c3-837a-4207-85d9-8b92e1a37d8a",
+		"name": "Guia",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:8080/s4_viajes-api/api/guia",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:8080/s4_viajes-api/api/guia",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		}
+	]
+}

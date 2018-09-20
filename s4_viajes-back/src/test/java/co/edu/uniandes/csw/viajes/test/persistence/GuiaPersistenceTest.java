@@ -179,6 +179,21 @@ public class GuiaPersistenceTest {
         Assert.assertEquals(newEntity.getPuntuacion(), resp.getPuntuacion());
         Assert.assertEquals(newEntity.getDocumento(), resp.getDocumento());
     }
+    
+    /**
+     * Prueba para consultasr un Guia por Documento.
+     */
+    @Test
+    public void findBookByDocumento() {
+        GuiaEntity entity = data.get(0);
+        GuiaEntity newEntity = guiaPersistence.findByDocumento(entity.getDocumento());
+        Assert.assertNotNull(newEntity);
+        
+        Assert.assertEquals(entity.getDocumento().shortValue(), newEntity.getDocumento().shortValue());
+
+        newEntity = guiaPersistence.findByDocumento(null);
+        Assert.assertNull(newEntity);
+    }
 
     
 }

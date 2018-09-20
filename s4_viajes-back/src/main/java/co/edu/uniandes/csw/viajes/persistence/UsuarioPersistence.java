@@ -74,7 +74,7 @@ public class UsuarioPersistence {
         el tipo de la clase y el objeto que nos hara el filtro en la base de datos en este caso el "id"
         Suponga que es algo similar a "select * from UsuarioEntity where id=id;" - "SELECT * FROM table_name WHERE condition;" en SQL.
          */
-        return em.find(UsuarioEntity.class, usuarioId);
+        return em.find(UsuarioEntity.class, usuarioId); 
     }
     
      public UsuarioEntity findByUserName(String pUserName) {
