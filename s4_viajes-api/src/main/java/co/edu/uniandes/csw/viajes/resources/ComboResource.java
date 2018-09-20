@@ -140,9 +140,9 @@ public class ComboResource {
         if (comboLogic.getCombo(comboId) == null) {
             throw new WebApplicationException("El recurso /combos/" + comboId + " no existe.", 404);
         }
-        
-        combo.setComboIdLong(comboId);
-        ComboDetailDTO comboDetailDTO = new ComboDetailDTO(comboLogic.updateCombo(comboId, combo.toEntity()));
+        ComboEntity comboEntity=combo.toEntity();
+        comboEntity.setId(comboId);
+        ComboDetailDTO comboDetailDTO = new ComboDetailDTO(comboLogic.updateCombo(comboId, comboEntity));
         LOGGER.log(Level.INFO, "ComboResource updateCombo: output: {0}", comboDetailDTO.toString());
         return comboDetailDTO;
 
