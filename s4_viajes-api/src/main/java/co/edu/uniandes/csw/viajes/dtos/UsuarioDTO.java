@@ -48,6 +48,7 @@ public class UsuarioDTO implements Serializable{
     private String nombre;
     private String userName;
     private Boolean hasLoggedIn;
+    private String contraseña;
     private int edad;
 
 

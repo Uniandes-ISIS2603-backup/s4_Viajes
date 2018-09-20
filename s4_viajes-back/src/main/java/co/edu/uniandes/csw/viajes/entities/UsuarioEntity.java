@@ -28,6 +28,7 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
     private String documento;
     private String nombre;
     private String userName;
+    private String contraseña;
     
     @PodamExclude
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
