@@ -24,11 +24,13 @@ public class ActividadDTO implements Serializable{
     private int duracion;
     private double latitud;
     private double longitud;
+    private ActividadEntity actividad;
     
     public ActividadDTO(){}
     
     public ActividadDTO(ActividadEntity actividadEntity) {
-        if (actividadEntity != null) {
+        if (actividadEntity != null)
+        {
             this.id = actividadEntity.getId();
             this.costo = actividadEntity.getCosto();
             this.ofrece_guia = actividadEntity.isOfreceGuia();
@@ -57,7 +59,7 @@ public class ActividadDTO implements Serializable{
     
     public ActividadEntity toEntity() {
         ActividadEntity actividadEntity = new ActividadEntity();
-        actividadEntity.setId(this.id);
+        actividadEntity.setIdentificador(this.id);
         actividadEntity.setCosto(this.costo);
         actividadEntity.setDuracion(this.duracion);
         actividadEntity.setLatitud(this.latitud);
