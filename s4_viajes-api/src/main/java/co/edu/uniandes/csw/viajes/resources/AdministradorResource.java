@@ -50,8 +50,7 @@ public class AdministradorResource {
      * la petición y se regresa un objeto identico con un id auto-generado por
      * la base de datos.
      *
-     * @param administrador {@link UsuarioDTO} - El administrador a guardar
-     * guardar.
+     * @param administrador {@link UsuarioDTO} - El administrador a guardar.
      * @return JSON {@link UsuarioDTO} - El administrador guardado con el atributo
      * id autogenerado.
      * @throws BusinessLogicException {@link BusinessLogicExceptionMapper} -
@@ -67,19 +66,6 @@ public class AdministradorResource {
        AdministradorDTO nuevoAdminDTO = new AdministradorDTO(administradorEntity);
         return nuevoAdminDTO;
     }
-   
-   /**
-     * Obtiene un administrador con su información de acuerdo a su documento.
-     * información que fue previamente ingresada en formato JSON.
-     *
-     * @return un administrador y su información de acuerdo a su id.
-     */
-    @GET
-        @Path("{userName: [a-zA-Z][a-zA-Z]*}")
-    public AdministradorDTO consultarAdministrador(@PathParam("userName") String adminusername){
-        return new AdministradorDTO();
-    }
-   
 
     /**
      * Borra el administrador con el id asociado (número) recibido en la URL.
@@ -88,10 +74,21 @@ public class AdministradorResource {
      * una cadena de caracteres (String).
      */
     @DELETE
-    @Path("{UsuarioNum: \\d+}")
-    public void deleteAdministrador(@PathParam("userName") String adminusername) {
-    
+    @Path("{administradorId: \\d+}")
+    public void deleteAdministrador(@PathParam("administradorId") Long adminId, String pContrasena) throws BusinessLogicException {
+      LOGGER.log(Level.INFO, "UsuarioResource deleteUsuario: input: {0}", adminId);
+        AdministradorEntity entity = administradorLogic.getAdministrador(adminId); 
+        if(entity==null)
+       {
+           throw new WebApplicationException("El recurso /administradores/"+ adminId + "no existe.", 404);
+           
+       }
+        
+       administradorLogic.deleteAdministrador(adminId, pContrasena);
+       
     }
+    
+    
     
     
 }

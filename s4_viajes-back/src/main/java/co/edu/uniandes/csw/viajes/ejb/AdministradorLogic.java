@@ -60,6 +60,25 @@ public class AdministradorLogic {
         return (mat.matches() && !pContrasena.isEmpty());
 
     }
+    
+    
+      /**
+     * Obtener un administrador por medio de su id.
+     *
+     * @param administradorId: id del administrador para ser buscado.
+     * @return el usuario solicitado por medio de su id.
+     */
+    public AdministradorEntity getAdministrador(Long adminId) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "Inicia proceso de consultar administrador con id = {0}", adminId);
+        // Note que, por medio de la inyección de dependencias se llama al método "find(id)" que se encuentra en la persistencia.
+        AdministradorEntity administrador = persistence.find(adminId);
+        if (administrador == null) {
+            LOGGER.log(Level.SEVERE, "El administrador con el id = {0} no existe", adminId);
+           throw new BusinessLogicException("El usuario consultado no existe");
+        }
+        LOGGER.log(Level.INFO, "Termina proceso de consultar el usuario con id = {0}", adminId);
+        return administrador;
+    }
 
     public boolean validateNombre(String pNombre)
     {
@@ -76,7 +95,7 @@ public class AdministradorLogic {
      * @param administradorId: id del administrador para ser actualizado.
      * @return el usuario solicitado por medio de su id.
      */
-    public AdministradorEntity updateAdministrador(AdministradorEntity administradorEntity) throws BusinessLogicException {
+    public AdministradorEntity updateAdministrador(Long administradorId, AdministradorEntity administradorEntity) throws BusinessLogicException {
    
         if (administradorEntity.getNombre()==null|administradorEntity.getUserName()==null) {
            throw new BusinessLogicException("No es posible actualizar un administrador con información nula");
