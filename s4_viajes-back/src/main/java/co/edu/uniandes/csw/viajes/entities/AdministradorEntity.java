@@ -43,6 +43,12 @@ public class AdministradorEntity extends BaseEntity implements Serializable {
     
     }
     
+      public void setUsuarios(List<UsuarioEntity> pLista)
+    {
+        this.usuarios = pLista;
+        
+    }
+    
         public List<UsuarioEntity> getUsuarios()
     {
 

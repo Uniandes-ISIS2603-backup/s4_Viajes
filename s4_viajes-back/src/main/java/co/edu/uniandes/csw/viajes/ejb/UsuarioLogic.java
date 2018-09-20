@@ -48,15 +48,15 @@ public class UsuarioLogic {
             throw new BusinessLogicException("El documento debe tener máximo 12 caracteres");
         }
         
-         if(persistence.findByUserName(usuarioEntity.getUserName())!=null)
-        {
-            throw new BusinessLogicException("El nombre de usuario ya ha sido tomado");
-        }
-         
-           if(persistence.find(usuarioEntity.getId())!=null)
-        {
-            throw new BusinessLogicException("Este usuario ya se encuentra registrado");
-        }
+//         if(persistence.findByUserName(usuarioEntity.getUserName())!=null)
+//        {
+//            throw new BusinessLogicException("El nombre de usuario ya ha sido tomado");
+//        }
+//         
+//           if(persistence.find(usuarioEntity.getId())==null)
+//        {
+//            throw new BusinessLogicException("Este usuario ya se encuentra registrado");
+//        }
          
         LOGGER.log(Level.INFO, "Termina proceso de creación del usuario");
         return newUsuarioEntity;
@@ -109,8 +109,12 @@ public class UsuarioLogic {
     public UsuarioEntity updateUsuario(UsuarioEntity usuarioEntity, Long usuarioId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar la información de un usuario con id = {0}", usuarioId);
         // Note que, por medio de la inyección de dependencias se llama al método "find(id)" que se encuentra en la persistencia.
+
+        if (usuarioEntity.getDocumento()==null|usuarioEntity.getNombre()==null|usuarioEntity.getUserName()==null) {
+
         UsuarioEntity usuario = persistence.update(usuarioEntity);
         if (usuario.getDocumento()==null|usuario.getNombre()==null|usuario.getUserName()==null) {
+
            throw new BusinessLogicException("No es posible actualizar un usuario con información nula");
         }
 
