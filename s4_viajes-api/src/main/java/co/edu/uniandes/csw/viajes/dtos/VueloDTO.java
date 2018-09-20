@@ -7,7 +7,7 @@ package co.edu.uniandes.csw.viajes.dtos;
 
 import co.edu.uniandes.csw.viajes.entities.VueloEntity;
 import java.io.Serializable;
-import java.util.Calendar;
+import java.util.Date;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -54,8 +54,8 @@ public class VueloDTO implements Serializable {
     private double longitudOrigen;
     private double latitudDestino;
     private double longitudDestino;
-    private Calendar fechaSalida;
-    private Calendar fechaLlegada;
+    private Date fechaSalida;
+    private Date fechaLlegada;
 
     //Constructores//
     
@@ -166,7 +166,7 @@ public class VueloDTO implements Serializable {
      *
      * @return fecha de salida del vuelo.
      */    
-    public Calendar getFechaSalida(){
+    public Date getFechaSalida(){
         return fechaSalida;
     }
 
@@ -175,7 +175,7 @@ public class VueloDTO implements Serializable {
      *
      * @return fecha de llegada del vuelo.
      */    
-    public Calendar getFechaLlegada(){
+    public Date getFechaLlegada(){
         return fechaLlegada;
     }
     /**
@@ -260,7 +260,7 @@ public class VueloDTO implements Serializable {
      *
      * @param pFechaS la nueva fecha de salida que modificará la actual.
      */
-    public void setFechaSalida(Calendar pFechaS){
+    public void setFechaSalida(Date pFechaS){
         fechaSalida = pFechaS;
     }
     
@@ -270,7 +270,7 @@ public class VueloDTO implements Serializable {
      *
      * @param pFechaL la nueva fecha de llegada que modificará la actual.
      */
-    public void setFechaLlegada(Calendar pFechaL){
+    public void setFechaLlegada(Date pFechaL){
         fechaLlegada = pFechaL;
     }
      

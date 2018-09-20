@@ -1,0 +1,166 @@
+{
+	"info": {
+		"_postman_id": "7454ae26-6d09-4f7c-b095-5f30334cdb78",
+		"name": "Test Usuario Medallas",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Asignar la medalla 1234 a un usuario",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "54a6dc3c-085d-4df9-9847-d496f519d362",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Postman. La medalla se ha asignado exitosamente.\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/usuarios/hola/medallas/1234",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"usuarios",
+						"hola",
+						"medallas",
+						"1234"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener la medalla de un usuario por su numero",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "08fb0f0f-eb39-4060-88d9-53efc0b3edce",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Postman. La medalla se ha obtenido exitosamente.\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/usuarios/hola/medallas/1234",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"usuarios",
+						"hola",
+						"medallas",
+						"1234"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener la lista de medallas asignadas a un usuario",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "06c030e3-5197-4a25-964a-ef3b916e24c7",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Postman. Las medallas se han obtenido exitosamente.\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/usuarios/hola/medallas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"usuarios",
+						"hola",
+						"medallas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Reemplaza las instancias de medalla asignadas a un usuario",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "55211a4c-8a20-4ce2-9d69-e923db85ae8e",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Se han reemplazado las medallas exitosamente.\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n{\n\t\"numero\":22,\n\t\"nombre\":\"Gran viajero\",\n\t\"rutaImagen\":\"gran_viajero.jpg\",\n\t\"descripcion\":\"Eres un gran viajero! Disfruta de un descuento del 10% en tus siguientes viajes.\"\n},\n{\n\t\"numero\":1,\n\t\"nombre\":\"Nuevo en la familia\",\n\t\"rutaImagen\":\"nuevo.jpg\",\n\t\"descripcion\":\"Has comprado tu primer combo!\"\n}\n\t]"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/usuarios/hola/medallas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"usuarios",
+						"hola",
+						"medallas"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

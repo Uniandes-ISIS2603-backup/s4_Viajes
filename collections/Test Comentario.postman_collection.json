@@ -1,0 +1,218 @@
+{
+	"info": {
+		"_postman_id": "40d34450-dd37-426a-b62a-da1d94925a05",
+		"name": "Test Comentario",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear un comentario",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f8fca02e-2bbf-4db3-9bec-4b7510c8fda7",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Postman. El comentario se ha creado exitosamente.\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n  \"numero\" : 24, \r\n  \"textoContenido\" : \"El combo fue lo mejor porque..\", \r\n  \"multimedia\" : [\"hola.jpg\", \"img2.jpg\"], \r\n  \"calificacion\" : 3.7\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/usuarios/hola/entradas/123/comentarios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"usuarios",
+						"hola",
+						"entradas",
+						"123",
+						"comentarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener los comentarios de una entrada",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ee0053e8-322a-4124-9612-e2c4b75fb93e",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Postman. Los comentarios se han obtenido exitosamente.\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/usuarios/hola/entradas/123/comentarios",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"usuarios",
+						"hola",
+						"entradas",
+						"123",
+						"comentarios"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un comentario de una entrada",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2860dff7-a741-4097-9950-03a8410e1169",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Postman. El comentario se ha obtenido exitosamente.\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/usuarios/hola/entradas/123/comentarios/1234",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"usuarios",
+						"hola",
+						"entradas",
+						"123",
+						"comentarios",
+						"1234"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modificar un comentario de una entrada",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b913f2b1-76f4-4fb1-9918-a8d1762fd90c",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Postman. El comentario se ha modificado exitosamente.\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n  \"textoContenido\" : \"El combo fue lo mejor porque..\", \r\n  \"multimedia\" : [\"hola.jpg\", \"img2.jpg\"], \r\n  \"calificacion\" : 3.7\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/usuarios/hola/entradas/123/comentarios/24",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"usuarios",
+						"hola",
+						"entradas",
+						"123",
+						"comentarios",
+						"24"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar un comentario de una entrada",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fe16a4de-c6a2-4c9a-9f67-8ffc639ce2c4",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Postman. El comentario se ha eliminado exitosamente.\"] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/usuarios/hola/entradas/123/comentarios/24",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"usuarios",
+						"hola",
+						"entradas",
+						"123",
+						"comentarios",
+						"24"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
