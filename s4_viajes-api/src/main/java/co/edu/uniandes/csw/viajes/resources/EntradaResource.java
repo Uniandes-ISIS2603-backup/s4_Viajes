@@ -30,7 +30,6 @@ import javax.ws.rs.WebApplicationException;
  */
 @Produces("application/json")
 @Consumes("application/json")
-//@Path("entradas")
 @RequestScoped
 public class EntradaResource {
      /**
@@ -57,7 +56,7 @@ public class EntradaResource {
      * Error de lógica que se genera cuando ya existe la entrada.
      */
     @POST
-    public EntradaDTO crearEntrada(@PathParam("documento") String userName,EntradaDTO entrada) throws BusinessLogicException {
+    public EntradaDTO crearEntrada(@PathParam("documento") String documento,EntradaDTO entrada) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "EntradaResouce createEntrada: input: {0}", entrada.toString());
 
         return entrada;
@@ -71,7 +70,7 @@ public class EntradaResource {
      * usuario. Si no hay ninguna retorna una lista vacía.
      */
     @GET
-    public List<EntradaDTO> getEntradas(@PathParam("documento") String userName) {
+    public List<EntradaDTO> getEntradas(@PathParam("documento") String documento) {
         return new ArrayList<EntradaDTO>();
     }
     
@@ -80,12 +79,12 @@ public class EntradaResource {
      * información que fue previamente ingresada en formato JSON.
      *
      * @param documento El user name del usuario del que se quiere buscar la entrada.
-     * @param entradaNum {@link EntradaDTO} - La entrada que se desea obtener.
+     * @param entradaId {@link EntradaDTO} - el id de la entrada que se desea obtener.
      * @return una entrada y su información de acuerdo a su nùmero.
      */
     @GET
-        @Path("{numero: \\d+}")
-    public EntradaDTO consultarEntrada(@PathParam("documento") String documento, @PathParam("numero") int entradaNum) 
+        @Path("{id: \\d+}")
+    public EntradaDTO consultarEntrada(@PathParam("documento") String documento, @PathParam("numero") Long entradaId) 
     {
         return new EntradaDTO();
     }
@@ -94,12 +93,12 @@ public class EntradaResource {
      * Modifica la informacion de una entrada dada por la información ingresada en
      * formato JSON.
      * @param documento El documento del usuario del cual se guarda la reseña
-     * @param entradaNum El numero de la entrada que se va a actualizar
+     * @param entradaId El numero de la entrada que se va a actualizar
      * @param nueva (@link EntradaDTO) - la entrada que desea modificar.
      */
     @PUT
-    @Path("{numero: \\d+}")
-    public EntradaDTO modificarEntrada(@PathParam("documento") String documento,@PathParam("numero")int entradaNum, EntradaDTO nueva) throws WebApplicationException
+    @Path("{id: \\d+}")
+    public EntradaDTO modificarEntrada(@PathParam("documento") String documento,@PathParam("id")Long entradaId, EntradaDTO nueva) throws WebApplicationException
     {
        return nueva;
     }
@@ -108,15 +107,15 @@ public class EntradaResource {
      * Borra la reseña con el id asociado recibido en la URL.
      *
      * @param documento El documento del usuario del cual se va a eliminar la entrada.
-     * @param entradaNum El numero de la entrada que se va a eliminar.
+     * @param entradaId El id de la entrada que se va a eliminar.
      * @throws BusinessLogicException {@link BusinessLogicExceptionMapper} -
      * Error de lógica que se genera cuando no se puede eliminar la entrada.
      * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
      * Error de lógica que se genera cuando no se encuentra la entrada.
      */
     @DELETE
-    @Path("{numero: \\d+}")
-    public void deleteEntrada(@PathParam("documento") String documento, @PathParam("numero") int entradaNum) {
+    @Path("{id: \\d+}")
+    public void deleteEntrada(@PathParam("documento") String documento, @PathParam("id") Long entradaId) {
         
     }
     
@@ -127,13 +126,13 @@ public class EntradaResource {
      * dependen del usuario, es una redirección al servicio que maneja el segmento
      * de la URL que se encarga de las entradas.
      *
-     * @param numero El numero de la entrada con respecto a la cual se accede al comentario.
+     * @param id El id de la entrada con respecto a la cual se accede al comentario.
      * @return El servicio de Comentarios para ese usuario en paricular.\
      * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
      * Error de lógica que se genera cuando no se encuentra la entrada.
      */
-    @Path("{numero: \\d+}/comentarios")
-    public Class<ComentarioResource> getComentarioResource(@PathParam("numero") int numero) {
+    @Path("{id: \\d+}/comentarios")
+    public Class<ComentarioResource> getComentarioResource(@PathParam("id") Long entradaId) {
     //    if (usuarioLogic.getUsuario(documento) == null) {
     //      throw new WebApplicationException("El recurso /books/" + documento + "/reviews no existe.", 404);
     //  }

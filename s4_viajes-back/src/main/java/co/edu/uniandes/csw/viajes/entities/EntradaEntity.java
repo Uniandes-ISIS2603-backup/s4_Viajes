@@ -5,15 +5,18 @@
  */
 package co.edu.uniandes.csw.viajes.entities;
 
+import co.edu.uniandes.csw.viajes.podam.DateStrategy;
 import java.io.Serializable;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
 import uk.co.jemos.podam.common.PodamExclude;
+import uk.co.jemos.podam.common.PodamStrategyValue;
 
 /**
  *
@@ -31,13 +34,14 @@ public class EntradaEntity extends BaseEntity implements Serializable{
     @PodamExclude
     @OneToOne
     private ComboEntity comboEntrada;
-    private int numero;
     private String titulo;
     private String textoContenido;
     private List<String> multimedia;
     private double puntuacion;
     private double calificacionComunidad;
-    private Calendar fecha;
+    @Temporal(javax.persistence.TemporalType.DATE)
+    @PodamStrategyValue(DateStrategy.class)
+    private Date fecha;
     
     public UsuarioEntity getAutor()
     {
@@ -47,11 +51,6 @@ public class EntradaEntity extends BaseEntity implements Serializable{
     public List<ComentarioEntity> getComentarios()
     {
         return comentarios;
-    }
-    
-    public int getNumero()
-    {
-        return numero;
     }
     
     public String getTitulo()
@@ -79,7 +78,7 @@ public class EntradaEntity extends BaseEntity implements Serializable{
          return calificacionComunidad;
     }
      
-         public Calendar getFecha()
+         public Date getFecha()
     {
          return fecha;
     }
@@ -103,11 +102,7 @@ public class EntradaEntity extends BaseEntity implements Serializable{
     {
         comboEntrada = pCombo;
     }
-         
-     public void setNumero(int pNumero)
-    {
-        numero = pNumero;
-    }
+        
     
     public void setTitulo(String pTitulo)
     {
@@ -134,7 +129,7 @@ public class EntradaEntity extends BaseEntity implements Serializable{
         calificacionComunidad = pCalifComunidad;
     } 
      
-     public void setFecha(Calendar pFecha)
+     public void setFecha(Date pFecha)
     {
         fecha = pFecha;
     } 

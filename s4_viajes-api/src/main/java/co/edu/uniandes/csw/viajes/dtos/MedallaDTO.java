@@ -15,7 +15,6 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @author Luis Gómez Amado
  */
 public class MedallaDTO implements Serializable{
-    private int numero;
     private String nombre;
     private String rutaImagen;
     private String descripcion;
@@ -27,17 +26,12 @@ public class MedallaDTO implements Serializable{
     
        if(medallaEntity!=null)
        {
-           this.numero = medallaEntity.getNumero();
            this.nombre = medallaEntity.getNombre();
            this.rutaImagen = medallaEntity.getRutaImagen();
            this.descripcion = medallaEntity.getDescripcion();
           
        }
    }
-   
-        public int getNumero(){
-        return numero;
-    }
     
     public String getNombre()
     {
@@ -52,11 +46,6 @@ public class MedallaDTO implements Serializable{
     public String getDescripcion()
     {
         return descripcion;
-    }
-    
-         public void setNumero(int pNumero)
-    {
-        numero = pNumero;
     }
     
     public void setNombre(String pNombre)
@@ -76,7 +65,6 @@ public class MedallaDTO implements Serializable{
 
     public MedallaEntity toEntity() {
         MedallaEntity medallaEntity = new MedallaEntity();
-        medallaEntity.setNumero(this.numero);
         medallaEntity.setNombre(this.nombre);
         medallaEntity.setRutaImagen(this.rutaImagen);
         medallaEntity.setDescripcion(this.descripcion);
