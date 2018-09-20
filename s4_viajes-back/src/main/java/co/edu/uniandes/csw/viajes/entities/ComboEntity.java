@@ -38,6 +38,11 @@ public class ComboEntity  extends BaseEntity implements Serializable {
 
     private int puntuacion;
     
+    public ComboEntity()
+    {
+        setComboIdLong(getId());
+    }
+    
     @PodamExclude
     @OneToMany(mappedBy = "combo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<VueloEntity> vuelos;
@@ -71,6 +76,7 @@ public class ComboEntity  extends BaseEntity implements Serializable {
         this.comboIdLong = comboId;
     }
 
+    
 
     public double getCosto() {
         return costo;
@@ -152,5 +158,24 @@ public class ComboEntity  extends BaseEntity implements Serializable {
         this.pago = pago;
     }
 
-    
+    public void addActividad(ActividadEntity actividad)
+    {
+        if(actividad!=null)
+             actividades.add(actividad);
+    }
+    public void addAlojamiento(AlojamientoEntity alojamiento)
+    {
+        if(alojamiento!=null)
+             alojamientos.add(alojamiento);
+    }
+    public void addTransporteTerrestre(TransporteTerrestreEntity transporteTerrestre)
+    {
+        if(transporteTerrestre!=null)
+             transportesTerrestres.add(transporteTerrestre);
+    }
+    public void addVuelo(VueloEntity vuelo)
+    {
+        if(vuelo!=null)
+             vuelos.add(vuelo);
+    }
 }

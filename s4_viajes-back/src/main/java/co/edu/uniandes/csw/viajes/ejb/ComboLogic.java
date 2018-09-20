@@ -51,7 +51,7 @@ public class ComboLogic {
         if(comboEntity.getPuntuacion()<0||comboEntity.getPuntuacion()>5)
             throw new BusinessLogicException("La puntuación del combo debe estar entre 0 y 5 \"" + comboEntity.getNombre() + "\"");
         
-//        comboEntity =persistence.create(comboEntity);
+        comboEntity =persistence.create(comboEntity);
 
         LOGGER.log(Level.INFO, "Termina proceso de creación del combo");
         return comboEntity; 
@@ -64,8 +64,7 @@ public class ComboLogic {
     public List<ComboEntity> getCombos() 
     {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar los combos de un carrito de compras.");
-        List<ComboEntity> combos = new ArrayList<ComboEntity>(); 
-//        List<ComboEntity> combos = persistence.findAll();
+        List<ComboEntity> combos = persistence.findAll();
         LOGGER.log(Level.INFO, "Termina proceso de consultar los combos de un carrito de compras.");
         return combos;
     }
@@ -78,8 +77,7 @@ public class ComboLogic {
     public ComboEntity getCombo(Long comboId) 
     {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar el combo con id = {0}", comboId);
-        ComboEntity comboEntity = new ComboEntity();
-//        ComboEntity comboEntity = persistence.find(comboId);
+        ComboEntity comboEntity = persistence.find(comboId);
         if (comboId == null) {
             LOGGER.log(Level.SEVERE, "El combo con el id = {0} no existe", comboId);
         }
@@ -118,8 +116,7 @@ public class ComboLogic {
             throw new BusinessLogicException("La puntuación del combo debe estar entre 0 y 5 \"" + comboEntity.getNombre() + "\"");
         
         
-        ComboEntity newEntity = comboEntity;
-//        ComboEntity newEntity = persistence.update(comboEntity);
+        ComboEntity newEntity = persistence.update(comboEntity);
         LOGGER.log(Level.INFO, "Termina proceso de actualizar el combo con id = {0}", comboEntity.getId());
         return newEntity;
     }
@@ -135,7 +132,7 @@ public class ComboLogic {
         if(comboId == null)
           throw new BusinessLogicException("Identificador del combo inexistente.");
 
-//        persistence.delete(comboId);
+        persistence.delete(comboId);
         LOGGER.log(Level.INFO, "Termina proceso de borrar el combo con id = {0}", comboId);
    
     }

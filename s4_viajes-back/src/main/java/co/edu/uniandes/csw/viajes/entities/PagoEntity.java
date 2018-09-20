@@ -31,7 +31,9 @@ public class PagoEntity extends BaseEntity implements Serializable  {
     @ManyToOne
     private UsuarioEntity usuario;
 
-    public PagoEntity(){}
+    public PagoEntity(){
+        pagoId=getId();
+    }
     
     public ComboEntity getaPagar() {
         return aPagar;
