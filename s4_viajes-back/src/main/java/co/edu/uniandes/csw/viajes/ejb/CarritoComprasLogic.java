@@ -84,4 +84,44 @@ public class CarritoComprasLogic {
     }
     
     
+    /**
+     * Actualiza un carrito de compras por medio de su id.
+     *
+     * @param carritoComprasId: id del carrito de compras para ser actualizado.
+     * @return el carritoDeCompras solicitado por medio de su id.
+     */
+    public CarritoComprasEntity updateCarritoCompras(Long carritoComprasId, CarritoComprasEntity carritoComprasEntity) throws BusinessLogicException {
+   
+        if (carritoComprasEntity.getNombre()==null) {
+           throw new BusinessLogicException("No es posible actualizar un carrito con nombre nulo");
+        }
+        
+         if (carritoComprasEntity.getCosto()<0) {
+           throw new BusinessLogicException("No es posible actualizar un carrito con valor negativo");
+        }
+                   CarritoComprasEntity carrito = persistence.update(carritoComprasEntity);
+
+        return carrito;
+    }
+    
+    
+    /**
+     * Borrar un carrito de compras
+     *
+     * @param carritoID: id del carrito de compras a borrar
+     * @throws BusinessLogicException si el carrito de compras que se desea eliminar no existe.
+     */
+    public void deleteCarritoCompras(Long carritoID) throws BusinessLogicException {
+                LOGGER.log(Level.INFO, "Empieza proceso de borrar carrito con id = {0}", carritoID);
+
+         CarritoComprasEntity carritoEntity = persistence.find(carritoID);
+        if (carritoEntity!=null) {
+            throw new BusinessLogicException("No es posible borrar su cuenta, mande un ticket a los administradores");
+        }
+          
+        LOGGER.log(Level.INFO, "Termina proceso de borrar administrador con id = {0}", carritoID);
+       
+     
+    }
+    
 }
