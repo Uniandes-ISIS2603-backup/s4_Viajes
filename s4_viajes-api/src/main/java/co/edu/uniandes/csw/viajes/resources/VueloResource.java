@@ -7,8 +7,11 @@ package co.edu.uniandes.csw.viajes.resources;
 
 import co.edu.uniandes.csw.viajes.dtos.VueloDTO;
 import co.edu.uniandes.csw.viajes.ejb.VueloLogic;
+import co.edu.uniandes.csw.viajes.entities.VueloEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.mappers.BusinessLogicExceptionMapper;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
@@ -42,7 +45,6 @@ public class VueloResource {
     private static final Logger LOGGER = Logger.getLogger(VueloResource.class.getName());
 
     @Inject
-
     VueloLogic vueloLogic; //variable para acceder a la lógica de la aplicación. Es una inyección de independencias.
 
     /**
@@ -50,7 +52,7 @@ public class VueloResource {
      * petición y se regresa un objeto identico con un id auto-generado por la
      * base de datos.
      *
-     * @param Vuelo {@link VueloDTO} - El vuelo que se desea guardar.
+     * @param vuelo {@link VueloDTO} - El vuelo que se desea guardar.
      * @return JSON {@link VueloDTO} - El vuelo guardado con el atributo id
      * autogenerado.
      * @throws BusinessLogicException {@link BusinessLogicExceptionMapper} -
@@ -58,55 +60,75 @@ public class VueloResource {
      */
     @POST
     public VueloDTO crearVuelo(VueloDTO vuelo) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "EditorialResource createEditorial: input: {0}", vuelo.toString());
-        // Convierte el DTO (json) en un objeto Entity para ser manejado por la lógica.
-        //VueloEntity vueloEntity = vuelo.toEntity();
-        // Invoca la lógica para crear la actividad nueva
-        //VueloEntity nuevoVueloEntity = vueloLogic.createVuelo(vueloEntity);
-        // Como debe retornar un DTO (json) se invoca el constructor del DTO con argumento el entity nuevo
-        //VueloDTO nuevoVueloDTO = new VueloDTO(nuevoVueloEntity);
-        //LOGGER.log(Level.INFO, "EditorialResource createEditorial: output: {0}", nuevoVueloDTO.toString());
-        return vuelo;
+        LOGGER.log(Level.INFO, "VueloResource createVuelo: input: {0}", vuelo.toString());
+        VueloDTO nuevoVueloDTO = new VueloDTO(vueloLogic.createVuelo(vuelo.toEntity()));
+        LOGGER.log(Level.INFO, "VueloResource createVuelo: output: {0}", nuevoVueloDTO.toString());
+        return nuevoVueloDTO;
     }
 
     /**
      * Obtiene un vuelo con su información dada por su úmero, se retorna esta
      * información que fue previamente ingresada en formato JSON.
      *
+     * @param vueloId 
+     * 
      * @return un vuelo y su información de acuerdo a su nombre.
      */
     @GET
-        @Path("{numero: [a-zA-Z][a-zA-Z]*}")
-    public VueloDTO consultarVuelo(@PathParam("numero") String vueloNum) 
+    @Path("{vueloId: \\d+}")
+    public VueloDTO consultarVuelo(@PathParam("vueloId") Long vueloId) 
     {
-        return new VueloDTO();
+        LOGGER.log(Level.INFO, "VueloResource getVuelo: input: {0}", vueloId);
+        VueloEntity vueloEntity = vueloLogic.getVuelo(vueloId);
+        if (vueloEntity == null) {
+            throw new WebApplicationException("El recurso /books/" + vueloId + " no existe.", 404);
+        }
+        VueloDTO vueloDTO = new VueloDTO(vueloEntity);
+        LOGGER.log(Level.INFO, "VueloResource geVuelo: output: {0}", vueloDTO.toString());
+        return vueloDTO;
     }
-
+    
+  
     /**
      * Modifica la informacion de un vuelo dado por la información ingresada en
      * formato JSON.
      *
-     * @param nuevo (@link VueloDTO) - el vuelo que desea modificar.
+     * @param vueloId (@link VueloDTO) - el vuelo que desea modificar.
+     * 
+     * @return VueloDTO
      */
     @PUT
-    @Path("{numero: [a-zA-Z][a-zA-Z]*}")
-    public VueloDTO modificarVuelo(@PathParam("numero")String numero, VueloDTO nuevo) throws WebApplicationException
+    @Path("{vueloId: \\d+}")
+    public VueloDTO modificarVuelo(@PathParam("vueloId")Long vueloId) throws WebApplicationException
     {
-       return nuevo;
+       LOGGER.log(Level.INFO, "EditorialResource getEditorial: input: {0}", vueloId);
+        VueloEntity vueloEntity = vueloLogic.getVuelo(vueloId);
+        if (vueloEntity == null) {
+            throw new WebApplicationException("El recurso /vuelos/" + vueloId + " no existe.", 404);
+        }
+        VueloDTO vueloDTO = new VueloDTO(vueloEntity);
+        LOGGER.log(Level.INFO, "EditorialResource getEditorial: output: {0}", vueloDTO.toString());
+        return vueloDTO;
     }
 
     /**
      * Borra el vuelo con el id asociado (número) recibido en la URL.
      *
-     * @param vueloNum Identificador dl vuelo que se desea borrar. Este debe ser
+     * @param vueloId Identificador dl vuelo que se desea borrar. Este debe ser
      * una cadena de dígitos (int).
+     * 
+     * @throws BusinessLogicException
      */
     @DELETE
-    @Path("{vueloNum: [a-zA-Z][a-zA-Z]*}")
-    public void deleteVuelo(@PathParam("vueloNum") String vueloNum) {
-        //LOGGER.log(Level.INFO, "VueloResource deleteVuelo: input: {0}", vueloNum);
-        // Invoca la lógica para borrar lel vuelo
-        //editorialLogic.deleteEditorial(editorialsId);
-        //LOGGER.info("VueloResource deleteVuelo: output: void");
+    @Path("{vueloId: \\d+}")
+    public void deleteVuelo(@PathParam("vueloId") Long vueloId) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "VueloResource deleteVuelo: input: {0}", vueloId);
+        VueloEntity entity = vueloLogic.getVuelo(vueloId);
+        if (entity == null) {
+            throw new WebApplicationException("El recurso /vuelos/" + vueloId + " no existe.", 404);
+        }
+        vueloLogic.deleteVuelo(vueloId);
+        LOGGER.info("VueloResource deleteVuelo: output: void");
     }
+
 }

@@ -45,10 +45,10 @@ public class TransporteTerrestreResource {
      * base de datos.
      * @param transporteT {@link AlojamientoDTO} - EL alojamiento que se desea guardar.
      * @return JSON {@link AlojamientoDTO} - El alojamiento guardado con el atributo id.
-     * @throws Exception Si la -------- ingresada es invalida.
+     * @throws BusinessLogicException Si la -------- ingresada es invalida.
      */
     @POST
-    public TransporteTerrestreDTO createTransporte(TransporteTerrestreDTO transporteT) throws Exception 
+    public TransporteTerrestreDTO createTransporte(TransporteTerrestreDTO transporteT) throws BusinessLogicException 
     {
         LOGGER.log(Level.INFO, "TransporteTResource createTransporte: input: {0}", transporteT.toString());
         TransporteTerrestreDTO nuevoTransporteTerrestreDTO = 
@@ -114,10 +114,11 @@ public class TransporteTerrestreResource {
     /**
      * Borra el alojamiento con el id asociado recibido en la URL.
      * @param transportesId Identificador del alojamiento que se desea borrar. Este debe ser una cadena de dígitos.
+     * @throws BusinessLogicException
      */
     @DELETE
     @Path("{alojamientosId: \\d+}")
-    public void deleteTransporte(@PathParam ("transportesId")Long transportesId)  
+    public void deleteTransporte(@PathParam ("transportesId")Long transportesId)  throws BusinessLogicException
     {
         LOGGER.log(Level.INFO, "TransporteTResource deleteTransporte: input: {0}", transportesId);
         TransporteTerrestreEntity entity = transporteTerrestreLogic.getTransporte(transportesId);

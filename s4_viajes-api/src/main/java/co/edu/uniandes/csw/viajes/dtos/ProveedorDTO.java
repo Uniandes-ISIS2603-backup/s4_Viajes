@@ -42,6 +42,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class ProveedorDTO implements Serializable {
 
     //Atributos//
+    private Long proveedorId;
     
     private String username;
     
@@ -68,6 +69,7 @@ public class ProveedorDTO implements Serializable {
      */
     public ProveedorDTO(ProveedorEntity proveedorEntity) {
         if (proveedorEntity != null) {
+            this.proveedorId = proveedorEntity.getId();
             this.nombre = proveedorEntity.getNombre();
             this.username = proveedorEntity.getUser();
             this.contrasena = proveedorEntity.getPassword();
@@ -77,6 +79,15 @@ public class ProveedorDTO implements Serializable {
 
 
     //Métodos//
+
+    /**
+     * Obtiene el id de un proveedor.
+     *
+     * @return id del proveedor.
+     */
+    public Long getId() {
+        return proveedorId;
+    }
     
     /**
      * Obtiene el usuario de un proveedor.
@@ -114,6 +125,15 @@ public class ProveedorDTO implements Serializable {
         return puntuacion;
     }
 
+    /**
+     * Modifica (set) el id de un proveedor por el ingresado por parámetro.
+     *
+     * @param pId nuevo Id que modificará el actual.
+     */
+    public void setId(Long pId) {
+        proveedorId = pId;
+    }
+    
     /**
      * Modifica (set) el usuario de un proveedor por el ingresado por parámetro.
      *

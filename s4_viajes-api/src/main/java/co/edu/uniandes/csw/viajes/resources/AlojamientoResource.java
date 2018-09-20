@@ -102,6 +102,7 @@ public class AlojamientoResource {
      * actualizar. Este debe ser una cadena de dígitos.
      * @param alojamiento El alojamiento que se desea guardar.
      * @return JSON El alojamiento guardado.
+     * @throws BusinessLogicException
      */
     @PUT
     @Path("{alojamientosId: \\d+}")

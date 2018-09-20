@@ -1,3 +1,4 @@
+package co.edu.uniandes.csw.viajes.test.persistence;
 
 import co.edu.uniandes.csw.viajes.entities.AlojamientoEntity;
 import co.edu.uniandes.csw.viajes.persistence.AlojamientoPersistence;
@@ -206,11 +207,11 @@ public class AlojamientoPersistenceTest {
         AlojamientoEntity entity = data.get(0);
         AlojamientoEntity newEntity = alojamientoPersistence.findByNombre(entity.getNombre());
         Assert.assertNotNull(newEntity);
-        
+
         Assert.assertEquals(entity.getNombre(), newEntity.getNombre());
 
         newEntity = alojamientoPersistence.findByNombre(null);
-        Assert.assertNull(newEntity); 
+        Assert.assertNull(newEntity);
     }
 
 }

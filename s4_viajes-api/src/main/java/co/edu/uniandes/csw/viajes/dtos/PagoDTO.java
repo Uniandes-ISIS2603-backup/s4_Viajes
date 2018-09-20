@@ -7,6 +7,8 @@ package co.edu.uniandes.csw.viajes.dtos;
 
 import co.edu.uniandes.csw.viajes.entities.ComboEntity;
 import co.edu.uniandes.csw.viajes.entities.PagoEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  *
@@ -15,6 +17,9 @@ import co.edu.uniandes.csw.viajes.entities.PagoEntity;
 public class PagoDTO {
    
     private ComboDTO aPagar;
+    private Long pagoId;
+    private boolean pagaConTarjeta;
+    private String tarjeta;
     
     /**
      * Constructor vacio.
@@ -27,7 +32,15 @@ public class PagoDTO {
      */ 
     public PagoDTO(PagoEntity pagoEntity){
         if(pagoEntity!=null)
-            aPagar=new ComboDTO(pagoEntity.getaPagar());
+        {
+            if(pagoEntity.getaPagar()!=null)
+                aPagar=new ComboDTO(pagoEntity.getaPagar());
+            else
+                aPagar=null;
+            pagoId=pagoEntity.getPagoId();
+            pagaConTarjeta=pagoEntity.isPagaConTarjeta();
+            tarjeta=pagoEntity.getTarjeta();
+        }
     }
 
     public ComboDTO getaPagar() {
@@ -37,6 +50,33 @@ public class PagoDTO {
     public void setaPagar(ComboDTO aPagar) {
         this.aPagar = aPagar;
     }
+
+    public Long getPagoId() {
+        return pagoId;
+    }
+
+    public void setPagoId(Long pagoId) {
+        this.pagoId = pagoId;
+    }
+
+    public boolean isPagaConTarjeta() {
+        return pagaConTarjeta;
+    }
+
+    public void setPagaConTarjeta(boolean pagaConTarjeta) {
+        this.pagaConTarjeta = pagaConTarjeta;
+    }
+
+    public String getTarjeta() {
+        return tarjeta;
+    }
+
+    public void setTarjeta(String tarjeta) {
+        this.tarjeta = tarjeta;
+    }
+    
+    
+    
     
     /**
      * Método para transformar el DTO a una entidad.
@@ -44,8 +84,17 @@ public class PagoDTO {
      */
       public PagoEntity toEntity() 
     {
-        PagoEntity pagoEntity = new PagoEntity(); 
-        pagoEntity.setaPagar(aPagar.toEntity());
+        PagoEntity pagoEntity = new PagoEntity();
+        if(aPagar!=null)pagoEntity.setaPagar(aPagar.toEntity());
+        else pagoEntity.setaPagar(null);
+        pagoEntity.setPagoId(pagoId);
+        pagoEntity.setPagaConTarjeta(pagaConTarjeta);
+        pagoEntity.setTarjeta(tarjeta);
         return pagoEntity; 
+    }
+      
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
 }
