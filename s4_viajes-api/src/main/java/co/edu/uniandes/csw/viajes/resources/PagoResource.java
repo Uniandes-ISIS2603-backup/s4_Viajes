@@ -71,7 +71,6 @@ public class PagoResource {
         LOGGER.log(Level.INFO, "PagoResource createPago: output: {0}", nuevoPagoDTO.toString());
         return nuevoPagoDTO;
        
-//        return pago;
     }
     
      /**
@@ -102,15 +101,21 @@ public class PagoResource {
     public PagoDTO consultarPago(@PathParam("pagoId") Long pagoId) throws WebApplicationException
     {
         LOGGER.log(Level.INFO, "ComboResource getCombo: input: {0}", pagoId);
-//        PagoEntity pagoEntity = pagoLogic.getPago(pagoId);
-//        if (pagoEntity == null) {
-//            throw new WebApplicationException("El recurso /pagos/" + pagoId + " no existe.", 404);
-//        }
-//        PagoDTO pagoDTO=new PagoDTO(pagoEntity);
-//        LOGGER.log(Level.INFO, "ComboResource getCombo: output: {0}", pagoDTO.toString());
+        PagoEntity pagoEntity = pagoLogic.getPago(pagoId);
+        if (pagoEntity == null) {
+            throw new WebApplicationException("El recurso /pagos/" + pagoId + " no existe.", 404);
+        }
+        PagoDTO pagoDTO=new PagoDTO(pagoEntity);
+        LOGGER.log(Level.INFO, "ComboResource getCombo: output: {0}", pagoDTO.toString());
         
-        PagoDTO pagoDTO = new PagoDTO();
         pagoDTO.setPagoId(pagoId);
+        pagoDTO.setTarjeta("000848484842222");
+        pagoDTO.setPagaConTarjeta(true);
+        ComboDTO combo=new ComboDTO();
+        combo.setComboIdLong(22342l);
+        combo.setCosto(30000);
+        combo.setNombre("Aruba 16");
+        pagoDTO.setaPagar(combo);
         return pagoDTO;
     }
   
