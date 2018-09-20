@@ -57,20 +57,21 @@ public class CarritoComprasResource {
         // Convierte el DTO (json) en un objeto Entity para ser manejado por la lógica.
         CarritoComprasEntity carritoComprasEntity = carritoCompras.toEntity();
         CarritoComprasDTO nuevocarritoDTO = new CarritoComprasDTO(carritoComprasEntity);
-        return carritoCompras;
+        return nuevocarritoDTO;
     }
     
-    @GET
-    @Path("{id: \\d+}")   
-    public CarritoComprasDTO consultarCarritoCompras(@PathParam("id") Long id)
-    {
-         LOGGER.log(Level.INFO, "CarritoComprasResource getCarritoCompras: input: {0}", id);
-           return new CarritoComprasDTO();
-    }
+   
     
     @PUT
     @Path("id: \\d+")
-    public CarritoComprasDTO modificarCarrito(@PathParam("id") Long id, CarritoComprasDTO nuevo) throws WebApplicationException {
+    public CarritoComprasDTO modificarCarrito(@PathParam("id") Long id, CarritoComprasDTO nuevo) throws WebApplicationException, BusinessLogicException {
+    nuevo.setId(id);
+    if(carritoComprasLogic.getCarrito(id)==null){
+          
+        throw new WebApplicationException("El recurso /carritos/" + id + " no existe.", 404);
+      }
+    
+    CarritoComprasDTO carritoDTO = new CarritoComprasDTO();
 
         return nuevo;
     }

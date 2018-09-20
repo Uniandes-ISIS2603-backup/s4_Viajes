@@ -44,10 +44,11 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 public class UsuarioDTO implements Serializable{
     // Atributos
+    
+    private Long id;
     private String documento;
     private String nombre;
     private String userName;
-    private Boolean hasLoggedIn;
     private String contraseña;
     private int edad;
 
@@ -64,7 +65,6 @@ public class UsuarioDTO implements Serializable{
            this.documento = usuarioEntity.getDocumento();
            this.edad = usuarioEntity.getEdad();
            this.userName = usuarioEntity.getUserName();
-           this.hasLoggedIn = usuarioEntity.hasLoggedIn();
            this.nombre = usuarioEntity.getNombre();
           
        }
@@ -90,6 +90,17 @@ public class UsuarioDTO implements Serializable{
    {
        return edad;
    }
+   
+       /**
+     * Obtiene la edad de un usuario.
+     *
+     * @return edad del usuario.
+     */
+   public Long getId()
+   {
+       return id;
+   }
+   
        /**
      * Obtiene el documento de un usuario.
      *
@@ -111,11 +122,7 @@ public class UsuarioDTO implements Serializable{
       return userName;
    }
 
-    public Boolean hasLoggedIn()
-    {
-        return hasLoggedIn;
-    }
-    
+  
       
    public void setNombre(String pNombre){
 
@@ -125,6 +132,11 @@ public class UsuarioDTO implements Serializable{
    public void setEdad(int pEdad)
    {
        this.edad = pEdad;
+   }
+   
+     public void setId(Long pId)
+   {
+       this.id = pId;
    }
    
    public void setDocumento(String pDocumento)
@@ -138,20 +150,12 @@ public class UsuarioDTO implements Serializable{
         
         }
 
-    public void setHasLoggedIn(Boolean pHasLoggedIn)
-    {
-        this.hasLoggedIn = pHasLoggedIn;
-    }
-    
-    
-    
 
     public UsuarioEntity toEntity() {
       
         UsuarioEntity usuarioEntity = new UsuarioEntity();
         usuarioEntity.setNombre(this.nombre);
         usuarioEntity.setUserName(this.userName);
-        usuarioEntity.setHasLoggedIn(this.hasLoggedIn);
         usuarioEntity.setDocumento(this.documento);
         usuarioEntity.setEdad(this.edad);
 

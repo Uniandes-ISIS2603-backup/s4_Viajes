@@ -30,91 +30,112 @@ import javax.ws.rs.WebApplicationException;
  *
  * @author estudiante
  */
-
-@Path ("usuarios")
+@Path("usuarios")
 @Produces("application/json")
 @Consumes("application/json")
 @RequestScoped
 
 public class UsuarioResource {
-    
-    
- /**
- * Clase que implementa el recurso "usuario".
- *
- * 
- * @version 1.0
- */
 
-   private static final Logger LOGGER = Logger.getLogger(ActividadResource.class.getName());
-   @Inject
-   
-   UsuarioLogic usuarioLogic; //variable que accede a la lógica de la aplicación.
-   
     /**
-     * Crea un nuevo usuario con la informacion que se recibe en el cuerpo de
-     * la petición y se regresa un objeto identico con un id auto-generado por
-     * la base de datos.
+     * Clase que implementa el recurso "usuario".
      *
-     * @param usuario {@link UsuarioDTO} - El usuario a guardar
-     * guardar.
-     * @return JSON {@link UsuarioDTO} - El usuario guardado con el atributo
-     * id autogenerado.
+     *
+     * @version 1.0
+     */
+    private static final Logger LOGGER = Logger.getLogger(ActividadResource.class.getName());
+    @Inject
+
+    UsuarioLogic usuarioLogic; //variable que accede a la lógica de la aplicación.
+    /**
+     * Crea un nuevo usuario con la informacion que se recibe en el cuerpo de la
+     * petición y se regresa un objeto identico con un id auto-generado por la
+     * base de datos.
+     *
+     * @param usuario {@link UsuarioDTO} - El usuario a guardar guardar.
+     * @return JSON {@link UsuarioDTO} - El usuario guardado con el atributo id
+     * autogenerado.
      * @throws BusinessLogicException {@link BusinessLogicExceptionMapper} -
      * Error de lógica que se genera cuando ya existe la editorial.
      */
-   
-      
-      @POST
-   public UsuarioDTO createUsuario(UsuarioDTO usuario) throws BusinessLogicException {
+    @POST
+    public UsuarioDTO createUsuario(UsuarioDTO usuario) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "UsuarioResource createUsuario: input: {0}", usuario.toString());
-       UsuarioEntity usuarioEntity = usuario.toEntity();
-       UsuarioDTO nuevoUsuarioDTO = new UsuarioDTO(usuarioEntity);
+        UsuarioEntity usuarioEntity = usuario.toEntity();
+        UsuarioDTO nuevoUsuarioDTO = new UsuarioDTO(usuarioEntity);
+        LOGGER.log(Level.INFO, "EditorialResource createEditorial: output: {0}", nuevoUsuarioDTO.toString());
+
         return nuevoUsuarioDTO;
     }
-   
-  
-   
-   /**
+
+    /**
      * Obtiene un usuario con su información de acuerdo a su documento.
      * información que fue previamente ingresada en formato JSON.
      *
      * @return un usuario y su información de acuerdo a su documento.
      */
     @GET
-    @Path("{documento: [a-zA-Z][a-zA-Z]*}")
-    public UsuarioDTO consultarUsuarios(@PathParam("documento") String documento){
+    @Path("{usuarioId: \\d+}")
+    public UsuarioDTO consultarUsuarios(@PathParam("usuarioId") Long usuarioId) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "UsuarioResource getUsuario: input {0}");
+        UsuarioEntity usuarioEntity = usuarioLogic.getUsuario(usuarioId);
+        if (usuarioEntity == null) {
+
+            throw new WebApplicationException("El recurso /usuarios/" + usuarioId + " no existe.", 404);
+
+        }
+
+        UsuarioDTO usuarioDTO = new UsuarioDTO(usuarioEntity);
+
+        LOGGER.log(Level.INFO, "UsuarioResource getUsuario: output {0}");
 
         return new UsuarioDTO();
-        
+
     }
-   
-     /**
-     * Modifica la informacion de un usuario dado por la información ingresada en
-     * formato JSON.
+
+    /**
+     * Modifica la informacion de un usuario dado por la información ingresada
+     * en formato JSON.
      *
      * @param nuevo (@link UsuarioDTO) - el usuario que desea modificar.
      */
-    @PUT
-    @Path("{documento: [a-zA-Z][a-zA-Z]*}")
-    public UsuarioDTO modificarUsuario(@PathParam("documento")int documento, UsuarioDTO nuevo) throws WebApplicationException
-    {
-       return nuevo;
+@PUT
+ @Path("{usuariosId: \\d+}")
+    public UsuarioDTO updateUsuario(@PathParam("usuariosId") Long usuarioId,  UsuarioDTO nuevo) throws WebApplicationException, BusinessLogicException {
+      LOGGER.log(Level.INFO, "UsuarioResource updateUsuario: input: usuariosId: {0}, nuevo{1}", new Object[]{usuarioId, nuevo.toString()});
+      nuevo.setId(usuarioId);
+      if(usuarioLogic.getUsuario(usuarioId)==null){
+          
+        throw new WebApplicationException("El recurso /usuarios/" + usuarioId + " no existe.", 404);
+      }
+      
+       UsuarioDetailDTO detailDTO = new UsuarioDetailDTO(usuarioLogic.updateUsuario(nuevo.toEntity(), usuarioId));
+        LOGGER.log(Level.INFO, "UsuarioResource updateUsuario: output: {0}", detailDTO.toString());
+        return detailDTO;
+      
     }
+
 
     /**
      * Borra el usuario con el id asociado (número) recibido en la URL.
      *
-     * @param usuarioNum Identificador dl usuario que se desea borrar. Este debe ser
-     * una cadena de dígitos (int).
+     * @param usuariosId Identificador dl usuario que se desea borrar. Este debe
+     * ser una cadena de dígitos (int).
      */
     @DELETE
-    @Path("{documento: [a-zA-Z][a-zA-Z]*}")
-    public void deleteUsuario(@PathParam("documento") Long documento) {
-    
-    }
-   
-   
-    }
-   
+    @Path("{usuariosId: \\d+}")
+    public void deleteUsuario(@PathParam("usuariosId") Long usuariosId) throws BusinessLogicException {
 
+        LOGGER.log(Level.INFO, "UsuarioResource deleteUsuario: input: {0}", usuariosId);
+        UsuarioEntity entity = usuarioLogic.getUsuario(usuariosId);
+        if(entity==null)
+       {
+           throw new WebApplicationException("El recurso /usuarios/"+ usuariosId + "no existe.", 404);
+           
+       }
+        
+       usuarioLogic.deleteUsuario(usuariosId);
+       
+    }
+
+}

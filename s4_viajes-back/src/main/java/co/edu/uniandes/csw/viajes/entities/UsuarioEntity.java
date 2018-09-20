@@ -30,6 +30,7 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
     private String userName;
     private String contraseña;
     
+    
     @PodamExclude
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PagoEntity> pagos = new ArrayList<PagoEntity>();
@@ -105,11 +106,17 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
     
     
          /**
-     * Devuelve la ocndición del usuario en la aplicación.
-     *
-     * @return the user state
+     *  Cambia la lista de pagos
+     * @param pagos la lista de pagos con la que se actualiza la informacion.
      */
     
+    
+    public void setPagos(List<PagoEntity> pagos)
+            
+    {
+        this.pagos = pagos;
+        
+    }
     
      public Boolean hasLoggedIn()
     {

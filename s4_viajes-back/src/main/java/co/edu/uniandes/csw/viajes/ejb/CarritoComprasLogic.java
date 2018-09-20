@@ -49,9 +49,39 @@ public class CarritoComprasLogic {
        
     }
     
-    public boolean validateContrasena(Double pCosto)
-    {
-       
+    
+    
+   
+    
+      
+     /**
+     * Obtener un carrito por medio de su id.
+     *
+     * @param carritoId: id del carrito para ser buscado.
+     * @return el carrito solicitado por medio de su id.
+     */
+    public CarritoComprasEntity getCarrito(Long carritoId) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "Inicia proceso de consultar usuario con id = {0}", carritoId);
+        // Note que, por medio de la inyección de dependencias se llama al método "find(id)" que se encuentra en la persistencia.
+        CarritoComprasEntity carrito = persistence.find(carritoId);
+        if (carrito == null) {
+            LOGGER.log(Level.SEVERE, "El carrito con el id = {0} no existe", carritoId);
+           throw new BusinessLogicException("El carrito consultado no existe");
+        }
+        LOGGER.log(Level.INFO, "Termina proceso de consultar el carrito con id = {0}", carritoId);
+        return carrito;
+    }
+    
+     /**
+     * Valida el costo de un c
+     * @param pCosto costo del carrito de compras.
+     * @return La validacion del costo. 
+     */
+   
+    public boolean validateCosto(Double pCosto)
+    {  
     return pCosto>0;
-}
+    }
+    
+    
 }
