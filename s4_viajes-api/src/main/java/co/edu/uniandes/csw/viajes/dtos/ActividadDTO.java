@@ -41,6 +41,7 @@ public class ActividadDTO implements Serializable{
         }
     }
     
+    public Long getId() {return id;}   
     public int getCosto(){return costo;}
     public Long getIdentificador(){return identificador;}
     
@@ -49,6 +50,7 @@ public class ActividadDTO implements Serializable{
     public double getLatitud(){return latitud;}
     public double getLongitud(){return longitud;}
     
+    public void setId(Long id) {this.id = id;}
     public void setCosto(int costo){this.costo = costo;}
     public void setIdentificador (Long id){this.identificador = id;}
     
