@@ -64,7 +64,7 @@ public class EntradaPersistence {
      */
     public EntradaEntity find(Long userId, Long entradaId) {
         LOGGER.log(Level.INFO, "Consultando la entrada con id = {0} del usuario con id = " + entradaId, userId);
-        TypedQuery<EntradaEntity> q = em.createQuery("select p from EntradaEntity p where (p.user.id = :userid) and (p.id = :entradaId)", EntradaEntity.class);
+        TypedQuery<EntradaEntity> q = em.createQuery("select p from EntradaEntity p where (p.autor.id = :userid) and (p.id = :entradaId)", EntradaEntity.class);
         q.setParameter("userid", userId);
         q.setParameter("entradaId", entradaId);
         List<EntradaEntity> results = q.getResultList();

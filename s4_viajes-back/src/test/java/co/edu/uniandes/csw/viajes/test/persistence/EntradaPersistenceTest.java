@@ -103,7 +103,7 @@ public class EntradaPersistenceTest {
      */
     private void clearData() {
         em.createQuery("delete from EntradaEntity").executeUpdate();
-        em.createQuery("delete from UserEntity").executeUpdate();
+        em.createQuery("delete from UsuarioEntity").executeUpdate();
     }
     
         /**
@@ -119,9 +119,7 @@ public class EntradaPersistenceTest {
         }
         for (int i = 0; i < 3; i++) {
             EntradaEntity entity = factory.manufacturePojo(EntradaEntity.class);
-            if (i == 0) {
-                entity.setAutor(dataUser.get(0));
-            }
+                entity.setAutor(dataUser.get(i));
             em.persist(entity);
             data.add(entity);
         }
