@@ -60,7 +60,8 @@ public class ComboDTO implements Serializable{
         comboEntity.setPuntuacion(puntuacion);
         comboEntity.setDias(dias);
         comboEntity.setHoras(horas);
-        comboEntity.setComboIdLong(comboIdLong);
+        if(comboIdLong!=null&&comboIdLong!=0)
+            comboEntity.setComboIdLong(comboIdLong);
         
         return comboEntity; 
     }
