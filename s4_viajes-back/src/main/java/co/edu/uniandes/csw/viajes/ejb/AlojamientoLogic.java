@@ -57,30 +57,26 @@ public class AlojamientoLogic {
             throw new BusinessLogicException("El nombre ingresado ya existe:" + alojamientoEntity.getNombre());
         }
 
-//        if (persistence.find(alojamientoEntity.getId()) != null) {
-//            throw new BusinessLogicException("El alojamiento es inválido");
-//        }
-//
-//        ProveedorEntity proveedorEntity = proveedorPersistence.find(alojamientoEntity.getProveedor().getId());
-//        proveedorEntity.getAlojamientos().add(alojamientoEntity);
-//        if (proveedorEntity == null) {
-//            throw new BusinessLogicException("El proveedor es inválido");
-//        }
+        if (persistence.find(proveedor.getId(), alojamientoEntity.getId()) != null) {
+            throw new BusinessLogicException("El alojamiento es inválido");
+        }
 
-        persistence.create(alojamientoEntity);
-        //Valida que el nombre de la entidad parametro no genere excepcion
-//
-//        if (alojamientoEntity.getCosto() <= 0) {
-//            throw new BusinessLogicException("El costo ingresado es invalido:" + alojamientoEntity.getCosto());
-//        }
-//        if (alojamientoEntity.getEstrellas() <= 0) {
-//            throw new BusinessLogicException("Las estrellas ingresadas son invalidas:" + alojamientoEntity.getEstrellas());
-//        }
+        ProveedorEntity proveedorEntity = proveedorPersistence.find(alojamientoEntity.getProveedor().getId());
+        proveedorEntity.getAlojamientos().add(alojamientoEntity);
+        if (proveedorEntity == null) {
+            throw new BusinessLogicException("El proveedor es inválido");
+        }
+
+        if (alojamientoEntity.getCosto() <= 0) {
+            throw new BusinessLogicException("El costo ingresado es invalido:" + alojamientoEntity.getCosto());
+        }
+        if (alojamientoEntity.getEstrellas() <= 0) {
+            throw new BusinessLogicException("Las estrellas ingresadas son invalidas:" + alojamientoEntity.getEstrellas());
+        }
 
         //Crea el alojamiento en la persistencia
         LOGGER.log(Level.INFO, "Termina proceso de creación del alojamiento");
-        return alojamientoEntity;
-//        return persistence.create(alojamientoEntity);
+        return persistence.create(alojamientoEntity);
     }
 
     private boolean validateNombre(String nombre) {
@@ -92,6 +88,7 @@ public class AlojamientoLogic {
     /**
      * Devuelve todos los alojamientos que hay en la base de datos.
      *
+     * @param proveedoresId
      * @return Lista de entidades de tipo alojamiento.
      */
     public List<AlojamientoEntity> getAlojamientos(Long proveedoresId) {
@@ -137,17 +134,13 @@ public class AlojamientoLogic {
         alojamientoEntity.setProveedor(proveedorEntity); 
         persistence.update(alojamientoEntity); 
        
-//        String nombreParam = alojamientoEntity.getNombre();
-//        if (!validateNombre(nombreParam)) {
-//            throw new BusinessLogicException("El nombre es inválido" + nombreParam);
-//        }
-//        if (persistence.find(proveedoresId) == null) {
-//            throw new BusinessLogicException("El id del alojamiento ingresado no se encuentra registrado." + proveedoresId);
-//        }
-//        if (alojamientoEntity.getCosto() < 0) {
-//            throw new BusinessLogicException("El costo del alojamiento es invalido." + alojamientoEntity.getCosto());
-//        }
-//        AlojamientoEntity newEntity = persistence.update(alojamientoEntity);
+        String nombreParam = alojamientoEntity.getNombre();
+        if (!validateNombre(nombreParam)) {
+            throw new BusinessLogicException("El nombre es inválido" + nombreParam);
+        }
+        if (alojamientoEntity.getCosto() < 0) {
+            throw new BusinessLogicException("El costo del alojamiento es invalido." + alojamientoEntity.getCosto());
+        }
         LOGGER.log(Level.INFO, "Termina proceso de actualizar el alojamiento con id = {0}", alojamientoEntity.getId());
         return alojamientoEntity; 
 

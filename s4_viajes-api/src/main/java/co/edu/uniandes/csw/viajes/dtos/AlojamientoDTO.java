@@ -71,12 +71,12 @@ public class AlojamientoDTO implements Serializable {
     /**
      * Latitud del alojamiento.
      */
-    private Long latitud;
+    private double latitud;
 
     /**
      * Longitud del alojamiento.
      */
-    private Long longitud;
+    private double longitud;
 
     /**
      * Puntuacion del alojamiento.
@@ -271,7 +271,7 @@ public class AlojamientoDTO implements Serializable {
      *
      * @return latitud.
      */
-    public Long getLatitud() {
+    public double getLatitud() {
         return latitud;
     }
 
@@ -289,7 +289,7 @@ public class AlojamientoDTO implements Serializable {
      *
      * @return longitud
      */
-    public Long getLongitud() {
+    public double getLongitud() {
         return longitud;
     }
 

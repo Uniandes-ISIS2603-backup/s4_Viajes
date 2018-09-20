@@ -52,7 +52,7 @@ public class AlojamientoPersistence {
         LOGGER.log(Level.INFO, "Consultando el alojamiento con id={0} del proveedor con id = " + proveedoresId, alojamientosId);
         TypedQuery<AlojamientoEntity> q = em.createQuery("select p from AlojamientoEntity where{p.proveedor.id = :proveedoresid} and {p.id = : alojamientosId}", AlojamientoEntity.class);
         q.setParameter("proveedoresid", proveedoresId);
-        q.setParameter("alojamientosId", alojamientosId); 
+        q.setParameter("alojamientosId", alojamientosId);  
         List<AlojamientoEntity> alojamientos = q.getResultList();
         AlojamientoEntity alojamiento = null; 
         if(alojamientos == null){

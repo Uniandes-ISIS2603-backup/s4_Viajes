@@ -31,10 +31,8 @@ import javax.ws.rs.WebApplicationException;
  *
  * @author Ymespana
  */
-@Path("alojamientos")
 @Produces("application/json")
 @Consumes("application/json")
-@RequestScoped
 public class AlojamientoResource {
 
     private static final Logger LOGGER = Logger.getLogger(AlojamientoResource.class.getName());

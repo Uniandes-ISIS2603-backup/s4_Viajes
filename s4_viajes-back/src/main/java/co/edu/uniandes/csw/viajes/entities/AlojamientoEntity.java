@@ -9,7 +9,7 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import uk.co.jemos.podam.common.PodamExclude;
-
+ 
 /**
  *
  * @author Ymespana
@@ -48,12 +48,12 @@ public class AlojamientoEntity extends BaseEntity implements Serializable {
     /**
      * Latitud del alojamiento.
      */
-    private Long latitud;
+    private double latitud;
 
     /**
      * Longitud del alojamiento.
      */
-    private Long longitud;
+    private double longitud;
 
     /**
      * Puntuacion del alojamiento.
@@ -120,19 +120,19 @@ public class AlojamientoEntity extends BaseEntity implements Serializable {
         this.noches = noches;
     }
 
-    public Long getLatitud() {
+    public double getLatitud() {
         return latitud;
     }
 
-    public void setLatitud(Long latitud) {
+    public void setLatitud(double latitud) {
         this.latitud = latitud;
     }
 
-    public Long getLongitud() {
+    public double getLongitud() {
         return longitud;
     }
 
-    public void setLongitud(Long longitud) {
+    public void setLongitud(double longitud) {
         this.longitud = longitud;
     }
 
