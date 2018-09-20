@@ -1,0 +1,198 @@
+{
+	"info": {
+		"_postman_id": "89e4f4d7-9625-4f32-a2a0-f19d03dcf051",
+		"name": "Test Medalla",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear una medalla",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "27ddceb6-bfb6-48eb-929a-5679efc05158",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Postman. La medallaa se ha creado exitosamente.\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"numero\":22,\n\t\"nombre\":\"Gran viajero\",\n\t\"rutaImagen\":\"gran_viajero.jpg\",\n\t\"descripcion\":\"Eres un gran viajero! Disfruta de un descuento del 10% en tus siguientes viajes.\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/medallas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"medallas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener una medalla por su numero",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5dbaadd1-12a5-4b93-8b2f-cd76ba2ecb4f",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Postman. La medalla se ha encontrado exitosamente.\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/medallas/123456",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"medallas",
+						"123456"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener una lista de todas las medallas",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4ce31375-1cc8-4ac4-b2c8-7b9371afb354",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Postman. Las medallas se han encontrado exitosamente.\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/medallas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"medallas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar una medalla",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2424b585-a7c0-4de1-9734-6dc606f71fee",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Postman. La medalla se ha eliminado exitosamente.\"] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/medallas/1324",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"medallas",
+						"1324"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modificar una medalla",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "be8ae9eb-9185-4ef0-8315-ccee289128fa",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Postman. La medalla se ha modificado exitosamente.\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"nombre\":\"Medalla\",\n\t\"rutaImagen\":\"medalla.jpg\",\n\t\"descripcion\":\"Medalla.\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/medallas/1324",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"medallas",
+						"1324"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
