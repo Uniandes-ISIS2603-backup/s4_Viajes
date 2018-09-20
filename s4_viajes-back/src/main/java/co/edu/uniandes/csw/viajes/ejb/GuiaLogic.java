@@ -40,7 +40,7 @@ public class GuiaLogic {
      * @throws BusinessLogicException Si la editorial a persistir ya existe.
      */
     public GuiaEntity createGuia(GuiaEntity guiaEntity) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de creación de la editorial");
+        LOGGER.log(Level.INFO, "Inicia proceso de creación del guia");
         // Verifica la regla de negocio que dice que no puede haber dos editoriales con el mismo nombre
         if (guiaEntity.getActividad() == null)
         {
@@ -65,7 +65,6 @@ public class GuiaLogic {
         
         LOGGER.log(Level.INFO, "Inicia proceso de consultar la guia con id = {0}", guiaId);
         // Note que, por medio de la inyección de dependencias se llama al método "find(id)" que se encuentra en la persistencia.
-        
        
         GuiaEntity guiaEntity = persistence.find(guiaId);
         if (guiaEntity == null) {

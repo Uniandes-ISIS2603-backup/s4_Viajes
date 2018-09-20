@@ -68,34 +68,34 @@ public class GuiaResource {
      */
    @POST
     public GuiaDTO createGuia(GuiaDTO guia) throws BusinessLogicException {
+        if(guia == null) throw new BusinessLogicException("No se recibio ningun guía");
        LOGGER.log(Level.INFO, "GuiaResource createGuia: input: {0}", guia.toString());
         // Convierte el DTO (json) en un objeto Entity para ser manejado por la lógica.
         GuiaEntity guiaEntity = guia.toEntity();
         // Invoca la lógica para crear la actividad nueva
-        GuiaEntity nuevoActividadEntity = guiaLogic.createGuia(guiaEntity);
+        GuiaEntity nuevoGuiaEntity = guiaLogic.createGuia(guiaEntity);
         // Como debe retornar un DTO (json) se invoca el constructor del DTO con argumento el entity nuevo
 
-        GuiaDTO nuevoGuiaDTO = new GuiaDTO(guiaEntity);
-        LOGGER.log(Level.INFO, "GuiaResource guiaEditorial: output: {0}", nuevoGuiaDTO.toString());
+        GuiaDTO nuevoGuiaDTO = new GuiaDTO(nuevoGuiaEntity);
+        LOGGER.log(Level.INFO, "GuiaResource createGuia: output: {0}", nuevoGuiaDTO.toString());
 
-        LOGGER.log(Level.INFO, "GuiaResource guiaEditorial: output: {0}", nuevoGuiaDTO.toString());
-       
         return nuevoGuiaDTO;
 
     }
     
 
     @GET
-    @Path("guiaId: \\d+")
-    public GuiaDTO consultarGuia(@PathParam("actividadId") Long guiaId) throws WebApplicationException
+    @Path("id: \\d+")
+    public GuiaDTO consultarGuia(@PathParam("id") Long id) throws WebApplicationException
     {
-         LOGGER.log(Level.INFO, "GuiaResource getResource: input: {0}", guiaId);
-        GuiaEntity guiaEntity = guiaLogic.getGuia(guiaId);
+        if (id == null) throw new WebApplicationException("El id no es valido",404);
+         LOGGER.log(Level.INFO, "GuiaResource consultarGuia: input: {0}", id);
+        GuiaEntity guiaEntity = guiaLogic.getGuia(id);
         if (guiaEntity == null) {
-            throw new WebApplicationException("El recurso /guia/" + guiaId + " no existe.", 404);
+            throw new WebApplicationException("El recurso /guia/" + id + " no existe.", 404);
         }
         GuiaDTO detailDTO = new GuiaDTO(guiaEntity);
-        LOGGER.log(Level.INFO, "GuiaResource getGuia: output: {0}", detailDTO.toString());
+        LOGGER.log(Level.INFO, "GuiaResource consultarGuia: output: {0}", detailDTO.toString());
         return detailDTO;
     }
 
@@ -123,7 +123,7 @@ public class GuiaResource {
             throw new WebApplicationException("El recurso /guia/" + guiaId + " no existe.", 404);
         }
         GuiaDTO detailDTO = new GuiaDTO(guiaLogic.modificarGuia(guiaId, guia.toEntity()));
-        LOGGER.log(Level.INFO, "GuiaResource updateGuia: output: {0}", detailDTO.toString());
+        LOGGER.log(Level.INFO, "GuiaResource modificarGuia: output: {0}", detailDTO.toString());
         return detailDTO;}
     
 }

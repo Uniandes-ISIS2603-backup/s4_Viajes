@@ -102,7 +102,7 @@ public class ActividadPersistence {
      * @param actividadId: id correspondiente a la editorial a borrar.
      */
     public void delete(Long actividadId) {
-        LOGGER.log(Level.INFO, "Borrando editorial con id = {0}", actividadId);
+        LOGGER.log(Level.INFO, "Borrando actividad con id = {0}", actividadId);
         // Se hace uso de mismo método que esta explicado en public EditorialEntity find(Long id) para obtener la editorial a borrar.
         ActividadEntity entity = em.find(ActividadEntity.class, actividadId);
         /* Note que una vez obtenido el objeto desde la base de datos llamado "entity", volvemos hacer uso de un método propio del
