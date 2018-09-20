@@ -53,15 +53,31 @@ public class EntradaPersistence {
     }
 
     /**
-     * Busca si hay alguna entrada con el id que se envía de argumento
+     * Buscar una entrada
      *
-     * @param entradaId: id correspondiente a la entrada buscada.
-     * @return una entrada.
+     * Busca si hay alguna entrada asociada a un usuario y con un ID específico
+     *
+     * @param userId El ID del libro con respecto al cual se busca
+     * @param entradaId El ID de la reseña buscada
+     * @return La entrada encontrada o null. Nota: Si existe una o más entradas
+     * devuelve siempre la primera que encuentra
      */
-    public EntradaEntity find(Long entradaId) {
-        LOGGER.log(Level.INFO, "Consultando entrada con id={0}", entradaId);
-
-        return em.find(EntradaEntity.class, entradaId);
+    public EntradaEntity find(Long userId, Long entradaId) {
+        LOGGER.log(Level.INFO, "Consultando la entrada con id = {0} del usuario con id = " + entradaId, userId);
+        TypedQuery<EntradaEntity> q = em.createQuery("select p from EntradaEntity p where (p.autor.id = :userid) and (p.id = :entradaId)", EntradaEntity.class);
+        q.setParameter("userid", userId);
+        q.setParameter("entradaId", entradaId);
+        List<EntradaEntity> results = q.getResultList();
+        EntradaEntity entrada = null;
+        if (results == null) {
+            entrada = null;
+        } else if (results.isEmpty()) {
+            entrada = null;
+        } else if (results.size() >= 1) {
+            entrada = results.get(0);
+        }
+        LOGGER.log(Level.INFO, "Saliendo de consultar la entrada con id = {0} del usuario con id =" + entradaId, userId);
+        return entrada;
     }
     
     /**
@@ -91,4 +107,5 @@ public class EntradaPersistence {
         LOGGER.log(Level.INFO, "Saliendo de borrar la entrada con id = {0}", entradaId);
     }
     
+
 }
