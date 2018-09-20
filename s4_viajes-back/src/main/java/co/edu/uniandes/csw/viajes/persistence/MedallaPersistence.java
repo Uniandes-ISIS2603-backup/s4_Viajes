@@ -94,7 +94,7 @@ public class MedallaPersistence {
      * Busca si hay alguna medalla con el nombre que se envía de argumento
      *
      * @param nombre: Nombre de la medalla que se está buscando
-     * @return null si no existe ningun proveedor con el nombre del argumento. Si
+     * @return null si no existe ninguna medalla con el nombre del argumento. Si
      * existe alguno devuelve el primero.
      */
     public MedallaEntity findByName(String nombre) {

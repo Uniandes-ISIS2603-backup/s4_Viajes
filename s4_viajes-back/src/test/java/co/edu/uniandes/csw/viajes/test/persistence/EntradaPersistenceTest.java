@@ -6,6 +6,7 @@
 package co.edu.uniandes.csw.viajes.test.persistence;
 
 import co.edu.uniandes.csw.viajes.entities.EntradaEntity;
+import co.edu.uniandes.csw.viajes.entities.UsuarioEntity;
 import co.edu.uniandes.csw.viajes.persistence.EntradaPersistence;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,11 @@ public class EntradaPersistenceTest {
      */
     private List<EntradaEntity> data = new ArrayList<EntradaEntity>();
     
+        /**
+     * Lista que tiene los datos de prueba de usuario.
+     */
+    private List<UsuarioEntity> dataUser = new ArrayList<UsuarioEntity>();
+    
     /**
      * @return Devuelve el jar que Arquillian va a desplegar en el Glassfish
      * embebido. El jar contiene las clases de Entrada, el descriptor de la
@@ -97,6 +103,7 @@ public class EntradaPersistenceTest {
      */
     private void clearData() {
         em.createQuery("delete from EntradaEntity").executeUpdate();
+        em.createQuery("delete from UserEntity").executeUpdate();
     }
     
         /**
@@ -106,11 +113,16 @@ public class EntradaPersistenceTest {
     private void insertData() {
         PodamFactory factory = new PodamFactoryImpl();
         for (int i = 0; i < 3; i++) {
-
-            EntradaEntity entity = factory.manufacturePojo(EntradaEntity.class);
-
+            UsuarioEntity entity = factory.manufacturePojo(UsuarioEntity.class);
             em.persist(entity);
-
+            dataUser.add(entity);
+        }
+        for (int i = 0; i < 3; i++) {
+            EntradaEntity entity = factory.manufacturePojo(EntradaEntity.class);
+            if (i == 0) {
+                entity.setAutor(dataUser.get(0));
+            }
+            em.persist(entity);
             data.add(entity);
         }
     }
@@ -128,7 +140,6 @@ public class EntradaPersistenceTest {
 
         EntradaEntity entity = em.find(EntradaEntity.class, result.getId());
 
-        Assert.assertEquals(newEntity.getNumero(), entity.getNumero());
         Assert.assertEquals(newEntity.getAutor(), entity.getAutor());
         Assert.assertEquals(newEntity.getComentarios(), entity.getComentarios());
         Assert.assertEquals(newEntity.getCombo(), entity.getCombo());
@@ -168,9 +179,9 @@ public class EntradaPersistenceTest {
     @Test
         public void getEntradaTest() {
         EntradaEntity entity = data.get(0);
-        EntradaEntity newEntity = entradaPersistence.find(entity.getId());
+        EntradaEntity newEntity = entradaPersistence.find(dataUser.get(0).getId(), entity.getId());
         Assert.assertNotNull(newEntity);
-        Assert.assertEquals(entity.getNumero(), newEntity.getNumero());
+        Assert.assertEquals(entity.getId(), newEntity.getId());
     }
 
     /**
@@ -203,7 +214,7 @@ public class EntradaPersistenceTest {
 
         EntradaEntity resp = em.find(EntradaEntity.class, entity.getId());
 
-        Assert.assertEquals(newEntity.getNumero(), resp.getNumero());
+        Assert.assertEquals(newEntity.getId(), resp.getId());
     }
 
 }
