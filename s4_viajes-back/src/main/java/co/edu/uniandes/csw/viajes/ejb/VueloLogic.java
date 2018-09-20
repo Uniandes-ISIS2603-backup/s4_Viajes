@@ -44,15 +44,9 @@ public class VueloLogic {
      */
     public VueloEntity createVuelo(VueloEntity vueloEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación del vuelo");
-         if (vueloEntity.getProveedor() == null) {
-            throw new BusinessLogicException("El proveedor es inválido");
-        }
-        ProveedorEntity proveedorEntity = proveedorPersistence.find(vueloEntity.getProveedor().getId());
-        if (proveedorEntity == null) {
-            throw new BusinessLogicException("El proveedor es inválida");
-        }
-        
-        if (!validateNumero(vueloEntity.getNumero())) {
+                
+        if (vueloEntity.getNumero() == null)
+        {
             throw new BusinessLogicException("El Numero de vuelo es inválido");
         }
 
@@ -83,13 +77,13 @@ public class VueloLogic {
         }
         
         // Verifica la regla de negocio que dice que las coordenadas (lat, long) de origen y destino no pueden ser nulas.
-        if(vueloEntity.getLatO() == (null) && vueloEntity.getLonO() == (null) && vueloEntity.getLatD() == (null) && vueloEntity.getLonD() == (null))
+        if(vueloEntity.getLatO() == 0 && vueloEntity.getLonO() == 0 && vueloEntity.getLatD() == 0 && vueloEntity.getLonD() == 0)
         {
             throw new BusinessLogicException("Las coordenadas (latitud, longitud) de origen y destino deben exsitir, no pueden ser vacías");
         }
  
         // Verifica la regla de negocio que dice que las coordenadas (lat, long) de origen y destino no pueden ser iguales.        
-        if(vueloEntity.getLatO().equals(vueloEntity.getLatD()) && vueloEntity.getLonO().equals(vueloEntity.getLonD()) )
+        if(vueloEntity.getLatO() == vueloEntity.getLatD() && vueloEntity.getLonO() == vueloEntity.getLonD())
         {
            throw new BusinessLogicException("Las coordenadas (latitud, longitud) de origen y destino no pueden ser iguales");
         }
@@ -102,7 +96,6 @@ public class VueloLogic {
         
         // Invoca la persistencia para crear el vuelo
         persistence.create(vueloEntity);
-        proveedorEntity.getVuelos().add(vueloEntity);
         LOGGER.log(Level.INFO, "Termina proceso de creación del vuelo");
         return vueloEntity;
     }
@@ -152,7 +145,7 @@ public class VueloLogic {
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar el vuelo con id = {0}", vueloId);
         // Verifica la regla de negocio que dice que no se puede actualizar el id de un vuelo con un vuelo que ya tenga ese id.
 
-        if (persistence.find(vueloEntity.getId()) != null) 
+        if (vueloEntity.getId() == vueloId) 
         {
             throw new BusinessLogicException("Ya existe un Vuelo con el id que quiere cambiar \"" + vueloEntity.getId() + "\"");
         } 

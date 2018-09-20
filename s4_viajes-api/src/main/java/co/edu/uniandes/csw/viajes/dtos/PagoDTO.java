@@ -17,7 +17,9 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class PagoDTO {
    
     private ComboDTO aPagar;
-    private String pagoId;
+    private Long pagoId;
+    private boolean pagaConTarjeta;
+    private String tarjeta;
     
     /**
      * Constructor vacio.
@@ -36,6 +38,8 @@ public class PagoDTO {
             else
                 aPagar=null;
             pagoId=pagoEntity.getPagoId();
+            pagaConTarjeta=pagoEntity.isPagaConTarjeta();
+            tarjeta=pagoEntity.getTarjeta();
         }
     }
 
@@ -47,13 +51,31 @@ public class PagoDTO {
         this.aPagar = aPagar;
     }
 
-    public String getPagoId() {
+    public Long getPagoId() {
         return pagoId;
     }
 
-    public void setPagoId(String pagoId) {
+    public void setPagoId(Long pagoId) {
         this.pagoId = pagoId;
     }
+
+    public boolean isPagaConTarjeta() {
+        return pagaConTarjeta;
+    }
+
+    public void setPagaConTarjeta(boolean pagaConTarjeta) {
+        this.pagaConTarjeta = pagaConTarjeta;
+    }
+
+    public String getTarjeta() {
+        return tarjeta;
+    }
+
+    public void setTarjeta(String tarjeta) {
+        this.tarjeta = tarjeta;
+    }
+    
+    
     
     
     /**
@@ -66,6 +88,8 @@ public class PagoDTO {
         if(aPagar!=null)pagoEntity.setaPagar(aPagar.toEntity());
         else pagoEntity.setaPagar(null);
         pagoEntity.setPagoId(pagoId);
+        pagoEntity.setPagaConTarjeta(pagaConTarjeta);
+        pagoEntity.setTarjeta(tarjeta);
         return pagoEntity; 
     }
       
