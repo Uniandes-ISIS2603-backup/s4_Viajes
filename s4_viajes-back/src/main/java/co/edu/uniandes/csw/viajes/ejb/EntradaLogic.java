@@ -39,7 +39,7 @@ public class EntradaLogic {
      * @return La entidad de la entrada luego de persistirla.
      * @throws BusinessLogicException Si la entrada a persistir ya existe.
      */
-    public EntradaEntity createVuelo(Long userId, EntradaEntity entradaEntity) throws BusinessLogicException
+    public EntradaEntity createEntrada(Long userId, EntradaEntity entradaEntity) throws BusinessLogicException
     {
         LOGGER.log(Level.INFO, "Inicia proceso de creación de la entrada");
         
@@ -232,7 +232,9 @@ public class EntradaLogic {
         }
 
         EntradaEntity newEntity = persistence.update(entradaEntity);
+        if(entradaEntity != null){
         LOGGER.log(Level.INFO, "Termina proceso de actualizar el entrada con id = {0}", entradaEntity.getId());
+        }
         return newEntity;
     }
 
