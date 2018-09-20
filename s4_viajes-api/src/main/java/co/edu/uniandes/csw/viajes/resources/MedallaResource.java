@@ -44,7 +44,7 @@ public class MedallaResource {
     //MedallaLogic medallaLogic; //variable para acceder a la lógica de la aplicación. Es una inyección de independencias.
     
      /**
-     * Crea una nuevo entrada con la informacion que se recibe en el cuerpo de la
+     * Crea una nuevo medalla con la informacion que se recibe en el cuerpo de la
      * petición y se regresa un objeto identico con un id auto-generado por la
      * base de datos.
      *
@@ -76,12 +76,12 @@ public class MedallaResource {
      * Obtiene una medalla con su información dada por su número, se retorna esta
      * información que fue previamente ingresada en formato JSON.
      *
-     * @param medallaNum {@link MedallaDTO} - El número de la medalla que se desea obtener.
-     * @return una entrada y su información de acuerdo a su nùmero.
+     * @param medallaId {@link MedallaDTO} - El id de la medalla que se desea obtener.
+     * @return una medalla y su información de acuerdo a su nùmero.
      */
     @GET
-        @Path("{numero: \\d+}")
-    public MedallaDTO consultarMedalla(@PathParam("numero") int medallaNum) 
+        @Path("{id: \\d+}")
+    public MedallaDTO consultarMedalla(@PathParam("id") Long medallaId) 
     {
         return new MedallaDTO();
     }
@@ -89,12 +89,12 @@ public class MedallaResource {
     /**
      * Modifica la informacion de una medalla dada por la información ingresada en
      * formato JSON.
-     * @param medallaNum El numero de la entrada que se va a actualizar
-     * @param nueva (@link EntradaDTO) - el vuelo que desea modificar.
+     * @param medallaId El id de la medalla que se va a actualizar
+     * @param nueva (@link MedallaDTO) - el vuelo que desea modificar.
      */
     @PUT
-    @Path("{numero: \\d+}")
-    public MedallaDTO modificarMedalla(@PathParam("numero")int medallaNum, MedallaDTO nueva) throws WebApplicationException
+    @Path("{id: \\d+}")
+    public MedallaDTO modificarMedalla(@PathParam("id")int medallaId, MedallaDTO nueva) throws WebApplicationException
     {
        return nueva;
     }
@@ -102,15 +102,15 @@ public class MedallaResource {
         /**
      * Borra la medalla con el numero asociado recibido en la URL.
      *
-     * @param medallaNum El numero de la reseña que se va a eliminar.
+     * @param medallaId El id de la medalla que se va a eliminar.
      * @throws BusinessLogicException {@link BusinessLogicExceptionMapper} -
-     * Error de lógica que se genera cuando no se puede eliminar la entrada.
+     * Error de lógica que se genera cuando no se puede eliminar la medalla.
      * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
-     * Error de lógica que se genera cuando no se encuentra la reseña.
+     * Error de lógica que se genera cuando no se encuentra la medalla.
      */
     @DELETE
-    @Path("{numero: \\d+}")
-    public void deleteEntrada(@PathParam("numero") int medallaNum) {
+    @Path("{id: \\d+}")
+    public void deleteMedalla(@PathParam("id") int medallaId) {
         
     }
 }
