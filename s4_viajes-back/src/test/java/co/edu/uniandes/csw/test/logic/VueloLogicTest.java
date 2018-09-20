@@ -11,7 +11,7 @@ import co.edu.uniandes.csw.viajes.entities.VueloEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.VueloPersistence;
 import java.util.ArrayList;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -128,8 +128,8 @@ public class VueloLogicTest {
         newEntity.setLonO(-74.0817500);
         newEntity.setLatD(39.9075000);
         newEntity.setLonD(116.3972300);
-        newEntity.setFechaSalida(Calendar.getInstance());
-        newEntity.setFechaLlegada(Calendar.getInstance());
+        newEntity.setFechaSalida(new Date());
+        newEntity.setFechaLlegada(new Date());
         
         VueloEntity result = vueloLogic.createVuelo(newEntity);
         Assert.assertNotNull(result);

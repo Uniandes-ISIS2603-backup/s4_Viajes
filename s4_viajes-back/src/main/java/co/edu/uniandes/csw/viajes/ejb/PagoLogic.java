@@ -44,16 +44,38 @@ public class PagoLogic {
 //        if (pagoEntity.getaPagar() == null || comboPersistence.find(pagoEntity.getaPagar().getId()) == null) {
 //            throw new BusinessLogicException("El combo es del pago es invalido");
 //        }
-         if (pagoEntity.getaPagar() == null) {
-            throw new BusinessLogicException("El pago es inválido");
+         
+
+//        if (pagoEntity.getaPagar() == null) {
+//            throw new BusinessLogicException("El pago es inválido, debe tener un combo a pagar");
+//        }
+         if (pagoEntity.getaPagar().getActividades().isEmpty()
+                 &&pagoEntity.getaPagar().getAlojamientos().isEmpty()
+                 &&pagoEntity.getaPagar().getTransportesTerrestres().isEmpty()
+                 &&pagoEntity.getaPagar().getVuelos().isEmpty()) {
+            throw new BusinessLogicException("El combo que se desea pagar se encuentra vacio");
         }
+         
          if(pagoEntity.isPagaConTarjeta())
          {
-             if(pagoEntity.getTarjeta().trim().equals(""))
+             String tarjeta=pagoEntity.getTarjeta();
+             if(tarjeta.trim().equals(""))
                 throw new BusinessLogicException("No introdujo ninguna tarjeta");
 //              revisar resto reglas de negocio sobre una tarjeta
+            if(tarjeta.length()!=16)
+                throw new BusinessLogicException("Debe ingresar los 16 caracteres que componen la tarjeta");
+            try
+            {
+                Integer.parseInt(tarjeta.substring(0,8));
+                Integer.parseInt(tarjeta.substring(8));
+            }
+            catch(Exception e)
+            {
+                throw new BusinessLogicException("La tarjeta de credito tiene caracteres no permitidos");
+            }
+            
          }
-//      pagoEntity = persistence.create(pagoEntity);
+        pagoEntity = persistence.create(pagoEntity);
         LOGGER.log(Level.INFO, "Termina proceso de creación del pago");
         return pagoEntity;
     }
@@ -65,8 +87,7 @@ public class PagoLogic {
      */
     public List<PagoEntity> getPagos() {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los pagos");
-         List<PagoEntity> pagos =new  ArrayList<PagoEntity>();
-//        List<PagoEntity> pagos = persistence.findAll();
+        List<PagoEntity> pagos = persistence.findAll();
         LOGGER.log(Level.INFO, "Termina proceso de consultar todos los pagos");
         return pagos;
     }
@@ -79,8 +100,7 @@ public class PagoLogic {
      */
     public PagoEntity getPago(Long pagoId) {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar el pago con id = {0}", pagoId);
-       PagoEntity pagoEntity =new PagoEntity();
-//        PagoEntity pagoEntity = persistence.find(pagoId);
+        PagoEntity pagoEntity = persistence.find(pagoId);
         if (pagoEntity == null) {
             LOGGER.log(Level.SEVERE, "El pago con el id = {0} no existe", pagoId);
         }
@@ -98,23 +118,46 @@ public class PagoLogic {
      */
     public PagoEntity updatePago(Long pagoId, PagoEntity pagoEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar el pago con id = {0}", pagoId);
-         if(pagoEntity==null)
+        if(pagoId == null)
+            throw new BusinessLogicException("Identificador del combo inexistente.");
+        if(pagoEntity==null)
             throw new BusinessLogicException("Error en el formato.");
 
 //        if (pagoEntity.getaPagar() == null || comboPersistence.find(pagoEntity.getaPagar().getId()) == null) {
 //            throw new BusinessLogicException("El combo es del pago es invalido");
 //        }
-         if (pagoEntity.getaPagar() == null) {
-            throw new BusinessLogicException("El pago es inválido");
+         
+
+        if (pagoEntity.getaPagar() == null) {
+            throw new BusinessLogicException("El pago es inválido, debe tener un combo a pagar");
         }
+         if (pagoEntity.getaPagar().getActividades().isEmpty()
+                 &&pagoEntity.getaPagar().getAlojamientos().isEmpty()
+                 &&pagoEntity.getaPagar().getTransportesTerrestres().isEmpty()
+                 &&pagoEntity.getaPagar().getVuelos().isEmpty()) {
+            throw new BusinessLogicException("El combo que se desea pagar se encuentra vacio");
+        }
+         
          if(pagoEntity.isPagaConTarjeta())
          {
-             if(pagoEntity.getTarjeta().trim().equals(""))
+             String tarjeta=pagoEntity.getTarjeta();
+             if(tarjeta.trim().equals(""))
                 throw new BusinessLogicException("No introdujo ninguna tarjeta");
 //              revisar resto reglas de negocio sobre una tarjeta
+            if(tarjeta.length()!=16)
+                throw new BusinessLogicException("Debe ingresar los 16 caracteres que componen la tarjeta");
+            try
+            {
+                Integer.parseInt(tarjeta.substring(0,8));
+                Integer.parseInt(tarjeta.substring(8));
+            }
+            catch(Exception e)
+            {
+                throw new BusinessLogicException("La tarjeta de credito tiene caracteres no permitidos");
+            }
+            
          }
-//      PagoEntity newEntity = persistence.update(pagoEntity);
-        PagoEntity newEntity = new PagoEntity();
+        PagoEntity newEntity = persistence.update(pagoEntity);
         LOGGER.log(Level.INFO, "Termina proceso de actualizar el pago con id = {0}", pagoEntity.getId());
         return newEntity;
     }
@@ -130,7 +173,7 @@ public class PagoLogic {
         if(pagoId == null)
           throw new BusinessLogicException("Identificador del pago inexistente.");
 
-//      persistence.delete(pagoId);
+        persistence.delete(pagoId);
         LOGGER.log(Level.INFO, "Termina proceso de borrar el pago con id = {0}", pagoId);
     }
 

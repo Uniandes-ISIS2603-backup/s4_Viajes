@@ -6,6 +6,7 @@
 package co.edu.uniandes.csw.viajes.dtos;
 
 import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
+import co.edu.uniandes.csw.viajes.entities.AlojamientoEntity;
 import co.edu.uniandes.csw.viajes.entities.ProveedorEntity;
 import co.edu.uniandes.csw.viajes.entities.TransporteTerrestreEntity;
 import co.edu.uniandes.csw.viajes.entities.VueloEntity;
@@ -28,6 +29,8 @@ public class ProveedorDetailDTO extends ProveedorDTO implements Serializable{
 
     private List<ActividadDTO> actividades;
     
+    private List<AlojamientoDTO> alojamientos;
+    
     /**
      * Crea un nuevo objeto ProveedorDetailDTO vacio
      *
@@ -38,6 +41,7 @@ public class ProveedorDetailDTO extends ProveedorDTO implements Serializable{
         vuelos=new ArrayList<VueloDTO>();
         transportesTerrestres=new ArrayList<TransporteTerrestreDTO>();
         actividades=new ArrayList<ActividadDTO>();
+        alojamientos= new ArrayList<AlojamientoDTO>();
     }
     
         /**
@@ -63,7 +67,10 @@ public class ProveedorDetailDTO extends ProveedorDTO implements Serializable{
                     transportesTerrestres.add(new TransporteTerrestreDTO(transporte));
             if(proveedorEntity.getActividades()!=null)
                 for(ActividadEntity actividad:proveedorEntity.getActividades())
-                     actividades.add(new ActividadDTO(actividad));                     
+                     actividades.add(new ActividadDTO(actividad));
+            if(proveedorEntity.getAlojamientos()!=null)
+                for(AlojamientoEntity alojamiento:proveedorEntity.getAlojamientos())
+                     alojamientos.add(new AlojamientoDTO(alojamiento));
         }       
      }
      
@@ -97,6 +104,13 @@ public class ProveedorDetailDTO extends ProveedorDTO implements Serializable{
                 actividadesEntity.add(actividadDTO.toEntity());
             }
             proveedorEntity.setActividades(actividadesEntity);
+        }
+        if (alojamientos != null) {
+            List<AlojamientoEntity> alojamientosEntity = new ArrayList<AlojamientoEntity>();
+            for (AlojamientoDTO alojamientoDTO : alojamientos) {
+                alojamientosEntity.add(alojamientoDTO.toEntity());
+            }
+            proveedorEntity.setAlojamientos(alojamientosEntity);
         }
         return proveedorEntity;
     }
@@ -153,6 +167,24 @@ public class ProveedorDetailDTO extends ProveedorDTO implements Serializable{
      */
     public void setActividades(List<ActividadDTO> actividades) {
         this.actividades = actividades;
+    }
+    
+         /**
+     * Obtiene la lista de alojamientos del proveedor
+     *
+     * @return alojamientos
+     */
+    public List<AlojamientoDTO> getAlojamientos() {
+        return alojamientos;
+    }
+    
+    /**
+     * Modifica la lista de alojamiento para el proveedor con los que llegan por parametro
+     *
+     * @param alojamientos los alojamientos
+     */
+    public void setAlojamientos(List<AlojamientoDTO> alojamientos) {
+        this.alojamientos = alojamientos;
     }
     
     @Override

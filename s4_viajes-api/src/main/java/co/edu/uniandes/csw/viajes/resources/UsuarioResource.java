@@ -114,6 +114,25 @@ public class UsuarioResource {
     
     }
    
+        /**
+     * Conexión con el servicio de entradas para un usuario. {@link EntradaResource}
+     *
+     * Este método conecta la ruta de /usuarios con las rutas de /entradas que
+     * dependen del usuario, es una redirección al servicio que maneja el segmento
+     * de la URL que se encarga de las entradas.
+     *
+     * @param documento El documento del usuario con respecto al cual se accede a la entrada.
+     * @return El servicio de Entradas para ese usuario en paricular.\
+     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
+     * Error de lógica que se genera cuando no se encuentra el usuario.
+     */
+    @Path("{documento: [a-zA-Z][a-zA-Z]*}/entradas")
+    public Class<EntradaResource> getEntradaResource(@PathParam("documento") String documento) {
+    //    if (usuarioLogic.getUsuario(documento) == null) {
+    //      throw new WebApplicationException("El recurso /books/" + documento + "/reviews no existe.", 404);
+    //  }
+        return EntradaResource.class;
+    }
    
     }
    
