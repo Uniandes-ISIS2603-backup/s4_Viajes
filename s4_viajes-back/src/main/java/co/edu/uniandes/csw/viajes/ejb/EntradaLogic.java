@@ -235,6 +235,7 @@ public class EntradaLogic {
         if(entradaEntity != null){
         LOGGER.log(Level.INFO, "Termina proceso de actualizar el entrada con id = {0}", entradaEntity.getId());
         }
+
         return newEntity;
     }
 

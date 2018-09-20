@@ -40,9 +40,17 @@ public class GuiaLogic {
      * @throws BusinessLogicException Si la editorial a persistir ya existe.
      */
     public GuiaEntity createGuia(GuiaEntity guiaEntity) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de creación de la editorial");
+        LOGGER.log(Level.INFO, "Inicia proceso de creación del guia");
         // Verifica la regla de negocio que dice que no puede haber dos editoriales con el mismo nombre
-
+        if (guiaEntity.getActividad() == null)
+        {
+            throw new BusinessLogicException("No se puede encontrar la actividad especificada");
+        }
+        
+        if (!validarDocumento(guiaEntity.getDocumento()))
+        {
+            throw new BusinessLogicException("El documento del guia es invalido");
+        }
         if (persistence.findByDocumento(guiaEntity.getDocumento()) != null) {
             throw new BusinessLogicException("Ya existe una Guia con el documento \"" + guiaEntity.getDocumento() + "\"");
         }
@@ -57,7 +65,6 @@ public class GuiaLogic {
         
         LOGGER.log(Level.INFO, "Inicia proceso de consultar la guia con id = {0}", guiaId);
         // Note que, por medio de la inyección de dependencias se llama al método "find(id)" que se encuentra en la persistencia.
-        
        
         GuiaEntity guiaEntity = persistence.find(guiaId);
         if (guiaEntity == null) {
@@ -69,10 +76,14 @@ public class GuiaLogic {
         
     }
     
-    public GuiaEntity modificarGuia(Long id, GuiaEntity guiaEntity){
+    public GuiaEntity modificarGuia(Long id, GuiaEntity guiaEntity)throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar la guia con id = {0}", id);
         // Note que, por medio de la inyección de dependencias se llama al método "update(entity)" que se encuentra en la persistencia.
-        
+        if (!validarDocumento(guiaEntity.getDocumento()))
+        {
+            throw new BusinessLogicException("El id es invalido");
+        }
+ 
         GuiaEntity newEntity = persistence.update(guiaEntity);
         LOGGER.log(Level.INFO, "Termina proceso de actualizar la guia con id = {0}", guiaEntity.getId());
         return new GuiaEntity();
@@ -84,13 +95,19 @@ public class GuiaLogic {
      *
      * @param editorialsId: id de la editorial a borrar
      */
-    public void deleteGuia(Long editorialsId) {
-        LOGGER.log(Level.INFO, "Inicia proceso de borrar la editorial con id = {0}", editorialsId);
+    public void deleteGuia(Long guiaId) {
+        LOGGER.log(Level.INFO, "Inicia proceso de borrar la actividad con id = {0}", guiaId);
+        
+        
         // Note que, por medio de la inyección de dependencias se llama al método "delete(id)" que se encuentra en la persistencia.
-        persistence.delete(editorialsId);
-        LOGGER.log(Level.INFO, "Termina proceso de borrar la editorial con id = {0}", editorialsId);
+        persistence.delete(guiaId);
+        LOGGER.log(Level.INFO, "Termina proceso de borrar la actividad con id = {0}", guiaId);
     }
     
+    private boolean validarDocumento(Long doc)
+    {
+    return !(doc == null || doc <= 0L);
+     }
 
 
 } 

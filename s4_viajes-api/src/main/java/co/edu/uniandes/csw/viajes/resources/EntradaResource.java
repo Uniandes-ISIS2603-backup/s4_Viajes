@@ -65,6 +65,7 @@ public class EntradaResource {
      */
     @POST
     public EntradaDTO crearEntrada(@PathParam("usuarioId") Long userId,EntradaDTO entrada) throws BusinessLogicException {
+
         LOGGER.log(Level.INFO, "EntradaResouce createEntrada: input: {0}", entrada.toString());
         
         EntradaEntity entradaEntity = entrada.toEntity();
@@ -80,7 +81,8 @@ public class EntradaResource {
      * usuario. Si no hay ninguna retorna una lista vacía.
      */
     @GET
-    public List<EntradaDTO> getEntradas(@PathParam("usuarioId") Long userId) {
+    public List<EntradaDTO> getEntradas(@PathParam("usuarioId") Long userId)
+    {
         LOGGER.log(Level.INFO, "EntradaResource getEntradas: input: {0}", userId);
         List<EntradaDTO> listaDTOs = listEntity2DTO(entradaLogic.getEntradas(userId));
         LOGGER.log(Level.INFO, "EditorialBooksResource getBooks: output: {0}", listaDTOs.toString());
@@ -168,7 +170,6 @@ public class EntradaResource {
      */
     @Path("{id: \\d+}/comentarios")
     public Class<ComentarioResource> getComentarioResource(@PathParam("id") Long entradaId) {
-
         return ComentarioResource.class;
     }
 

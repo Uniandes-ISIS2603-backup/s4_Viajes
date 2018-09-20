@@ -27,7 +27,7 @@ public class ActividadEntity extends BaseEntity implements Serializable {
     @OneToMany(mappedBy = "actividad", fetch=FetchType.LAZY)
     private List<GuiaEntity> guias = new LinkedList<GuiaEntity>();
     
-    private String documento;
+    private Long documento;
     
     private int costo;
     
@@ -104,6 +104,10 @@ public class ActividadEntity extends BaseEntity implements Serializable {
      */
     public void setGuias(List<GuiaEntity> books) {
         this.guias = books;
+    }
+    
+    public void agregarGuia(GuiaEntity guia){
+        guias.add(guia);
     }
     
     public void setCosto(int pCosto){

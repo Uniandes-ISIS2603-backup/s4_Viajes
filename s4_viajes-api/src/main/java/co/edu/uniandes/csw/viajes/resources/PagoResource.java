@@ -71,7 +71,6 @@ public class PagoResource {
         LOGGER.log(Level.INFO, "PagoResource createPago: output: {0}", nuevoPagoDTO.toString());
         return nuevoPagoDTO;
        
-//        return pago;
     }
     
      /**
@@ -102,15 +101,15 @@ public class PagoResource {
     public PagoDTO consultarPago(@PathParam("pagoId") Long pagoId) throws WebApplicationException
     {
         LOGGER.log(Level.INFO, "ComboResource getCombo: input: {0}", pagoId);
-//        PagoEntity pagoEntity = pagoLogic.getPago(pagoId);
-//        if (pagoEntity == null) {
-//            throw new WebApplicationException("El recurso /pagos/" + pagoId + " no existe.", 404);
-//        }
-//        PagoDTO pagoDTO=new PagoDTO(pagoEntity);
-//        LOGGER.log(Level.INFO, "ComboResource getCombo: output: {0}", pagoDTO.toString());
+        PagoEntity pagoEntity = pagoLogic.getPago(pagoId);
+        if (pagoEntity == null) {
+            throw new WebApplicationException("El recurso /pagos/" + pagoId + " no existe.", 404);
+        }
+        PagoDTO pagoDTO=new PagoDTO(pagoEntity);
+        LOGGER.log(Level.INFO, "ComboResource getCombo: output: {0}", pagoDTO.toString());
         
-        PagoDTO pagoDTO = new PagoDTO();
-        pagoDTO.setPagoId(pagoId);
+        
+//        pagoDTO.setaPagar(combo);
         return pagoDTO;
     }
   
@@ -131,12 +130,13 @@ public class PagoResource {
     @Path("{pagoId: \\d+}")
     public PagoDTO updatePago(@PathParam("pagoId") Long pagoId, PagoDTO pago) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "PagoResource updatePago: input: id:{0} , pago: {1}", new Object[]{pagoId, pago.toString()});
-        pago.setPagoId(pagoId);
   
         if (pagoLogic.getPago(pagoId) == null) {
             throw new WebApplicationException("El recurso /pagos/" + pagoId + " no existe.", 404);
         }
-        PagoDTO pagoDTO = new PagoDTO(pagoLogic.updatePago(pagoId, pago.toEntity()));
+        PagoEntity pagoEntity=pago.toEntity();
+        pagoEntity.setId(pagoId);
+        PagoDTO pagoDTO = new PagoDTO(pagoLogic.updatePago(pagoId, pagoEntity));
         LOGGER.log(Level.INFO, "PagoResource updatePago: output: {0}", pagoDTO.toString());
         return pagoDTO;
 
