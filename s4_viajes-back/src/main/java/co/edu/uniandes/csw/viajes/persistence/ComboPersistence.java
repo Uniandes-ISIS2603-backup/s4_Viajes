@@ -40,6 +40,7 @@ public class ComboPersistence {
         em.persist(comboEntity);
         LOGGER.log(Level.INFO, "Saliendo de crear  un combo nuevo");
         return comboEntity;
+        
     }
 	
 	/**

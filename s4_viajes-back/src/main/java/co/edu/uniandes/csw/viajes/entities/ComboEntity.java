@@ -38,6 +38,11 @@ public class ComboEntity  extends BaseEntity implements Serializable {
 
     private int puntuacion;
     
+    public ComboEntity()
+    {
+        setComboIdLong(getId());
+    }
+    
     @PodamExclude
     @OneToMany(mappedBy = "combo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<VueloEntity> vuelos;
@@ -71,6 +76,7 @@ public class ComboEntity  extends BaseEntity implements Serializable {
         this.comboIdLong = comboId;
     }
 
+    
 
     public double getCosto() {
         return costo;
