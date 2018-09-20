@@ -44,6 +44,7 @@ public class PagoEntity extends BaseEntity implements Serializable  {
     }
     
         public Long getPagoId() {
+        pagoId=getId();
         return pagoId;
     }
 

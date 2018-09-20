@@ -87,7 +87,7 @@ public class PagoDTO {
         PagoEntity pagoEntity = new PagoEntity();
         if(aPagar!=null)pagoEntity.setaPagar(aPagar.toEntity());
         else pagoEntity.setaPagar(null);
-        pagoEntity.setPagoId(pagoId);
+//        pagoEntity.setPagoId(pagoId);
         pagoEntity.setPagaConTarjeta(pagaConTarjeta);
         pagoEntity.setTarjeta(tarjeta);
         return pagoEntity; 
