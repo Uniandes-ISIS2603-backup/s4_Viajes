@@ -85,7 +85,7 @@ public class GuiaResource {
     
 
     @GET
-    @Path("id: \\d+")
+    @Path("{id: \\d+}")
     public GuiaDTO consultarGuia(@PathParam("id") Long id) throws WebApplicationException
     {
         if (id == null) throw new WebApplicationException("El id no es valido",404);
@@ -98,6 +98,7 @@ public class GuiaResource {
         LOGGER.log(Level.INFO, "GuiaResource consultarGuia: output: {0}", detailDTO.toString());
         return detailDTO;
     }
+    
 
     /**
      * Borra la guia con el id asociado recibido en la URL.
@@ -106,7 +107,7 @@ public class GuiaResource {
      * Este debe ser una cadena de dígitos.
      */
     @DELETE
-    @Path("guiaId: \\d+")
+    @Path("{guiaId: \\d+}")
     public void deleteGuia(@PathParam("guiaId") Long guiaId) {
         LOGGER.log(Level.INFO, "GuiaResource deleteGuia: input: {0}", guiaId);
         // Invoca la lógica para borrar la actividad
@@ -115,7 +116,7 @@ public class GuiaResource {
     }
     
     @PUT
-    @Path("guiaId: \\d+")
+    @Path("{guiaId: \\d+}")
     public GuiaDTO modificarGuia(@PathParam("guiaId") Long guiaId, GuiaDTO guia) throws WebApplicationException, BusinessLogicException {
         LOGGER.log(Level.INFO, "GuiaResource updateGuia: input: id:{0} , guia: {1}", new Object[]{guiaId, guia.toString()});
         guia.setDocumento(guiaId);

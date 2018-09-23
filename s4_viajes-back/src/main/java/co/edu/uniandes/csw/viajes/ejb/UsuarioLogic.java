@@ -109,17 +109,19 @@ public class UsuarioLogic {
     public UsuarioEntity updateUsuario(UsuarioEntity usuarioEntity, Long usuarioId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar la información de un usuario con id = {0}", usuarioId);
         // Note que, por medio de la inyección de dependencias se llama al método "find(id)" que se encuentra en la persistencia.
-
+        UsuarioEntity usuario = null;
         if (usuarioEntity.getDocumento()==null|usuarioEntity.getNombre()==null|usuarioEntity.getUserName()==null) {
 
-        UsuarioEntity usuario = persistence.update(usuarioEntity);
+            usuario = persistence.update(usuarioEntity);
         if (usuario.getDocumento()==null|usuario.getNombre()==null|usuario.getUserName()==null) {
 
            throw new BusinessLogicException("No es posible actualizar un usuario con información nula");
         }
+        }
 
         LOGGER.log(Level.INFO, "Termina proceso de actualizar el usuario con id = {0}", usuarioId);
         return usuario;
+
     }
     
     
@@ -131,13 +133,10 @@ public class UsuarioLogic {
      * asociado.
      */
     public void deleteUsuario(Long userID) throws BusinessLogicException {
-     
-        
         UsuarioEntity usuarioEntity = persistence.find(userID);
         if (usuarioEntity!=null) {
             throw new BusinessLogicException("No es posible borrar su cuenta, mande un ticket a los administradores");
         }
-     
     }
 
 

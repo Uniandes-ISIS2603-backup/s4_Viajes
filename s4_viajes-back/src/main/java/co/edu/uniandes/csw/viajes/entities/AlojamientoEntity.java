@@ -9,7 +9,7 @@ import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import uk.co.jemos.podam.common.PodamExclude;
-
+ 
 /**
  *
  * @author Ymespana
@@ -20,28 +20,59 @@ public class AlojamientoEntity extends BaseEntity implements Serializable {
     // Atributos
     //-----------------------------------------------------------------------------------------------------------------------
 
+    /**
+     * Costo del alojamiento.
+     */
     private Double costo;
 
+    /**
+     * Estrellas del alojamiento.
+     */
     private Integer estrellas;
 
+    /**
+     * Nombre del alojamiento.
+     */
     private String nombre;
 
+    /**
+     * Tipo del alojamiento.
+     */
     private String tipo;
 
+    /**
+     * Noches del alojamiento.
+     */
     private Integer noches;
 
-    private Long latitud;
+    /**
+     * Latitud del alojamiento.
+     */
+    private double latitud;
 
-    private Long longitud;
+    /**
+     * Longitud del alojamiento.
+     */
+    private double longitud;
 
+    /**
+     * Puntuacion del alojamiento.
+     */
     private Integer puntuacion;
 
+    /**
+     * Ubicacion del alojamiento.
+     */
     private String ubicacion;
     
     @PodamExclude
     @ManyToOne
     private ComboEntity combo;
 
+    /**
+     * Proveedor del alojamiento. 
+     * Relacion muchos a uno. 
+     */
     @PodamExclude
     @ManyToOne
     private ProveedorEntity proveedor;
@@ -89,19 +120,19 @@ public class AlojamientoEntity extends BaseEntity implements Serializable {
         this.noches = noches;
     }
 
-    public Long getLatitud() {
+    public double getLatitud() {
         return latitud;
     }
 
-    public void setLatitud(Long latitud) {
+    public void setLatitud(double latitud) {
         this.latitud = latitud;
     }
 
-    public Long getLongitud() {
+    public double getLongitud() {
         return longitud;
     }
 
-    public void setLongitud(Long longitud) {
+    public void setLongitud(double longitud) {
         this.longitud = longitud;
     }
 

@@ -5,7 +5,7 @@
  */
 package co.edu.uniandes.csw.viajes.resources;
 
-import co.edu.uniandes.csw.viajes.dtos.AlojamientoDetailDTO;
+
 import co.edu.uniandes.csw.viajes.ejb.AlojamientoLogic;
 import co.edu.uniandes.csw.viajes.ejb.ComboAlojamientosLogic;
 import java.util.ArrayList;

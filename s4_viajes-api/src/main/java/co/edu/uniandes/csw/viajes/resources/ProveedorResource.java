@@ -172,4 +172,33 @@ public class ProveedorResource {
         }
         return list;
     }
+    
+    /**
+     * Conexión con el servicio de alojamientos para un proveedor. {@link AlojamientoResource}
+     *
+     * Este método conecta la ruta de /proveedores con las rutas de /alojamientos que
+     * dependen del proveedor, es una redirección al servicio que maneja el segmento
+     * de la URL que se encarga de los alojamientos.
+     *
+     * @param proveedoresId El ID del proveedor con respecto al cual se accede al
+     * servicio.
+     * @return El servicio de alojameintos para ese proveedor en paricular.\
+     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
+     * Error de lógica que se genera cuando no se encuentra el alojamiento.
+     */
+    @Path("{proveedoresId: \\d+}/alojamientos")
+    public Class<AlojamientoResource> getAlojamientoResource(@PathParam("proveedoresId") Long proveedoresId) {
+        if (proveedorLogic.getProveedor(proveedoresId) == null) {
+            throw new WebApplicationException("El recurso /proveedores/" + proveedoresId + "/alojamientos no existe.", 404);
+        }
+        return AlojamientoResource.class;
+    }
+    
+    @Path("{proveedoresId: \\d+}/transportes")
+    public Class<TransporteTerrestreResource> getTransporteResource(@PathParam("proveedoresId") Long proveedoresId) {
+        if (proveedorLogic.getProveedor(proveedoresId) == null) {
+            throw new WebApplicationException("El recurso /proveedores/" + proveedoresId + "/transportes no existe.", 404);
+        }
+        return TransporteTerrestreResource.class;
+    }
 }
