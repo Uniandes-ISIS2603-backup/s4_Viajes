@@ -11,10 +11,10 @@ import co.edu.uniandes.csw.viajes.dtos.UsuarioDetailDTO;
 import co.edu.uniandes.csw.viajes.ejb.UsuarioLogic;
 import co.edu.uniandes.csw.viajes.entities.UsuarioEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
-import java.util.List;
+import co.edu.uniandes.csw.viajes.mappers.BusinessLogicExceptionMapper;
+import co.edu.uniandes.csw.viajes.mappers.WebApplicationExceptionMapper;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static javafx.scene.input.KeyCode.Z;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -47,33 +47,34 @@ public class UsuarioResource {
     private static final Logger LOGGER = Logger.getLogger(ActividadResource.class.getName());
     @Inject
 
-    UsuarioLogic usuarioLogic; //variable que accede a la lógica de la aplicación.
+    UsuarioLogic usuarioLogic; //variable que accede a la lÃ³gica de la aplicaciÃ³n.
     /**
      * Crea un nuevo usuario con la informacion que se recibe en el cuerpo de la
-     * petición y se regresa un objeto identico con un id auto-generado por la
+     * peticiÃ³n y se regresa un objeto identico con un id auto-generado por la
      * base de datos.
      *
      * @param usuario {@link UsuarioDTO} - El usuario a guardar guardar.
      * @return JSON {@link UsuarioDTO} - El usuario guardado con el atributo id
      * autogenerado.
      * @throws BusinessLogicException {@link BusinessLogicExceptionMapper} -
-     * Error de lógica que se genera cuando ya existe la editorial.
+     * Error de lÃ³gica que se genera cuando ya existe la editorial.
      */
     @POST
     public UsuarioDTO createUsuario(UsuarioDTO usuario) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "UsuarioResource createUsuario: input: {0}", usuario.toString());
         UsuarioEntity usuarioEntity = usuario.toEntity();
-        UsuarioDTO nuevoUsuarioDTO = new UsuarioDTO(usuarioEntity);
+        UsuarioEntity nuevoUsuarioEntity = usuarioLogic.createUsuario(usuarioEntity);
+        UsuarioDTO nuevoUsuarioDTO = new UsuarioDTO(nuevoUsuarioEntity);
         LOGGER.log(Level.INFO, "EditorialResource createEditorial: output: {0}", nuevoUsuarioDTO.toString());
 
         return nuevoUsuarioDTO;
     }
 
     /**
-     * Obtiene un usuario con su información de acuerdo a su documento.
-     * información que fue previamente ingresada en formato JSON.
+     * Obtiene un usuario con su informaciÃ³n de acuerdo a su documento.
+     * informaciÃ³n que fue previamente ingresada en formato JSON.
      *
-     * @return un usuario y su información de acuerdo a su documento.
+     * @return un usuario y su informaciÃ³n de acuerdo a su documento.
      */
     @GET
     @Path("{usuarioId: \\d+}")
@@ -95,7 +96,7 @@ public class UsuarioResource {
     }
 
     /**
-     * Modifica la informacion de un usuario dado por la información ingresada
+     * Modifica la informacion de un usuario dado por la informaciÃ³n ingresada
      * en formato JSON.
      *
      * @param nuevo (@link UsuarioDTO) - el usuario que desea modificar.
@@ -118,10 +119,10 @@ public class UsuarioResource {
 
 
     /**
-     * Borra el usuario con el id asociado (número) recibido en la URL.
+     * Borra el usuario con el id asociado (nÃºmero) recibido en la URL.
      *
      * @param usuariosId Identificador dl usuario que se desea borrar. Este debe
-     * ser una cadena de dígitos (int).
+     * ser una cadena de dÃ­gitos (int).
      */
     @DELETE
     @Path("{usuariosId: \\d+}")
@@ -140,22 +141,22 @@ public class UsuarioResource {
     }
     
             /**
-     * Conexión con el servicio de entradas para un usuario. {@link EntradaResource}
+     * ConexiÃ³n con el servicio de entradas para un usuario. {@link EntradaResource}
      *
-     * Este método conecta la ruta de /usuarios con las rutas de /entradas que
-     * dependen del usuario, es una redirección al servicio que maneja el segmento
+     * Este mÃ©todo conecta la ruta de /usuarios con las rutas de /entradas que
+     * dependen del usuario, es una redirecciÃ³n al servicio que maneja el segmento
      * de la URL que se encarga de las entradas.
      *
-     * @param documento El documento del usuario con respecto al cual se accede a la entrada.
+     * @param usuarioId El id del usuario con respecto al cual se accede a la entrada.
      * @return El servicio de Entradas para ese usuario en paricular.\
      * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
-     * Error de lógica que se genera cuando no se encuentra el usuario.
+     * Error de lÃ³gica que se genera cuando no se encuentra el usuario.
      */
-    @Path("{documento: [a-zA-Z][a-zA-Z]*}/entradas")
-    public Class<EntradaResource> getEntradaResource(@PathParam("documento") String documento) {
-    //    if (usuarioLogic.getUsuario(documento) == null) {
-    //      throw new WebApplicationException("El recurso /books/" + documento + "/reviews no existe.", 404);
-    //  }
+    @Path("{usuarioId: \\d+}/entradas")
+    public Class<EntradaResource> getEntradaResource(@PathParam("usuarioId") Long usuarioId) throws BusinessLogicException {
+       if (usuarioLogic.getUsuario(usuarioId) == null) {
+          throw new WebApplicationException("El recurso /usuarios/" + usuarioId + "/entradas no existe.", 404);
+      }
         return EntradaResource.class;
     }
 
