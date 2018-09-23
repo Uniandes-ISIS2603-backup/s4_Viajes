@@ -1,30 +1,220 @@
 {
 	"info": {
-		"_postman_id": "12a472c3-837a-4207-85d9-8b92e1a37d8a",
+		"_postman_id": "d704971d-db08-4806-a133-369ed4114680",
 		"name": "Guia",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "http://localhost:8080/s4_viajes-api/api/guia",
+			"name": "Crear Guia con Documento Existente",
 			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"edad\" : 23,\r\n\t\"documento\" : 999,\r\n\t\"sueldo\" : 2222222,\r\n\t\"idioma\" : \"holo\",\r\n\t\"puntuacion\" : 4\r\n}\r\n"
+				},
 				"url": {
-					"raw": ""
+					"raw": "http://localhost:8080/s4_viajes-api/api/guia",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"guia"
+					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "http://localhost:8080/s4_viajes-api/api/guia",
+			"name": "Crear Guia con Documento Negativo",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"edad\" : 23,\r\n\t\"documento\" : -999,\r\n\t\"sueldo\" : 2222222,\r\n\t\"idioma\" : \"holo\",\r\n\t\"puntuacion\" : 4\r\n}\r\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/guia",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"guia"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Guia con Documento Null",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"edad\" : 23,\r\n\t\"sueldo\" : 2222222,\r\n\t\"idioma\" : \"holo\",\r\n\t\"puntuacion\" : 4\r\n}\r\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/guia",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"guia"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un guia",
 			"request": {
 				"method": "GET",
-				"header": [],
-				"body": {},
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{\r\n\t\"edad\" : 23,\r\n\t\"documento\" : 999,\r\n\t\"sueldo\" : 2222222,\r\n\t\"idioma\" : \"holo\",\r\n\t\"puntuacion\" : 4\r\n}"
+				},
 				"url": {
-					"raw": ""
+					"raw": "http://localhost:8080/s4_viajes-api/api/guia/23",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"guia",
+						"23"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un guia con Documento Invalido",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{\r\n\t\"edad\" : 23,\r\n\t\"documento\" : 999,\r\n\t\"sueldo\" : 2222222,\r\n\t\"idioma\" : \"holo\",\r\n\t\"puntuacion\" : 4\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/guia/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"guia",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar un guia",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"edad\" : 40,\r\n\t\"documento\" : 33,\r\n\t\"sueldo\" : 2222222,\r\n\t\"idioma\" : \"umpaloompes\",\r\n\t\"puntuacion\" : 22\r\n}\r\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/guia/23",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"guia",
+						"23"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un guia",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"edad\" : 40,\r\n\t\"documento\" : 33,\r\n\t\"sueldo\" : 2222222,\r\n\t\"idioma\" : \"umpaloompes\",\r\n\t\"puntuacion\" : 22\r\n}\r\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/guia/33",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"guia",
+						"33"
+					]
 				}
 			},
 			"response": []
