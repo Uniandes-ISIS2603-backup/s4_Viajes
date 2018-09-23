@@ -53,6 +53,9 @@ public class PagoLogicTest {
     private List<ComboEntity> comboData = new ArrayList();
 
     private List<ActividadEntity> actividadData = new ArrayList();
+    
+    private List<VueloEntity> vueloData = new ArrayList();
+
 
     /**
      * @return Devuelve el jar que Arquillian va a desplegar en Payara embebido.
@@ -106,17 +109,18 @@ public class PagoLogicTest {
      * pruebas.
      */
     private void insertData() {
-//        for (int i = 0; i < 3; i++) {
-//            ActividadEntity entity = factory.manufacturePojo(ActividadEntity.class);
-//            em.persist(entity);
-//            actividadData.add(entity);
-//        }
+        for (int i = 0; i < 3; i++) {
+            VueloEntity entity = factory.manufacturePojo(VueloEntity.class);
+            em.persist(entity);
+            vueloData.add(entity);
+        }
         for (int i = 0; i < 3; i++) {
             ComboEntity combo = factory.manufacturePojo(ComboEntity.class);
             combo.setPuntuacion((int)(Math.random()*6));
             combo.setCosto((int)(Math.random()*1000));
             combo.setDias(((int)(Math.random()*1000))+1);
             combo.setHoras((int)(Math.random()*1000));
+            combo.addVuelo(vueloData.get(0));
            
             em.persist(combo);
             comboData.add(combo);
@@ -133,13 +137,9 @@ public class PagoLogicTest {
      * Prueba para crear un Organization.
      *
      * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
-     * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException .
      */
     @Test
     public void createPagoConTarjetaTest() throws BusinessLogicException {
-
-//            Assert.assertTrue(!data.isEmpty());
-//            Assert.assertTrue(!comboData.isEmpty());
 
         PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
         newEntity.setaPagar(comboData.get(0));
@@ -162,13 +162,10 @@ public class PagoLogicTest {
      * Prueba para crear un Organization.
      *
      * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
-     * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException .
      */
     @Test
     public void createPagoSinTarjetaTest() throws BusinessLogicException {
 
-//            Assert.assertTrue(!data.isEmpty());
-//            Assert.assertTrue(!comboData.isEmpty());
 
         PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
         newEntity.setaPagar(comboData.get(0));
@@ -185,7 +182,105 @@ public class PagoLogicTest {
         Assert.assertEquals(newEntity.getaPagar(), entity.getaPagar());
     }
 
+     /**
+     * Prueba para crear un Organization.
+     *
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void failCreatePagoSinComboTest() throws BusinessLogicException {
 
+        PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
+        newEntity.setaPagar(null);
+        newEntity.setPagaConTarjeta(true);
+        newEntity.setTarjeta("8502479655552748");
+        PagoEntity result = pagoLogic.createPago(newEntity);
+ }
+     /**
+     * Prueba para crear un Organization.
+     *
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void failCreatePagoConIdExistenteTest() throws BusinessLogicException {
+
+        PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
+        newEntity.setaPagar(comboData.get(0));
+        newEntity.setPagaConTarjeta(false);
+        pagoLogic.createPago(newEntity);
+        pagoLogic.createPago(newEntity);
+
+ }
+    
+    /**
+     * Prueba para crear un Organization.
+     *
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void failCreatePagoConComboVacioTest() throws BusinessLogicException {
+
+        PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
+        newEntity.setaPagar(new ComboEntity());
+        newEntity.setPagaConTarjeta(true);
+        newEntity.setTarjeta("8502479655552748");
+        PagoEntity result = pagoLogic.createPago(newEntity);
+ }
+
+     /**
+     * Prueba para crear un Organization.
+     *
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void failCreatePagoNullTest() throws BusinessLogicException {
+
+      pagoLogic.createPago(null);
+ }
+    
+    /**
+     * Prueba para crear un Organization.
+     *
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void failCreatePagoConTarjetaVaciaTest() throws BusinessLogicException {
+
+        PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
+        newEntity.setaPagar(comboData.get(0));
+        newEntity.setPagaConTarjeta(true);
+        newEntity.setTarjeta("");
+        PagoEntity result = pagoLogic.createPago(newEntity);
+ }
+    /**
+     * Prueba para crear un Organization.
+     *
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void failCreatePagoConTarjetaLargoIncorrectoTest() throws BusinessLogicException {
+
+        PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
+        newEntity.setaPagar(comboData.get(0));
+        newEntity.setPagaConTarjeta(true);
+        newEntity.setTarjeta("85024796552748");
+        PagoEntity result = pagoLogic.createPago(newEntity);
+ }
+    
+    /**
+     * Prueba para crear un Organization.
+     *
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void failCreatePagoConTarjetaLetrasTest() throws BusinessLogicException {
+
+        PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
+        newEntity.setaPagar(comboData.get(0));
+        newEntity.setPagaConTarjeta(true);
+        newEntity.setTarjeta("850247965555a748");
+        PagoEntity result = pagoLogic.createPago(newEntity);
+ }
     /**
      * Prueba para consultar la lista de Organizations.
      */
@@ -219,6 +314,7 @@ public class PagoLogicTest {
 
     /**
      * Prueba para actualizar un Organization.
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      */
     @Test
     public void updatePagoSinTarjetaTest() throws BusinessLogicException {
@@ -241,6 +337,7 @@ public class PagoLogicTest {
     
     /**
      * Prueba para actualizar un Organization.
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      */
     @Test
     public void updatePagoConTarjetaTest() throws BusinessLogicException {
@@ -261,14 +358,160 @@ public class PagoLogicTest {
 //        Assert.assertEquals(pojoEntity.getName(), resp.getName());
 //        Assert.assertEquals(pojoEntity.getTipo(), resp.getTipo());
     }
+    
+     /**
+     * Prueba para crear un Organization.
+     *
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void failUpdatePagoSinComboTest() throws BusinessLogicException {
 
+        PagoEntity entity = data.get(0);
+        
+        PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
+        newEntity.setId(entity.getId());
+        newEntity.setaPagar(null);
+        newEntity.setPagaConTarjeta(true);
+        newEntity.setTarjeta("8502479655552748");
+        pagoLogic.updatePago(newEntity.getId(), newEntity);
+ }
+     /**
+     * Prueba para crear un Organization.
+     *
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void failUpdatePagoConIdInExistenteTest() throws BusinessLogicException {
+        PagoEntity entity = data.get(0);
+        PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
+        newEntity.setId(-52l);
+        newEntity.setaPagar(comboData.get(1));
+        newEntity.setPagaConTarjeta(false);
+        pagoLogic.createPago(newEntity);
+        pagoLogic.createPago(newEntity);
+        pagoLogic.updatePago(newEntity.getId(), newEntity);
+
+ }
+    
+   /**
+     * Prueba para crear un Organization.
+     *
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void failUpdatePagoConIdNullTest() throws BusinessLogicException {
+        PagoEntity entity = data.get(0);
+        PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
+        newEntity.setId(-52l);
+        newEntity.setaPagar(comboData.get(0));
+        newEntity.setPagaConTarjeta(false);
+        pagoLogic.createPago(newEntity);
+        pagoLogic.createPago(newEntity);
+        pagoLogic.updatePago(null, newEntity);
+
+ }
+    
+    /**
+     * Prueba para crear un Organization.
+     *
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void failUpdatePagoConComboVacioTest() throws BusinessLogicException {
+
+        PagoEntity entity = data.get(0);
+        PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
+        newEntity.setId(entity.getId());       
+        newEntity.setaPagar(new ComboEntity());
+        newEntity.setPagaConTarjeta(true);
+        newEntity.setTarjeta("8502479655552748");
+        pagoLogic.updatePago(newEntity.getId(), newEntity);
+ }
+
+     /**
+     * Prueba para crear un Organization.
+     *
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void failUpdatePagoNullTest() throws BusinessLogicException {
+
+      PagoEntity entity = data.get(0);
+      PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
+      newEntity.setId(entity.getId());   
+      pagoLogic.updatePago(newEntity.getId(), null);
+ }
+    
+    /**
+     * Prueba para crear un Organization.
+     *
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void failUpdatePagoConTarjetaVaciaTest() throws BusinessLogicException {
+
+        PagoEntity entity = data.get(0);
+        PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
+        newEntity.setId(entity.getId());       
+        newEntity.setaPagar(comboData.get(0));
+        newEntity.setPagaConTarjeta(true);
+        newEntity.setTarjeta("");
+        pagoLogic.updatePago(newEntity.getId(), newEntity);
+ }
+    /**
+     * Prueba para crear un Organization.
+     *
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void failUpdatePagoConTarjetaLargoIncorrectoTest() throws BusinessLogicException {
+
+        PagoEntity entity = data.get(0);
+        PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
+        newEntity.setId(entity.getId());          
+        newEntity.setaPagar(comboData.get(0));
+        newEntity.setPagaConTarjeta(true);
+        newEntity.setTarjeta("850247552748");
+        pagoLogic.updatePago(newEntity.getId(), newEntity);
+ }
+    
+    /**
+     * Prueba para crear un Organization.
+     *
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void failUpdatePagoConTarjetaLetrasTest() throws BusinessLogicException {
+
+        PagoEntity entity = data.get(0);
+        PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
+        newEntity.setId(entity.getId());          
+        newEntity.setaPagar(comboData.get(1));
+        newEntity.setPagaConTarjeta(true);
+        newEntity.setTarjeta("850247965555ab48");
+        pagoLogic.updatePago(newEntity.getId(), newEntity);
+ }
+
+     /**
+     * Prueba para crear un Organization.
+     *
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void failDeletePagoIdNullTest() throws BusinessLogicException {
+
+        pagoLogic.deletePago(null);
+
+ }
     /**
      * Prueba para eliminar un Organization.
      *
-     * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      */
     @Test
-    public void deletePagoTest() throws BusinessLogicException {
+    public void deletePagoTest() throws BusinessLogicException
+    {
         PagoEntity entity = data.get(0);
         pagoLogic.deletePago(entity.getId());
         PagoEntity deleted = em.find(PagoEntity.class, entity.getId());

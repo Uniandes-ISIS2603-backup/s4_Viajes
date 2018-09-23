@@ -68,6 +68,8 @@ public class PagoEntity extends BaseEntity implements Serializable  {
         this.tarjeta = tarjeta;
     }
     
+   
+    
     
     
 }
