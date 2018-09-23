@@ -106,11 +106,12 @@ public class UsuarioLogic {
      * @param usuarioId: id del usuario para ser actualizado.
      * @return el usuario solicitado por medio de su id.
      */
+    
+    
+    
     public UsuarioEntity updateUsuario(UsuarioEntity usuarioEntity, Long usuarioId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar la información de un usuario con id = {0}", usuarioId);
         // Note que, por medio de la inyección de dependencias se llama al método "find(id)" que se encuentra en la persistencia.
-
-        if (usuarioEntity.getDocumento()==null|usuarioEntity.getNombre()==null|usuarioEntity.getUserName()==null) {
 
         UsuarioEntity usuario = persistence.update(usuarioEntity);
         if (usuario.getDocumento()==null|usuario.getNombre()==null|usuario.getUserName()==null) {
@@ -130,17 +131,22 @@ public class UsuarioLogic {
      * @throws BusinessLogicException si el usuario quiere borrarse a si mismo.
      * asociado.
      */
-    public void deleteUsuario(Long userID) throws BusinessLogicException {
-     
+  public void deleteUsuario(Long userID) throws BusinessLogicException {
         
         UsuarioEntity usuarioEntity = persistence.find(userID);
         if (usuarioEntity!=null) {
             throw new BusinessLogicException("No es posible borrar su cuenta, mande un ticket a los administradores");
         }
+  }
+}
+
+    
+
+
      
-    }
+    
 
 
     
-}
+
     

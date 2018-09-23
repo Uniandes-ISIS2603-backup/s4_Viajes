@@ -107,7 +107,7 @@ public class UsuarioLogicTest {
             data.add(entity);  
             em.persist(entity);
            
-           System.out.println("HIJUEPUUUUUUTA INFORMACION: "+em.find(UsuarioEntity.class, entity.getDocumento())+ "EL ID"+ entity.getId());
+           System.out.println("INFORMACION: "+em.find(UsuarioEntity.class, entity.getDocumento())+ "EL ID"+ entity.getId());
             
         }
         UsuarioEntity usuario = data.get(2);
