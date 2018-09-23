@@ -114,10 +114,6 @@ public class ProveedorAlojamientosResource {
     
     /**
      * 
-     * @param proveedoresId
-     * @param alojamientos
-     * @return
-     * @throws BusinessLogicException 
      */
     @PUT
     public List<AlojamientoDTO> replaceAlojamientos(@PathParam("proveedoresId") Long proveedoresId, List<AlojamientoDTO> alojamientos) throws BusinessLogicException{

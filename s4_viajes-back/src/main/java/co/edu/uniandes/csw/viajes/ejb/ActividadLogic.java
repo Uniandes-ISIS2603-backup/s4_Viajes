@@ -38,13 +38,28 @@ public class ActividadLogic {
     public ActividadEntity createActividad(ActividadEntity actividadEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación de la actividad");
         // Verifica la regla de negocio que dice que no puede haber dos actividades con el mismo id
-         if (!validarId(actividadEntity.getId()))
+         if (!validarId(actividadEntity.getIdentificador()))
         {
             throw new BusinessLogicException("La actividad tiene un identificador no valido");
+        }
+         
+         if(!validarPuntuacion(actividadEntity.getPuntuacion()))
+        {
+            throw new BusinessLogicException("La puntuacion a actualizar es invalida");
         }
         
         if (persistence.find(actividadEntity.getId()) != null) {
             throw new BusinessLogicException("Ya existe una Actividad con el mismo id \"" + actividadEntity.getId() + "\"");
+        }
+        
+        if(persistence.findByName(actividadEntity.getNombreActividad()) != null)
+        {
+            throw new BusinessLogicException("Ya existe una Actividad con el mismo nombre");
+        }
+        
+        if(persistence.findByIdentificador(actividadEntity.getIdentificador()) != null)
+        {
+            throw new BusinessLogicException("Ya existe una Actividad con el mismo identificador");
         }
     
        if (actividadEntity.getGuias() == null)
@@ -67,10 +82,8 @@ public class ActividadLogic {
 
     public void deleteActividad(Long actividadId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de borrar el libro con id = {0}", actividadId);
-        List<GuiaEntity> guias = getActividad(actividadId).getGuias();
-        if (guias != null && !guias.isEmpty()) {
-            throw new BusinessLogicException("No se puede borrar la actividad con id = " + actividadId + " porque tiene guias asociados");
-        }
+        
+        
         persistence.delete(actividadId);
         LOGGER.log(Level.INFO, "Termina proceso de borrar la actividad con id = {0}", actividadId);
     }
@@ -87,8 +100,21 @@ public class ActividadLogic {
         }
         LOGGER.log(Level.INFO, "Termina proceso de consultar la actividad con id = {0}", actividadId);
         return actividadEntity;
+          
+    }
+    
+    public ActividadEntity getActividadByIdentificador(Long identificador)
+    {
+        LOGGER.log(Level.INFO, "Inicia proceso de consultar la actividad con identificador = {0}", identificador);
+        // Note que, por medio de la inyección de dependencias se llama al método "find(id)" que se encuentra en la persistencia.
         
-        
+        //PERSISTENCIA
+        ActividadEntity actividadEntity = persistence.findByIdentificador(identificador);
+        if (actividadEntity == null) {
+            LOGGER.log(Level.SEVERE, "La actividad con el identificador = {0} no existe", identificador);
+        }
+        LOGGER.log(Level.INFO, "Termina proceso de consultar la actividad con id = {0}", identificador);
+        return actividadEntity;
     }
     
     public ActividadEntity modificarActividad(Long id, ActividadEntity actividadEntity)throws BusinessLogicException{
@@ -97,6 +123,17 @@ public class ActividadLogic {
         {
             throw new BusinessLogicException("El id a actualizar es inválido");
         }
+        
+        if(!validarNombre(actividadEntity.getNombreActividad()))
+        {
+            throw new BusinessLogicException("El nombre a actualizar es invalido");
+        }
+        
+        if(!validarPuntuacion(actividadEntity.getPuntuacion()))
+        {
+            throw new BusinessLogicException("La puntuacion a actualizar es invalida");
+        }
+        
         // Note que, por medio de la inyección de dependencias se llama al método "update(entity)" que se encuentra en la persistencia.
         //PERSISTENCIA
         ActividadEntity newEntity = persistence.update(actividadEntity);
@@ -120,6 +157,13 @@ public class ActividadLogic {
     {
         return !(id == null || id <= 0L);
     }
+    
+    private boolean validarNombre(String nom)
+    {return !(nom == null || nom.isEmpty());}
+    
+    private boolean validarPuntuacion(int p)
+    {return !(p > 10 || p <0);}
+    
     
     
     
