@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.enterprise.context.RequestScoped;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -26,9 +27,10 @@ import javax.ws.rs.WebApplicationException;
  *
  * @author estudiante
  */
+@RequestScoped
 public class ComentarioResource {
         /**
-     * Clase que implementa el recurso "entrada".
+     * Clase que implementa el recurso "omentario".
      *
      *
      * @version 1.0
@@ -61,7 +63,7 @@ public class ComentarioResource {
      * Busca y devuelve todos los comentarios que existen de una entrada.
      *
      * @param numEntrada El número de la entrada de la cual se buscan los comentarios
-     * @return JSONArray {@link ReviewDTO} - Los comentarios encontradas en el
+     * @return JSONArray {@link ComentarioDTO} - Los comentarios encontradas en el
      * libro. Si no hay ninguna retorna una lista vacía.
      */
     @GET
