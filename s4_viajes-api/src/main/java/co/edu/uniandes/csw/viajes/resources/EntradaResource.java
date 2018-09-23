@@ -56,7 +56,7 @@ public class EntradaResource {
      * petición y se regresa un objeto identico con un id auto-generado por la
      * base de datos.
      *
-     * @param documento El documento del usuario al cual se le agrega la entrada
+     * @param userId El id del usuario al cual se le agrega la entrada
      * @param entrada {@link EntradaDTO} - La entrada que se desea guardar.
      * @return JSON {@link EntradaDTO} - La entrada guardada con el atributo id
      * autogenerado.
@@ -99,7 +99,7 @@ public class EntradaResource {
      */
     @GET
         @Path("{id: \\d+}")
-    public EntradaDTO consultarEntrada(@PathParam("usuarioId") Long userId, @PathParam("numero") Long entradaId) 
+    public EntradaDTO consultarEntrada(@PathParam("usuarioId") Long userId, @PathParam("id") Long entradaId) 
     {
         LOGGER.log(Level.INFO, "EntradaResource getEntrada: input: {0}", entradaId);
         EntradaEntity entity = entradaLogic.getEntrada(userId, entradaId);
@@ -114,7 +114,7 @@ public class EntradaResource {
     /**
      * Modifica la informacion de una entrada dada por la información ingresada en
      * formato JSON.
-     * @param documento El documento del usuario del cual se guarda la reseña
+     * @param userId El id del usuario del cual se guarda la reseña
      * @param entradaId El numero de la entrada que se va a actualizar
      * @param nueva (@link EntradaDTO) - la entrada que desea modificar.
      */
@@ -123,7 +123,7 @@ public class EntradaResource {
     public EntradaDTO modificarEntrada(@PathParam("usuarioId") Long userId,@PathParam("id")Long entradaId, EntradaDTO nueva) throws WebApplicationException, BusinessLogicException
     {
         LOGGER.log(Level.INFO, "EntradaResource updateEntrada: input: userId: {0} , entradaId: {1} , entrada:{2}", new Object[]{userId, entradaId, nueva.toString()});
-        if (entradaId.equals(nueva.getId())) {
+        if (!entradaId.equals(nueva.getId())) {
             throw new BusinessLogicException("Los ids del Entrada no coinciden.");
         }
         EntradaEntity entity = entradaLogic.getEntrada(userId, entradaId);
@@ -148,7 +148,7 @@ public class EntradaResource {
      */
     @DELETE
     @Path("{id: \\d+}")
-    public void deleteEntrada(@PathParam("idUsuario") Long userId, @PathParam("id") Long entradaId) throws BusinessLogicException {
+    public void deleteEntrada(@PathParam("usuarioId") Long userId, @PathParam("id") Long entradaId) throws BusinessLogicException {
         EntradaEntity entity = entradaLogic.getEntrada(userId, entradaId);
         if (entity == null) {
             throw new WebApplicationException("El recurso /usuarios/" + userId + "/entradas/" + entradaId + " no existe.", 404);
