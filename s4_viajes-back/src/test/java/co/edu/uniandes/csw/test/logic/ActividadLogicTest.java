@@ -260,7 +260,7 @@ public class ActividadLogicTest {
     @Test
     public void getActividadTest() {
         ActividadEntity entity = data.get(0);
-        ActividadEntity resultEntity = actividadLogic.getActividad(entity.getId());
+        ActividadEntity resultEntity = actividadLogic.getActividad(entity.getIdentificador());
         Assert.assertNotNull(resultEntity);
         Assert.assertEquals(entity.getId(), resultEntity.getId());
         Assert.assertEquals(entity.getCosto(), resultEntity.getCosto());
@@ -323,7 +323,7 @@ public class ActividadLogicTest {
     @Test
     public void deleteActividadTest() throws BusinessLogicException {
         ActividadEntity entity = data.get(0);
-        actividadLogic.deleteActividad(entity.getId());
+        actividadLogic.deleteActividad(entity.getIdentificador());
         ActividadEntity deleted = em.find(ActividadEntity.class, entity.getId());
         Assert.assertNull(deleted);
     }

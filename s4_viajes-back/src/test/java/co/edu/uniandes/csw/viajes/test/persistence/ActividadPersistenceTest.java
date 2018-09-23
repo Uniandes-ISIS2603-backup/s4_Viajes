@@ -141,7 +141,7 @@ public class ActividadPersistenceTest {
     @Test
     public void getActividadTest() {
         ActividadEntity entity = data.get(0);
-        ActividadEntity newEntity = actividadPersistence.find(entity.getId());
+        ActividadEntity newEntity = actividadPersistence.find(entity.getIdentificador());
         Assert.assertNotNull(newEntity);
         Assert.assertEquals(entity.getId(), newEntity.getId());
         Assert.assertEquals(entity.getCosto(), newEntity.getCosto());
@@ -171,7 +171,7 @@ public class ActividadPersistenceTest {
     @Test
     public void deleteActividadTest() {
         ActividadEntity entity = data.get(0);
-        actividadPersistence.delete(entity.getId());
+        actividadPersistence.delete(entity.getIdentificador());
         ActividadEntity deleted = em.find(ActividadEntity.class, entity.getId());
         Assert.assertNull(deleted);
     }
