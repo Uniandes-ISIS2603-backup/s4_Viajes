@@ -190,17 +190,6 @@ public class GuiaLogicTest {
         guiaLogic.createGuia(newEntity);
     }
 
-    /**
-     * Prueba para crear un Guia con actividad en null.
-     *
-     * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
-     */
-    @Test(expected = BusinessLogicException.class)
-    public void createGuiaTestConNullActividad() throws BusinessLogicException {
-        GuiaEntity newEntity = factory.manufacturePojo(GuiaEntity.class);
-        newEntity.setActividad(null);
-        guiaLogic.createGuia(newEntity);
-    }
 
     /**
      * Prueba para consultar un Book.
@@ -208,7 +197,7 @@ public class GuiaLogicTest {
     @Test
     public void getGuiaTest() {
         GuiaEntity entity = guiaData.get(0);
-        GuiaEntity resultEntity = guiaLogic.getGuia(entity.getId());
+        GuiaEntity resultEntity = guiaLogic.getGuia(entity.getDocumento());
         Assert.assertNotNull(resultEntity);
         Assert.assertEquals(entity.getId(), resultEntity.getId());
         Assert.assertEquals(entity.getDocumento(), resultEntity.getDocumento());
@@ -227,6 +216,7 @@ public class GuiaLogicTest {
         GuiaEntity entity = guiaData.get(0);
         GuiaEntity pojoEntity = factory.manufacturePojo(GuiaEntity.class);
         pojoEntity.setId(entity.getId());
+        pojoEntity.setPuntuacion(8);
         guiaLogic.modificarGuia(pojoEntity.getId(), pojoEntity);
         GuiaEntity resp = em.find(GuiaEntity.class, entity.getId());
         Assert.assertEquals(pojoEntity.getId(), resp.getId());
@@ -257,7 +247,7 @@ public class GuiaLogicTest {
      * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
      */
     @Test(expected = BusinessLogicException.class)
-    public void updateGuiaConGuiaInvalidoTest2() throws BusinessLogicException {
+    public void updateGuiaConDocumentoInvalidoTest2() throws BusinessLogicException {
         GuiaEntity entity = guiaData.get(0);
         GuiaEntity pojoEntity = factory.manufacturePojo(GuiaEntity.class);
         pojoEntity.setDocumento(null);

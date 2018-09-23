@@ -137,32 +137,61 @@ public class ActividadLogicTest {
      * Prueba para crear una Actividad
      *
      * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
-     */
+     
     @Test
     public void createActividadTest() throws BusinessLogicException {
         ActividadEntity newEntity = factory.manufacturePojo(ActividadEntity.class);
         newEntity.setGuias(guiaData);
+        newEntity.setPuntuacion(8);
         ActividadEntity result = actividadLogic.createActividad(newEntity);
         Assert.assertNotNull(result);
-        ActividadEntity entity = em.find(ActividadEntity.class, result.getId());
-        Assert.assertEquals(newEntity.getId(), entity.getId());
+        ActividadEntity entity = em.find(ActividadEntity.class, result.getIdentificador());
+        Assert.assertEquals(newEntity.getIdentificador(), entity.getIdentificador());
         Assert.assertEquals(newEntity.getCosto(), entity.getCosto());
         Assert.assertEquals(newEntity.getPuntuacion(), entity.getPuntuacion());
         Assert.assertEquals(newEntity.getDuracion(), entity.getDuracion());
     
-    }
+    }*/
 
     /**
-     * Prueba para crear un Book con ISBN inválido
+     
      *
      * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
-     * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
+     
      */
     @Test(expected = BusinessLogicException.class)
     public void createActividadTestConIdInvalido() throws BusinessLogicException {
         ActividadEntity newEntity = factory.manufacturePojo(ActividadEntity.class);
         newEntity.setGuias(guiaData);
         newEntity.setId(0L);
+        actividadLogic.createActividad(newEntity);
+    }
+    
+    /**
+     
+     *
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
+     
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void createActividadTestConPuntuacionInvalido() throws BusinessLogicException {
+        ActividadEntity newEntity = factory.manufacturePojo(ActividadEntity.class);
+        newEntity.setGuias(guiaData);
+        newEntity.setPuntuacion(Integer.MIN_VALUE);
+        actividadLogic.createActividad(newEntity);
+    }
+    
+    /**
+     
+     *
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
+     
+     */
+    @Test(expected = BusinessLogicException.class)
+    public void createActividadTestConPuntuacionInvalido2() throws BusinessLogicException {
+        ActividadEntity newEntity = factory.manufacturePojo(ActividadEntity.class);
+        newEntity.setGuias(guiaData);
+        newEntity.setPuntuacion(Integer.MAX_VALUE);
         actividadLogic.createActividad(newEntity);
     }
 
@@ -181,10 +210,10 @@ public class ActividadLogicTest {
     }
 
     /**
-     * Prueba para crear un Book con ISBN existente.
+     
      *
      * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
-     * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
+     
      */
     @Test(expected = BusinessLogicException.class)
     public void createActividadTestConIdExistente() throws BusinessLogicException {
@@ -195,7 +224,7 @@ public class ActividadLogicTest {
     }
 
     /**
-     * Prueba para crear un Book con una editorial que no existe.
+     
      *
      * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
      */
@@ -211,7 +240,7 @@ public class ActividadLogicTest {
      * Prueba para consultar la lista de Books.
      */
     @Test
-    public void getActividadTest() {
+    public void getAllActividadTest() {
         List<ActividadEntity> list = actividadLogic.getActividades();
         Assert.assertEquals(data.size(), list.size());
         for (ActividadEntity entity : list) {
@@ -229,7 +258,7 @@ public class ActividadLogicTest {
      * Prueba para consultar un Book.
      */
     @Test
-    public void getBookTest() {
+    public void getActividadTest() {
         ActividadEntity entity = data.get(0);
         ActividadEntity resultEntity = actividadLogic.getActividad(entity.getId());
         Assert.assertNotNull(resultEntity);
@@ -249,13 +278,11 @@ public class ActividadLogicTest {
         ActividadEntity entity = data.get(0);
         ActividadEntity pojoEntity = factory.manufacturePojo(ActividadEntity.class);
         pojoEntity.setId(entity.getId());
+        pojoEntity.setPuntuacion(8);
         actividadLogic.modificarActividad(pojoEntity.getId(), pojoEntity);
         ActividadEntity resp = em.find(ActividadEntity.class, entity.getId());
         Assert.assertEquals(entity.getId(), resp.getId());
-        //Assert.assertEquals(entity.getCosto(), resp.getCosto());
-        //Assert.assertEquals(entity.getDuracion(), resp.getDuracion());
-        //Assert.assertEquals(entity.getLatitud(), resp.getLatitud());
-        //Assert.assertEquals(entity.getLongitud(), resp.getLongitud());
+
     }
 
     /**

@@ -92,11 +92,11 @@ public class ActividadResource {
     
     
     @GET
-    @Path("actividadId: \\d+")
+    @Path("{actividadId: \\d+}")
     public ActividadDTO consultarActividad(@PathParam("actividadId") Long actividadId) throws WebApplicationException
     {
          LOGGER.log(Level.INFO, "ActividadResource consultarActividad: input: {0}", actividadId);
-        ActividadEntity actividadEntity = actividadLogic.getActividad(actividadId);
+        ActividadEntity actividadEntity = actividadLogic.getActividadByIdentificador(actividadId);
         if (actividadEntity == null) {
             throw new WebApplicationException("El recurso /editorials/" + actividadId + " no existe.", 404);
         }
@@ -106,7 +106,7 @@ public class ActividadResource {
     }
     
     @PUT
-    @Path("actividadId: \\d+")
+    @Path("{actividadId: \\d+}")
     public ActividadDTO modificarActividad(@PathParam("actividadId") Long actividadId, ActividadDTO actividad) throws WebApplicationException, BusinessLogicException {
         LOGGER.log(Level.INFO, "ActividadResource modificarActividad: input: id:{0} , actividad: {1}", new Object[]{actividadId, actividad.toString()});
         actividad.setIdentificador(actividadId);
@@ -124,7 +124,7 @@ public class ActividadResource {
      * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      */
     @DELETE
-    @Path("actividadId: \\d+")
+    @Path("{actividadId: \\d+}")
     public void deleteActividad(@PathParam("actividadId") Long actividadId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "ActividadResource deleteActividad: input: {0}", actividadId);
         // Invoca la lógica para borrar la actividad
@@ -145,7 +145,7 @@ public class ActividadResource {
      * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
      * Error de lógica que se genera cuando no se encuentra el libro.
      */
-    @Path("{booksId: \\d+}/guia")
+    @Path("{actividadId: \\d+}/guia")
     public Class<GuiaResource> getGuiaResource(@PathParam("actividadId") Long actividadId) {
         if (actividadLogic.getActividad(actividadId) == null) {
             throw new WebApplicationException("El recurso /actividad/" + actividadId + "/reviews no existe.", 404);
