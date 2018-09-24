@@ -40,7 +40,7 @@ public class TransporteTerrestrePersistenceTest {
     @Inject
     UserTransaction utx;
 
-    private List<TransporteTerrestreEntity> data = new ArrayList<TransporteTerrestreEntity>();
+    private List<TransporteTerrestreEntity> data = new ArrayList<>(); 
 
     /**
      * @return Devuelve el jar que Arquillian va a desplegar en Payara embebido.
@@ -112,15 +112,15 @@ public class TransporteTerrestrePersistenceTest {
         TransporteTerrestreEntity entity = em.find(TransporteTerrestreEntity.class, result.getId());
 
         Assert.assertEquals(newEntity.getDestino(), entity.getDestino());
-        Assert.assertEquals(newEntity.getProveedor(), entity.getProveedor());
-        Assert.assertEquals(newEntity.getCosto(), entity.getCosto());
-        Assert.assertEquals(newEntity.getPuntuacion(), entity.getPuntuacion());
-        Assert.assertEquals(newEntity.getLatitudDestino(), entity.getLatitudDestino());
-        Assert.assertEquals(newEntity.getLatitudOrigen(), entity.getLatitudOrigen());
-        Assert.assertEquals(newEntity.getLongitudDestino(), entity.getLongitudDestino());
-        Assert.assertEquals(newEntity.getLongitudOrigen(), entity.getLongitudOrigen());
-        Assert.assertEquals(newEntity.getNumeroDias(), entity.getNumeroDias());
-        Assert.assertEquals(newEntity.getNumeroHoras(), entity.getNumeroHoras());
+        Assert.assertEquals(newEntity.getCosto(), entity.getCosto(),0);
+        Assert.assertEquals(newEntity.getPuntuacion(), entity.getPuntuacion(),0);
+        Assert.assertEquals(newEntity.getLatitudDestino(), entity.getLatitudDestino(),0);
+        Assert.assertEquals(newEntity.getLatitudOrigen(), entity.getLatitudOrigen(),0);
+        Assert.assertEquals(newEntity.getLongitudDestino(), entity.getLongitudDestino(),0);
+        Assert.assertEquals(newEntity.getLongitudOrigen(), entity.getLongitudOrigen(),0);
+        Assert.assertEquals(newEntity.getNumeroDias(), entity.getNumeroDias(),0);
+        Assert.assertEquals(newEntity.getNumeroHoras(), entity.getNumeroHoras(),0);
+        Assert.assertEquals(newEntity.getNumeroMinutos(), entity.getNumeroMinutos(),0);
     }
 
     /**
@@ -150,15 +150,15 @@ public class TransporteTerrestrePersistenceTest {
         TransporteTerrestreEntity newEntity = transportePersistence.find(entity.getId());
         Assert.assertNotNull(newEntity);
         Assert.assertEquals(newEntity.getDestino(), entity.getDestino());
-        Assert.assertEquals(newEntity.getProveedor(), entity.getProveedor());
-        Assert.assertEquals(newEntity.getCosto(), entity.getCosto());
-        Assert.assertEquals(newEntity.getPuntuacion(), entity.getPuntuacion());
-        Assert.assertEquals(newEntity.getLatitudDestino(), entity.getLatitudDestino());
-        Assert.assertEquals(newEntity.getLatitudOrigen(), entity.getLatitudOrigen());
-        Assert.assertEquals(newEntity.getLongitudDestino(), entity.getLongitudDestino());
-        Assert.assertEquals(newEntity.getLongitudOrigen(), entity.getLongitudOrigen());
-        Assert.assertEquals(newEntity.getNumeroDias(), entity.getNumeroDias());
-        Assert.assertEquals(newEntity.getNumeroHoras(), entity.getNumeroHoras());
+        Assert.assertEquals(newEntity.getCosto(), entity.getCosto(), 0);
+        Assert.assertEquals(newEntity.getPuntuacion(), entity.getPuntuacion(), 0);
+        Assert.assertEquals(newEntity.getLatitudDestino(), entity.getLatitudDestino(), 0);
+        Assert.assertEquals(newEntity.getLatitudOrigen(), entity.getLatitudOrigen(), 0);
+        Assert.assertEquals(newEntity.getLongitudDestino(), entity.getLongitudDestino(), 0);
+        Assert.assertEquals(newEntity.getLongitudOrigen(), entity.getLongitudOrigen(), 0);
+        Assert.assertEquals(newEntity.getNumeroDias(), entity.getNumeroDias(), 0);
+        Assert.assertEquals(newEntity.getNumeroHoras(), entity.getNumeroHoras(), 0);
+        Assert.assertEquals(newEntity.getNumeroMinutos(), entity.getNumeroMinutos(),0);
     }
 
     /**
@@ -188,14 +188,10 @@ public class TransporteTerrestrePersistenceTest {
         TransporteTerrestreEntity resp = em.find(TransporteTerrestreEntity.class, entity.getId());
 
         Assert.assertEquals(newEntity.getDestino(), resp.getDestino());
-        Assert.assertEquals(newEntity.getProveedor(), resp.getProveedor());
-        Assert.assertEquals(newEntity.getCosto(), resp.getCosto());
-        Assert.assertEquals(newEntity.getPuntuacion(), resp.getPuntuacion());
-        Assert.assertEquals(newEntity.getLatitudDestino(), resp.getLatitudDestino());
-        Assert.assertEquals(newEntity.getLatitudOrigen(), resp.getLatitudOrigen());
-        Assert.assertEquals(newEntity.getLongitudDestino(), resp.getLongitudDestino());
-        Assert.assertEquals(newEntity.getLongitudOrigen(), resp.getLongitudOrigen());
-        Assert.assertEquals(newEntity.getNumeroDias(), resp.getNumeroDias());
-        Assert.assertEquals(newEntity.getNumeroHoras(), resp.getNumeroHoras());
+        Assert.assertEquals(newEntity.getCosto(), resp.getCosto(), 0);
+        Assert.assertEquals(newEntity.getPuntuacion(), resp.getPuntuacion(), 0);
+        Assert.assertEquals(newEntity.getNumeroDias(), resp.getNumeroDias(), 0);
+        Assert.assertEquals(newEntity.getNumeroHoras(), resp.getNumeroHoras(), 0);
+        Assert.assertEquals(newEntity.getNumeroMinutos(), resp.getNumeroMinutos(),0);
     }
 }

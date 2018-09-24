@@ -17,21 +17,23 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 public class ActividadDTO implements Serializable{
     
-    private Long id;
+    private Long identificador;
+    private String nombreActividad;
     private int costo;
-    private boolean ofrece_guia;
     private int puntuacion;
     private int duracion;
     private double latitud;
     private double longitud;
+    private ActividadEntity actividad;
     
     public ActividadDTO(){}
     
     public ActividadDTO(ActividadEntity actividadEntity) {
-        if (actividadEntity != null) {
-            this.id = actividadEntity.getId();
+        if (actividadEntity != null)
+        {
+            this.identificador = actividadEntity.getIdentificador();
             this.costo = actividadEntity.getCosto();
-            this.ofrece_guia = actividadEntity.isOfreceGuia();
+            this.nombreActividad = actividadEntity.getNombreActividad();
             this.puntuacion = actividadEntity.getPuntuacion();
             this.duracion = actividadEntity.getDuracion();
             this.latitud = actividadEntity.getLatitud();
@@ -39,19 +41,20 @@ public class ActividadDTO implements Serializable{
         }
     }
     
-    public Long getId() {return id;}   
+    public Long getId() {return identificador;}   
+    public String getNombreActividad() {return nombreActividad;}
     public int getCosto(){return costo;}
-    public Long getIdentificador(){return id;}
-    public boolean getOfrece_guia(){return ofrece_guia;}
+    public Long getIdentificador(){return identificador;}
+    
     public int getPuntuacion(){return puntuacion;}
     public int getDuracion(){return duracion;}
     public double getLatitud(){return latitud;}
     public double getLongitud(){return longitud;}
     
-    public void setId(Long id) {this.id = id;}
+    public void setNombreActividad (String nomActividad) {this.nombreActividad = nomActividad;}
     public void setCosto(int costo){this.costo = costo;}
-    public void setIdentificador (Long id){this.id = id;}
-    public void setOfrece_guia(boolean og){this.ofrece_guia = og;}
+    public void setIdentificador (Long id){this.identificador = id;}
+    
     public void setPuntuacion(int puntuacion){this.puntuacion = puntuacion;}
     public void setDuracion(int duracion){this.duracion = duracion;}
     public void setLatitud(double lat){this.latitud = lat;}
@@ -59,13 +62,14 @@ public class ActividadDTO implements Serializable{
     
     public ActividadEntity toEntity() {
         ActividadEntity actividadEntity = new ActividadEntity();
-        actividadEntity.setId(this.id);
+        actividadEntity.setIdentificador(this.identificador);
         actividadEntity.setCosto(this.costo);
         actividadEntity.setDuracion(this.duracion);
         actividadEntity.setLatitud(this.latitud);
         actividadEntity.setLongitud(this.longitud);
         actividadEntity.setPuntuacion(this.puntuacion);
-        actividadEntity.setOfrece_guia(this.ofrece_guia);
+        actividadEntity.setNombreActividad(this.nombreActividad);
+        
         return actividadEntity;
     }
 

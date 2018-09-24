@@ -30,7 +30,7 @@ public class PagoPersistence {
     /**
      * Método para persisitir la entidad en la base de datos.
      *
-     * @param pagoEntity objeto libro que se creará en la base de datos
+     * @param pagoEntity objeto pago que se creará en la base de datos
      * @return devuelve la entidad creada con un id dado por la base de datos.
      */
     public PagoEntity create(PagoEntity pagoEntity) {
@@ -41,7 +41,7 @@ public class PagoPersistence {
     }
 
     /**
-     * Devuelve todos loslibros de la base de datos.
+     * Devuelve todos los pagos de la base de datos.
      *
      * @return una lista con todos los libros que encuentre en la base de datos,
      * "select u from BookEntity u" es como un "select * from BookEntity;" -
@@ -54,10 +54,10 @@ public class PagoPersistence {
     }
 
     /**
-     * Busca si hay algun lubro con el id que se envía de argumento
+     * Busca si hay algun pago con el id que se envía de argumento
      *
-     * @param pagoId: id correspondiente al libro buscado.
-     * @return un libro.
+     * @param pagoId: id correspondiente al pago buscado.
+     * @return un pago.
      */
     public PagoEntity find(Long pagoId) {
         LOGGER.log(Level.INFO, "Consultando el pago con id={0}", pagoId);
@@ -65,11 +65,10 @@ public class PagoPersistence {
     }
 
     /**
-     * Actualiza un libro.
+     * Actualiza un pago.
      *
-     * @param pagoEntity: el libro que viene con los nuevos cambios. Por ejemplo
-     * el nombre pudo cambiar. En ese caso, se haria uso del método update.
-     * @return un libro con los cambios aplicados.
+     * @param pagoEntity: el pago que viene con los nuevos cambios. 
+     * @return un pago con los cambios aplicados.
      */
     public PagoEntity update(PagoEntity pagoEntity) {
         LOGGER.log(Level.INFO, "Actualizando el pago con id={0}", pagoEntity.getId());
@@ -80,10 +79,10 @@ public class PagoPersistence {
 
     /**
      *
-     * Borra un libro de la base de datos recibiendo como argumento el id del
-     * libro
+     * Borra un pago de la base de datos recibiendo como argumento el id del
+     * pago
      *
-     * @param pagoId: id correspondiente al libro a borrar.
+     * @param pagoId: id correspondiente al pago a borrar.
      */
     public void delete(Long pagoId) {
         LOGGER.log(Level.INFO, "Borrando el pago con id={0}", pagoId);

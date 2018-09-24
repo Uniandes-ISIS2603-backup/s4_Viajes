@@ -7,8 +7,6 @@ package co.edu.uniandes.csw.viajes.entities;
 
 import java.io.Serializable;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
-import uk.co.jemos.podam.common.PodamExclude;
 
 /**
  *
@@ -17,21 +15,10 @@ import uk.co.jemos.podam.common.PodamExclude;
 @Entity
 public class MedallaEntity extends BaseEntity implements Serializable{
     
-    @PodamExclude
-    @ManyToOne
-    private UsuarioEntity usuario;
-    private int numero;
+
     private String nombre;
     private String rutaImagen;
     private String descripcion;
-    
-    public UsuarioEntity getUsuario(){
-        return usuario;
-    }
-    
-    public int getNumero(){
-        return numero;
-    }
     
     public String getNombre()
     {
@@ -46,11 +33,6 @@ public class MedallaEntity extends BaseEntity implements Serializable{
     public String getDescripcion()
     {
         return descripcion;
-    }
-              
-     public void setNumero(int pNumero)
-    {
-        numero = pNumero;
     }
     
     public void setNombre(String pNombre)

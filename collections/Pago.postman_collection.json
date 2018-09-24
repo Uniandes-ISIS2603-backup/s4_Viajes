@@ -1,0 +1,124 @@
+{
+	"info": {
+		"_postman_id": "b296e907-4db9-4c51-b63c-3f9243bf92c2",
+		"name": "Pago",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "getPago",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/pagos/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"pagos",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "postPago",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t \"pagaConTarjeta\": true,\n\t \"tarjeta\": 2858214520145698\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/pagos",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"pagos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updatePago",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t \"pagaConTarjeta\": true,\n\t \"tarjeta\":1234567890123456\n\t \n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/pagos/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"pagos",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deletePago",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/pagos/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"pagos",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

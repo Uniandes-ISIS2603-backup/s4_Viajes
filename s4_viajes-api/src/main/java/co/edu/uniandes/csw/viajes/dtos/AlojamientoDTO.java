@@ -7,6 +7,8 @@ package co.edu.uniandes.csw.viajes.dtos;
 
 import co.edu.uniandes.csw.viajes.entities.AlojamientoEntity;
 import java.io.Serializable;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  *
@@ -16,15 +18,15 @@ import java.io.Serializable;
  * modelo: <br>
  * <pre>
  *{
- * "costo": "99999",
- * "estrellas": "5",
- * "nombre": "nombreHotel",
- * "puntuacion": "10",
- * "tipo": "HOTEL",
- * "ubicacion": "enAlgunLugar",
- * "noches": "5",
- * "latitud": "6.26584484",
- * "longitud": "-45.154799914"
+ * "costo": "double",
+ * "estrellas": "integer",
+ * "nombre": "string",
+ * "puntuacion": "integer",
+ * "tipo": "string",
+ * "ubicacion": "string",
+ * "noches": "integer",
+ * "latitud": "double",
+ * "longitud": "double"
  * }
  * </pre>
  *
@@ -36,22 +38,72 @@ public class AlojamientoDTO implements Serializable {
     // Atributos
     //-----------------------------------------------------------------------------------------------------------------------
 
+    /**
+     * ID del alojamiento.
+     */
     private Long id;
+
+    /**
+     * Costo del alojamiento.
+     */
     private Double costo;
+
+    /**
+     * Estrellas del alojamiento.
+     */
     private Integer estrellas;
+
+    /**
+     * Nombre del alojamiento.
+     */
     private String nombre;
+
+    /**
+     * Tipo del alojamiento.
+     */
     private String tipo;
+
+    /**
+     * Noches del alojamiento.
+     */
     private Integer noches;
-    private Long latitud;
-    private Long longitud;
+
+    /**
+     * Latitud del alojamiento.
+     */
+    private double latitud;
+
+    /**
+     * Longitud del alojamiento.
+     */
+    private double longitud;
+
+    /**
+     * Puntuacion del alojamiento.
+     */
     private Integer puntuacion;
+
+    /**
+     * Ubicacion del alojamiento.
+     */
     private String ubicacion;
+
+    /**
+     * Proveedor del alojamiento.
+     */
+    private ProveedorDTO proveedor;
 
     //-----------------------------------------------------------------------------------------------------------------------
     //Metodos
     //-----------------------------------------------------------------------------------------------------------------------
     /**
-     * Constructor por defecto.
+     * Constructor defecto.
+     */
+    public AlojamientoDTO() {
+    }
+
+    /**
+     * Constructor a partir de la entidad.
      *
      * @param alojamientoEntity Entidad del alojamiento.
      */
@@ -67,10 +119,12 @@ public class AlojamientoDTO implements Serializable {
             this.puntuacion = alojamientoEntity.getPuntuacion();
             this.tipo = alojamientoEntity.getTipo();
             this.ubicacion = alojamientoEntity.getUbicacion();
+            if (alojamientoEntity.getProveedor() != null) {
+                this.proveedor = new ProveedorDTO(alojamientoEntity.getProveedor());
+            } else {
+                this.proveedor = null;
+            }
         }
-    }
-
-    public AlojamientoDTO() {
     }
 
     //-----------------------------------------------------------------------------------------------------------------------
@@ -93,12 +147,13 @@ public class AlojamientoDTO implements Serializable {
         alojamientoEntity.setPuntuacion(this.puntuacion);
         alojamientoEntity.setTipo(this.tipo);
         alojamientoEntity.setUbicacion(this.ubicacion);
+        if (this.proveedor != null) {
+            alojamientoEntity.setProveedor(this.proveedor.toEntity());
+        }
 
         return alojamientoEntity;
     }
-
-    //-----------------------------------------------------------------------------------------------------------------------
-    //-----------------------------------------------------------------------------------------------------------------------
+   
     public Long getId() {
         return id;
     }
@@ -147,19 +202,19 @@ public class AlojamientoDTO implements Serializable {
         this.noches = noches;
     }
 
-    public Long getLatitud() {
+    public double getLatitud() {
         return latitud;
     }
 
-    public void setLatitud(Long latitud) {
+    public void setLatitud(double latitud) {
         this.latitud = latitud;
     }
 
-    public Long getLongitud() {
+    public double getLongitud() {
         return longitud;
     }
 
-    public void setLongitud(Long longitud) {
+    public void setLongitud(double longitud) {
         this.longitud = longitud;
     }
 
@@ -178,4 +233,20 @@ public class AlojamientoDTO implements Serializable {
     public void setUbicacion(String ubicacion) {
         this.ubicacion = ubicacion;
     }
+
+    public ProveedorDTO getProveedor() {
+        return proveedor;
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------------------------------------
+    public void setProveedor(ProveedorDTO proveedor) {   
+        this.proveedor = proveedor;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
+    }
+
 }

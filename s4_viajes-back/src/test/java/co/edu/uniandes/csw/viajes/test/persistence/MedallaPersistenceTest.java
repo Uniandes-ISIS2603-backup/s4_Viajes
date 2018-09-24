@@ -129,7 +129,7 @@ public class MedallaPersistenceTest {
 
         MedallaEntity entity = em.find(MedallaEntity.class, result.getId());
 
-        Assert.assertEquals(newEntity.getNumero(), entity.getNumero());
+        Assert.assertEquals(newEntity.getId(), entity.getId());
         Assert.assertEquals(newEntity.getNombre(), entity.getNombre());
         Assert.assertEquals(newEntity.getRutaImagen(), entity.getRutaImagen());
         Assert.assertEquals(newEntity.getDescripcion(), entity.getDescripcion());
@@ -198,7 +198,7 @@ public class MedallaPersistenceTest {
 
         MedallaEntity resp = em.find(MedallaEntity.class, entity.getId());
 
-        Assert.assertEquals(newEntity.getNumero(), resp.getNumero());
+        Assert.assertEquals(newEntity.getId(), resp.getId());
     }
 
         /**

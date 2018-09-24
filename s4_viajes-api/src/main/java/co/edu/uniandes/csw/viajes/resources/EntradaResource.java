@@ -6,8 +6,13 @@
 package co.edu.uniandes.csw.viajes.resources;
 
 import co.edu.uniandes.csw.viajes.dtos.EntradaDTO;
+import co.edu.uniandes.csw.viajes.ejb.EntradaLogic;
+import co.edu.uniandes.csw.viajes.entities.EntradaEntity;
+import co.edu.uniandes.csw.viajes.entities.UsuarioEntity;
 //import co.edu.uniandes.csw.viajes.ejb.EntradaLogic;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
+import co.edu.uniandes.csw.viajes.mappers.BusinessLogicExceptionMapper;
+import co.edu.uniandes.csw.viajes.mappers.WebApplicationExceptionMapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -30,7 +35,6 @@ import javax.ws.rs.WebApplicationException;
  */
 @Produces("application/json")
 @Consumes("application/json")
-//@Path("entradas")
 @RequestScoped
 public class EntradaResource {
      /**
@@ -40,6 +44,9 @@ public class EntradaResource {
      * @version 1.0
      */
     private static final Logger LOGGER = Logger.getLogger(EntradaResource.class.getName());
+    
+    @Inject 
+    private EntradaLogic entradaLogic;
 
     //@Inject
     //EntradaLogic entradaLogic; //variable para acceder a la lógica de la aplicación. Es una inyección de independencias.
@@ -49,7 +56,7 @@ public class EntradaResource {
      * petición y se regresa un objeto identico con un id auto-generado por la
      * base de datos.
      *
-     * @param documento El documento del usuario al cual se le agrega la entrada
+     * @param userId El id del usuario al cual se le agrega la entrada
      * @param entrada {@link EntradaDTO} - La entrada que se desea guardar.
      * @return JSON {@link EntradaDTO} - La entrada guardada con el atributo id
      * autogenerado.
@@ -57,22 +64,29 @@ public class EntradaResource {
      * Error de lógica que se genera cuando ya existe la entrada.
      */
     @POST
-    public EntradaDTO crearEntrada(@PathParam("documento") String userName,EntradaDTO entrada) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "EntradaResouce createEntrada: input: {0}", entrada.toString());
+    public EntradaDTO crearEntrada(@PathParam("usuarioId") Long userId,EntradaDTO entrada) throws BusinessLogicException {
 
-        return entrada;
+        LOGGER.log(Level.INFO, "EntradaResouce createEntrada: input: {0}", entrada.toString());
+        
+        EntradaEntity entradaEntity = entrada.toEntity();
+        EntradaDTO nuevaEntradaDTO = new EntradaDTO(entradaLogic.createEntrada(userId, entradaEntity));
+        return nuevaEntradaDTO;
     }
     
         /**
      * Busca y devuelve todas las entradas que existen de un usuario.
      *
      * @param documento El documento del usuario del cual se buscan las entradas
-     * @return JSONArray {@link ReviewDTO} - Las entradas encontradas en el
+     * @return JSONArray {@link EntradaDTO} - Las entradas encontradas en el
      * usuario. Si no hay ninguna retorna una lista vacía.
      */
     @GET
-    public List<EntradaDTO> getEntradas(@PathParam("documento") String userName) {
-        return new ArrayList<EntradaDTO>();
+    public List<EntradaDTO> getEntradas(@PathParam("usuarioId") Long userId)
+    {
+        LOGGER.log(Level.INFO, "EntradaResource getEntradas: input: {0}", userId);
+        List<EntradaDTO> listaDTOs = listEntity2DTO(entradaLogic.getEntradas(userId));
+        LOGGER.log(Level.INFO, "EntradaResource getBooks: output: {0}", listaDTOs.toString());
+        return listaDTOs;
     }
     
      /**
@@ -80,44 +94,66 @@ public class EntradaResource {
      * información que fue previamente ingresada en formato JSON.
      *
      * @param documento El user name del usuario del que se quiere buscar la entrada.
-     * @param entradaNum {@link EntradaDTO} - La entrada que se desea obtener.
+     * @param entradaId {@link EntradaDTO} - el id de la entrada que se desea obtener.
      * @return una entrada y su información de acuerdo a su nùmero.
      */
     @GET
-        @Path("{numero: \\d+}")
-    public EntradaDTO consultarEntrada(@PathParam("documento") String documento, @PathParam("numero") int entradaNum) 
+        @Path("{id: \\d+}")
+    public EntradaDTO consultarEntrada(@PathParam("usuarioId") Long userId, @PathParam("id") Long entradaId) 
     {
-        return new EntradaDTO();
+        LOGGER.log(Level.INFO, "EntradaResource getEntrada: input: {0}", entradaId);
+        EntradaEntity entity = entradaLogic.getEntrada(userId, entradaId);
+        if (entity == null) {
+            throw new WebApplicationException("El recurso /usuarios/" + userId + "/entradas/" + entradaId + " no existe.", 404);
+        }
+        EntradaDTO entradaDTO = new EntradaDTO(entity);
+        LOGGER.log(Level.INFO, "EntradaResource getEntrada: output: {0}", entradaDTO.toString());
+        return entradaDTO;
     }
     
     /**
      * Modifica la informacion de una entrada dada por la información ingresada en
      * formato JSON.
-     * @param documento El documento del usuario del cual se guarda la reseña
-     * @param entradaNum El numero de la entrada que se va a actualizar
+     * @param userId El id del usuario del cual se guarda la reseña
+     * @param entradaId El numero de la entrada que se va a actualizar
      * @param nueva (@link EntradaDTO) - la entrada que desea modificar.
      */
     @PUT
-    @Path("{numero: \\d+}")
-    public EntradaDTO modificarEntrada(@PathParam("documento") String documento,@PathParam("numero")int entradaNum, EntradaDTO nueva) throws WebApplicationException
+    @Path("{id: \\d+}")
+    public EntradaDTO modificarEntrada(@PathParam("usuarioId") Long userId,@PathParam("id")Long entradaId, EntradaDTO nueva) throws WebApplicationException, BusinessLogicException
     {
-       return nueva;
+        LOGGER.log(Level.INFO, "EntradaResource updateEntrada: input: userId: {0} , entradaId: {1} , entrada:{2}", new Object[]{userId, entradaId, nueva.toString()});
+        if (!entradaId.equals(nueva.getId())) {
+            throw new BusinessLogicException("Los ids del Entrada no coinciden.");
+        }
+        EntradaEntity entity = entradaLogic.getEntrada(userId, entradaId);
+        if (entity == null) {
+            throw new WebApplicationException("El recurso /usuarios/" + userId + "/entradas/" + entradaId + " no existe.", 404);
+
+        }
+        EntradaDTO entradaDTO = new EntradaDTO(entradaLogic.updateEntrada(userId, nueva.toEntity()));
+        LOGGER.log(Level.INFO, "EntradaResource updateEntrada: output:{0}", entradaDTO.toString());
+        return entradaDTO;
     }
     
         /**
      * Borra la reseña con el id asociado recibido en la URL.
      *
      * @param documento El documento del usuario del cual se va a eliminar la entrada.
-     * @param entradaNum El numero de la entrada que se va a eliminar.
+     * @param entradaId El id de la entrada que se va a eliminar.
      * @throws BusinessLogicException {@link BusinessLogicExceptionMapper} -
      * Error de lógica que se genera cuando no se puede eliminar la entrada.
      * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
      * Error de lógica que se genera cuando no se encuentra la entrada.
      */
     @DELETE
-    @Path("{numero: \\d+}")
-    public void deleteEntrada(@PathParam("documento") String documento, @PathParam("numero") int entradaNum) {
-        
+    @Path("{id: \\d+}")
+    public void deleteEntrada(@PathParam("usuarioId") Long userId, @PathParam("id") Long entradaId) throws BusinessLogicException {
+        EntradaEntity entity = entradaLogic.getEntrada(userId, entradaId);
+        if (entity == null) {
+            throw new WebApplicationException("El recurso /usuarios/" + userId + "/entradas/" + entradaId + " no existe.", 404);
+        }
+        entradaLogic.deleteEntrada(userId, entradaId);
     }
     
             /**
@@ -127,16 +163,21 @@ public class EntradaResource {
      * dependen del usuario, es una redirección al servicio que maneja el segmento
      * de la URL que se encarga de las entradas.
      *
-     * @param numero El numero de la entrada con respecto a la cual se accede al comentario.
+     * @param id El id de la entrada con respecto a la cual se accede al comentario.
      * @return El servicio de Comentarios para ese usuario en paricular.\
      * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
      * Error de lógica que se genera cuando no se encuentra la entrada.
      */
-    @Path("{numero: \\d+}/comentarios")
-    public Class<ComentarioResource> getComentarioResource(@PathParam("numero") int numero) {
-    //    if (usuarioLogic.getUsuario(documento) == null) {
-    //      throw new WebApplicationException("El recurso /books/" + documento + "/reviews no existe.", 404);
-    //  }
+    @Path("{id: \\d+}/comentarios")
+    public Class<ComentarioResource> getComentarioResource(@PathParam("id") Long entradaId) {
         return ComentarioResource.class;
+    }
+
+    private List<EntradaDTO> listEntity2DTO(List<EntradaEntity> entradas) {
+        List<EntradaDTO> list = new ArrayList<EntradaDTO>();
+        for (EntradaEntity entity : entradas) {
+            list.add(new EntradaDTO(entity));
+        }
+        return list;
     }
 }

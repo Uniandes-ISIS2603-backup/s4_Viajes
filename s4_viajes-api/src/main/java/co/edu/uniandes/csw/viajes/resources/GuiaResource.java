@@ -12,6 +12,7 @@ import co.edu.uniandes.csw.viajes.ejb.GuiaLogic;
 import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
 import co.edu.uniandes.csw.viajes.entities.GuiaEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
@@ -58,7 +59,7 @@ public class GuiaResource {
      * la petición y se regresa un objeto identico con un id auto-generado por
      * la base de datos.
      *
-     * @param Actividad {@link ActividadDTO} - La editorial que se desea
+     * @param guia {@link GuiaDTO} - La editorial que se desea
      * guardar.
      * @return JSON {@link ActividadDTO} - La editorial guardada con el atributo
      * id autogenerado.
@@ -67,37 +68,37 @@ public class GuiaResource {
      */
    @POST
     public GuiaDTO createGuia(GuiaDTO guia) throws BusinessLogicException {
-       LOGGER.log(Level.INFO, "EditorialResource createEditorial: input: {0}", guia.toString());
+        if(guia == null) throw new BusinessLogicException("No se recibio ningun guía");
+       LOGGER.log(Level.INFO, "GuiaResource createGuia: input: {0}", guia.toString());
         // Convierte el DTO (json) en un objeto Entity para ser manejado por la lógica.
         GuiaEntity guiaEntity = guia.toEntity();
         // Invoca la lógica para crear la actividad nueva
-        GuiaEntity nuevoActividadEntity = guiaLogic.createGuia(guiaEntity);
+        GuiaEntity nuevoGuiaEntity = guiaLogic.createGuia(guiaEntity);
         // Como debe retornar un DTO (json) se invoca el constructor del DTO con argumento el entity nuevo
 
-        GuiaDTO nuevoGuiaDTO = new GuiaDTO(guiaEntity);
-        LOGGER.log(Level.INFO, "EditorialResource createEditorial: output: {0}", nuevoGuiaDTO.toString());
-       
+        GuiaDTO nuevoGuiaDTO = new GuiaDTO(nuevoGuiaEntity);
+        LOGGER.log(Level.INFO, "GuiaResource createGuia: output: {0}", nuevoGuiaDTO.toString());
 
-        LOGGER.log(Level.INFO, "EditorialResource createEditorial: output: {0}", nuevoGuiaDTO.toString());
-        
-        //return new GuiaDTO();
         return nuevoGuiaDTO;
 
     }
     
+
     @GET
-    @Path("guiaId: \\d+")
-    public GuiaDTO consultarGuia(@PathParam("actividadId") Long guiaId) throws WebApplicationException
+    @Path("{id: \\d+}")
+    public GuiaDTO consultarGuia(@PathParam("id") Long id) throws WebApplicationException
     {
-         LOGGER.log(Level.INFO, "GuiaResource getResource: input: {0}", guiaId);
-        GuiaEntity guiaEntity = guiaLogic.getGuia(guiaId);
+        if (id == null) throw new WebApplicationException("El id no es valido",404);
+         LOGGER.log(Level.INFO, "GuiaResource consultarGuia: input: {0}", id);
+        GuiaEntity guiaEntity = guiaLogic.getGuia(id);
         if (guiaEntity == null) {
-            throw new WebApplicationException("El recurso /guia/" + guiaId + " no existe.", 404);
+            throw new WebApplicationException("El recurso /guia/" + id + " no existe.", 404);
         }
         GuiaDTO detailDTO = new GuiaDTO(guiaEntity);
-        LOGGER.log(Level.INFO, "GuiaResource getGuia: output: {0}", detailDTO.toString());
+        LOGGER.log(Level.INFO, "GuiaResource consultarGuia: output: {0}", detailDTO.toString());
         return detailDTO;
     }
+    
 
     /**
      * Borra la guia con el id asociado recibido en la URL.
@@ -106,24 +107,24 @@ public class GuiaResource {
      * Este debe ser una cadena de dígitos.
      */
     @DELETE
-    @Path("guiaId: \\d+")
-    public void deleteGuia(@PathParam("guiaId") Long guiaId) {
+    @Path("{guiaId: \\d+}")
+    public void deleteGuia(@PathParam("guiaId") Long guiaId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "GuiaResource deleteGuia: input: {0}", guiaId);
         // Invoca la lógica para borrar la actividad
-        //editorialLogic.deleteEditorial(editorialsId);
+        guiaLogic.deleteGuia(guiaId);
         LOGGER.info("GuiaResource deleteGuia: output: void");
     }
     
     @PUT
-    @Path("guiaId: \\d+")
-    public GuiaDTO modificarGuia(@PathParam("guiaId") Long guiaId, GuiaDTO guia) throws WebApplicationException {
+    @Path("{guiaId: \\d+}")
+    public GuiaDTO modificarGuia(@PathParam("guiaId") Long guiaId, GuiaDTO guia) throws WebApplicationException, BusinessLogicException {
         LOGGER.log(Level.INFO, "GuiaResource updateGuia: input: id:{0} , guia: {1}", new Object[]{guiaId, guia.toString()});
         guia.setDocumento(guiaId);
         if (guiaLogic.getGuia(guiaId) == null) {
-            throw new WebApplicationException("El recurso /editorials/" + guiaId + " no existe.", 404);
+            throw new WebApplicationException("El recurso /guia/" + guiaId + " no existe.", 404);
         }
         GuiaDTO detailDTO = new GuiaDTO(guiaLogic.modificarGuia(guiaId, guia.toEntity()));
-        LOGGER.log(Level.INFO, "GuiaResource updateGuia: output: {0}", detailDTO.toString());
+        LOGGER.log(Level.INFO, "GuiaResource modificarGuia: output: {0}", detailDTO.toString());
         return detailDTO;}
     
 }

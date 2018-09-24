@@ -29,7 +29,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"numero\":22,\n\t\"nombre\":\"Gran viajero\",\n\t\"rutaImagen\":\"gran_viajero.jpg\",\n\t\"descripcion\":\"Eres un gran viajero! Disfruta de un descuento del 10% en tus siguientes viajes.\"\n}"
+					"raw": "{\n\t\"nombre\":\"Mejor viajero\",\n\t\"rutaImagen\":\"mejor_viajero.jpg\",\n\t\"descripcion\":\"Eres un gran viajero! Disfruta de un descuento del 10% en tus siguientes viajes.\"\n}"
 				},
 				"url": {
 					"raw": "http://localhost:8080/s4_viajes-api/api/medallas",
@@ -66,7 +66,7 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "http://localhost:8080/s4_viajes-api/api/medallas/123456",
+					"raw": "http://localhost:8080/s4_viajes-api/api/medallas/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -76,7 +76,7 @@
 						"s4_viajes-api",
 						"api",
 						"medallas",
-						"123456"
+						"1"
 					]
 				}
 			},
@@ -135,7 +135,7 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "http://localhost:8080/s4_viajes-api/api/medallas/1324",
+					"raw": "http://localhost:8080/s4_viajes-api/api/medallas/9",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -145,7 +145,7 @@
 						"s4_viajes-api",
 						"api",
 						"medallas",
-						"1324"
+						"9"
 					]
 				}
 			},
@@ -175,10 +175,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"nombre\":\"Medalla\",\n\t\"rutaImagen\":\"medalla.jpg\",\n\t\"descripcion\":\"Medalla.\"\n}"
+					"raw": "{\n\t\"id\": 1,\n\t\"nombre\":\"Probando Put\",\n\t\"rutaImagen\":\"probandoPut.jpg\",\n\t\"descripcion\":\"Probemos el put!!!.\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/s4_viajes-api/api/medallas/1324",
+					"raw": "http://localhost:8080/s4_viajes-api/api/medallas/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -188,7 +188,7 @@
 						"s4_viajes-api",
 						"api",
 						"medallas",
-						"1324"
+						"1"
 					]
 				}
 			},

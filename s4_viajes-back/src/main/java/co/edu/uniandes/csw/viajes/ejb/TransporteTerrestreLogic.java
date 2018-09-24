@@ -5,8 +5,12 @@
  */
 package co.edu.uniandes.csw.viajes.ejb;
 
+import co.edu.uniandes.csw.viajes.entities.ComboEntity;
+import co.edu.uniandes.csw.viajes.entities.ProveedorEntity;
 import co.edu.uniandes.csw.viajes.entities.TransporteTerrestreEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
+import co.edu.uniandes.csw.viajes.persistence.ComboPersistence;
+import co.edu.uniandes.csw.viajes.persistence.ProveedorPersistence;
 import co.edu.uniandes.csw.viajes.persistence.TransporteTerrestrePersistence;
 import java.util.List;
 //import java.util.List;
@@ -26,6 +30,12 @@ public class TransporteTerrestreLogic {
 
     @Inject
     private TransporteTerrestrePersistence persistence;
+    
+    @Inject
+    private ProveedorPersistence proveedorPersistence;
+    
+    @Inject
+    private ComboPersistence comboPesistence; 
 
     /**
      * Guardar un nuevo alojamiento.
@@ -37,23 +47,26 @@ public class TransporteTerrestreLogic {
      */
     public TransporteTerrestreEntity createTransporte(TransporteTerrestreEntity transporteEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación del transporte");
-        if (transporteEntity.getId() == null || persistence.find(transporteEntity.getId()) == null) {
-            throw new BusinessLogicException("El id del transporte es inválido" + transporteEntity.getId());
+        
+        if (transporteEntity.getProveedor() == null || proveedorPersistence.find(transporteEntity.getProveedor().getId()) == null) {
+            throw new BusinessLogicException("El id del proveedor es inválido: (Transportelogic)");
         }
-        if (transporteEntity.getCosto() <= 0) {
-            throw new BusinessLogicException("El costo del transporte es invalido." + transporteEntity.getCosto());
+        if(persistence.find(transporteEntity.getId()) != null){
+            throw new BusinessLogicException("El transporte ya esta registrado: (TransporteLogic)" + transporteEntity.getId());
         }
-        if (transporteEntity.getDestino().isEmpty() || transporteEntity.getDestino().equals("")) {
-            throw new BusinessLogicException("El destino ingresado es invalido" + transporteEntity.getDestino());
+        if (transporteEntity.getCosto() < 0) {
+            throw new BusinessLogicException("El costo del transporte es invalido: (TransporteLogic) " + transporteEntity.getCosto());
         }
-        if (transporteEntity.getNumeroDias() < 0 || transporteEntity.getNumeroHoras() < 0) {
-            throw new BusinessLogicException("La duracion de viaje es invalida, numero dias: "
-                    + "" + transporteEntity.getNumeroDias() + " numero horas: " + transporteEntity.getNumeroHoras());
+        if (transporteEntity.getDestino() == null) {
+            throw new BusinessLogicException("El destino ingresado es invalido: (TransporteLogic)" + transporteEntity.getDestino());
         }
-
+        if (transporteEntity.getNumeroDias() < 0 && transporteEntity.getNumeroMinutos() < 0 && transporteEntity.getNumeroHoras() < 0 ) {
+            throw new BusinessLogicException("La duracion de viaje es invalida (TransporteLogic), numero dias: "
+                    + "" + transporteEntity.getNumeroDias() + " numero horas: " + transporteEntity.getNumeroHoras() 
+                    + " numero minutos: " + transporteEntity.getNumeroMinutos()); 
+        }
         persistence.create(transporteEntity);
         LOGGER.log(Level.INFO, "Termina proceso de creación del transporte");
-
         return transporteEntity;
     }
 
@@ -64,9 +77,9 @@ public class TransporteTerrestreLogic {
      */
     public List<TransporteTerrestreEntity> getTransportes() {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los transportes.");
-        List<TransporteTerrestreEntity> transportes = persistence.findAll();
+        List<TransporteTerrestreEntity> transportes = persistence.findAll(); 
         LOGGER.log(Level.INFO, "Termina proceso de consultar todos los transportes");
-        return transportes;
+        return transportes; 
     }
 
     /**
@@ -75,12 +88,12 @@ public class TransporteTerrestreLogic {
      * @param transporteId El id del transpore a buscar
      * @return El alojamiento encontrado, null si no lo encuentra.
      */
-    public TransporteTerrestreEntity getTransporte(Long transporteId) {
+    public TransporteTerrestreEntity getTransporte(Long transporteId)  {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar el transporte con id = {0}", transporteId);
-        if (transporteId == null) {
-            LOGGER.log(Level.SEVERE, "El transporte con el id = {0} no existe", transporteId);
-        }
         TransporteTerrestreEntity transporteEntity = persistence.find(transporteId);
+        if (transporteEntity == null) {
+            LOGGER.log(Level.SEVERE, "El transporte con el id = {0} no existe: (TransporteLogic)", transporteId);
+        }
         LOGGER.log(Level.INFO, "Termina proceso de consultar el transporte con id = {0}", transporteId);
         return transporteEntity;
     }
@@ -89,25 +102,25 @@ public class TransporteTerrestreLogic {
      * Actualizar un alojamiento por ID
      *
      * @param transporteId El ID del alojamiento a actualizar
-     * @param transporteTerrestreEntity La entidad del aoljamiento con los
+     * @param transporteEntity La entidad del aoljamiento con los
      * cambios deseados
      * @return La entidad del alojamiento luego de actualizarla
      * @throws BusinessLogicException
      */
-    public TransporteTerrestreEntity updateTransporte(Long transporteId, TransporteTerrestreEntity transporteTerrestreEntity) throws BusinessLogicException {
+    public TransporteTerrestreEntity updateTransporte(Long transporteId, TransporteTerrestreEntity transporteEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar el transporte con id = {0}", transporteId);
-        if (transporteId == null) {
-            throw new BusinessLogicException("El id es invalido" + transporteId);
+        if (transporteEntity.getCosto() < 0) {
+            throw new BusinessLogicException("El costo del transporte es invalido: (TransporteLogicUP) " );
         }
-        if (transporteTerrestreEntity.getCosto() <= 0) {
-            throw new BusinessLogicException("El costo del transporte es invalido." + transporteTerrestreEntity.getCosto());
+        if (transporteEntity.getDestino() == null) {
+            throw new BusinessLogicException("El destino ingresado es invalido: (TransporteLogicUP)" );
         }
-        if (transporteTerrestreEntity.getDestino().isEmpty() || transporteTerrestreEntity.getDestino().equals("")) {
-            throw new BusinessLogicException("El destino ingresado es invalido" + transporteTerrestreEntity.getDestino());
+        if (transporteEntity.getNumeroDias() < 0 && transporteEntity.getNumeroMinutos() < 0 && transporteEntity.getNumeroHoras() < 0 ) {
+            throw new BusinessLogicException("La duracion de viaje es invalida (TransporteLogicUP)"); 
         }
-        persistence.update(transporteTerrestreEntity);
-        LOGGER.log(Level.INFO, "Termina proceso de actualizar el transporte con id = {0}", transporteTerrestreEntity.getId());
-        return transporteTerrestreEntity;
+        TransporteTerrestreEntity transporte = persistence.update(transporteEntity); 
+        LOGGER.log(Level.INFO, "Termina proceso de actualizar el transporte con id = {0}", transporteEntity.getId());
+        return transporte; 
     }
 
     /**
@@ -118,10 +131,15 @@ public class TransporteTerrestreLogic {
      */
     public void deleteTransporte(Long transporteId) throws BusinessLogicException{
         LOGGER.log(Level.INFO, "Inicia proceso de borrar el transporte con id = {0}", transporteId);
+        TransporteTerrestreEntity transporte = getTransporte(transporteId); 
+        ComboEntity combo = transporte.getCombo(); 
         if (transporteId == null) {
-            throw new BusinessLogicException("El id ingresado es invalido" + transporteId + ", imposible eliminar el transporte."); 
+            throw new BusinessLogicException("El transporte no se encuentra registrado, imposible eliminar: (TransporteLogicDEL)" + transporteId); 
         }
-        persistence.delete(transporteId);   
+        if(combo != null){
+            throw new BusinessLogicException("No se puede eliminar el transporte porque esta asociado a un combo: (TransporteLogicDEL)" + combo.getNombre());
+        } 
+        persistence.delete(transporte.getId());    
         LOGGER.log(Level.INFO, "Termina proceso de borrar el transporte con id = {0}", transporteId);
     }
 }

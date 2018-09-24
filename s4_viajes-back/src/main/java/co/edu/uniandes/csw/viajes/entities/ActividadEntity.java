@@ -27,12 +27,12 @@ public class ActividadEntity extends BaseEntity implements Serializable {
     @OneToMany(mappedBy = "actividad", fetch=FetchType.LAZY)
     private List<GuiaEntity> guias = new LinkedList<GuiaEntity>();
     
-    private String documento;
+    private Long identificador;
+    
+    private String nombreActividad;
     
     private int costo;
-    
-    private boolean ofrece_guia;
-    
+        
     private int puntuacion;
     
     private int duracion;
@@ -43,25 +43,27 @@ public class ActividadEntity extends BaseEntity implements Serializable {
 
     @PodamExclude
     @ManyToOne
-    private ComboEntity combo;  
+    private ComboEntity combo;
+    
+    
     public Long getIdentificador()
     {
-        return id;
+        return identificador;
     }
     
     @PodamExclude
     @ManyToOne
     private ProveedorEntity proveedor;
 
+    public String getNombreActividad()
+    {
+        return nombreActividad;
+    }
     public int getCosto()
     {
         return costo;
     }
     
-    public boolean isOfreceGuia()
-    {
-        return ofrece_guia;
-    }
     
     public int getPuntuacion()
     {
@@ -83,6 +85,7 @@ public class ActividadEntity extends BaseEntity implements Serializable {
         return longitud;
     }
     
+    
     /**
      * Devuelve las guias de la actividad.
      *
@@ -94,7 +97,12 @@ public class ActividadEntity extends BaseEntity implements Serializable {
     
     public void setIdentificador(Long identificador)
     {
-        this.id = identificador;
+        this.identificador = identificador;
+    }
+    
+    public void setNombreActividad(String nombreActividad)
+    {
+        this.nombreActividad = nombreActividad;
     }
 
     /**
@@ -106,12 +114,14 @@ public class ActividadEntity extends BaseEntity implements Serializable {
         this.guias = books;
     }
     
+    public void agregarGuia(GuiaEntity guia){
+        guias.add(guia);
+    }
+    
     public void setCosto(int pCosto){
         costo = pCosto;
     }
-    public void setOfrece_guia(boolean pOfguia){
-        ofrece_guia = pOfguia;
-    }
+
     public void setPuntuacion(int pPuntuacion)
     {
         puntuacion = pPuntuacion;
@@ -153,5 +163,7 @@ public class ActividadEntity extends BaseEntity implements Serializable {
 
     public void setCombo(ComboEntity combo) {
         this.combo = combo;
-    }    
+    }
+
+    
 }

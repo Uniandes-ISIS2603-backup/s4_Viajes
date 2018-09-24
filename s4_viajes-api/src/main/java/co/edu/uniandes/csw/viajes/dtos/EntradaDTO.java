@@ -7,7 +7,7 @@ package co.edu.uniandes.csw.viajes.dtos;
 
 import co.edu.uniandes.csw.viajes.entities.EntradaEntity;
 import java.io.Serializable;
-import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -17,13 +17,13 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * @author Luis Gómez Amado
  */
 public class EntradaDTO implements Serializable{
-    private int numero;
+    private Long id;
     private String titulo;
     private String textoContenido;
     private List<String> multimedia;
     private double puntuacion;
     private double calificacionComunidad;
-    private Calendar fecha;
+    private Date fecha;
 
    public EntradaDTO(){}
    
@@ -32,7 +32,7 @@ public class EntradaDTO implements Serializable{
     
        if(entradaEntity!=null)
        {
-           this.numero = entradaEntity.getNumero();
+           this.id = entradaEntity.getId();
            this.titulo = entradaEntity.getTitulo();
            this.textoContenido = entradaEntity.getTextoContenido();
            this.multimedia = entradaEntity.getMultimedia();
@@ -42,12 +42,12 @@ public class EntradaDTO implements Serializable{
           
        }
    }
-   
-    public int getNumero()
-    {
-        return numero;
-    }
     
+   public Long getId()
+   {
+       return id;
+   }
+   
     public String getTitulo()
     {
         return titulo;
@@ -73,14 +73,14 @@ public class EntradaDTO implements Serializable{
          return calificacionComunidad;
     }
      
-         public Calendar getFecha()
+         public Date getFecha()
     {
          return fecha;
     }
          
-           public void setNumero(int pNumero)
+    public void setId(Long pId)
     {
-        numero = pNumero;
+        id = pId;
     }
     
     public void setTitulo(String pTitulo)
@@ -108,14 +108,14 @@ public class EntradaDTO implements Serializable{
         calificacionComunidad = pCalifComunidad;
     } 
      
-     public void setFecha(Calendar pFecha)
+     public void setFecha(Date pFecha)
     {
         fecha = pFecha;
     } 
 
     public EntradaEntity toEntity() {
        EntradaEntity entradaEntity = new EntradaEntity();
-        entradaEntity.setNumero(this.numero);
+        entradaEntity.setId(this.id);
         entradaEntity.setTitulo(this.titulo);
         entradaEntity.setTextoContenido(this.textoContenido);
         entradaEntity.setMultimedia(this.multimedia);

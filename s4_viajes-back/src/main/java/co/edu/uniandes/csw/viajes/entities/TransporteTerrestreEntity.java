@@ -16,45 +16,43 @@ import uk.co.jemos.podam.common.PodamExclude;
  */
 @Entity
 public class TransporteTerrestreEntity extends BaseEntity implements Serializable {
-    //-----------------------------------------------------------------------------------------------------------------------
-    // Atributos
-    //-----------------------------------------------------------------------------------------------------------------------
-
-    public static final Double COSTO_MILLA_LIMOSINA = 123.0;
-
-    public static final Double COSTO_MILLA_UBER = 15.0;
 
     private Double costo;
 
     private String destino;
 
-    private Long latitudOrigen;
+    private double latitudOrigen;
 
-    private Long longitudOrigen;
+    private double longitudOrigen;
 
-    private Long latitudDestino;
+    private double latitudDestino;
 
-    private Long longitudDestino;
+    private double longitudDestino;
 
     private Integer numeroDias;
 
     private Integer numeroHoras;
 
+    private Integer numeroMinutos;
 
-    private Integer puntuacion; 
-    
+    private Integer puntuacion;
+
     @PodamExclude
     @ManyToOne
     private ProveedorEntity proveedor;
-    
+
     @PodamExclude
     @ManyToOne
     private ComboEntity combo;
 
+    public Integer getNumeroMinutos() {
+        return numeroMinutos;
+    }
 
-    //-----------------------------------------------------------------------------------------------------------------------
-    // Metodos
-    //-----------------------------------------------------------------------------------------------------------------------
+    public void setNumeroMinutos(Integer numeroMinutos) {
+        this.numeroMinutos = numeroMinutos;
+    }
+
     public ProveedorEntity getProveedor() {
         return proveedor;
     }
@@ -79,35 +77,35 @@ public class TransporteTerrestreEntity extends BaseEntity implements Serializabl
         this.destino = destino;
     }
 
-    public Long getLatitudOrigen() {
+    public double getLatitudOrigen() {
         return latitudOrigen;
     }
 
-    public void setLatitudOrigen(Long latitudOrigen) {
+    public void setLatitudOrigen(double latitudOrigen) {
         this.latitudOrigen = latitudOrigen;
     }
 
-    public Long getLongitudOrigen() {
+    public double getLongitudOrigen() {
         return longitudOrigen;
     }
 
-    public void setLongitudOrigen(Long longitudOrigen) {
+    public void setLongitudOrigen(double longitudOrigen) {
         this.longitudOrigen = longitudOrigen;
     }
 
-    public Long getLatitudDestino() {
+    public double getLatitudDestino() {
         return latitudDestino;
     }
 
-    public void setLatitudDestino(Long latitudDestino) {
+    public void setLatitudDestino(double latitudDestino) {
         this.latitudDestino = latitudDestino;
     }
 
-    public Long getLongitudDestino() {
+    public double getLongitudDestino() {
         return longitudDestino;
     }
 
-    public void setLongitudDestino(Long longitudDestino) {
+    public void setLongitudDestino(double longitudDestino) {
         this.longitudDestino = longitudDestino;
     }
 
@@ -134,12 +132,12 @@ public class TransporteTerrestreEntity extends BaseEntity implements Serializabl
     public void setPuntuacion(Integer puntuacion) {
         this.puntuacion = puntuacion;
     }
-    
+
     public ComboEntity getCombo() {
         return combo;
     }
 
     public void setCombo(ComboEntity combo) {
         this.combo = combo;
-    }    
+    }
 }
