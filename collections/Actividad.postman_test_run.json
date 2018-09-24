@@ -1,0 +1,642 @@
+{
+	"id": "60ca2dd1-c923-4874-a8c3-bd9757174148",
+	"name": "Actividad",
+	"allTests": [],
+	"timestamp": "2018-09-24T04:33:31.206Z",
+	"collection_id": "bb1fd139-16f5-4ad4-8dab-e59c56b78a55",
+	"folder_id": 0,
+	"target_type": "collection",
+	"environment_id": "a3556575-debd-4b8e-a0b8-a2fa08778b87",
+	"data": [],
+	"delay": 0,
+	"count": 1,
+	"collection": {
+		"id": "bb1fd139-16f5-4ad4-8dab-e59c56b78a55",
+		"name": "Actividad",
+		"description": "",
+		"auth": null,
+		"events": null,
+		"variables": [],
+		"order": [
+			"07877980-7cbf-4bf5-9d8a-1affa4e0bb16",
+			"6bcf6fbd-6863-4ce0-b527-1006191f71e4",
+			"ae1350b7-935e-47ce-904a-e219d8397700",
+			"081e5410-93e3-4ce1-9374-1444351db339",
+			"0155da87-3e38-4ae2-94f1-7e87e17a0ef1",
+			"f91d05a3-70ea-4927-8156-05974d18ac74",
+			"b0252194-73a0-46d8-9c95-dd6222bf444a",
+			"dba510d6-839b-457f-9d03-a69f9af27349",
+			"440b8861-2ce0-45b1-bbc8-ed38264acf17",
+			"27e8e006-7659-4e3e-acda-3ad9068fe45d",
+			"d50b0a7c-d008-4545-a5d0-63cb3b02a261"
+		],
+		"folders_order": [],
+		"owner": "5160544",
+		"permissions": {},
+		"favorite": false,
+		"shared": false,
+		"type": "collection",
+		"depth": 0
+	},
+	"folder": null,
+	"environment": null,
+	"globals": [
+		{
+			"value": "22",
+			"key": "new_id_e",
+			"enabled": true
+		},
+		{
+			"value": "23",
+			"key": "new_id_e2",
+			"enabled": true
+		},
+		{
+			"value": "21",
+			"key": "new_id_b",
+			"enabled": true
+		}
+	],
+	"results": [
+		{
+			"name": "Crear Actividad con Identificador Nulo",
+			"id": "07877980-7cbf-4bf5-9d8a-1affa4e0bb16",
+			"url": "http://localhost:8080/s4_viajes-api/api/actividad",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 412,
+				"name": "Precondition Failed",
+				"detail": {
+					"name": "Precondition Failed",
+					"detail": "The server does not meet one of the preconditions that the requester put on the request."
+				}
+			},
+			"tests": {
+				"name": "La actividad tiene identificador nulo",
+				"status": "pass"
+			},
+			"testPassFailCounts": {
+				"La actividad tiene identificador nulo": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"32"
+			],
+			"allTests": [
+				{
+					"La actividad tiene identificador nulo": true
+				}
+			],
+			"time": "32",
+			"totalRequestTime": "32",
+			"iterationResults": {}
+		},
+		{
+			"name": "Crear Actividad con Nombre Existente",
+			"id": "6bcf6fbd-6863-4ce0-b527-1006191f71e4",
+			"url": "http://localhost:8080/s4_viajes-api/api/actividad",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 412,
+				"name": "Precondition Failed",
+				"detail": {
+					"name": "Precondition Failed",
+					"detail": "The server does not meet one of the preconditions that the requester put on the request."
+				}
+			},
+			"tests": {
+				"name": "Una actividad ya tiene ese mismo nombre",
+				"status": "pass"
+			},
+			"testPassFailCounts": {
+				"Una actividad ya tiene ese mismo nombre": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"21"
+			],
+			"allTests": [
+				{
+					"Una actividad ya tiene ese mismo nombre": true
+				}
+			],
+			"time": "21",
+			"totalRequestTime": "21",
+			"iterationResults": {}
+		},
+		{
+			"name": "Eliminar Actividad",
+			"id": "ae1350b7-935e-47ce-904a-e219d8397700",
+			"url": "http://localhost:8080/s4_viajes-api/api/actividad/1001",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 500,
+				"name": "Internal Server Error",
+				"detail": {
+					"name": "Internal Server Error",
+					"detail": "A generic error message, given when no more specific message is suitable."
+				}
+			},
+			"tests": {
+				"name": "La guia a eliminar no existe",
+				"status": "fail"
+			},
+			"testPassFailCounts": {
+				"La guia a eliminar no existe": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				"77"
+			],
+			"allTests": [
+				{
+					"La guia a eliminar no existe": false
+				}
+			],
+			"time": "77",
+			"totalRequestTime": "77",
+			"iterationResults": {}
+		},
+		{
+			"name": "Obtener Actividad Eliminada",
+			"id": "081e5410-93e3-4ce1-9374-1444351db339",
+			"url": "http://localhost:8080/s4_viajes-api/api/actividad/1001",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found",
+				"detail": {
+					"name": "Not Found",
+					"detail": "The requested resource could not be found but may be available again in the future. Subsequent requests by the client are permissible."
+				}
+			},
+			"tests": {
+				"name": "La actividad eliminada no existe",
+				"status": "fail"
+			},
+			"testPassFailCounts": {
+				"La actividad eliminada no existe": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				"16"
+			],
+			"allTests": [
+				{
+					"La actividad eliminada no existe": false
+				}
+			],
+			"time": "16",
+			"totalRequestTime": "16",
+			"iterationResults": {}
+		},
+		{
+			"name": "Crear Actividad",
+			"id": "0155da87-3e38-4ae2-94f1-7e87e17a0ef1",
+			"url": "http://localhost:8080/s4_viajes-api/api/actividad",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 412,
+				"name": "Precondition Failed",
+				"detail": {
+					"name": "Precondition Failed",
+					"detail": "The server does not meet one of the preconditions that the requester put on the request."
+				}
+			},
+			"tests": {
+				"name": "Se creo una actividad con exito",
+				"status": "fail"
+			},
+			"testPassFailCounts": {
+				"Se creo una actividad con exito": {
+					"pass": 0,
+					"fail": 1
+				}
+			},
+			"times": [
+				"15"
+			],
+			"allTests": [
+				{
+					"Se creo una actividad con exito": false
+				}
+			],
+			"time": "15",
+			"totalRequestTime": "15",
+			"iterationResults": {}
+		},
+		{
+			"name": "Obtener actividades",
+			"id": "f91d05a3-70ea-4927-8156-05974d18ac74",
+			"url": "http://localhost:8080/s4_viajes-api/api/actividad",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"name": "Se obtuvieron todas las actividades",
+				"status": "pass"
+			},
+			"testPassFailCounts": {
+				"Se obtuvieron todas las actividades": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"22"
+			],
+			"allTests": [
+				{
+					"Se obtuvieron todas las actividades": true
+				}
+			],
+			"time": "22",
+			"totalRequestTime": "22",
+			"iterationResults": {}
+		},
+		{
+			"name": "Crear Actividad con Nombre Actividad Existente",
+			"id": "b0252194-73a0-46d8-9c95-dd6222bf444a",
+			"url": "http://localhost:8080/s4_viajes-api/api/actividad",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 412,
+				"name": "Precondition Failed",
+				"detail": {
+					"name": "Precondition Failed",
+					"detail": "The server does not meet one of the preconditions that the requester put on the request."
+				}
+			},
+			"testPassFailCounts": {},
+			"times": [
+				"26"
+			],
+			"allTests": [
+				{}
+			],
+			"time": "26",
+			"totalRequestTime": "26",
+			"iterationResults": {}
+		},
+		{
+			"name": "Obtener Actividad",
+			"id": "dba510d6-839b-457f-9d03-a69f9af27349",
+			"url": "http://localhost:8080/s4_viajes-api/api/actividad/1001",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found",
+				"detail": {
+					"name": "Not Found",
+					"detail": "The requested resource could not be found but may be available again in the future. Subsequent requests by the client are permissible."
+				}
+			},
+			"testPassFailCounts": {},
+			"times": [
+				"8"
+			],
+			"allTests": [
+				{}
+			],
+			"time": "8",
+			"totalRequestTime": "8",
+			"iterationResults": {}
+		},
+		{
+			"name": "Actualizar Actividad",
+			"id": "440b8861-2ce0-45b1-bbc8-ed38264acf17",
+			"url": "http://localhost:8080/s4_viajes-api/api/actividad/2002",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"name": "Se actualizo la actividad con exito",
+				"status": "pass"
+			},
+			"testPassFailCounts": {
+				"Se actualizo la actividad con exito": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"32"
+			],
+			"allTests": [
+				{
+					"Se actualizo la actividad con exito": true
+				}
+			],
+			"time": "32",
+			"totalRequestTime": "32",
+			"iterationResults": {}
+		},
+		{
+			"name": "Actualizar Actividad con Puntuacion Inválida",
+			"id": "27e8e006-7659-4e3e-acda-3ad9068fe45d",
+			"url": "http://localhost:8080/s4_viajes-api/api/actividad/2002",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 412,
+				"name": "Precondition Failed",
+				"detail": {
+					"name": "Precondition Failed",
+					"detail": "The server does not meet one of the preconditions that the requester put on the request."
+				}
+			},
+			"tests": {
+				"name": "La puntuacion a actualizar es invalida",
+				"status": "pass"
+			},
+			"testPassFailCounts": {
+				"La puntuacion a actualizar es invalida": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"14"
+			],
+			"allTests": [
+				{
+					"La puntuacion a actualizar es invalida": true
+				}
+			],
+			"time": "14",
+			"totalRequestTime": "14",
+			"iterationResults": {}
+		},
+		{
+			"name": "Actualizar Actividad con Nombre Inválido",
+			"id": "d50b0a7c-d008-4545-a5d0-63cb3b02a261",
+			"url": "http://localhost:8080/s4_viajes-api/api/actividad/2002",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 412,
+				"name": "Precondition Failed",
+				"detail": {
+					"name": "Precondition Failed",
+					"detail": "The server does not meet one of the preconditions that the requester put on the request."
+				}
+			},
+			"tests": {
+				"name": "La guia a actualizar tiene nombre invalido",
+				"status": "pass"
+			},
+			"testPassFailCounts": {
+				"La guia a actualizar tiene nombre invalido": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"19"
+			],
+			"allTests": [
+				{
+					"La guia a actualizar tiene nombre invalido": true
+				}
+			],
+			"time": "19",
+			"totalRequestTime": "19",
+			"iterationResults": {}
+		}
+	],
+	"totalPass": 6,
+	"totalFail": 3,
+	"totalTime": 282,
+	"lifecycle": "done",
+	"requests": [
+		{
+			"name": "Crear Actividad con Identificador Nulo",
+			"id": "07877980-7cbf-4bf5-9d8a-1affa4e0bb16",
+			"url": "http://localhost:8080/s4_viajes-api/api/actividad",
+			"time": "2018-09-24T04:33:31.206Z",
+			"responseCode": {
+				"code": 412,
+				"name": "Precondition Failed",
+				"detail": {
+					"name": "Precondition Failed",
+					"detail": "The server does not meet one of the preconditions that the requester put on the request."
+				}
+			},
+			"testPassFailCounts": {
+				"La actividad tiene identificador nulo": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Crear Actividad con Nombre Existente",
+			"id": "6bcf6fbd-6863-4ce0-b527-1006191f71e4",
+			"url": "http://localhost:8080/s4_viajes-api/api/actividad",
+			"time": "2018-09-24T04:33:31.206Z",
+			"responseCode": {
+				"code": 412,
+				"name": "Precondition Failed",
+				"detail": {
+					"name": "Precondition Failed",
+					"detail": "The server does not meet one of the preconditions that the requester put on the request."
+				}
+			},
+			"testPassFailCounts": {
+				"Una actividad ya tiene ese mismo nombre": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Eliminar Actividad",
+			"id": "ae1350b7-935e-47ce-904a-e219d8397700",
+			"url": "http://localhost:8080/s4_viajes-api/api/actividad/1001",
+			"time": "2018-09-24T04:33:31.206Z",
+			"responseCode": {
+				"code": 500,
+				"name": "Internal Server Error",
+				"detail": {
+					"name": "Internal Server Error",
+					"detail": "A generic error message, given when no more specific message is suitable."
+				}
+			},
+			"testPassFailCounts": {
+				"La guia a eliminar no existe": {
+					"pass": 0,
+					"fail": 1
+				}
+			}
+		},
+		{
+			"name": "Obtener Actividad Eliminada",
+			"id": "081e5410-93e3-4ce1-9374-1444351db339",
+			"url": "http://localhost:8080/s4_viajes-api/api/actividad/1001",
+			"time": "2018-09-24T04:33:31.206Z",
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found",
+				"detail": {
+					"name": "Not Found",
+					"detail": "The requested resource could not be found but may be available again in the future. Subsequent requests by the client are permissible."
+				}
+			},
+			"testPassFailCounts": {
+				"La actividad eliminada no existe": {
+					"pass": 0,
+					"fail": 1
+				}
+			}
+		},
+		{
+			"name": "Crear Actividad",
+			"id": "0155da87-3e38-4ae2-94f1-7e87e17a0ef1",
+			"url": "http://localhost:8080/s4_viajes-api/api/actividad",
+			"time": "2018-09-24T04:33:31.206Z",
+			"responseCode": {
+				"code": 412,
+				"name": "Precondition Failed",
+				"detail": {
+					"name": "Precondition Failed",
+					"detail": "The server does not meet one of the preconditions that the requester put on the request."
+				}
+			},
+			"testPassFailCounts": {
+				"Se creo una actividad con exito": {
+					"pass": 0,
+					"fail": 1
+				}
+			}
+		},
+		{
+			"name": "Obtener actividades",
+			"id": "f91d05a3-70ea-4927-8156-05974d18ac74",
+			"url": "http://localhost:8080/s4_viajes-api/api/actividad",
+			"time": "2018-09-24T04:33:31.206Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Se obtuvieron todas las actividades": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Crear Actividad con Nombre Actividad Existente",
+			"id": "b0252194-73a0-46d8-9c95-dd6222bf444a",
+			"url": "http://localhost:8080/s4_viajes-api/api/actividad",
+			"time": "2018-09-24T04:33:31.206Z",
+			"responseCode": {
+				"code": 412,
+				"name": "Precondition Failed",
+				"detail": {
+					"name": "Precondition Failed",
+					"detail": "The server does not meet one of the preconditions that the requester put on the request."
+				}
+			},
+			"testPassFailCounts": {}
+		},
+		{
+			"name": "Obtener Actividad",
+			"id": "dba510d6-839b-457f-9d03-a69f9af27349",
+			"url": "http://localhost:8080/s4_viajes-api/api/actividad/1001",
+			"time": "2018-09-24T04:33:31.206Z",
+			"responseCode": {
+				"code": 404,
+				"name": "Not Found",
+				"detail": {
+					"name": "Not Found",
+					"detail": "The requested resource could not be found but may be available again in the future. Subsequent requests by the client are permissible."
+				}
+			},
+			"testPassFailCounts": {}
+		},
+		{
+			"name": "Actualizar Actividad",
+			"id": "440b8861-2ce0-45b1-bbc8-ed38264acf17",
+			"url": "http://localhost:8080/s4_viajes-api/api/actividad/2002",
+			"time": "2018-09-24T04:33:31.206Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Se actualizo la actividad con exito": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Actualizar Actividad con Puntuacion Inválida",
+			"id": "27e8e006-7659-4e3e-acda-3ad9068fe45d",
+			"url": "http://localhost:8080/s4_viajes-api/api/actividad/2002",
+			"time": "2018-09-24T04:33:31.206Z",
+			"responseCode": {
+				"code": 412,
+				"name": "Precondition Failed",
+				"detail": {
+					"name": "Precondition Failed",
+					"detail": "The server does not meet one of the preconditions that the requester put on the request."
+				}
+			},
+			"testPassFailCounts": {
+				"La puntuacion a actualizar es invalida": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Actualizar Actividad con Nombre Inválido",
+			"id": "d50b0a7c-d008-4545-a5d0-63cb3b02a261",
+			"url": "http://localhost:8080/s4_viajes-api/api/actividad/2002",
+			"time": "2018-09-24T04:33:31.206Z",
+			"responseCode": {
+				"code": 412,
+				"name": "Precondition Failed",
+				"detail": {
+					"name": "Precondition Failed",
+					"detail": "The server does not meet one of the preconditions that the requester put on the request."
+				}
+			},
+			"testPassFailCounts": {
+				"La guia a actualizar tiene nombre invalido": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		}
+	],
+	"synced": false
+}

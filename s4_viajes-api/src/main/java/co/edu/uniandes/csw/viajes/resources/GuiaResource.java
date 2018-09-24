@@ -105,6 +105,7 @@ public class GuiaResource {
      *
      * @param guiaId Identificador de la guia que se desea borrar.
      * Este debe ser una cadena de dígitos.
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      */
     @DELETE
     @Path("{guiaId: \\d+}")
@@ -115,6 +116,14 @@ public class GuiaResource {
         LOGGER.info("GuiaResource deleteGuia: output: void");
     }
     
+    /**
+     *
+     * @param guiaId
+     * @param guia
+     * @return
+     * @throws WebApplicationException
+     * @throws BusinessLogicException
+     */
     @PUT
     @Path("{guiaId: \\d+}")
     public GuiaDTO modificarGuia(@PathParam("guiaId") Long guiaId, GuiaDTO guia) throws WebApplicationException, BusinessLogicException {

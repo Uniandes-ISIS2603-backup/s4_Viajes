@@ -120,24 +120,6 @@ public class GuiaLogicTest {
     }
 
     /**
-     * Prueba para crear un Guia
-     *
-     * @throws co.edu.uniandes.csw.tripBuilder.viajes.BusinessLogicException
-     
-    @Test
-    public void createGuiaTest() throws BusinessLogicException {
-        GuiaEntity newEntity = factory.manufacturePojo(GuiaEntity.class);
-        newEntity.setActividad(actividadData.get(0));
-        GuiaEntity result = guiaLogic.createGuia(newEntity);
-        Assert.assertNotNull(result);
-        GuiaEntity entity = em.find(GuiaEntity.class, result.getId());
-        Assert.assertEquals(newEntity.getId(), entity.getId());
-        Assert.assertEquals(newEntity.getDocumento(), entity.getDocumento());
-        Assert.assertEquals(newEntity.getEdad(), entity.getEdad());
-        Assert.assertEquals(newEntity.getNombre(), entity.getNombre());
-    }
-
-    /**
      * Prueba para crear un Guia con documento inválido
      *
      * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
@@ -166,7 +148,7 @@ public class GuiaLogicTest {
     /**
      * Prueba para crear un Book con Documento existente.
      *
-     * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      */
     @Test(expected = BusinessLogicException.class)
     public void createGuiaTestConDocumentoExistente() throws BusinessLogicException {
@@ -179,7 +161,7 @@ public class GuiaLogicTest {
     /**
      * Prueba para crear un Guia con un Documento que no existe.
      *
-     * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      */
     @Test(expected = BusinessLogicException.class)
     public void createGuiaTestConActividadInexistente() throws BusinessLogicException {
@@ -209,7 +191,7 @@ public class GuiaLogicTest {
      * Prueba para actualizar un Guia.
      *
      * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
-     * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
+
      */
     @Test
     public void updateGuiaTest() throws BusinessLogicException {
@@ -229,7 +211,7 @@ public class GuiaLogicTest {
      * Prueba para actualizar un Guia con Documento inválido.
      *
      * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
-     * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
+
      */
     @Test(expected = BusinessLogicException.class)
     public void updateGuiaConDocumentoInvalidoTest() throws BusinessLogicException {
@@ -244,7 +226,7 @@ public class GuiaLogicTest {
     /**
      * Prueba para actualizar un Guia con Documento inválido.
      *
-     * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      */
     @Test(expected = BusinessLogicException.class)
     public void updateGuiaConDocumentoInvalidoTest2() throws BusinessLogicException {
@@ -259,7 +241,7 @@ public class GuiaLogicTest {
     /**
      * Prueba para eliminar un Guia.
      *
-     * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      */
     @Test (expected = BusinessLogicException.class)
     public void deleteGuiaTest() throws BusinessLogicException {

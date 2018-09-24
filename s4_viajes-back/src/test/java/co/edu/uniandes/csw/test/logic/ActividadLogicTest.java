@@ -133,25 +133,6 @@ public class ActividadLogicTest {
 
     }
 
-    /**
-     * Prueba para crear una Actividad
-     *
-     * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
-     
-    @Test
-    public void createActividadTest() throws BusinessLogicException {
-        ActividadEntity newEntity = factory.manufacturePojo(ActividadEntity.class);
-        newEntity.setGuias(guiaData);
-        newEntity.setPuntuacion(8);
-        ActividadEntity result = actividadLogic.createActividad(newEntity);
-        Assert.assertNotNull(result);
-        ActividadEntity entity = em.find(ActividadEntity.class, result.getIdentificador());
-        Assert.assertEquals(newEntity.getIdentificador(), entity.getIdentificador());
-        Assert.assertEquals(newEntity.getCosto(), entity.getCosto());
-        Assert.assertEquals(newEntity.getPuntuacion(), entity.getPuntuacion());
-        Assert.assertEquals(newEntity.getDuracion(), entity.getDuracion());
-    
-    }*/
 
     /**
      
@@ -199,7 +180,6 @@ public class ActividadLogicTest {
      * Prueba para crear un Book con ISBN inválido
      *
      * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
-     * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
      */
     @Test(expected = BusinessLogicException.class)
     public void createActividadTestConIdInvalido2() throws BusinessLogicException {
@@ -226,7 +206,7 @@ public class ActividadLogicTest {
     /**
      
      *
-     * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      */
     @Test(expected = BusinessLogicException.class)
     public void createActividadTestConGuiasInexistente() throws BusinessLogicException {
@@ -271,7 +251,6 @@ public class ActividadLogicTest {
      * Prueba para actualizar un Book.
      *
      * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
-     * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
      */
     @Test
     public void updateActividadTest() throws BusinessLogicException {
@@ -289,7 +268,6 @@ public class ActividadLogicTest {
      * Prueba para actualizar un Book con ISBN inválido.
      *
      * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
-     * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
      */
     @Test(expected = BusinessLogicException.class)
     public void updateActividadConIdInvalidoTest() throws BusinessLogicException {
@@ -304,7 +282,6 @@ public class ActividadLogicTest {
      * Prueba para actualizar un Book con ISBN inválido.
      *
      * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
-     * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
      */
     @Test(expected = BusinessLogicException.class)
     public void updateActividadConIdInvalidoTest2() throws BusinessLogicException {
@@ -318,7 +295,6 @@ public class ActividadLogicTest {
      * Prueba para eliminar un Book.
      *
      * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
-     * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
      */
     @Test
     public void deleteActividadTest() throws BusinessLogicException {
