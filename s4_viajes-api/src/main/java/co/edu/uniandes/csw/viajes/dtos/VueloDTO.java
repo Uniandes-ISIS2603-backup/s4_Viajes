@@ -7,7 +7,7 @@ package co.edu.uniandes.csw.viajes.dtos;
 
 import co.edu.uniandes.csw.viajes.entities.VueloEntity;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Date;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -46,13 +46,16 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class VueloDTO implements Serializable {
 
     //Atributos//
+    private Long id;
     private String numero;
     private double costo;
     private double puntuacion;
-    private Long latitudOrigen;
-    private Long longitudOrigen;
-    private Long latitudDestino;
-    private Long longitudDestino;
+    private double latitudOrigen;
+    private double longitudOrigen;
+    private double latitudDestino;
+    private double longitudDestino;
+    private Date fechaSalida;
+    private Date fechaLlegada;
 
     //Constructores//
     
@@ -71,6 +74,7 @@ public class VueloDTO implements Serializable {
      */
     public VueloDTO(VueloEntity vueloEntity) {
         if (vueloEntity != null) {
+            this.id = vueloEntity.getId();
             this.numero = vueloEntity.getNumero();
             this.costo = vueloEntity.getCosto();
             this.puntuacion = vueloEntity.getPuntaje();
@@ -78,10 +82,22 @@ public class VueloDTO implements Serializable {
             this.longitudOrigen = vueloEntity.getLonO();
             this.latitudDestino = vueloEntity.getLatD();
             this.longitudDestino = vueloEntity.getLonD();
+            this.fechaSalida = vueloEntity.getFechaSalida();
+            this.fechaLlegada = vueloEntity.getFechaLlegada();
         }
     }
 
     //Métodos//
+    
+    /**
+     * Obtiene el id de un vuelo.
+     *
+     * @return id del vuelo.
+     */
+    public Long getId() {
+        return id;
+    }
+    
     /**
      * Obtiene el número de un vuelo.
      *
@@ -110,33 +126,67 @@ public class VueloDTO implements Serializable {
     }
 
     /**
-     * Obtiene las coordenadas (latitud, longitud) de origen del vuelo
-     * configurados en una lista tipo double.
+     * Obtiene las coordenadas (latitud) de origen del vuelo
      *
-     * @return coordenadas (lat, long) de origen del vuelo.
+     * @return coordenadas (lat) de origen del vuelo.
      */
-    public Long getLatitudOrigen() {
+    public double getLatitudOrigen() {
         return latitudOrigen;
     }
-    
-    public Long getLongitudOrigen(){
+
+    /**
+     * Obtiene las coordenadas (longitud) de origen del vuelo
+     *
+     * @return coordenadas (long) de origen del vuelo.
+     */    
+    public double getLongitudOrigen(){
         return longitudOrigen;
     }
 
     /**
-     * Obtiene las coordenadas (latitud, longitud) de destino del vuelo
-     * configurados en una lista tipo double.
+     * Obtiene las coordenadas (latitud) de destino del vuelo
      *
-     * @return coordenadas (lat, long) de destino del vuelo.
+     * @return coordenadas (lat) de destino del vuelo.
      */
-    public Long getLatitudDestino() {
+    public double getLatitudDestino() {
         return latitudDestino;
     }
     
-    public Long getLongitudDestino(){
+    /**
+     * Obtiene las coordenadas (longitud) de destino del vuelo
+     *
+     * @return coordenadas (long) de destino del vuelo.
+     */    
+    public double getLongitudDestino(){
         return longitudDestino;
     }
+    
+    /**
+     * Obtiene la fecha de salida del vuelo.
+     *
+     * @return fecha de salida del vuelo.
+     */    
+    public Date getFechaSalida(){
+        return fechaSalida;
+    }
 
+    /**
+     * Obtiene la fecha de llegada del vuelo.
+     *
+     * @return fecha de llegada del vuelo.
+     */    
+    public Date getFechaLlegada(){
+        return fechaLlegada;
+    }
+    /**
+     * Modifica (set) el id de un vuelo ingresado por parámetro.
+     *
+     * @param pId nuevo id que modificará el actual.
+     */
+    public void setId(Long pId) {
+        id = pId;
+    }
+    
     /**
      * Modifica (set) el número de un vuelo ingresado por parámetro.
      *
@@ -170,27 +220,60 @@ public class VueloDTO implements Serializable {
      *
      * @param pLatO nuevas coordenadas de origen que modificarán las actuales.
      */
-    public void setLatitudOrigen(Long pLatO) {
+    public void setLatitudOrigen(double pLatO) {
         latitudOrigen = pLatO;
     }
-    
-    public void setLongitudOrigen(Long pLonO){
+
+    /**
+     * Modifica (set) las coordenadas (long) de origen ingresadas por
+     * parámetro.
+     *
+     * @param pLonO nuevas coordenadas de origen que modificarán las actuales.
+     */    
+    public void setLongitudOrigen(double pLonO){
         longitudOrigen = pLonO;
     }
 
     /**
-     * Modifica (set) las coordenadas (lat,long) dedestino ingresadas por
+     * Modifica (set) las coordenadas (lat) de destino ingresadas por
      * parámetro.
      *
      * @param pLatD nuevas coordenadas de destino que modificarán las actuales.
      */
-    public void setLatitudDestino(Long pLatD) {
+    public void setLatitudDestino(double pLatD) {
         latitudDestino = pLatD;
     }
     
-    public void setLongitudDestino(Long pLonD){
+    /**
+     * Modifica (set) las coordenadas (long) de destino ingresadas por
+     * parámetro.
+     *
+     * @param pLonD nuevas coordenadas de destino que modificarán las actuales.
+     */
+    public void setLongitudDestino(double pLonD){
         longitudDestino = pLonD;
     }
+    
+    /**
+     * Modifica (set) la fecha de salida de vuelo ingresada por
+     * parámetro.
+     *
+     * @param pFechaS la nueva fecha de salida que modificará la actual.
+     */
+    public void setFechaSalida(Date pFechaS){
+        fechaSalida = pFechaS;
+    }
+    
+    /**
+     * Modifica (set) la fecha de llegada de vuelo ingresada por
+     * parámetro.
+     *
+     * @param pFechaL la nueva fecha de llegada que modificará la actual.
+     */
+    public void setFechaLlegada(Date pFechaL){
+        fechaLlegada = pFechaL;
+    }
+     
     /**
      * Convertir DTO a Entity
      *
@@ -198,6 +281,7 @@ public class VueloDTO implements Serializable {
      */
     public VueloEntity toEntity() {
         VueloEntity vueloEntity = new VueloEntity();
+        vueloEntity.setId(this.id);
         vueloEntity.setNumero(this.numero);
         vueloEntity.setCosto(this.costo);
         vueloEntity.setPuntaje(this.puntuacion);
@@ -205,6 +289,8 @@ public class VueloDTO implements Serializable {
         vueloEntity.setLonO(this.longitudOrigen);
         vueloEntity.setLatD(this.latitudDestino);
         vueloEntity.setLonD(this.longitudDestino);
+        vueloEntity.setFechaSalida(this.fechaSalida);
+        vueloEntity.setFechaLlegada(this.fechaLlegada);
         return vueloEntity;
     }
 

@@ -42,19 +42,6 @@ public class AlojamientoPersistence {
     }
 
     /**
-     * Devuelve todos los alojamientos de la base de datos.
-     *
-     * @return una lista con todos los alojamientos que encuentre en la base de
-     * datos, "select u from AlojamientoEntity u" es como un "select * from
-     * AlojamientoEntity;" - "SELECT * FROM table_name" en SQL.
-     */
-    public List<AlojamientoEntity> findAll() {
-        LOGGER.log(Level.INFO, "Consultando todos los alojamientos");
-        Query q = em.createQuery("select u from AlojamientoEntity u");
-        return q.getResultList();
-    }
-
-    /**
      * Busca si hay algun alojamiento con el id que se envía de argumento
      *
      * @param alojamientosId: id correspondiente al alojamiento buscado.
@@ -79,23 +66,37 @@ public class AlojamientoPersistence {
     }
 
     /**
+     * Devuelve todos los alojamientosde la base de datos.
+     *
+     * @return una lista con todos los alojamientos que encuentre en la base de
+     * datos, "select u from AlojamientoEntity u" es como un "select * from
+     * AlojamientoEntity;" - "SELECT * FROM table_name" en SQL.
+     */
+    public List<AlojamientoEntity> findAll() {
+        LOGGER.log(Level.INFO, "Consultando todos los alojamientos");
+        TypedQuery q = em.createQuery("select u from AlojamientoEntity u", AlojamientoEntity.class);
+        return q.getResultList();
+    }
+
+    /**
      * Borra un alojamiento de la base de datos recibiendo como argumento el id
      * del alojamiento
      *
      * @param alojamientosId: id correspondiente al alojamiento a borrar.
      */
     public void delete(Long alojamientosId) {
-        LOGGER.log(Level.INFO, "Borrando el libro con id={0}", alojamientosId);
+        LOGGER.log(Level.INFO, "Eliminar el alojamiento con id = {0}", alojamientosId);
         AlojamientoEntity alojamientoEntity = em.find(AlojamientoEntity.class, alojamientosId);
         em.remove(alojamientoEntity);
+        LOGGER.log(Level.INFO, "Terminando de eliminar el alojamiento con id = {0}", alojamientosId);
     }
 
     /**
-     * Busca si hay algun libro con el ISBN que se envía de argumento
+     * Busca si hay algun alojamiento con el nombre que se envía de argumento
      *
-     * @param nombreAlojamiento: ISBN de la editorial que se está buscando
-     * @return null si no existe ningun libro con el isbn del argumento. Si
-     * existe alguno devuelve el primero.
+     * @param nombreAlojamiento: nombre de alojamiento que se está buscando
+     * @return null si no existe ningun alojameinto con el nombre del argumento.
+     * Si existe alguno devuelve el primero.
      */
     public AlojamientoEntity findByNombre(String nombreAlojamiento) {
         LOGGER.log(Level.INFO, "Consultando alojamientos por nombre ", nombreAlojamiento);

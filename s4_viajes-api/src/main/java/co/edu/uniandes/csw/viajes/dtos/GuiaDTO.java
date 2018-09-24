@@ -5,10 +5,10 @@
  */
 package co.edu.uniandes.csw.viajes.dtos;
 
-import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
+
 import co.edu.uniandes.csw.viajes.entities.GuiaEntity;
 import java.io.Serializable;
-import java.util.List;
+
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -22,7 +22,7 @@ public class GuiaDTO implements Serializable{
     private String nombre;
     private int puntuacion;
     private double sueldo;
-    private List<String> idiomas;
+    private String idioma;
     private GuiaEntity guia;
     
     public GuiaDTO(){}
@@ -34,7 +34,7 @@ public class GuiaDTO implements Serializable{
             this.nombre = guiaEntity.getNombre();
             this.puntuacion = guiaEntity.getPuntuacion();
             this.sueldo = guiaEntity.getSueldo();
-            this.idiomas = guiaEntity.getIdiomasList();
+            this.idioma = guiaEntity.getIdioma();
         }
     }
     
@@ -43,14 +43,14 @@ public class GuiaDTO implements Serializable{
     public String getNombre(){return nombre;}
     public int getPuntuacion(){return puntuacion;}
     public double getSueldo(){return sueldo;}
-    public List getIdiomas(){return idiomas;}
+    public String getIdioma(){return idioma;}
     
     public void setEdad(int edad){this.edad = edad;}
     public void setDocumento(Long doc){this.documento = doc;}
     public void setNombre(String nombre){this.nombre = nombre;}
     public void setPuntuacion(int puntuacion){this.puntuacion = puntuacion;}
     public void setSueldo(double sueldo){this.sueldo = sueldo;}
-    public void setIdiomas(List idiomas){this.idiomas = idiomas;}
+    public void setIdioma(String idiomas){this.idioma = idiomas;}
     
     public GuiaEntity toEntity() {
         GuiaEntity guiaEntity = new GuiaEntity();
@@ -59,7 +59,7 @@ public class GuiaDTO implements Serializable{
         guiaEntity.setNombre(this.nombre);
         guiaEntity.setPuntuacion(this.puntuacion);
         guiaEntity.setSueldo(this.sueldo);
-        guiaEntity.setIdiomas(this.idiomas);
+        guiaEntity.setIdioma(this.idioma);
         return guiaEntity;
     }
 

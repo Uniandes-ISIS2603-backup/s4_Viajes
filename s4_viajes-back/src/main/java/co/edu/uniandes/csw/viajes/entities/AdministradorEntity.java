@@ -18,9 +18,10 @@ import uk.co.jemos.podam.common.PodamExclude;
 @Entity
 public class AdministradorEntity extends BaseEntity implements Serializable {
     
-    private String contraseña;
     private String nombre;
     private String userName;
+    private String contraseña;
+
    
     
     @PodamExclude
@@ -43,15 +44,19 @@ public class AdministradorEntity extends BaseEntity implements Serializable {
     
     }
     
+      public void setUsuarios(List<UsuarioEntity> pLista)
+    {
+        this.usuarios = pLista;
+        
+    }
+    
         public List<UsuarioEntity> getUsuarios()
     {
 
         return usuarios;
         
     }
-    
-        
-    
+     
       public String getContraseña()
       {
           return contraseña;

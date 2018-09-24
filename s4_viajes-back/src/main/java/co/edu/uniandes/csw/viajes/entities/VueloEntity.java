@@ -6,11 +6,10 @@
 package co.edu.uniandes.csw.viajes.entities;
 
 import java.io.Serializable;
-import javax.persistence.CascadeType;
+import java.util.Date;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.Temporal;
 import uk.co.jemos.podam.common.PodamExclude;
 
 /**
@@ -28,22 +27,28 @@ public class VueloEntity extends BaseEntity implements Serializable {
     
     private double puntaje;
     
-    private Long latitudOrigen;
+    private double latitudOrigen;
     
-    private Long longitudOrigen;
+    private double longitudOrigen;
     
-    private Long latitudDestino;
+    private double latitudDestino;
     
-    private Long longitudDestino;
+    private double longitudDestino;
+    
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date fechaSalida;
+    
+    @Temporal(javax.persistence.TemporalType.DATE)
+    private Date fechaLlegada;
+    
+    @PodamExclude
+    @ManyToOne
+    private ComboEntity combo;
     
     @PodamExclude
     @ManyToOne
     private ProveedorEntity proveedor;
-    
-    public VueloEntity(){
-    
-    }
-    
+       
     //Métodos//
     
     /**
@@ -78,7 +83,7 @@ public class VueloEntity extends BaseEntity implements Serializable {
      *
      * @return latitud de origen
      */
-    public Long getLatO(){
+    public double getLatO(){
         return latitudOrigen;
     }
     
@@ -87,7 +92,7 @@ public class VueloEntity extends BaseEntity implements Serializable {
      *
      * @return longitud de origen
      */
-    public Long getLonO(){
+    public double getLonO(){
         return longitudOrigen;
     }
     
@@ -96,7 +101,7 @@ public class VueloEntity extends BaseEntity implements Serializable {
      *
      * @return latitud de destino
      */
-    public Long getLatD(){
+    public double getLatD(){
         return latitudDestino;
     }
     
@@ -105,8 +110,26 @@ public class VueloEntity extends BaseEntity implements Serializable {
      *
      * @return longitud de destino
      */
-    public Long getLonD(){
+    public double getLonD(){
         return longitudDestino;
+    }
+    
+        /**
+     * Devuelve la fecha de salida del vuelo.
+     *
+     * @return fecha de salida del vuelo
+     */
+    public Date getFechaSalida(){
+        return fechaSalida;
+    }
+    
+        /**
+     * Devuelve la fecha de llegada del vuelo.
+     *
+     * @return fecha de llegada del vuelo.
+     */
+    public Date getFechaLlegada(){
+        return fechaLlegada;
     }
     
     /**
@@ -141,7 +164,7 @@ public class VueloEntity extends BaseEntity implements Serializable {
      *
      * @param latitudOrigen las coordenadas a actualizar
      */
-    public void setLatO(Long latitudOrigen){
+    public void setLatO(double latitudOrigen){
         this.latitudOrigen = latitudOrigen;
     }
     
@@ -150,7 +173,7 @@ public class VueloEntity extends BaseEntity implements Serializable {
      *
      * @param longitudOrigen las coordenadas a actualizar
      */
-    public void setLonO(Long longitudOrigen){
+    public void setLonO(double longitudOrigen){
         this.longitudOrigen = longitudOrigen;
     }
     
@@ -159,17 +182,35 @@ public class VueloEntity extends BaseEntity implements Serializable {
      *
      * @param latitudDestino las coordenadas a actualizar
      */
-    public void setLatD(Long latitudDestino){
+    public void setLatD(double latitudDestino){
         this.latitudDestino = latitudDestino;
     }
     
-        /**
+    /**
      * Modifica las coordenadas de destino del vuelo.
      *
      * @param longitudDestino las coordenadas a actualizar
      */
-    public void setLonD(Long longitudDestino){
+    public void setLonD(double longitudDestino){
         this.longitudDestino = longitudDestino;
+    }
+    
+    /**
+     * Modifica la fecha de salida del vuelo.
+     *
+     * @param fechaSalida la fecha a actualizar
+     */
+    public void setFechaSalida(Date fechaSalida){
+        this.fechaSalida = fechaSalida;
+    }
+    
+    /**
+     * Modifica la fecha de llegada del vuelo.
+     *
+     * @param fechaLlegada la fecha a actualizar
+     */
+    public void setFechaLlegada(Date fechaLlegada){
+        this.fechaLlegada = fechaLlegada;
     }
     
     /**
@@ -189,4 +230,13 @@ public class VueloEntity extends BaseEntity implements Serializable {
     public void setProveedor(ProveedorEntity proveedorEntity) {
         this.proveedor = proveedorEntity;
     }
+
+    public ComboEntity getCombo() {
+        return combo;
+    }
+
+    public void setCombo(ComboEntity combo) {
+        this.combo = combo;
+    }    
+    
 }

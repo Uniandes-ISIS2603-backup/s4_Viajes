@@ -93,13 +93,30 @@ public class GuiaPersistence {
      */
     public void delete(Long guiaId) {
         LOGGER.log(Level.INFO, "Borrando guia con id = {0}", guiaId);
-        GuiaEntity entity = em.find(GuiaEntity.class, guiaId);
+        GuiaEntity entity = findByDocumento(guiaId);
         em.remove(entity);
         LOGGER.log(Level.INFO, "Saliendo de borrar la actividad con id = {0}", guiaId);
     }
     
-    public String findByDocumento(Long doc)
+    
+    public GuiaEntity findByDocumento(Long documento)
     {
-        return "";
+           LOGGER.log(Level.INFO, "Consultando guias por documento ", documento);
+        // Se crea un query para buscar guias con el documento que recibe el método como argumento. ":doc" es un placeholder que debe ser remplazado
+        TypedQuery query = em.createQuery("Select e From GuiaEntity e where e.documento = :documento", GuiaEntity.class);
+        // Se remplaza el placeholder ":doc" con el valor del argumento 
+        query = query.setParameter("documento", documento);
+        // Se invoca el query se obtiene la lista resultado
+        List<GuiaEntity> sameDoc = query.getResultList();
+        GuiaEntity result;
+        if (sameDoc == null) {
+            result = null;
+        } else if (sameDoc.isEmpty()) {
+            result = null;
+        } else {
+            result = sameDoc.get(0);
+        }
+        LOGGER.log(Level.INFO, "Saliendo de consultar guias por documento ", documento);
+        return result;
     }
 }

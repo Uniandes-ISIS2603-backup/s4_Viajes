@@ -8,6 +8,7 @@ package co.edu.uniandes.csw.viajes.ejb;
 import co.edu.uniandes.csw.viajes.entities.UsuarioEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.UsuarioPersistence;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -27,6 +28,7 @@ public class UsuarioLogic {
 
     @Inject
     private UsuarioPersistence persistence;
+    
 
     /**
      * Se encarga de crear un Uusuario  en la base de datos.
@@ -47,19 +49,32 @@ public class UsuarioLogic {
             throw new BusinessLogicException("El documento debe tener máximo 12 caracteres");
         }
         
-         if(persistence.findByUserName(usuarioEntity.getUserName())!=null)
-        {
-            throw new BusinessLogicException("El nombre de usuario ya ha sido tomado");
-        }
-         
-           if(persistence.find(usuarioEntity.getId())!=null)
-        {
-            throw new BusinessLogicException("Este usuario ya se encuentra registrado");
-        }
+//         if(persistence.findByUserName(usuarioEntity.getUserName())!=null)
+//        {
+//            throw new BusinessLogicException("El nombre de usuario ya ha sido tomado");
+//        }
+//         
+//           if(persistence.find(usuarioEntity.getId())==null)
+//        {
+//            throw new BusinessLogicException("Este usuario ya se encuentra registrado");
+//        }
          
         LOGGER.log(Level.INFO, "Termina proceso de creación del usuario");
         return newUsuarioEntity;
        
+    }
+    
+    
+     /**
+     * Devuelve todos los usuarios que hay en la base de datos.
+     *
+     * @return Lista de entidades de tipo usuario.
+     */
+    public List<UsuarioEntity> getUsuarios() {
+        LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los usuarios");
+        List<UsuarioEntity> usuarios = persistence.findAll();
+        LOGGER.log(Level.INFO, "Termina proceso de consultar todos los libros");
+        return usuarios;
     }
     
     public boolean validateContrasena(String pContrasena)
@@ -109,33 +124,45 @@ public class UsuarioLogic {
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar la información de un usuario con id = {0}", usuarioId);
         // Note que, por medio de la inyección de dependencias se llama al método "find(id)" que se encuentra en la persistencia.
         if (usuarioEntity.getDocumento()==null|usuarioEntity.getNombre()==null|usuarioEntity.getUserName()==null) {
-           throw new BusinessLogicException("No es posible actualizar un usuario con información nula");
-        }
-                UsuarioEntity usuario = persistence.update(usuarioEntity);
 
+                       throw new BusinessLogicException("No es posible actualizar un usuario con información nula");
+        }
+
+        UsuarioEntity usuario = persistence.update(usuarioEntity);
         LOGGER.log(Level.INFO, "Termina proceso de actualizar el usuario con id = {0}", usuarioId);
         return usuario;
-    }
-    
-    
-    /**
+        
+        }
+        /**
      * Borrar un usuario
      *
      * @param usuarioId: id del usuario a borrar
      * @throws BusinessLogicException si el usuario quiere borrarse a si mismo.
      * asociado.
      */
-    public void deleteUsuario(Long userID) throws BusinessLogicException {
-     
+
+        
+         public void deleteUsuario(Long userID) throws BusinessLogicException {
         
         UsuarioEntity usuarioEntity = persistence.find(userID);
         if (usuarioEntity!=null) {
             throw new BusinessLogicException("No es posible borrar su cuenta, mande un ticket a los administradores");
         }
-     
+  }
     }
+    
+    
+    
+   
 
 
     
-}
+
+
+     
     
+
+
+    
+
+ 

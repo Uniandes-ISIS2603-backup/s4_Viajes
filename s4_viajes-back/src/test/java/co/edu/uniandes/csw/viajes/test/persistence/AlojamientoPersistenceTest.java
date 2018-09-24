@@ -1,3 +1,4 @@
+package co.edu.uniandes.csw.viajes.test.persistence;
 
 import co.edu.uniandes.csw.viajes.entities.AlojamientoEntity;
 import co.edu.uniandes.csw.viajes.persistence.AlojamientoPersistence;
@@ -39,7 +40,7 @@ public class AlojamientoPersistenceTest {
     @Inject
     UserTransaction utx;
 
-    private List<AlojamientoEntity> data = new ArrayList<AlojamientoEntity>();
+    private List<AlojamientoEntity> data = new ArrayList<>();
 
     /**
      * @return Devuelve el jar que Arquillian va a desplegar en Payara embebido.
@@ -111,15 +112,14 @@ public class AlojamientoPersistenceTest {
         AlojamientoEntity entity = em.find(AlojamientoEntity.class, result.getId());
 
         Assert.assertEquals(newEntity.getNombre(), entity.getNombre());
-        Assert.assertEquals(newEntity.getProveedor(), entity.getProveedor());
-        Assert.assertEquals(newEntity.getCosto(), entity.getCosto());
-        Assert.assertEquals(newEntity.getPuntuacion(), entity.getPuntuacion());
-        Assert.assertEquals(newEntity.getEstrellas(), entity.getEstrellas());
-        Assert.assertEquals(newEntity.getLatitud(), entity.getLatitud());
-        Assert.assertEquals(newEntity.getLongitud(), entity.getLongitud());
-        Assert.assertEquals(newEntity.getNoches(), entity.getNoches());
+        Assert.assertEquals(newEntity.getCosto(), entity.getCosto(), 0); 
+        Assert.assertEquals(newEntity.getPuntuacion(), entity.getPuntuacion(), 0);
+        Assert.assertEquals(newEntity.getEstrellas(), entity.getEstrellas(), 0);
+        Assert.assertEquals(newEntity.getNoches(), entity.getNoches(), 0); 
         Assert.assertEquals(newEntity.getTipo(), entity.getTipo());
         Assert.assertEquals(newEntity.getUbicacion(), entity.getUbicacion());
+        Assert.assertEquals(newEntity.getLatitud(), entity.getLatitud(), 0);
+        Assert.assertEquals(newEntity.getLongitud(), entity.getLongitud(), 0);
     }
 
     /**
@@ -149,13 +149,12 @@ public class AlojamientoPersistenceTest {
         AlojamientoEntity newEntity = alojamientoPersistence.find(entity.getId());
         Assert.assertNotNull(newEntity);
         Assert.assertEquals(newEntity.getNombre(), entity.getNombre());
-        Assert.assertEquals(newEntity.getProveedor(), entity.getProveedor());
-        Assert.assertEquals(newEntity.getCosto(), entity.getCosto());
-        Assert.assertEquals(newEntity.getPuntuacion(), entity.getPuntuacion());
-        Assert.assertEquals(newEntity.getEstrellas(), entity.getEstrellas());
-        Assert.assertEquals(newEntity.getLatitud(), entity.getLatitud());
-        Assert.assertEquals(newEntity.getLongitud(), entity.getLongitud());
-        Assert.assertEquals(newEntity.getNoches(), entity.getNoches());
+        Assert.assertEquals(newEntity.getCosto(), entity.getCosto(), 0);
+        Assert.assertEquals(newEntity.getPuntuacion(), entity.getPuntuacion(), 0);
+        Assert.assertEquals(newEntity.getEstrellas(), entity.getEstrellas(), 0);
+        Assert.assertEquals(newEntity.getLatitud(), entity.getLatitud(), 0);
+        Assert.assertEquals(newEntity.getLongitud(), entity.getLongitud(), 0);
+        Assert.assertEquals(newEntity.getNoches(), entity.getNoches(), 0);
         Assert.assertEquals(newEntity.getTipo(), entity.getTipo());
         Assert.assertEquals(newEntity.getUbicacion(), entity.getUbicacion());
     }
@@ -187,13 +186,10 @@ public class AlojamientoPersistenceTest {
         AlojamientoEntity resp = em.find(AlojamientoEntity.class, entity.getId());
 
         Assert.assertEquals(newEntity.getNombre(), resp.getNombre());
-        Assert.assertEquals(newEntity.getProveedor(), resp.getProveedor());
-        Assert.assertEquals(newEntity.getCosto(), resp.getCosto());
-        Assert.assertEquals(newEntity.getPuntuacion(), resp.getPuntuacion());
-        Assert.assertEquals(newEntity.getEstrellas(), resp.getEstrellas());
-        Assert.assertEquals(newEntity.getLatitud(), resp.getLatitud());
-        Assert.assertEquals(newEntity.getLongitud(), resp.getLongitud());
-        Assert.assertEquals(newEntity.getNoches(), resp.getNoches());
+        Assert.assertEquals(newEntity.getCosto(), resp.getCosto(), 0);
+        Assert.assertEquals(newEntity.getPuntuacion(), resp.getPuntuacion(), 0);
+        Assert.assertEquals(newEntity.getEstrellas(), resp.getEstrellas(), 0);
+        Assert.assertEquals(newEntity.getNoches(), resp.getNoches(), 0);
         Assert.assertEquals(newEntity.getTipo(), resp.getTipo());
         Assert.assertEquals(newEntity.getUbicacion(), resp.getUbicacion());
     }
@@ -206,11 +202,11 @@ public class AlojamientoPersistenceTest {
         AlojamientoEntity entity = data.get(0);
         AlojamientoEntity newEntity = alojamientoPersistence.findByNombre(entity.getNombre());
         Assert.assertNotNull(newEntity);
-        
+
         Assert.assertEquals(entity.getNombre(), newEntity.getNombre());
 
         newEntity = alojamientoPersistence.findByNombre(null);
-        Assert.assertNull(newEntity); 
+        Assert.assertNull(newEntity);
     }
 
 }

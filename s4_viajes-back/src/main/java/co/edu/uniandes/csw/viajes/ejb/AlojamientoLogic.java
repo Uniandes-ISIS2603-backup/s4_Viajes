@@ -6,13 +6,17 @@
 package co.edu.uniandes.csw.viajes.ejb;
 
 import co.edu.uniandes.csw.viajes.entities.AlojamientoEntity;
+import co.edu.uniandes.csw.viajes.entities.ComboEntity;
+import co.edu.uniandes.csw.viajes.entities.ProveedorEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.AlojamientoPersistence;
+import co.edu.uniandes.csw.viajes.persistence.ComboPersistence;
+import co.edu.uniandes.csw.viajes.persistence.ProveedorPersistence;
 import java.util.List;
-//import java.util.ArrayList;
-//import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 
@@ -28,6 +32,12 @@ public class AlojamientoLogic {
     @Inject
     private AlojamientoPersistence persistence;
 
+    @Inject
+    private ProveedorPersistence proveedorPersistence;
+    
+    @Inject
+    private ComboPersistence comboPersistence; 
+
     /**
      * Guardar un nuevo alojamiento
      *
@@ -37,24 +47,36 @@ public class AlojamientoLogic {
      * @throws BusinessLogicException Si el nombre es inválido o ya existe en la
      * persistencia.
      */
-    public AlojamientoEntity createAlojamiento(AlojamientoEntity alojamientoEntity) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de creación del alojamiento");
-//        if (alojamientoEntity.getNombre() == null || persistence.find(alojamientoEntity.getId()) == null) {
-//            throw new BusinessLogicException("La editorial es inválida");
-//        }
-        if (!validateNombre(alojamientoEntity.getNombre())) {
-            throw new BusinessLogicException("El nombre es inválido");
+    public AlojamientoEntity createAlojamiento(AlojamientoEntity alojamientoEntity) throws BusinessLogicException{
+    
+        LOGGER.log(Level.INFO, "Inicial el proceso de creacion de alojamiento."); 
+        if(alojamientoEntity.getProveedor() == null || proveedorPersistence.find(alojamientoEntity.getProveedor().getId()) == null){
+            throw new BusinessLogicException("El proveedor es invalido. (AlojamientoLogic)");
         }
-//        if (persistence.findByNombre(alojamientoEntity.getNombre()) != null) {
-//            throw new BusinessLogicException("El nombre ya existe");
-//        }
-//        persistence.create(alojamientoEntity);
-        LOGGER.log(Level.INFO, "Termina proceso de creación del alojamiento");
-        return alojamientoEntity;
+        if (!validateNombre(alojamientoEntity.getNombre())) {
+            throw new BusinessLogicException("El nombre ingresado es inválido: (AlojamientoLogic) " + alojamientoEntity.getNombre());
+        }
+        if (persistence.findByNombre(alojamientoEntity.getNombre()) != null) {
+            throw new BusinessLogicException("El nombre ingresado ya existe: (AlojamientoLogic) " + alojamientoEntity.getNombre());
+        }
+        if (alojamientoEntity.getCosto() < 0) {
+            throw new BusinessLogicException("El costo ingresado es invalido: (AlojamientoLogic) " + alojamientoEntity.getCosto());
+        }
+        if (alojamientoEntity.getEstrellas() < 0 || alojamientoEntity.getEstrellas() > 5) {
+            throw new BusinessLogicException("Las estrellas ingresadas son invalidas: (AlojamientoLogic)" + alojamientoEntity.getEstrellas());
+        }
+        if(alojamientoEntity.getNoches() < 0){
+            throw new BusinessLogicException("Las noches son invalidas: (AlojamientoLogic) " + alojamientoEntity.getNoches());
+        } 
+        persistence.create(alojamientoEntity);
+        LOGGER.log(Level.INFO,"Termina la creacion del alojamiento." ); 
+        return alojamientoEntity;  
     }
 
     private boolean validateNombre(String nombre) {
-        return !(nombre == null || nombre.isEmpty());
+        Pattern pat = Pattern.compile("[a-zA-Z]{1,25}");
+        Matcher mat = pat.matcher(nombre);
+        return (mat.matches() && !nombre.isEmpty());
     }
 
     /**
@@ -63,63 +85,79 @@ public class AlojamientoLogic {
      * @return Lista de entidades de tipo alojamiento.
      */
     public List<AlojamientoEntity> getAlojamientos() {
-        LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los alojamientos.");
-//        List<AlojamientoEntity> alojamientos = persistence.findAll(); 
-        LOGGER.log(Level.INFO, "Termina proceso de consultar todos los alojamientos");
-//        return alojamientos;
-return null;
-    }
+       LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los alojamientos.");
+       List<AlojamientoEntity> alojamientos = persistence.findAll(); 
+       LOGGER.log(Level.INFO, "Termina proceso de consultar todos los alojamientos.");
+       return alojamientos;  
+    } 
 
     /**
      * Busca un alojamiento por ID
      *
      * @param alojamientoId El id del alojamiento a buscar
-     * @return El alojamiento encontrado, null si no lo encuentra.
+     * @return El alojamiento encontrado.
      */
-    public AlojamientoEntity getAlojamiento(Long alojamientoId) {
+    public AlojamientoEntity getAlojamiento(Long alojamientoId)  {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar el alojamiento con id = {0}", alojamientoId);
-//        AlojamientoEntity alojamientoEntity = persistence.find(alojamientoId);
-        if (alojamientoId == null) {
-            LOGGER.log(Level.SEVERE, "El alojamiento con el id = {0} no existe", alojamientoId);
+        AlojamientoEntity alojamientoEntity = persistence.find(alojamientoId); 
+        if (alojamientoEntity == null) {
+            LOGGER.log(Level.SEVERE, "El alojamiento con el id = {0} no existe: (AlojamientoLogic) ", alojamientoId);
         }
         LOGGER.log(Level.INFO, "Termina proceso de consultar el alojamiento con id = {0}", alojamientoId);
-//        return alojamientoEntity;
-return null;
+        return alojamientoEntity; 
     }
 
     /**
      * Actualizar un alojamiento por ID
      *
-     * @param alojamientoId El ID del alojamiento a actualizar
      * @param alojamientoEntity La entidad del aoljamiento con los cambios
      * deseados
+     * @param alojamientosId
      * @return La entidad del alojamiento luego de actualizarla
-     * @throws BusinessLogicException Si el nombre de la actualización es inválido
+     * @throws BusinessLogicException Si el nombre de la actualización es
+     * inválido
      */
-    public AlojamientoEntity updateAlojamiento(Long alojamientoId, AlojamientoEntity alojamientoEntity) throws BusinessLogicException{
-        LOGGER.log(Level.INFO, "Inicia proceso de actualizar el alojamiento con id = {0}", alojamientoId);
-        if (!validateNombre(alojamientoEntity.getNombre())) {
-            throw new BusinessLogicException("El nombre es inválido");
+    public AlojamientoEntity updateAlojamiento(Long alojamientosId, AlojamientoEntity alojamientoEntity) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "Inicia proceso de actualizar el alojamiento con id = {0}", alojamientosId);
+        
+        if (!validateNombre(alojamientoEntity.getNombre()) || alojamientoEntity.getNombre() == null) {
+            throw new BusinessLogicException("El nombre es inválido: (AlojamientoLogicUP)" + alojamientoEntity.getNombre()); 
         }
-//        AlojamientoEntity newEntity = persistence.update(alojamientoEntity);
+        if (persistence.findByNombre(alojamientoEntity.getNombre()) == null) {
+            throw new BusinessLogicException("El nombre ingresado no existe: (AlojamientoLogicUP) " + alojamientoEntity.getNombre());
+        }
+        if (alojamientoEntity.getCosto() < 0) {
+            throw new BusinessLogicException("El costo ingresado es invalido: (AlojamientoLogicUP) " + alojamientoEntity.getCosto());
+        }
+        if (alojamientoEntity.getEstrellas() < 0 || alojamientoEntity.getEstrellas() > 5) {
+            throw new BusinessLogicException("Las estrellas ingresadas son invalidas: (AlojamientoLogicUP)" + alojamientoEntity.getEstrellas());
+        }
+        if(alojamientoEntity.getNoches() < 0){
+            throw new BusinessLogicException("Las noches son invalidas: (AlojamientoLogicUP) " + alojamientoEntity.getNoches());
+        }
+        AlojamientoEntity alojamiento = persistence.update(alojamientoEntity); 
         LOGGER.log(Level.INFO, "Termina proceso de actualizar el alojamiento con id = {0}", alojamientoEntity.getId());
-//        return newEntity; 
-return null;
+        return alojamiento;  
 
     }
 
     /**
      * Eliminar un alojamiento por ID
      *
-     * @param alojamientoId El ID del alojamiento a eliminar
+     * @param alojamientoId El ID del alojamiento a eliminarw
      * @throws BusinessLogicException
      */
-    public void deleteAlojamiento(Long alojamientoId) throws BusinessLogicException  {
+    public void deleteAlojamiento(Long alojamientoId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de borrar el alojamiento con id = {0}", alojamientoId);
-        if (alojamientoId == null) {
-            throw new BusinessLogicException("No se puede borrar el alojamiento con id = " + alojamientoId + " porque el id es invalido");
+        AlojamientoEntity alojamiento = getAlojamiento(alojamientoId);
+        ComboEntity combo = alojamiento.getCombo(); 
+        if (alojamiento == null) {
+            throw new BusinessLogicException("El alojamiento no se encuentra registrado, imposible eliminar: (AlojamientoLogicDEL)" + alojamientoId);
         }
-//        persistence.delete(alojamientoId);
-        LOGGER.log(Level.INFO, "Termina proceso de borrar el libro con id = {0}", alojamientoId);
+        if(combo != null){
+            throw new BusinessLogicException("No se puede eliminar el alojamiento porque esta asociado a un combo: (AlojamientoLogicDEL)" + combo.getNombre());
+        }
+        persistence.delete(alojamientoId);  
+        LOGGER.log(Level.INFO, "Termina proceso de borrar el alojamiento con id = {0}", alojamientoId);
     }
 }

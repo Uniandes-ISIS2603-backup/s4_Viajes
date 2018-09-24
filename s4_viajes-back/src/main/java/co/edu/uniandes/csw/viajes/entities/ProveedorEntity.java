@@ -11,10 +11,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import uk.co.jemos.podam.common.PodamExclude;
 
@@ -47,6 +43,10 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
     @PodamExclude
     @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ActividadEntity> actividades = new ArrayList<ActividadEntity>();
+    
+    @PodamExclude
+    @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<AlojamientoEntity> alojamientos = new ArrayList<AlojamientoEntity>();
     
     
    //Métodos//
@@ -88,6 +88,46 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
     }
 
     /**
+     * Obtiene los vuelos de un proveedor.
+     *
+     * @return vuelos del proveedor.
+     */
+    public List<VueloEntity> getVuelos()
+    {
+        return vuelos;
+    }
+
+    /**
+     * Obtiene los transportes terrestres de un proveedor.
+     *
+     * @return transportes terrestres del proveedor.
+     */
+    public List<TransporteTerrestreEntity> getTransportes()
+    {
+        return transportes;
+    }
+    
+    /**
+     * Obtiene las actividades del proveedor
+     *
+     * @return actividades del proveedor.
+     */
+    public List<ActividadEntity> getActividades()
+    {
+        return actividades;
+    }
+    
+    /**
+     * Obtiene los alojamientos del proveedor
+     *
+     * @return alojamientos del proveedor.
+     */
+    public List<AlojamientoEntity> getAlojamientos()
+    {
+        return alojamientos;
+    }
+
+    /**
      * Modifica (set) el usuario de un proveedor por el ingresado por parámetro.
      *
      * @param username nuevo usuario que modificará el actual.
@@ -122,5 +162,42 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
      */
     public void setPuntaje(int puntuacion) {
         this.puntuacion = puntuacion;
+    }
+    
+    /**
+     * Modifica los vuelos del proveedor.
+     *
+     * @param vuelos Los nuevos vuelos.
+     */
+    public void setVuelos(List<VueloEntity> vuelos) {
+        this.vuelos = vuelos;
+    }
+    
+    /**
+     * Modifica los transportes del proveedor.
+     *
+     * @param transportes Los nuevos transportes.
+     */
+    public void setTransportes(List<TransporteTerrestreEntity> transportes) {
+        this.transportes = transportes;
+    }
+    
+    /**
+     * Modifica las actividades del proveedor.
+     *
+     * @param actividades Las nuevas actividades.
+     */
+    public void setActividades(List<ActividadEntity> actividades) {
+        this.actividades = actividades;
+    }
+    
+        
+    /**
+     * Modifica los alojamientos del proveedor.
+     *
+     * @param alojamientos os nuevos alojamientos.
+     */
+    public void setAlojamientos(List<AlojamientoEntity> alojamientos) {
+        this.alojamientos = alojamientos;
     }
 }

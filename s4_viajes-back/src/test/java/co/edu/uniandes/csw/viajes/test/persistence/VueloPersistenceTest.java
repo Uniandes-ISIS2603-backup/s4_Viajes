@@ -132,12 +132,14 @@ public class VueloPersistenceTest {
 
         Assert.assertEquals(newEntity.getNumero(), entity.getNumero());
         Assert.assertEquals(newEntity.getCosto(), entity.getCosto(), 0);
-        Assert.assertEquals(newEntity.getLatO(), entity.getLatO());
-        Assert.assertEquals(newEntity.getLonO(), entity.getLonO());
-        Assert.assertEquals(newEntity.getLatD(), entity.getLatD());
-        Assert.assertEquals(newEntity.getLonD(), entity.getLonD());
+        Assert.assertEquals(newEntity.getLatO(), entity.getLatO(), 0);
+        Assert.assertEquals(newEntity.getLonO(), entity.getLonO(), 0);
+        Assert.assertEquals(newEntity.getLatD(), entity.getLatD(), 0);
+        Assert.assertEquals(newEntity.getLonD(), entity.getLonD(), 0);
         Assert.assertEquals(newEntity.getPuntaje(), entity.getPuntaje(), 0);
         Assert.assertEquals(newEntity.getProveedor(), entity.getProveedor());
+        Assert.assertEquals(newEntity.getFechaSalida(), entity.getFechaSalida());
+        Assert.assertEquals(newEntity.getFechaLlegada(), entity.getFechaLlegada());
     }
     
         /**

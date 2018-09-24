@@ -1,0 +1,337 @@
+{
+	"info": {
+		"_postman_id": "bb1fd139-16f5-4ad4-8dab-e59c56b78a55",
+		"name": "Actividad",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear Actividad con Identificador Nulo",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombreActividad\" : \"Caminata al Salto del Tequendama\",\r\n    \"costo\" : 15000,\r\n    \"puntuacion\" : 3,\r\n    \"duracion\" : 120,\r\n    \"latitud\" : 45.67,\r\n    \"longitud\" : 56.22\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/actividad",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"actividad"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Actividad con Nombre Existente",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"identificador\" : 1001,\r\n    \"nombreActividad\" : \"Caminata al Salto del Tequendama\",\r\n    \"costo\" : 15000,\r\n    \"puntuacion\" : 3,\r\n    \"duracion\" : 120,\r\n    \"latitud\" : 45.67,\r\n    \"longitud\" : 56.22\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/actividad",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"actividad"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar Actividad",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/actividad/1001",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"actividad",
+						"1001"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener actividades",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"identificador\" : 1001,\r\n    \"nombreActividad\" : \"Caminata al Salto del Tequendama\",\r\n    \"costo\" : 15000,\r\n    \"puntuacion\" : 3,\r\n    \"duracion\" : 120,\r\n    \"latitud\" : 45.67,\r\n    \"longitud\" : 56.22\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/actividad",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"actividad"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Actividad",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"identificador\" : 1001,\r\n    \"nombreActividad\" : \"Caminata al Salto del Tequendama\",\r\n    \"costo\" : 15000,\r\n    \"puntuacion\" : 3,\r\n    \"duracion\" : 120,\r\n    \"latitud\" : 45.67,\r\n    \"longitud\" : 56.22\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/actividad",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"actividad"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear Actividad con Nombre Actividad Existente",
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"identificador\" : 1001,\r\n    \"nombreActividad\" : \"Caminata al Salto del Tequendama\",\r\n    \"costo\" : 15000,\r\n    \"puntuacion\" : 3,\r\n    \"duracion\" : 120,\r\n    \"latitud\" : 45.67,\r\n    \"longitud\" : 56.22\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/actividad",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"actividad"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener Actividad",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n\t\"identificador\" : 1000,\r\n    \"nombreActividad\" : \"Caminata al Salto del Tequendama\",\r\n    \"costo\" : 15000,\r\n    \"puntuacion\" : 3,\r\n    \"duracion\" : 120,\r\n    \"latitud\" : 45.67,\r\n    \"longitud\" : 56.22\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/actividad/1001",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"actividad",
+						"1001"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener Actividad Eliminada",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/actividad/1001",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"actividad",
+						"1001"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar Actividad",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombreActividad\" : \"Caminata al Salto del Tequendama\",\r\n    \"costo\" : 15000,\r\n    \"puntuacion\" : 3,\r\n    \"duracion\" : 120,\r\n    \"latitud\" : 45.67,\r\n    \"longitud\" : 56.22\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/actividad/1001",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"actividad",
+						"1001"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar Actividad con Puntuacion Inválida",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombreActividad\" : \"Caminata al Salto del Tequendama\",\r\n    \"costo\" : 15000,\r\n    \"puntuacion\" : -4,\r\n    \"duracion\" : 120,\r\n    \"latitud\" : 45.67,\r\n    \"longitud\" : 56.22\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/actividad/1001",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"actividad",
+						"1001"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar Actividad con Nombre Inválido",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"nombreActividad\" : \"\",\r\n    \"costo\" : 15000,\r\n    \"puntuacion\" : 4,\r\n    \"duracion\" : 120,\r\n    \"latitud\" : 45.67,\r\n    \"longitud\" : 56.22\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/actividad/1001",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"actividad",
+						"1001"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
