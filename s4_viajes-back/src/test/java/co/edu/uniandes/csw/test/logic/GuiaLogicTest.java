@@ -261,12 +261,12 @@ public class GuiaLogicTest {
      *
      * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
      */
-    @Test
+    @Test (expected = BusinessLogicException.class)
     public void deleteGuiaTest() throws BusinessLogicException {
         GuiaEntity entity = guiaData.get(0);
         guiaLogic.deleteGuia(entity.getId());
         GuiaEntity deleted = em.find(GuiaEntity.class, entity.getId());
-        Assert.assertNull(deleted);
+        
     }
 
 }
