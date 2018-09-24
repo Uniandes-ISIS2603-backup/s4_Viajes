@@ -120,9 +120,6 @@ public class UsuarioLogic {
      * @param usuarioId: id del usuario para ser actualizado.
      * @return el usuario solicitado por medio de su id.
      */
-    
-    
-    
     public UsuarioEntity updateUsuario(UsuarioEntity usuarioEntity, Long usuarioId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar la información de un usuario con id = {0}", usuarioId);
         // Note que, por medio de la inyección de dependencias se llama al método "find(id)" que se encuentra en la persistencia.
