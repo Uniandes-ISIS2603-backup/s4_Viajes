@@ -108,7 +108,7 @@ public class GuiaResource {
      */
     @DELETE
     @Path("{guiaId: \\d+}")
-    public void deleteGuia(@PathParam("guiaId") Long guiaId) {
+    public void deleteGuia(@PathParam("guiaId") Long guiaId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "GuiaResource deleteGuia: input: {0}", guiaId);
         // Invoca la lógica para borrar la actividad
         guiaLogic.deleteGuia(guiaId);

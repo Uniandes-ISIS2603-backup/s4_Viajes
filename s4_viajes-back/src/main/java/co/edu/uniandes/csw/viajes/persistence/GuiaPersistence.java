@@ -93,7 +93,7 @@ public class GuiaPersistence {
      */
     public void delete(Long guiaId) {
         LOGGER.log(Level.INFO, "Borrando guia con id = {0}", guiaId);
-        GuiaEntity entity = em.find(GuiaEntity.class, guiaId);
+        GuiaEntity entity = findByDocumento(guiaId);
         em.remove(entity);
         LOGGER.log(Level.INFO, "Saliendo de borrar la actividad con id = {0}", guiaId);
     }
