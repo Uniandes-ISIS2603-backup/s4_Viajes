@@ -49,7 +49,7 @@ public class UsuarioDTO implements Serializable{
     private String documento;
     private String nombre;
     private String userName;
-    private String contraseña;
+//    private String contraseña;
     private int edad;
 
 
@@ -62,6 +62,7 @@ public class UsuarioDTO implements Serializable{
     
        if(usuarioEntity!=null)
        {
+           this.id = usuarioEntity.getId();
            this.documento = usuarioEntity.getDocumento();
            this.edad = usuarioEntity.getEdad();
            this.userName = usuarioEntity.getUserName();

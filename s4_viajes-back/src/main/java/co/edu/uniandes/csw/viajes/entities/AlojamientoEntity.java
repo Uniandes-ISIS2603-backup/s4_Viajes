@@ -16,9 +16,6 @@ import uk.co.jemos.podam.common.PodamExclude;
  */
 @Entity
 public class AlojamientoEntity extends BaseEntity implements Serializable {
-    //-----------------------------------------------------------------------------------------------------------------------
-    // Atributos
-    //-----------------------------------------------------------------------------------------------------------------------
 
     /**
      * Costo del alojamiento.
@@ -77,9 +74,6 @@ public class AlojamientoEntity extends BaseEntity implements Serializable {
     @ManyToOne
     private ProveedorEntity proveedor;
 
-    //-----------------------------------------------------------------------------------------------------------------------
-    // Metodos
-    //-----------------------------------------------------------------------------------------------------------------------
     public Double getCosto() {
         return costo;
     }
@@ -152,6 +146,14 @@ public class AlojamientoEntity extends BaseEntity implements Serializable {
         this.ubicacion = ubicacion;
     }
 
+    public ComboEntity getCombo() {
+        return combo;
+    }
+
+    public void setCombo(ComboEntity combo) {
+        this.combo = combo;
+    }
+
     public ProveedorEntity getProveedor() {
         return proveedor;
     }
@@ -159,12 +161,5 @@ public class AlojamientoEntity extends BaseEntity implements Serializable {
     public void setProveedor(ProveedorEntity proveedor) {
         this.proveedor = proveedor;
     }
-    
-    public ComboEntity getCombo() {
-        return combo;
-    }
 
-    public void setCombo(ComboEntity combo) {
-        this.combo = combo;
-    }    
 }
