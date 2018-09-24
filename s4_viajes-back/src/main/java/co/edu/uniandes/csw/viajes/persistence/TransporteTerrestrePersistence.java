@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 /**
@@ -50,7 +49,7 @@ public class TransporteTerrestrePersistence {
      */
     public List<TransporteTerrestreEntity> findAll() {
         LOGGER.log(Level.INFO, "Consultando todos los transportes");
-        Query q = em.createQuery("select u from TransporteTerrestreEntity u");
+        TypedQuery q = em.createQuery("select u from TransporteTerrestreEntity u", TransporteTerrestreEntity.class);
         return q.getResultList();
     }
 
@@ -58,23 +57,11 @@ public class TransporteTerrestrePersistence {
      * Busca si hay algun transporte con el id que se envía de argumento
      *
      * @param transportesId: id correspondiente al alojamiento buscado.
-     * @return un alojamiento.
+     * @return un transporte.
      */
-    public TransporteTerrestreEntity find(Long proveedoresId, Long transportesId) {
-        LOGGER.log(Level.INFO, "Consultando el transporte con id={0} del proveedor con id = " + proveedoresId, transportesId);
-        TypedQuery<TransporteTerrestreEntity> q = em.createQuery("select p from TransporteTerrestreEntity where{p.proveedor.id = :proveedoresid} and {p.id = : transportesId}", TransporteTerrestreEntity.class);
-        q.setParameter("proveedoresid", proveedoresId);
-        q.setParameter("alojamientosId", transportesId);  
-        List<TransporteTerrestreEntity> transportes = q.getResultList();
-        TransporteTerrestreEntity transporte = null; 
-        if(transportes == null){
-            transporte = null;
-        } else if(transportes.isEmpty()){
-            transporte = null;
-        } else if(transportes.size() >= 1){
-            transporte = transportes.get(0); 
-        }
-        return transporte;
+    public TransporteTerrestreEntity find(Long transportesId) {
+        LOGGER.log(Level.INFO, "Consultando el transporte con id = {0}", transportesId);
+        return em.find(TransporteTerrestreEntity.class, transportesId);
     }
 
     /**

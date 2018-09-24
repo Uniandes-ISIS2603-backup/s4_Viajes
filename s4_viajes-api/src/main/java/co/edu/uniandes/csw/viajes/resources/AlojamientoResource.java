@@ -7,6 +7,7 @@ package co.edu.uniandes.csw.viajes.resources;
 
 import co.edu.uniandes.csw.viajes.dtos.AlojamientoDTO;
 import co.edu.uniandes.csw.viajes.ejb.AlojamientoLogic;
+import co.edu.uniandes.csw.viajes.ejb.AlojamientoProveedorLogic;
 import co.edu.uniandes.csw.viajes.ejb.ProveedorLogic;
 import co.edu.uniandes.csw.viajes.entities.AlojamientoEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
@@ -31,44 +32,49 @@ import javax.ws.rs.WebApplicationException;
  *
  * @author Ymespana
  */
+@Path("alojamientos")
 @Produces("application/json")
 @Consumes("application/json")
+@RequestScoped
 public class AlojamientoResource {
 
     private static final Logger LOGGER = Logger.getLogger(AlojamientoResource.class.getName());
 
     @Inject
     private AlojamientoLogic alojamientoLogic; // Variable para acceder a la lógica de la aplicación.
+    
+    @Inject 
+    private ProveedorLogic proveedorLogic; 
+    
+    @Inject 
+    private AlojamientoProveedorLogic alojamientoProveedorLogic;
 
     /**
      * Crea un nuevo alojamiento con la informacion que se recibe en el cuerpo
      * de la petición y se regresa un objeto identico con un id auto-generado
      * por la base de datos.
      *
-     * @param alojamiento {@link AlojamientoDTO} - EL alojamiento que se desea
-     * guardar.
-     * @param proveedoresId Id del alojamiento
+     * @param alojamiento {@link AlojamientoDTO} - EL alojamiento que se desea guardar.
      * @return JSON {@link AlojamientoDTO} - El alojamiento guardado con el
      * atributo id.
      * @throws BusinessLogicException
      */
     @POST
-    public AlojamientoDTO createAlojamiento(@PathParam("proveedoresId")Long proveedoresId, AlojamientoDTO alojamiento) throws BusinessLogicException {
+    public AlojamientoDTO createAlojamiento( AlojamientoDTO alojamiento) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "AlojamientoResource createAlojamiento: input: {0}", alojamiento.toString());
-        AlojamientoDTO nuevoAlojamientoDTO = new AlojamientoDTO(alojamientoLogic.createAlojamiento(proveedoresId, alojamiento.toEntity()));
+        AlojamientoDTO nuevoAlojamientoDTO = new AlojamientoDTO(alojamientoLogic.createAlojamiento(alojamiento.toEntity()));
         LOGGER.log(Level.INFO, "AlojamientoResource createAlojamiento: output: {0}", nuevoAlojamientoDTO.toString());
         return nuevoAlojamientoDTO; 
     }
 
     /**
      * Busca y devuelve todos los alojamientos que existen en la aplicacion.
-     *@param proveedoresId id del alojamiento.
      * @return Todos los alojamientos, si no hay ninguna retorna una lista vacia. 
      */
     @GET
-    public List<AlojamientoDTO> getAlojamientos(@PathParam("proveedoresId")Long proveedoresId) {
-        LOGGER.log(Level.INFO, "AlojamientoResource getAlojamientos: input: {0}", proveedoresId);
-        List<AlojamientoDTO> listaAlojamientos = listEntity2DetailDTO(alojamientoLogic.getAlojamientos(proveedoresId)); 
+    public List<AlojamientoDTO> getAlojamientos() {
+        LOGGER.log(Level.INFO, "AlojamientoResource getAlojamientos: input: void");
+        List<AlojamientoDTO> listaAlojamientos = listEntity2DetailDTO(alojamientoLogic.getAlojamientos()); 
         LOGGER.log(Level.INFO, "AlojamientoResource getAlojamientos: output: {0}", listaAlojamientos.toString());
         return listaAlojamientos; 
     }
@@ -95,16 +101,15 @@ public class AlojamientoResource {
      * Busca el alojamiento con el id asociado recibido en la URL y lo devuelve.
      *
      * @param alojamientosId Identificador del alojamiento que se esta buscando.
-     * @param proveedoresId ID del proveedor
      * Este debe ser una cadena de dígitos.
      * @return JSON {@link AlojamientoDTO}
-     * @throws BusinessLogicException
+     * @throws WebApplicationException
      */
     @GET
     @Path("{alojamientosId: \\d+}") 
-    public AlojamientoDTO getAlojamiento(@PathParam("proveedoresId")Long proveedoresId , @PathParam("alojamientosId") Long alojamientosId) throws BusinessLogicException {
+    public AlojamientoDTO getAlojamiento(@PathParam("alojamientosId") Long alojamientosId)  {
         LOGGER.log(Level.INFO, "AlojamientoResource getAlojamiento: input: {0}", alojamientosId);
-        AlojamientoEntity alojamientoEntity = alojamientoLogic.getAlojamiento(proveedoresId, alojamientosId);
+        AlojamientoEntity alojamientoEntity = alojamientoLogic.getAlojamiento(alojamientosId);
         if (alojamientoEntity == null) { 
             throw new WebApplicationException("El recurso /alojamientos/" + alojamientosId + " no existe.", 404);
         }
@@ -117,8 +122,6 @@ public class AlojamientoResource {
      * Actualiza el alojamiento con el id recibido en la URL con la información
      * que se recibe en el cuerpo de la petición.
      *
-     * @param proveedoresId Identificador del alojamientoque se desea
-     * actualizar. Este debe ser una cadena de dígitos.
      * @param alojamientosId
      * @param alojamiento El alojamiento que se desea guardar.
      * @return JSON El alojamiento guardado.
@@ -126,38 +129,33 @@ public class AlojamientoResource {
      */
     @PUT
     @Path("{alojamientosId: \\d+}")
-    public AlojamientoDTO updateAlojamiento(@PathParam("proveedoresId") Long proveedoresId,@PathParam("alojamientosId") Long alojamientosId, AlojamientoDTO alojamiento) throws BusinessLogicException , WebApplicationException {
-        LOGGER.log(Level.INFO, "AlojamientoResource updateAlojamiento: input: id: {0} , alojamiento: {1}", new Object[]{proveedoresId, alojamientosId, alojamiento.toString()});
-        if(!alojamientosId.equals(alojamiento.getId())){
-            throw new BusinessLogicException("Los id de los alojamientos no coinciden"); 
+    public AlojamientoDTO updateAlojamiento(@PathParam("alojamientosId") Long alojamientosId, AlojamientoDTO alojamiento) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "AlojamientoResource updateAlojamiento: input: id: {0} , alojamiento: {1}", new Object[]{alojamientosId, alojamiento.toString()});
+        alojamiento.setId(alojamientosId); 
+        if(alojamientoLogic.getAlojamiento(alojamientosId) == null){
+            throw new WebApplicationException("El recurso /alojamientos/ "+ alojamientosId + " no existe.", 404); 
         }
-        AlojamientoEntity alojamientoEntity = alojamientoLogic.getAlojamiento(proveedoresId, alojamientosId);
-        if(alojamientoEntity == null){
-            throw new WebApplicationException("El alojamiento no existe.", 404);  
-        }
-        AlojamientoDTO alojamientoDTO = new AlojamientoDTO(alojamientoLogic.updateAlojamiento(proveedoresId, alojamiento.toEntity())); 
+        AlojamientoDTO alojamientoDTO = new AlojamientoDTO(alojamientoLogic.updateAlojamiento(alojamientosId, alojamiento.toEntity())); 
         LOGGER.log(Level.INFO, "AlojamientoResource updateAlojamiento: output: {0}", alojamientoDTO.toString());
-        return alojamientoDTO; 
+        return alojamientoDTO;  
     }
 
     /**
      * Borra el alojamiento con el id asociado recibido en la URL.
      *
-     * @param proveedoresId Identificador del proveedor 
      * @param alojamientosId 
-     * Este debe ser una cadena de dígitos.
      * @throws BusinessLogicException
-     * @throws WebApplicationException
      */
     @DELETE
     @Path("{alojamientosId: \\d+}")
-    public void deleteAlojamiento(@PathParam("proveedoresId") Long proveedoresId, @PathParam("alojamientosId") Long alojamientosId) throws BusinessLogicException, WebApplicationException {
-        LOGGER.log(Level.INFO, "AlojamientoResource deleteAlojamiento: input: {0}", proveedoresId + alojamientosId);
-        AlojamientoEntity alojamientoEntity = alojamientoLogic.getAlojamiento(proveedoresId , alojamientosId);
+    public void deleteAlojamiento(@PathParam("alojamientosId") Long alojamientosId) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "AlojamientoResource deleteAlojamiento: input: {0}", alojamientosId);
+        AlojamientoEntity alojamientoEntity = alojamientoLogic.getAlojamiento(alojamientosId);
         if (alojamientoEntity == null) {
-            throw new WebApplicationException("El recurso /alojamientos/" + proveedoresId + " no existe.", 404);
+            throw new WebApplicationException("El recurso /alojamientos/" + alojamientosId + " no existe.", 404);
         }
-        alojamientoLogic.deleteAlojamiento(proveedoresId , alojamientosId);
+        alojamientoProveedorLogic.removeProveedor(alojamientosId); 
+        alojamientoLogic.deleteAlojamiento(alojamientosId);
         LOGGER.info("AlojamientoResource deleteAlojamiento: output: void");
     }
 }

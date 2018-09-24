@@ -35,10 +35,12 @@ public class TransporteTerrestreDTO implements Serializable {
 
     private Integer numeroHoras;
 
+    private Integer numeroMinutos;
+
     private Integer puntuacion;
 
     private Long id;
-    
+
     private ProveedorDTO proveedor;
 
     //-----------------------------------------------------------------------------------------------------------------------
@@ -60,13 +62,13 @@ public class TransporteTerrestreDTO implements Serializable {
             this.longitudOrigen = transporteEntity.getLongitudOrigen();
             this.numeroDias = transporteEntity.getNumeroDias();
             this.numeroHoras = transporteEntity.getNumeroHoras();
+            this.numeroMinutos = transporteEntity.getNumeroMinutos();
             this.puntuacion = transporteEntity.getPuntuacion();
-            if(transporteEntity.getProveedor() != null){
+            if (transporteEntity.getProveedor() != null) {
                 this.proveedor = new ProveedorDTO(transporteEntity.getProveedor());
+            } else {
+                this.proveedor = null;
             }
-            else{
-                this.proveedor = null; 
-            } 
         }
     }
 
@@ -93,16 +95,23 @@ public class TransporteTerrestreDTO implements Serializable {
         transporteTerrestreEntity.setLongitudOrigen(this.longitudOrigen);
         transporteTerrestreEntity.setNumeroDias(this.numeroDias);
         transporteTerrestreEntity.setNumeroHoras(this.numeroHoras);
+        transporteTerrestreEntity.setNumeroMinutos(this.numeroMinutos);
         transporteTerrestreEntity.setPuntuacion(this.puntuacion);
-        if(this.proveedor != null){
-            transporteTerrestreEntity.setProveedor(this.proveedor.toEntity()); 
+        if (this.proveedor != null) {
+            transporteTerrestreEntity.setProveedor(this.proveedor.toEntity());
         }
 
         return transporteTerrestreEntity;
     }
 
-    //-----------------------------------------------------------------------------------------------------------------------
-    //-----------------------------------------------------------------------------------------------------------------------
+    public Integer getNumeroMinutos() {
+        return numeroMinutos;
+    }
+
+    public void setNumeroMinutos(Integer numeroMinutos) {
+        this.numeroMinutos = numeroMinutos;
+    }
+
     public Double getCosto() {
         return costo;
     }
@@ -123,7 +132,7 @@ public class TransporteTerrestreDTO implements Serializable {
         return latitudOrigen;
     }
 
-    public void setLatitudOrigen(Long latitudOrigen) {
+    public void setLatitudOrigen(double latitudOrigen) {
         this.latitudOrigen = latitudOrigen;
     }
 
@@ -131,7 +140,7 @@ public class TransporteTerrestreDTO implements Serializable {
         return longitudOrigen;
     }
 
-    public void setLongitudOrigen(Long longitudOrigen) {
+    public void setLongitudOrigen(double longitudOrigen) {
         this.longitudOrigen = longitudOrigen;
     }
 
@@ -139,7 +148,7 @@ public class TransporteTerrestreDTO implements Serializable {
         return latitudDestino;
     }
 
-    public void setLatitudDestino(Long latitudDestino) {
+    public void setLatitudDestino(double latitudDestino) {
         this.latitudDestino = latitudDestino;
     }
 
@@ -147,7 +156,7 @@ public class TransporteTerrestreDTO implements Serializable {
         return longitudDestino;
     }
 
-    public void setLongitudDestino(Long longitudDestino) {
+    public void setLongitudDestino(double longitudDestino) {
         this.longitudDestino = longitudDestino;
     }
 
@@ -182,8 +191,15 @@ public class TransporteTerrestreDTO implements Serializable {
     public void setId(Long id) {
         this.id = id;
     }
-    
-    
+
+    public ProveedorDTO getProveedor() {
+        return proveedor;
+    }
+
+    public void setProveedor(ProveedorDTO proveedor) {
+        this.proveedor = proveedor;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
