@@ -138,8 +138,11 @@ public class UsuarioLogicTest {
     @Test
     public void getUsuarioTest() throws BusinessLogicException {
         UsuarioEntity entity = data.get(0);
-        UsuarioEntity resultEntity = em.find(UsuarioEntity.class, entity.getId());
-        //Assert.assertNotNull(resultEntity);
+        usuarioLogic.createUsuario(entity);
+        UsuarioEntity resultEntity = em.find(UsuarioEntity.class, entity.getId()); 
+        System.out.println("pruebaprueba "+resultEntity.getId());
+   
+        Assert.assertNotNull(resultEntity);
         Assert.assertEquals(entity.getId(), resultEntity.getId());
         //Assert.assertEquals(entity.getCarrito(), resultEntity.getCarrito());
     }

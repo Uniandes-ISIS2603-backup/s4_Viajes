@@ -8,6 +8,7 @@ package co.edu.uniandes.csw.viajes.ejb;
 import co.edu.uniandes.csw.viajes.entities.UsuarioEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.UsuarioPersistence;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -61,6 +62,19 @@ public class UsuarioLogic {
         LOGGER.log(Level.INFO, "Termina proceso de creación del usuario");
         return newUsuarioEntity;
        
+    }
+    
+    
+     /**
+     * Devuelve todos los usuarios que hay en la base de datos.
+     *
+     * @return Lista de entidades de tipo usuario.
+     */
+    public List<UsuarioEntity> getUsuarios() {
+        LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los usuarios");
+        List<UsuarioEntity> usuarios = persistence.findAll();
+        LOGGER.log(Level.INFO, "Termina proceso de consultar todos los libros");
+        return usuarios;
     }
     
     public boolean validateContrasena(String pContrasena)

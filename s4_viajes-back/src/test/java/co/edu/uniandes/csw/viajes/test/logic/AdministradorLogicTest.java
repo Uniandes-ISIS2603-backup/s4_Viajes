@@ -107,6 +107,7 @@ public class AdministradorLogicTest {
 
     /**
      * Prueba para crear un Administrador.
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      */
     @Test
     public void createAdministradorTest() throws BusinessLogicException {
