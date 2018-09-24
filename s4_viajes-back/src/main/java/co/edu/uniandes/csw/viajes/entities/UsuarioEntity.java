@@ -31,10 +31,12 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
     private String contraseña;
     
     
+
+    
+    
     @PodamExclude
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<PagoEntity> pagos = new ArrayList<PagoEntity>();
-    private Boolean hasLoggedIn;
     
     @PodamExclude
     @OneToOne(mappedBy="usuario", cascade = CascadeType.PERSIST)
@@ -71,15 +73,43 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
         return documento;
     }
     
+     /**
+     * Devuelve la contraseña del usuario.
+     *
+     * @return the documento
+     */
+    public String getContraseña() {
+        return contraseña;
+    }
+
+     /**
+     * Modifica la contraseña del usuario.
+     *
+     * @param contraseña
+     */
+    public void setContraseña(String contraseña) {
+        this.contraseña = contraseña;
+    }
     
+     /**
+     * Devuelve el carrito del usuario.
+     *
+     * @return El carrito de compras
+     */
     public CarritoComprasEntity getCarrito()
     {
         return carritoCompras;
     }
     
-    public CarritoComprasEntity setCarrito()
+    /**
+     * Modifica el carrito del usuario.
+     *
+     * @param pCarrito el Carrito que contiene la informacion modificada.
+     */
+
+    public void setCarrito(CarritoComprasEntity pCarrito)
     {
-        return carritoCompras;
+        this.carritoCompras = carritoCompras;
     }
      /**
      * Devuelve el nombre del usuario.
@@ -134,7 +164,7 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
         return medallas;
     }
     
-                  /**
+      /**
      * Actualiza la lista de entradas del usuario con la que entra por parametro.
      *
      * @param pEntradas nueva lista de entradas
@@ -160,8 +190,6 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
      *  Cambia la lista de pagos
      * @param pagos la lista de pagos con la que se actualiza la informacion.
      */
-    
-    
     public void setPagos(List<PagoEntity> pagos)
             
     {
@@ -169,31 +197,42 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
         
     }
     
-     public Boolean hasLoggedIn()
-    {
-        return hasLoggedIn;
-    } 
-     
+     /**
+     * Modifica la edad del usuario.
+     *
+     * @param pEdad
+     */
      public void setEdad(int pEdad)
     {
         this.edad = pEdad;
     }
     
+     /**
+     * Modifica el documento del usuario.
+     *
+     * @param pDocumento
+     */
     public void setDocumento(String pDocumento)
     {
        this.documento = pDocumento;
     }
     
+     /**
+     * Modifica el UserName del usuario.
+     *
+     * @param pUserName 
+     */
     public void setUserName(String pUserName)
     {
        this.userName= pUserName;
     }
     
-     public void setHasLoggedIn(Boolean pHasLoggedIn)
-    {
-       this.hasLoggedIn= pHasLoggedIn;
-    } 
     
+     /**
+     * Modifica el nombre del usuario.
+     *
+     * @param pNombre 
+     */  
      public void setNombre(String pNombre)
     {
        this.nombre= pNombre;

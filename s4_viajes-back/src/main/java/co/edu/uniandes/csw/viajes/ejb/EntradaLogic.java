@@ -10,6 +10,8 @@ import co.edu.uniandes.csw.viajes.entities.UsuarioEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.EntradaPersistence;
 import co.edu.uniandes.csw.viajes.persistence.UsuarioPersistence;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,7 +29,8 @@ public class EntradaLogic {
      private static final Logger LOGGER = Logger.getLogger(VueloLogic.class.getName());
 
     @Inject
-    private EntradaPersistence persistence; // Variable para acceder a la persistencia de la aplicación. Es una inyección de dependencias.
+    private EntradaPersistence persistence; // Variable para acceder a la persistencia de la aplicación. Es una inyección dedependencias. 
+    @Inject
     private UsuarioPersistence usuarioPersistence; 
 
     /**
@@ -45,64 +48,23 @@ public class EntradaLogic {
         
         UsuarioEntity usuario = usuarioPersistence.find(userId);
         
-        if(usuario == null)
-        {
-            throw new BusinessLogicException("El usuario autor no existe: este o su id es null");
-        }
-        
         if(persistence.find(userId, entradaEntity.getId()) != null)
         {
             throw new BusinessLogicException("La entrada con id " + entradaEntity.getId() + " ya existe.");
         }
         
-        if (entradaEntity.getTitulo() == null || entradaEntity.getTitulo().equals(""))
-        {
-            throw new BusinessLogicException("El titulo es inválido: no puede ser nulo ni vacío");
-        }
-        
-        Pattern p1 = Pattern.compile("^[a-zA-Z0-9¡¿][a-zA-Z0-9!-/:-@¿¡]{5,40}");
-        Matcher m1 = p1.matcher(entradaEntity.getTitulo());
-        
-        if(m1.find())
-        {
-            throw new BusinessLogicException("El título es inválido: debe estar tener entre 5 y 40 caracteres");
-        }
-        
-        if (entradaEntity.getTitulo() == null || entradaEntity.getTitulo().equals("")) 
-        {
-            throw new BusinessLogicException("El titulo es inválido: no puede ser nulo ni vacío");
-        }
-        
-        Pattern p2 = Pattern.compile("[A-Z][a-zA-Z0-9¡¿][a-zA-Z0-9!-/:-@¿¡]{50,5000}");
-        m1 = p2.matcher(entradaEntity.getTextoContenido());
-        
-        if(m1.find())
-        {
-            throw new BusinessLogicException("El texto de contenido es inválido: debe comenzar por mayúscula y tener tener entre 50 y 5000 caracteres");
-        }
-        
-        
-        if (entradaEntity.getTextoContenido() == null || entradaEntity.getTextoContenido().equals("")) 
-        {
-            throw new BusinessLogicException("El texto del contenido es inválido: no puede ser nulo ni vacío");
-        }
-        
-        if (entradaEntity.getMultimedia().size() > 10)
-        {
-            throw new BusinessLogicException("La lista de archivos multimedia: No se pueden subir más de 10 archivos multimedia.");
-        }
-        
-        if(entradaEntity.getPuntuacion() < 0 | entradaEntity.getPuntuacion() > 5){
-            throw new BusinessLogicException("La puntuación es inválida: debe ser un valor entre 0 y 5.");
-        }
+        verificarReglasDeNegocio(entradaEntity);
         
         if(entradaEntity.getCalificacionComunidad() != 0){
             throw new BusinessLogicException("La calificación de la comunidad inicial es inválida: debe ser 0");
         }
-
         
-        if (entradaEntity.getFecha() == null) {
-            throw new BusinessLogicException("Fecha invàlida: La fecha no puede ser nula. Pudo haber un error en el formato.");
+        Date actual = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        
+        if (entradaEntity.getFecha().getDate() != actual.getDate() || entradaEntity.getFecha().getMonth() != actual.getMonth() || entradaEntity.getFecha().getYear() != actual.getYear())
+        {
+            throw new BusinessLogicException("Fecha invàlida: La fecha ingresada "+ sdf.format(entradaEntity.getFecha())+ "es diferente de la actual " + sdf.format(actual)+".");
         }
         
         // Invoca la persistencia para crear el entrada
@@ -159,7 +121,7 @@ public class EntradaLogic {
         UsuarioEntity user = usuarioPersistence.find(userId);
 
         if(entradaEntity != null && entradaEntity.getId() != null){
-            LOGGER.log(Level.INFO, "Inicia proceso de actualizar el review con id = {0} del libro con id = " +  entradaEntity.getId(), userId);
+            LOGGER.log(Level.INFO, "Inicia proceso de actualizar la entrada con id = {0} del usuario con id = " +  entradaEntity.getId(), userId);
             entradaEntity.setAutor(user);
             Long entradaId = entradaEntity.getId();
             EntradaEntity entradaOriginal = persistence.find(userId, entradaId);
@@ -168,65 +130,14 @@ public class EntradaLogic {
                 throw new BusinessLogicException("La entrada con id \"" + entradaId + "\" no existe pòr lo que no se puede actualizar.");
             }
 
-            if (!entradaEntity.getId().equals(entradaId) || !entradaEntity.getId().equals(entradaOriginal.getId())) 
-            {
-                throw new BusinessLogicException("La entrada de id \"" + entradaId + "\" se quiere actualizar, pero el id de la nueva entrada es diferente: \"" + entradaOriginal.getId() +"\".");
-            }
-            UsuarioEntity usuario = entradaEntity.getAutor();
+            verificarReglasDeNegocio(entradaEntity);
 
-            if(usuario == null || usuario.getId()==null || usuarioPersistence.find(usuario.getId()) == null)
-            {
-                throw new BusinessLogicException("El usuario autor no existe: este o su id es null");
-            }
-
-            if (entradaEntity.getTitulo() == null || entradaEntity.getTitulo().equals(""))
-            {
-                throw new BusinessLogicException("El titulo es inválido: no puede ser nulo ni vacío");
-            }
-
-            Pattern p1 = Pattern.compile("^[a-zA-Z0-9¡¿][a-zA-Z0-9!-/:-@¿¡]{5,40}");
-            Matcher m1 = p1.matcher(entradaEntity.getTitulo());
-
-            if(m1.find())
-            {
-                throw new BusinessLogicException("El título es inválido: debe estar tener entre 5 y 40 caracteres");
-            }
-
-            if (entradaEntity.getTitulo() == null || entradaEntity.getTitulo().equals("")) 
-            {
-                throw new BusinessLogicException("El titulo es inválido: no puede ser nulo ni vacío");
-            }
-
-            Pattern p2 = Pattern.compile("[A-Z][a-zA-Z0-9¡¿][a-zA-Z0-9!-/:-@¿¡]{50,5000}");
-            m1 = p2.matcher(entradaEntity.getTextoContenido());
-
-            if(m1.find())
-            {
-                throw new BusinessLogicException("El texto de contenido es inválido: debe comenzar por mayúscula y tener tener entre 50 y 5000 caracteres");
-            }
-
-
-            if (entradaEntity.getTextoContenido() == null || entradaEntity.getTextoContenido().equals("")) 
-            {
-                throw new BusinessLogicException("El texto del contenido es inválido: no puede ser nulo ni vacío");
-            }
-
-            if (entradaEntity.getMultimedia().size() > 10)
-            {
-                throw new BusinessLogicException("La lista de archivos multimedia: No se pueden subir más de 10 archivos multimedia.");
-            }
-
-            if(entradaEntity.getPuntuacion() < 0 | entradaEntity.getPuntuacion() > 5){
-                throw new BusinessLogicException("La puntuación es inválida: debe ser un valor entre 0 y 5.");
-            }
-
-            if(entradaEntity.getCalificacionComunidad() != 0){
+            if(entradaEntity.getCalificacionComunidad() < 0 || entradaEntity.getCalificacionComunidad() >5 ){
                 throw new BusinessLogicException("La calificación de la comunidad inicial es inválida: debe ser 0");
             }
-
-
-            if (entradaEntity.getFecha() == null) {
-                throw new BusinessLogicException("Fecha invàlida: La fecha no puede ser nula. Pudo haber un error en el formato.");
+            
+            if (entradaEntity.getFecha().compareTo(entradaOriginal.getFecha()) != 0) {
+                throw new BusinessLogicException("La fecha de publicacón no puede ser modificada.");
             }
             
         }
@@ -256,4 +167,51 @@ public class EntradaLogic {
         persistence.delete(old.getId());
         LOGGER.log(Level.INFO, "Termina proceso de borrar la entrada con id = {0} del usuario con id = " + userId, entradaId);
     }   
+    
+    /**
+     * Método que verifica las reglas de negocio compartidas por el create y el update
+     * @param entradaEntity La entrada a la que se le quieren verificar las reglas de negocio
+     * @throws BusinessLogicException Si alguna regla de negocio no se cumple.
+     */
+    public void verificarReglasDeNegocio(EntradaEntity entradaEntity) throws BusinessLogicException{
+        if (entradaEntity.getTitulo() == null || entradaEntity.getTitulo().equals(""))
+        {
+            throw new BusinessLogicException("El titulo es inválido: no puede ser nulo ni vacío");
+        }
+        
+        Pattern p1 = Pattern.compile("^[a-zA-Z0-9¡¿]{1}[a-zA-Z0-9!-/:-@¡¿ ]{4,40}$");
+        Matcher m1 = p1.matcher(entradaEntity.getTitulo());
+        
+        if(!m1.find())
+        {
+            throw new BusinessLogicException("El título es inválido: debe tener entre 5 y 40 caracteres");
+        }
+
+        
+        if (entradaEntity.getTextoContenido() == null || entradaEntity.getTextoContenido().equals("")) 
+        {
+            throw new BusinessLogicException("El texto del contenido es inválido: no puede ser nulo ni vacío");
+        }
+        
+                
+        Pattern p2 = Pattern.compile("^[A-Z¡¿0-9]{1}[a-zA-Z0-9!-/:-@¿¡ ]{49,255}$");
+        m1 = p2.matcher(entradaEntity.getTextoContenido());
+        
+        if(!m1.find())
+        {
+            throw new BusinessLogicException("El texto de contenido es inválido: debe comenzar por mayúscula y tener entre 50 y 255 caracteres");
+        }
+        
+        if (entradaEntity.getMultimedia().size() > 10)
+        {
+            throw new BusinessLogicException("La lista de archivos multimedia es inválida: No se pueden subir más de 10 archivos multimedia.");
+        }
+        
+        if(entradaEntity.getPuntuacion() < 0 || entradaEntity.getPuntuacion() > 5){
+            throw new BusinessLogicException("La puntuación es inválida: debe ser un valor entre 0 y 5.");
+        }
+        if (entradaEntity.getFecha() == null) {
+            throw new BusinessLogicException("Fecha invàlida: La fecha no puede ser nula. Pudo haber un error en el formato.");
+        }
+    }
 }

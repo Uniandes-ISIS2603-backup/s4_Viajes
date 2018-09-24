@@ -23,7 +23,6 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  *      "nombre": string, 
  *      "edad": integer,
  *      "user_name": string,
- *      "hasLoggedIn" : boolean,
  *      "documento" : string     
  *   }
  * </pre> Por ejemplo un usuario se representa asi:<br>
@@ -34,7 +33,6 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  *      "nombre" : "Nicolas",     
  *      "edad" : "19",      
  *      "user_name" : "Nikthekill", 
- *      "hasLoggedIn" :"true",
  *      "documento" : "991219104108"
  *  }
  *
@@ -49,7 +47,9 @@ public class UsuarioDTO implements Serializable{
     private String documento;
     private String nombre;
     private String userName;
-    private String contraseña;
+    private String password;
+
+   
     private int edad;
 
 
@@ -66,11 +66,15 @@ public class UsuarioDTO implements Serializable{
            this.edad = usuarioEntity.getEdad();
            this.userName = usuarioEntity.getUserName();
            this.nombre = usuarioEntity.getNombre();
+           this.id = usuarioEntity.getId();
+           this.password = usuarioEntity.getContraseña();
           
        }
    }
    
    //Métodos//
+   
+   
     /**
      * Obtiene el nombre de un usuario.
      *
@@ -80,6 +84,16 @@ public class UsuarioDTO implements Serializable{
    public String getNombre(){
        return nombre;
    }
+   
+   
+    public String getPassword() {
+        return password;
+    }
+    
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
    
        /**
      * Obtiene la edad de un usuario.
@@ -111,7 +125,7 @@ public class UsuarioDTO implements Serializable{
        return documento;
    }
    
-       /**
+      /**
      * Obtiene el userName de un usuario.
      *
      * @return userName del usuario.
@@ -123,34 +137,66 @@ public class UsuarioDTO implements Serializable{
    }
 
   
-      
+   
+    /**
+     * Modifica el nombre de un usuario.
+     *
+     * @param pNombre Nombre del usuario
+     */
    public void setNombre(String pNombre){
 
        this.nombre = pNombre;
    }
    
+   
+   
+      /**
+     * Modifica la edad de un usuario.
+     *
+     * @param pEdad
+     */   
    public void setEdad(int pEdad)
    {
        this.edad = pEdad;
    }
    
+     /**
+     * Modifica el id de un usuario.
+     *
+     * @param pId
+     */
      public void setId(Long pId)
    {
        this.id = pId;
    }
    
+    /**
+     * Modifica el documento de un usuario.
+     *
+     * @param pDocumento
+     */
    public void setDocumento(String pDocumento)
    {
         this.documento = pDocumento;
    }
    
+   
+     /**
+     * Modifica el userName de un usuario.
+     *
+     * @param pUserName
+     */
    public void setUserName(String pUserName)
    {
        this.userName= pUserName;
         
-        }
+    }
+   
 
-
+  /**
+     * Convierte el DTO en una Entity.
+     * @return La entity creada a partir del DTO
+     */
     public UsuarioEntity toEntity() {
       
         UsuarioEntity usuarioEntity = new UsuarioEntity();
@@ -158,9 +204,7 @@ public class UsuarioDTO implements Serializable{
         usuarioEntity.setUserName(this.userName);
         usuarioEntity.setDocumento(this.documento);
         usuarioEntity.setEdad(this.edad);
-
-       
-        
+        usuarioEntity.setContraseña(this.password);
         return usuarioEntity;
         
         
@@ -173,3 +217,5 @@ public class UsuarioDTO implements Serializable{
      
     
 }
+
+

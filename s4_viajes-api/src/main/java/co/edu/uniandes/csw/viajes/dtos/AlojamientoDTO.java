@@ -25,8 +25,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  * "tipo": "string",
  * "ubicacion": "string",
  * "noches": "integer",
- * "latitud": "long",
- * "longitud": "long"
+ * "latitud": "double",
+ * "longitud": "double"
  * }
  * </pre>
  *
@@ -96,13 +96,12 @@ public class AlojamientoDTO implements Serializable {
     //-----------------------------------------------------------------------------------------------------------------------
     //Metodos
     //-----------------------------------------------------------------------------------------------------------------------
-  
     /**
-     * Constructor defecto. 
+     * Constructor defecto.
      */
-    public AlojamientoDTO(){
+    public AlojamientoDTO() {
     }
-    
+
     /**
      * Constructor a partir de la entidad.
      *
@@ -120,11 +119,10 @@ public class AlojamientoDTO implements Serializable {
             this.puntuacion = alojamientoEntity.getPuntuacion();
             this.tipo = alojamientoEntity.getTipo();
             this.ubicacion = alojamientoEntity.getUbicacion();
-            if(alojamientoEntity.getProveedor() != null){
+            if (alojamientoEntity.getProveedor() != null) {
                 this.proveedor = new ProveedorDTO(alojamientoEntity.getProveedor());
-            }
-            else{
-                this.proveedor = null; 
+            } else {
+                this.proveedor = null;
             }
         }
     }
@@ -149,195 +147,102 @@ public class AlojamientoDTO implements Serializable {
         alojamientoEntity.setPuntuacion(this.puntuacion);
         alojamientoEntity.setTipo(this.tipo);
         alojamientoEntity.setUbicacion(this.ubicacion);
-        if(this.proveedor != null){
-            alojamientoEntity.setProveedor(this.proveedor.toEntity()); 
+        if (this.proveedor != null) {
+            alojamientoEntity.setProveedor(this.proveedor.toEntity());
         }
 
         return alojamientoEntity;
     }
-
-    //-----------------------------------------------------------------------------------------------------------------------
-    //-----------------------------------------------------------------------------------------------------------------------
-    /**
-     * Devuelve el ID del alojamiento.
-     *
-     * @return ID
-     */
+   
     public Long getId() {
         return id;
     }
 
-    /**
-     * Coloca un ID al alojamiento.
-     *
-     * @param id
-     */
     public void setId(Long id) {
         this.id = id;
     }
 
-    /**
-     * Devuelve el costo del alojamiento.
-     *
-     * @return costo
-     */
     public Double getCosto() {
         return costo;
     }
 
-    /**
-     * Coloca el costo del alojamiento.
-     *
-     * @param costo
-     */
     public void setCosto(Double costo) {
         this.costo = costo;
     }
 
-    /**
-     * Devuelve las estrellas del alojamiento.
-     *
-     * @return estrellas
-     */
     public Integer getEstrellas() {
         return estrellas;
     }
 
-    /**
-     * Coloca las estrellas del alojamiento.
-     *
-     * @param estrellas
-     */
     public void setEstrellas(Integer estrellas) {
         this.estrellas = estrellas;
     }
 
-    /**
-     * Devuelve el nombre del alojamiento.
-     *
-     * @return nombre
-     */
     public String getNombre() {
         return nombre;
     }
 
-    /**
-     * Coloca el nombre del alojamiento.
-     *
-     * @param nombre
-     */
     public void setNombre(String nombre) {
         this.nombre = nombre;
     }
 
-    /**
-     * Devuelve el tipo del alojamiento.
-     *
-     * @return tipo.
-     */
     public String getTipo() {
         return tipo;
     }
 
-    /**
-     * Coloca el tipo de alojamiento.
-     *
-     * @param tipo
-     */
     public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 
-    /**
-     * Devuelve las noches del alojamiento.
-     *
-     * @return noches
-     */
     public Integer getNoches() {
         return noches;
     }
 
-    /**
-     * Coloca las noches del alojamiento.
-     *
-     * @param noches
-     */
     public void setNoches(Integer noches) {
         this.noches = noches;
     }
 
-    /**
-     * Devuelve la latitud del alojamiento.
-     *
-     * @return latitud.
-     */
     public double getLatitud() {
         return latitud;
     }
 
-    /**
-     * Coloca la latitud del alojamiento.
-     *
-     * @param latitud
-     */
-    public void setLatitud(Long latitud) {
+    public void setLatitud(double latitud) {
         this.latitud = latitud;
     }
 
-    /**
-     * Devuelve la longitud del alojamiento.
-     *
-     * @return longitud
-     */
     public double getLongitud() {
         return longitud;
     }
 
-    /**
-     * Coloca la longitud del alojamiento.
-     *
-     * @param longitud
-     */
-    public void setLongitud(Long longitud) {
+    public void setLongitud(double longitud) {
         this.longitud = longitud;
     }
 
-    /**
-     * Devuelve la puntuacion del alojamiento.
-     *
-     * @return puntuacion.
-     */
     public Integer getPuntuacion() {
         return puntuacion;
     }
 
-    /**
-     * Coloca la puntuacion del alojamiento.
-     *
-     * @param puntuacion
-     */
     public void setPuntuacion(Integer puntuacion) {
         this.puntuacion = puntuacion;
     }
 
-    /**
-     * Devuelve la ubicacion del alojamiento.
-     *
-     * @return ubicacion
-     */
     public String getUbicacion() {
         return ubicacion;
     }
 
-    /**
-     * Coloca la ubicacion del alojamiento.
-     *
-     * @param ubicacion
-     */
     public void setUbicacion(String ubicacion) {
         this.ubicacion = ubicacion;
     }
 
+    public ProveedorDTO getProveedor() {
+        return proveedor;
+    }
+
+    //-----------------------------------------------------------------------------------------------------------------------
+    //-----------------------------------------------------------------------------------------------------------------------
+    public void setProveedor(ProveedorDTO proveedor) {   
+        this.proveedor = proveedor;
+    }
 
     @Override
     public String toString() {

@@ -30,10 +30,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": " {\r\n  \"numero\" : 24, \r\n  \"titulo\" : \"Me encantó este combo\",\r\n  \"textoContenido\" : \"El combo fue lo mejor porque..\", \r\n  \"multimedia\" : [\"hola.jpg\", \"img2.jpg\"], \r\n  \"puntuacion\" : 4.5,\r\n  \"calificacionComunidad\" : 3.7,\r\n  \"fecha\" : \"13/09/2018H16:05\"\r\n}"
+					"raw": "{\n\t\"titulo\": \"Todo bueno\",\n\t\"textoContenido\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit.\",\n    \"calificacionComunidad\": 0,\n    \"puntuacion\": 4.7,\n    \"multimedia\": [\n        \"hola.jpg\",\n        \"img2.jpg\",\n        \"img3.jpg\"\n    ],\n    \"fecha\": \"2018-09-23T19:00:00-05:00\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/s4_viajes-api/api/usuarios/hola/entradas",
+					"raw": "http://localhost:8080/s4_viajes-api/api/usuarios/2/entradas",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -43,7 +43,7 @@
 						"s4_viajes-api",
 						"api",
 						"usuarios",
-						"hola",
+						"2",
 						"entradas"
 					]
 				}
@@ -69,7 +69,7 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "http://localhost:8080/s4_viajes-api/api/usuarios/hola/entradas",
+					"raw": "http://localhost:8080/s4_viajes-api/api/usuarios/2/entradas",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -79,7 +79,7 @@
 						"s4_viajes-api",
 						"api",
 						"usuarios",
-						"hola",
+						"2",
 						"entradas"
 					]
 				}
@@ -105,7 +105,7 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "http://localhost:8080/s4_viajes-api/api/usuarios/hola/entradas/123",
+					"raw": "http://localhost:8080/s4_viajes-api/api/usuarios/2/entradas/6",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -115,9 +115,9 @@
 						"s4_viajes-api",
 						"api",
 						"usuarios",
-						"hola",
+						"2",
 						"entradas",
-						"123"
+						"6"
 					]
 				}
 			},
@@ -142,7 +142,7 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "http://localhost:8080/s4_viajes-api/api/usuarios/hola/entradas/123",
+					"raw": "http://localhost:8080/s4_viajes-api/api/usuarios/2/entradas/9",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -152,9 +152,9 @@
 						"s4_viajes-api",
 						"api",
 						"usuarios",
-						"hola",
+						"2",
 						"entradas",
-						"123"
+						"9"
 					]
 				}
 			},
@@ -184,10 +184,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": " {\r\n  \"titulo\" : \"No me encantó  tanto realmente este combo\",\r\n  \"textoContenido\" : \"El combo no fue tan bueno porque..\", \r\n  \"multimedia\" : [\"hola.jpg\", \"img2.jpg\", \"imgPrueba.png\"], \r\n  \"puntuacion\" : 3.8\r\n}"
+					"raw": "{\n\t\"id\":\"6\",\n\t\"titulo\": \"Probando el put\",\n\t\"textoContenido\": \"Lorem ipsum dolor sit amet, consectetur adipiscing elit.\",\n    \"calificacionComunidad\": 0,\n    \"puntuacion\": 4.7,\n    \"multimedia\": [\n        \"hola.jpg\",\n        \"img2.jpg\",\n        \"img3.jpg\",\n        \"probandoPut.jpg\"\n    ],\n    \"fecha\": \"2018-09-22T00:00:00-05:00\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/s4_viajes-api/api/usuarios/hola/entradas/123",
+					"raw": "http://localhost:8080/s4_viajes-api/api/usuarios/2/entradas/6",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -197,9 +197,9 @@
 						"s4_viajes-api",
 						"api",
 						"usuarios",
-						"hola",
+						"2",
 						"entradas",
-						"123"
+						"6"
 					]
 				}
 			},
