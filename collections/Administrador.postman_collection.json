@@ -7,9 +7,21 @@
 	},
 	"item": [
 		{
-			"name": "http://localhost:8080/s4_viajes-api/api/carritoscompras/5",
+			"name": "Eliminar admin (PASSWORD FAIL)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "474a6bf5-099e-4ea9-8f65-2cc66dbfb84e",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No permite la eliminación del administrador con una contraseña incorrecta\"] = responseCode.code === 412;"
+						]
+					}
+				}
+			],
 			"request": {
-				"method": "POST",
+				"method": "DELETE",
 				"header": [
 					{
 						"key": "Content-Type",
@@ -18,10 +30,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "\r\n\t{\r\n\t\"userName\": \"Nik\",\r\n\t\"nombre\": \"Nicolas\",\r\n    \"contraseña\":\"123\"\r\n\t}"
+					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8080/s4_viajes-api/api/administradores",
+					"raw": "http://localhost:8080/s4_viajes-api/api/administradores/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -30,10 +42,11 @@
 					"path": [
 						"s4_viajes-api",
 						"api",
-						"administradores"
+						"administradores",
+						"1"
 					]
 				},
-				"description": "Crea un administrador con la información obtenida."
+				"description": "Elimina un administrador. "
 			},
 			"response": []
 		},

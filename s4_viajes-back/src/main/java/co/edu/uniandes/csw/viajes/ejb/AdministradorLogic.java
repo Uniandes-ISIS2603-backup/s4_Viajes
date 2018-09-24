@@ -33,21 +33,23 @@ public class AdministradorLogic {
      * Se encarga de crear un Administrador  en la base de datos.
      *
      * @param administradorEntity Objeto de administradorEntity con los datos nuevos
+     * @param pContraseña Llave maestra de la aplicación
      * @return Objeto de AdministradorEntity con los datos nuevos y su ID.
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      */
     public AdministradorEntity createAdministrador(AdministradorEntity administradorEntity, String pContraseña) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación del administrador");
         AdministradorEntity newAdministradorEntity = persistence.create(administradorEntity);
         
-        if(pContraseña!="Tr1pBvld3rUltr4S3cr3tP@ssw0rd")
+        if(!"Tr1pBvld3rUltr4S3cr3tP@ssw0rd".equals(pContraseña))
         {
             throw new BusinessLogicException("CONTRASEÑA INCORRECTA!");
         }
         
-         if(persistence.findByUserName(administradorEntity.getUserName())!=null)
-        {
-            throw new BusinessLogicException("El nombre de usuario ya ha sido tomado");
-        }
+         //if(persistence.findByUserName(administradorEntity.getUserName())!=null)
+        //{
+          //  throw new BusinessLogicException("El nombre de usuario ya ha sido tomado");
+        //}
     
          return newAdministradorEntity;
        
@@ -109,13 +111,14 @@ public class AdministradorLogic {
     /**
      * Borrar un administrador
      *
-     * @param administradorId: id del administrador a borrar
+     * @param adminID ID del administrador a borrar.
+     * @param pContraseña Llave maestra de la aplicación
      * @throws BusinessLogicException si el administrador no ingresa la contraseña adecuada.
      */
     public void deleteAdministrador(Long adminID, String pContraseña) throws BusinessLogicException {
                 LOGGER.log(Level.INFO, "Empieza proceso de borrar administrador con id = {0}", adminID);
 
-        if(pContraseña!="Tr1pBvld3rUltr4S3cr3tP@ssw0rd")
+        if(!"Tr1pBvld3rUltr4S3cr3tP@ssw0rd".equals(pContraseña))
         {
             throw new BusinessLogicException("CONTRASEÑA INCORRECTA!");
         }

@@ -115,10 +115,10 @@ public class CarritoComprasLogic {
                 LOGGER.log(Level.INFO, "Empieza proceso de borrar carrito con id = {0}", carritoID);
 
          CarritoComprasEntity carritoEntity = persistence.find(carritoID);
-        if (carritoEntity!=null) {
-            throw new BusinessLogicException("No es posible borrar su cuenta, mande un ticket a los administradores");
+        if (carritoEntity==null) {
+            throw new BusinessLogicException("No es posible borrar un carrito de compras que no existe");
         }
-          
+          persistence.delete(carritoID);
         LOGGER.log(Level.INFO, "Termina proceso de borrar administrador con id = {0}", carritoID);
        
      
