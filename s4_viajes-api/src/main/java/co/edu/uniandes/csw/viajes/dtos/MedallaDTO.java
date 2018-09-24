@@ -18,6 +18,7 @@ public class MedallaDTO implements Serializable{
     private String nombre;
     private String rutaImagen;
     private String descripcion;
+    private Long id;
 
    public MedallaDTO(){}
    
@@ -26,6 +27,7 @@ public class MedallaDTO implements Serializable{
     
        if(medallaEntity!=null)
        {
+           this.id = medallaEntity.getId();
            this.nombre = medallaEntity.getNombre();
            this.rutaImagen = medallaEntity.getRutaImagen();
            this.descripcion = medallaEntity.getDescripcion();
@@ -33,6 +35,11 @@ public class MedallaDTO implements Serializable{
        }
    }
     
+   public Long getId()
+   {
+       return id;
+   }
+   
     public String getNombre()
     {
         return nombre;
@@ -46,6 +53,11 @@ public class MedallaDTO implements Serializable{
     public String getDescripcion()
     {
         return descripcion;
+    }
+    
+    public void setId(Long pId)
+    {
+        id = pId;
     }
     
     public void setNombre(String pNombre)
@@ -65,6 +77,7 @@ public class MedallaDTO implements Serializable{
 
     public MedallaEntity toEntity() {
         MedallaEntity medallaEntity = new MedallaEntity();
+        medallaEntity.setId(this.id);
         medallaEntity.setNombre(this.nombre);
         medallaEntity.setRutaImagen(this.rutaImagen);
         medallaEntity.setDescripcion(this.descripcion);
