@@ -128,7 +128,7 @@ public class PagoLogicTest {
         }
         for (int i = 0; i < 3; i++) {
             PagoEntity entity = factory.manufacturePojo(PagoEntity.class);
-            entity.setaPagar(comboData.get(0));
+            entity.setIdComboAPagar(comboData.get(1).getComboIdLong());
             em.persist(entity);
             data.add(entity);
         }
@@ -142,7 +142,7 @@ public class PagoLogicTest {
     public void createPagoConTarjetaTest() throws BusinessLogicException {
 
         PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
-        newEntity.setaPagar(comboData.get(0));
+        newEntity.setIdComboAPagar(comboData.get(0).getComboIdLong());
         newEntity.setPagaConTarjeta(true);
         newEntity.setTarjeta("8502479655552748");
         PagoEntity result = pagoLogic.createPago(newEntity);
@@ -168,7 +168,7 @@ public class PagoLogicTest {
 
 
         PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
-        newEntity.setaPagar(comboData.get(0));
+        newEntity.setIdComboAPagar(comboData.get(0).getComboIdLong());
         newEntity.setPagaConTarjeta(false);
         PagoEntity result = pagoLogic.createPago(newEntity);
 
@@ -191,26 +191,12 @@ public class PagoLogicTest {
     public void failCreatePagoSinComboTest() throws BusinessLogicException {
 
         PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
-        newEntity.setaPagar(null);
+        newEntity.setIdComboAPagar(0);
         newEntity.setPagaConTarjeta(true);
         newEntity.setTarjeta("8502479655552748");
         PagoEntity result = pagoLogic.createPago(newEntity);
  }
-     /**
-     * Prueba para crear un Organization.
-     *
-     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
-     */
-    @Test(expected = BusinessLogicException.class)
-    public void failCreatePagoConIdExistenteTest() throws BusinessLogicException {
-
-        PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
-        newEntity.setaPagar(comboData.get(0));
-        newEntity.setPagaConTarjeta(false);
-        pagoLogic.createPago(newEntity);
-        pagoLogic.createPago(newEntity);
-
- }
+  
     
     /**
      * Prueba para crear un Organization.
@@ -218,10 +204,10 @@ public class PagoLogicTest {
      * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      */
     @Test(expected = BusinessLogicException.class)
-    public void failCreatePagoConComboVacioTest() throws BusinessLogicException {
+    public void failCreatePagoConComboInexistenteTest() throws BusinessLogicException {
 
         PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
-        newEntity.setaPagar(new ComboEntity());
+        newEntity.setIdComboAPagar(-300l);
         newEntity.setPagaConTarjeta(true);
         newEntity.setTarjeta("8502479655552748");
         PagoEntity result = pagoLogic.createPago(newEntity);
@@ -247,7 +233,7 @@ public class PagoLogicTest {
     public void failCreatePagoConTarjetaVaciaTest() throws BusinessLogicException {
 
         PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
-        newEntity.setaPagar(comboData.get(0));
+        newEntity.setIdComboAPagar(comboData.get(0).getComboIdLong());
         newEntity.setPagaConTarjeta(true);
         newEntity.setTarjeta("");
         PagoEntity result = pagoLogic.createPago(newEntity);
@@ -261,7 +247,7 @@ public class PagoLogicTest {
     public void failCreatePagoConTarjetaLargoIncorrectoTest() throws BusinessLogicException {
 
         PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
-        newEntity.setaPagar(comboData.get(0));
+        newEntity.setIdComboAPagar(comboData.get(0).getComboIdLong());
         newEntity.setPagaConTarjeta(true);
         newEntity.setTarjeta("85024796552748");
         PagoEntity result = pagoLogic.createPago(newEntity);
@@ -276,7 +262,7 @@ public class PagoLogicTest {
     public void failCreatePagoConTarjetaLetrasTest() throws BusinessLogicException {
 
         PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
-        newEntity.setaPagar(comboData.get(0));
+        newEntity.setIdComboAPagar(comboData.get(0).getComboIdLong());
         newEntity.setPagaConTarjeta(true);
         newEntity.setTarjeta("850247965555a748");
         PagoEntity result = pagoLogic.createPago(newEntity);
@@ -301,14 +287,19 @@ public class PagoLogicTest {
 
     /**
      * Prueba para consultar un Organization.
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      */
     @Test
-    public void getPagoTest() {
-        PagoEntity entity = data.get(0);
-        PagoEntity resultEntity = pagoLogic.getPago(entity.getId());
+    public void getPagoTest() throws BusinessLogicException {
+        
+        PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
+        newEntity.setIdComboAPagar(comboData.get(0).getComboIdLong());
+        newEntity.setPagaConTarjeta(false);
+        pagoLogic.createPago(newEntity);
+        PagoEntity resultEntity = pagoLogic.getPago(newEntity.getId());
         Assert.assertNotNull(resultEntity);
-        Assert.assertEquals(entity.getId(), resultEntity.getId());
-//        Assert.assertEquals(entity.getName(), resultEntity.getName());
+        Assert.assertEquals(newEntity.getId(), resultEntity.getId());
+        Assert.assertEquals(newEntity.getIdComboAPagar(), resultEntity.getIdComboAPagar());
 //        Assert.assertEquals(entity.getTipo(), resultEntity.getTipo());
     }
 
@@ -322,7 +313,7 @@ public class PagoLogicTest {
         PagoEntity pojoEntity = factory.manufacturePojo(PagoEntity.class);
 
         pojoEntity.setId(entity.getId());
-        pojoEntity.setaPagar(comboData.get(2));
+        pojoEntity.setIdComboAPagar(comboData.get(2).getComboIdLong());
         pojoEntity.setPagaConTarjeta(false);
         
         pagoLogic.updatePago(pojoEntity.getId(), pojoEntity);
@@ -345,7 +336,7 @@ public class PagoLogicTest {
         PagoEntity pojoEntity = factory.manufacturePojo(PagoEntity.class);
 
         pojoEntity.setId(entity.getId());
-        pojoEntity.setaPagar(comboData.get(2));
+        pojoEntity.setIdComboAPagar(comboData.get(2).getComboIdLong());
         pojoEntity.setPagaConTarjeta(true);
         pojoEntity.setTarjeta("8502479655552748");
         
@@ -371,7 +362,7 @@ public class PagoLogicTest {
         
         PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
         newEntity.setId(entity.getId());
-        newEntity.setaPagar(null);
+        newEntity.setIdComboAPagar(0);
         newEntity.setPagaConTarjeta(true);
         newEntity.setTarjeta("8502479655552748");
         pagoLogic.updatePago(newEntity.getId(), newEntity);
@@ -386,7 +377,6 @@ public class PagoLogicTest {
         PagoEntity entity = data.get(0);
         PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
         newEntity.setId(-52l);
-        newEntity.setaPagar(comboData.get(1));
         newEntity.setPagaConTarjeta(false);
         pagoLogic.createPago(newEntity);
         pagoLogic.createPago(newEntity);
@@ -403,7 +393,6 @@ public class PagoLogicTest {
     public void failUpdatePagoConIdNullTest() throws BusinessLogicException {
         PagoEntity entity = data.get(0);
         PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
-        newEntity.setId(-52l);
         newEntity.setaPagar(comboData.get(0));
         newEntity.setPagaConTarjeta(false);
         pagoLogic.createPago(newEntity);
@@ -418,12 +407,12 @@ public class PagoLogicTest {
      * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      */
     @Test(expected = BusinessLogicException.class)
-    public void failUpdatePagoConComboVacioTest() throws BusinessLogicException {
+    public void failUpdatePagoConComboInexistenteTest() throws BusinessLogicException {
 
         PagoEntity entity = data.get(0);
         PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
         newEntity.setId(entity.getId());       
-        newEntity.setaPagar(new ComboEntity());
+        newEntity.setIdComboAPagar(-2004l);
         newEntity.setPagaConTarjeta(true);
         newEntity.setTarjeta("8502479655552748");
         pagoLogic.updatePago(newEntity.getId(), newEntity);
@@ -454,7 +443,7 @@ public class PagoLogicTest {
         PagoEntity entity = data.get(0);
         PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
         newEntity.setId(entity.getId());       
-        newEntity.setaPagar(comboData.get(0));
+        newEntity.setIdComboAPagar(comboData.get(0).getComboIdLong());
         newEntity.setPagaConTarjeta(true);
         newEntity.setTarjeta("");
         pagoLogic.updatePago(newEntity.getId(), newEntity);
@@ -470,7 +459,7 @@ public class PagoLogicTest {
         PagoEntity entity = data.get(0);
         PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
         newEntity.setId(entity.getId());          
-        newEntity.setaPagar(comboData.get(0));
+        newEntity.setIdComboAPagar(comboData.get(0).getComboIdLong());
         newEntity.setPagaConTarjeta(true);
         newEntity.setTarjeta("850247552748");
         pagoLogic.updatePago(newEntity.getId(), newEntity);
@@ -487,7 +476,7 @@ public class PagoLogicTest {
         PagoEntity entity = data.get(0);
         PagoEntity newEntity = factory.manufacturePojo(PagoEntity.class);
         newEntity.setId(entity.getId());          
-        newEntity.setaPagar(comboData.get(1));
+        newEntity.setIdComboAPagar(comboData.get(1).getComboIdLong());
         newEntity.setPagaConTarjeta(true);
         newEntity.setTarjeta("850247965555ab48");
         pagoLogic.updatePago(newEntity.getId(), newEntity);

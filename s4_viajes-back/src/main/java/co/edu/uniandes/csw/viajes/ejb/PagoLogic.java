@@ -5,6 +5,8 @@
  */
 package co.edu.uniandes.csw.viajes.ejb;
 
+import static co.edu.uniandes.csw.viajes.ejb.ComboLogic.LOGGER;
+import co.edu.uniandes.csw.viajes.entities.ComboEntity;
 import co.edu.uniandes.csw.viajes.entities.PagoEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.ComboPersistence;
@@ -38,22 +40,24 @@ public class PagoLogic {
      */
     public PagoEntity createPago(PagoEntity pagoEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación del pago");
+      
+//        throw new BusinessLogicException("id:"+pagoEntity.getaPagar().getComboIdLong()+" nombre:"+pagoEntity.getaPagar().getNombre());
+
+        
         if(pagoEntity==null)
             throw new BusinessLogicException("Error en el formato.");
 
-        if (pagoEntity.getaPagar() == null) {
-            throw new BusinessLogicException("El combo es del pago es invalido");
+        if (pagoEntity.getIdComboAPagar()==0) {
+            throw new BusinessLogicException("El pago debe tener un combo asociado");
         }
-         
-        if(persistence.find(pagoEntity.getId())!=null)
-              throw new BusinessLogicException("No es posible agregar el combo pues ya existe uno con el mismo id");
-
-
-
-         if (pagoEntity.getaPagar().isVacio()) {
-            throw new BusinessLogicException("El combo que se desea pagar se encuentra vacio");
+        ComboEntity comboEntity = comboPersistence.find(pagoEntity.getIdComboAPagar());
+        if (comboEntity == null) {
+            LOGGER.log(Level.SEVERE, "El combo del pago con el id = {0} no existe", pagoEntity.getIdComboAPagar());
+            throw new BusinessLogicException("El combo del pago que se desea realizar no existe");
         }
-         
+        pagoEntity.setaPagar(comboEntity);
+
+        
          if(pagoEntity.isPagaConTarjeta())
          {
              String tarjeta=pagoEntity.getTarjeta();
@@ -76,6 +80,7 @@ public class PagoLogic {
             
          }
         pagoEntity = persistence.create(pagoEntity);
+        
         LOGGER.log(Level.INFO, "Termina proceso de creación del pago");
         return pagoEntity;
     }
@@ -98,12 +103,20 @@ public class PagoLogic {
      * @param pagoId El id del pago a buscar
      * @return El pago encontrado, null si no lo encuentra.
      */
-    public PagoEntity getPago(Long pagoId) {
+    public PagoEntity getPago(Long pagoId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar el pago con id = {0}", pagoId);
         PagoEntity pagoEntity = persistence.find(pagoId);
         if (pagoEntity == null) {
             LOGGER.log(Level.SEVERE, "El pago con el id = {0} no existe", pagoId);
+            throw new BusinessLogicException("El pago con el id ="+ pagoId+" no existe");
+
         }
+        ComboEntity comboEntity = comboPersistence.find(pagoEntity.getIdComboAPagar());
+        if (comboEntity == null) {
+            LOGGER.log(Level.SEVERE, "El combo del pago con el id = {0} no existe", pagoEntity.getIdComboAPagar());
+            throw new BusinessLogicException("El combo del pago que se desea obtener ha sido eliminadao");
+        }
+        pagoEntity.setaPagar(comboEntity);
         LOGGER.log(Level.INFO, "Termina proceso de consultar el pago con id = {0}", pagoId);
         return pagoEntity;
     }
@@ -126,12 +139,15 @@ public class PagoLogic {
         if(persistence.find(pagoEntity.getId())==null)
               throw new BusinessLogicException("El pago que desea actualizar no existe");
 
-        if (pagoEntity.getaPagar() == null) {
-            throw new BusinessLogicException("El pago es inválido, debe tener un combo a pagar");
+        if (pagoEntity.getIdComboAPagar()==0) {
+            throw new BusinessLogicException("El pago debe tener un combo asociado");
         }
-         if (pagoEntity.getaPagar().isVacio()) {
-            throw new BusinessLogicException("El combo que se desea pagar se encuentra vacio");
+        ComboEntity comboEntity = comboPersistence.find(pagoEntity.getIdComboAPagar());
+        if (comboEntity == null) {
+            LOGGER.log(Level.SEVERE, "El combo del pago con el id = {0} no existe", pagoEntity.getIdComboAPagar());
+            throw new BusinessLogicException("El combo del pago que se desea realizar no existe");
         }
+        pagoEntity.setaPagar(comboEntity);
       
          
          if(pagoEntity.isPagaConTarjeta())
