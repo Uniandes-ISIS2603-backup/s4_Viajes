@@ -120,7 +120,7 @@ public class AlojamientoLogic {
     public AlojamientoEntity updateAlojamiento(Long alojamientosId, AlojamientoEntity alojamientoEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar el alojamiento con id = {0}", alojamientosId);
         
-        if (!validateNombre(alojamientoEntity.getNombre())) {
+        if (!validateNombre(alojamientoEntity.getNombre()) || alojamientoEntity.getNombre() == null) {
             throw new BusinessLogicException("El nombre es inválido: (AlojamientoLogicUP)" + alojamientoEntity.getNombre()); 
         }
         if (persistence.findByNombre(alojamientoEntity.getNombre()) == null) {
