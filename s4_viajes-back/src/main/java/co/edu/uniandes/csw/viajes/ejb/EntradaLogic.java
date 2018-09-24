@@ -179,7 +179,7 @@ public class EntradaLogic {
             throw new BusinessLogicException("El titulo es inválido: no puede ser nulo ni vacío");
         }
         
-        Pattern p1 = Pattern.compile("^[a-zA-Z0-9¡¿]{1}[a-zA-Z0-9!-/:-@?! ]{4,40}");
+        Pattern p1 = Pattern.compile("^[a-zA-Z0-9¡¿]{1}[a-zA-Z0-9!-/:-@¡¿ ]{4,40}$");
         Matcher m1 = p1.matcher(entradaEntity.getTitulo());
         
         if(!m1.find())
@@ -194,7 +194,7 @@ public class EntradaLogic {
         }
         
                 
-        Pattern p2 = Pattern.compile("^[A-Z¡¿]{1}[a-zA-Z0-9!-/:-@¿¡ ]{49,255}");
+        Pattern p2 = Pattern.compile("^[A-Z¡¿0-9]{1}[a-zA-Z0-9!-/:-@¿¡ ]{49,255}$");
         m1 = p2.matcher(entradaEntity.getTextoContenido());
         
         if(!m1.find())
