@@ -85,7 +85,7 @@ public class EntradaResource {
     {
         LOGGER.log(Level.INFO, "EntradaResource getEntradas: input: {0}", userId);
         List<EntradaDTO> listaDTOs = listEntity2DTO(entradaLogic.getEntradas(userId));
-        LOGGER.log(Level.INFO, "EditorialBooksResource getBooks: output: {0}", listaDTOs.toString());
+        LOGGER.log(Level.INFO, "EntradaResource getBooks: output: {0}", listaDTOs.toString());
         return listaDTOs;
     }
     
