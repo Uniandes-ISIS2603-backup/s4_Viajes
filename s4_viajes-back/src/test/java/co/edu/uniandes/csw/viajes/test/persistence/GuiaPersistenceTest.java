@@ -7,7 +7,6 @@ package co.edu.uniandes.csw.viajes.test.persistence;
 
 import co.edu.uniandes.csw.viajes.entities.GuiaEntity;
 import co.edu.uniandes.csw.viajes.persistence.GuiaPersistence;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import javax.inject.Inject;
@@ -41,7 +40,7 @@ public class GuiaPersistenceTest {
     @Inject
     UserTransaction utx;
 
-    private List<GuiaEntity> data = new LinkedList<>();
+    private List<GuiaEntity> data = new LinkedList<GuiaEntity>();
 
     /**
      * @return Devuelve el jar que Arquillian va a desplegar en Payara embebido.
