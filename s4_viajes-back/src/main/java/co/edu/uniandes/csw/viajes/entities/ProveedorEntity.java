@@ -44,6 +44,9 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
     @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<ActividadEntity> actividades = new ArrayList<ActividadEntity>();
     
+    @PodamExclude
+    @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private List<AlojamientoEntity> alojamientos = new ArrayList<AlojamientoEntity>();
     
    //Métodos//
     
@@ -112,6 +115,16 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
     {
         return actividades;
     }
+    
+    /**
+     * Obtiene las alojamientos del proveedor
+     *
+     * @return alojamientos del proveedor.
+     */
+    public List<AlojamientoEntity> getAlojamientos()
+    {
+        return alojamientos;
+    }
 
     /**
      * Modifica (set) el usuario de un proveedor por el ingresado por parámetro.
@@ -169,11 +182,20 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
     }
     
     /**
-     * Modifica as actividades del proveedor.
+     * Modifica las actividades del proveedor.
      *
      * @param actividades Las nuevas actividades.
      */
     public void setActividades(List<ActividadEntity> actividades) {
         this.actividades = actividades;
+    }
+    
+    /**
+     * Modifica los alojamientos del proveedor.
+     *
+     * @param alojamientos Los nuevos alojamientos.
+     */
+    public void setAlojamientos(List<AlojamientoEntity> alojamientos) {
+        this.alojamientos = alojamientos;
     }
 }
