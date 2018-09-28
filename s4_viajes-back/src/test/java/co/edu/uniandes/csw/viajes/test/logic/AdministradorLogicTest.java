@@ -140,7 +140,7 @@ public class AdministradorLogicTest {
      * @throws co.edu.uniandes.csw.bookstore.exceptions.BusinessLogicException
      */
     @Test
-    public void deleteAuthorTest() throws BusinessLogicException {
+    public void deleteAdministradorTest() throws BusinessLogicException {
         AdministradorEntity entity = data.get(0);
         administradorLogic.deleteAdministrador(entity.getId(),"Tr1pBvld3rUltr4S3cr3tP@ssw0rd");
         AdministradorEntity deleted = em.find(AdministradorEntity.class, entity.getId());
@@ -152,7 +152,7 @@ public class AdministradorLogicTest {
      * Prueba para actualizar un Administrador.
      */
     @Test
-    public void updateAuthorTest() throws BusinessLogicException{
+    public void updateAdministradorTest() throws BusinessLogicException{
         AdministradorEntity entity = data.get(0);
         AdministradorEntity pojoEntity = factory.manufacturePojo(AdministradorEntity.class);
 

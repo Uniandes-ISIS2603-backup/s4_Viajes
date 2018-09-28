@@ -1,45 +1,26 @@
 {
 	"info": {
-		"_postman_id": "c77d1789-0626-407a-ace7-8b9af8b67df8",
+		"_postman_id": "068fb5fb-a028-4776-b520-3c03c7de2815",
 		"name": "Usuario ",
 		"description": "Prueba los métodos de creación y obtención de un usuario. ",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "http://localhost:8080/s4_viajes-api/api/usuarios/",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
+			"name": "Crear un usuario",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d6f6ccf1-e5f8-49f4-bc5e-0d244d2a1747",
+						"type": "text/javascript",
+						"exec": [
+							"postman.setGlobalVariable(\"new_id_u\",data.id);",
+							"tests[\"No genera error el post\"] = responseCode.code === 200;"
+						]
 					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "\r\n{  \"nombre\": \"Nicolas\",\r\n    \"edad\": 30,\r\n    \"userName\":\"Nicolas20\",\r\n    \"hasLoggedIn\": true,\r\n    \"documento\": \"99121904108\"\r\n}"
-				},
-				"url": {
-					"raw": "http://localhost:8080/s4_viajes-api/api/usuarios/Ramirodos",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"s4_viajes-api",
-						"api",
-						"usuarios",
-						"Ramirodos"
-					]
-				},
-				"description": "Obtiene un usuario."
-			},
-			"response": []
-		},
-		{
-			"name": "http://localhost:8080/s4_viajes-api/api/usuarios/",
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -53,12 +34,12 @@
 					"raw": "\r\n{  \"nombre\": \"Nicolas\",\r\n    \"edad\": 30,\r\n    \"userName\":\"Nicolas20\",\r\n    \"hasLoggedIn\": true,\r\n    \"documento\": \"99121904108\"\r\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/s4_viajes-api/api/usuarios",
+					"raw": "http://{{ip}}:{{puerto}}/s4_viajes-api/api/usuarios",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{ip}}"
 					],
-					"port": "8080",
+					"port": "{{puerto}}",
 					"path": [
 						"s4_viajes-api",
 						"api",
@@ -70,39 +51,19 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:8080/s4_viajes-api/api/usuarios/",
-			"request": {
-				"method": "DELETE",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
+			"name": "Consultar usuario que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fb041abc-2e51-43b9-9a20-aae636813dc9",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No es posible obtener un usuario que no existe\"] = responseCode.code === 412;"
+						]
 					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
-				"url": {
-					"raw": "http://localhost:8080/s4_viajes-api/api/usuarios/2",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"s4_viajes-api",
-						"api",
-						"usuarios",
-						"2"
-					]
-				},
-				"description": "Borra un usuario "
-			},
-			"response": []
-		},
-		{
-			"name": "http://localhost:8080/s4_viajes-api/api/usuarios/",
+				}
+			],
 			"request": {
 				"method": "GET",
 				"header": [
@@ -116,12 +77,188 @@
 					"raw": "\r\n{  \"nombre\": \"Nicolas\",\r\n    \"edad\": 30,\r\n    \"userName\":\"Nicolas20\",\r\n    \"hasLoggedIn\": true,\r\n    \"documento\": \"99121904108\"\r\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/s4_viajes-api/api/usuarios",
+					"raw": "http://{{ip}}:{{puerto}}/s4_viajes-api/api/usuarios/0",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{ip}}"
 					],
-					"port": "8080",
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"usuarios",
+						"0"
+					]
+				},
+				"description": "Obtiene un usuario."
+			},
+			"response": []
+		},
+		{
+			"name": "Consultar usuario ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fb041abc-2e51-43b9-9a20-aae636813dc9",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No es posible obtener un usuario que no existe\"] = responseCode.code === 412;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{  \"nombre\": \"Nicolas\",\r\n    \"edad\": 30,\r\n    \"userName\":\"Nicolas20\",\r\n    \"hasLoggedIn\": true,\r\n    \"documento\": \"99121904108\"\r\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s4_viajes-api/api/usuarios/{{new_id_u}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"usuarios",
+						"{{new_id_u}}"
+					]
+				},
+				"description": "Obtiene un usuario."
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar usuario",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "58422eec-7057-47e5-a6e9-ce8c949b380f",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"Mandar ticket a administradores\"] = responseCode.code === 412;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s4_viajes-api/api/usuarios/3",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"usuarios",
+						"3"
+					]
+				},
+				"description": "Borra un usuario "
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar usuario que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b65f5880-bb42-4042-a6da-fd15cfc8ad57",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No es posible eliminar un usuario que no exista\"] = responseCode.code === 412;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s4_viajes-api/api/usuarios/0",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"usuarios",
+						"0"
+					]
+				},
+				"description": "Borra un usuario "
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener todos los usuarios. ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "06d32575-7072-4672-9210-276d370faa9a",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error el get\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n{  \"nombre\": \"Nicolas\",\r\n    \"edad\": 30,\r\n    \"userName\":\"Nicolas20\",\r\n    \"hasLoggedIn\": true,\r\n    \"documento\": \"99121904108\"\r\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s4_viajes-api/api/usuarios",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
 					"path": [
 						"s4_viajes-api",
 						"api",
@@ -133,16 +270,14 @@
 			"response": []
 		},
 		{
-			"name": "Editar un usuario",
+			"name": "Editar un usuario que no existe.",
 			"event": [
 				{
 					"listen": "test",
 					"script": {
-						"id": "1077a573-437a-4a11-9b9a-87cb45264001",
+						"id": "bfb2d1b0-477d-4063-a8ff-2e032b04c5eb",
 						"type": "text/javascript",
 						"exec": [
-							"console.log(responseBody);",
-							"var data = JSON.parse(responseBody);",
 							"tests[\"No genera error en el Put\"] = responseCode.code === 200;"
 						]
 					}
@@ -161,20 +296,66 @@
 					"raw": "{\n    \"nombre\": \"Carlos\",\n    \"edad\": 32,\n    \"userName\":\"Nicolas200\",\n    \"password\": \"bakagero\",\n    \"documento\": \"991219041081\"\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/s4_viajes-api/api/usuarios/1",
+					"raw": "http://{{ip}}:{{puerto}}/s4_viajes-api/api/usuarios/0",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{ip}}"
 					],
-					"port": "8080",
+					"port": "{{puerto}}",
 					"path": [
 						"s4_viajes-api",
 						"api",
 						"usuarios",
-						"1"
+						"0"
 					]
 				},
-				"description": "Actualiza un usuario existente.\r\n\r\n"
+				"description": "Actualiza un usuario no existente.\r\n\r\n"
+			},
+			"response": []
+		},
+		{
+			"name": "Editar un usuario",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "98e3f5f9-0516-4c5c-bbf0-9a050bf7ea47",
+						"type": "text/javascript",
+						"exec": [
+							"",
+							"tests[\"No genera error en el Put\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nombre\": \"Carlos\",\n    \"edad\": 32,\n    \"userName\":\"Nicolas200\",\n    \"password\": \"bakagero\",\n    \"documento\": \"991219041081\"\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s4_viajes-api/api/usuarios//{{new_id_b}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"usuarios",
+						"",
+						"{{new_id_b}}"
+					]
+				},
+				"description": "Actualiza un usuario no existente.\r\n\r\n"
 			},
 			"response": []
 		}

@@ -1,11 +1,55 @@
 {
 	"info": {
-		"_postman_id": "8a86d170-ab19-481a-855c-8452884496c5",
+		"_postman_id": "c7ad3944-9724-4657-89fa-e8c6bf7b2c32",
 		"name": "Administrador",
 		"description": "Pruebas de la clase administrador.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
+		{
+			"name": "Crear un administrador",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "48685471-57d7-4b52-9bf1-27775413cb38",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No permite la eliminación del administrador con una contraseña incorrecta\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"nombre\": \"Dovakhin\",\n    \"password\": \"cuarentaydo2\",\n    \"userName\": \"HijodeDragon\"\n\n}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s4_viajes-api/api/administradores/",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"administradores",
+						""
+					]
+				},
+				"description": "Elimina un administrador. "
+			},
+			"response": []
+		},
 		{
 			"name": "Eliminar admin (PASSWORD FAIL)",
 			"event": [
@@ -18,6 +62,16 @@
 							"tests[\"No permite la eliminación del administrador con una contraseña incorrecta\"] = responseCode.code === 412;"
 						]
 					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "140f1283-d00b-4151-8e0c-24d192b89d50",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
 				}
 			],
 			"request": {
@@ -28,17 +82,14 @@
 						"value": "application/json"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": ""
-				},
+				"body": {},
 				"url": {
-					"raw": "http://localhost:8080/s4_viajes-api/api/administradores/1",
+					"raw": "http://{{ip}}:{{puerto}}/s4_viajes-api/api/administradores/1",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{ip}}"
 					],
-					"port": "8080",
+					"port": "{{puerto}}",
 					"path": [
 						"s4_viajes-api",
 						"api",
@@ -47,38 +98,6 @@
 					]
 				},
 				"description": "Elimina un administrador. "
-			},
-			"response": []
-		},
-		{
-			"name": "http://localhost:8080/s4_viajes-api/api/carritoscompras/5",
-			"request": {
-				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "\r\n\t{\r\n\t\"userName\": \"Nik\",\r\n\t\"nombre\": \"Nicolas\",\r\n    \"contraseña\":\"123\"\r\n\t}"
-				},
-				"url": {
-					"raw": "http://localhost:8080/s4_viajes-api/api/administradores/uantotri",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"s4_viajes-api",
-						"api",
-						"administradores",
-						"uantotri"
-					]
-				},
-				"description": "Obtiene la información de un administrador. "
 			},
 			"response": []
 		}
