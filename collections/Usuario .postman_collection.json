@@ -12,9 +12,10 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "d6f6ccf1-e5f8-49f4-bc5e-0d244d2a1747",
+						"id": "88577747-4515-46ca-b119-55e9797853b7",
 						"type": "text/javascript",
 						"exec": [
+							"var data = JSON.parse(responseBody);",
 							"postman.setGlobalVariable(\"new_id_u\",data.id);",
 							"tests[\"No genera error el post\"] = responseCode.code === 200;"
 						]

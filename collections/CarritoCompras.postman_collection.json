@@ -55,9 +55,10 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "902f8bbe-3ccd-467c-bcc7-f9e9f1570b45",
+						"id": "a901ee77-3b8a-4f74-bb0c-2e3bbda8d6b1",
 						"type": "text/javascript",
 						"exec": [
+							"var data = JSON.parse(responseBody);",
 							"postman.setGlobalVariable(\"new_id_c\",data.id);",
 							"tests[\"No genera problemas el POST\"] = responseCode.code === 200;"
 						]
