@@ -124,7 +124,7 @@ public class ProveedorResource {
     @Path("{proveedorId: \\d+}")
     public ProveedorDetailDTO modificarProveedor(@PathParam("proveedorId") Long id, ProveedorDetailDTO proveedor) throws WebApplicationException, BusinessLogicException
     {
-        LOGGER.log(Level.INFO, "ProveedorResource updateProveedor: input: id:{0} , editorial: {1}", new Object[]{id, proveedor.toString()});
+        LOGGER.log(Level.INFO, "ProveedorResource updateProveedor: input: id:{0} , proveedor: {1}", new Object[]{id, proveedor.toString()});
         proveedor.setId(id);
         if (proveedorLogic.getProveedor(id) == null) {
             throw new WebApplicationException("El recurso proveedores/" + id + " no existe.", 404);

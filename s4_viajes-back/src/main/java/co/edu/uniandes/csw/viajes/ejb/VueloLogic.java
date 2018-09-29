@@ -45,12 +45,12 @@ public class VueloLogic {
     public VueloEntity createVuelo(VueloEntity vueloEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación del vuelo");
         
-        if (vueloEntity.getProveedor().equals(null)) {
+        if (vueloEntity.getProveedor() == null) {
             throw new BusinessLogicException("El proveedor es inválido");
         }
         ProveedorEntity proveedorEntity = proveedorPersistence.find(vueloEntity.getProveedor().getId());
         
-        if (vueloEntity.getNumero().equals(null))
+        if (vueloEntity.getNumero() == null)
         {
             throw new BusinessLogicException("El Numero de vuelo es inválido");
         }

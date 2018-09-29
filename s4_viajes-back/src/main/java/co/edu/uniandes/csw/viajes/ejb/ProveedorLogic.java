@@ -6,6 +6,7 @@
 package co.edu.uniandes.csw.viajes.ejb;
 
 import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
+import co.edu.uniandes.csw.viajes.entities.AlojamientoEntity;
 import co.edu.uniandes.csw.viajes.entities.ProveedorEntity;
 import co.edu.uniandes.csw.viajes.entities.TransporteTerrestreEntity;
 import co.edu.uniandes.csw.viajes.entities.VueloEntity;
@@ -124,6 +125,7 @@ public class ProveedorLogic {
      * @param proveedorEntity: proveedor con los cambios para ser actualizado,
      * por ejemplo el nombre.
      * @return el proveedor con los cambios actualizados en la base de datos.
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      */
     public ProveedorEntity updateProveedor(Long proveedorId, ProveedorEntity proveedorEntity) throws BusinessLogicException
     {
@@ -165,6 +167,10 @@ public class ProveedorLogic {
         List<ActividadEntity> actividades = getProveedor(proveedorId).getActividades();
         if (actividades != null && !actividades.isEmpty()) {
             throw new BusinessLogicException("No se puede borrar el proveedor con id = " + proveedorId + " porque tiene actividades asociados");
+        }
+                List<AlojamientoEntity> alojamientos = getProveedor(proveedorId).getAlojamientos();
+        if (alojamientos != null && !alojamientos.isEmpty()) {
+            throw new BusinessLogicException("No se puede borrar el proveedor con id = " + proveedorId + " porque tiene alojamientos asociados");
         }
         persistence.delete(proveedorId);
         LOGGER.log(Level.INFO, "Termina proceso de borrar el proveedor con id = {0}", proveedorId);

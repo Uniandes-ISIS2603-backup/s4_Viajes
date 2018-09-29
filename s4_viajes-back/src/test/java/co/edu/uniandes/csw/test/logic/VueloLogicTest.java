@@ -117,7 +117,7 @@ public class VueloLogicTest {
      *
      * @throws BusinessLogicException
      */
-    @Test
+    @Test(expected = BusinessLogicException.class)
     public void createVueloTest() throws BusinessLogicException {
         VueloEntity newEntity = factory.manufacturePojo(VueloEntity.class);       
         
@@ -151,7 +151,7 @@ public class VueloLogicTest {
      *
      * @throws BusinessLogicException
      */
-    @Test
+    @Test(expected = BusinessLogicException.class)
     public void createVueloTestConNumeronvalido() throws BusinessLogicException {
         VueloEntity newEntity = factory.manufacturePojo(VueloEntity.class);
         newEntity.setProveedor(proveedorData.get(0));
@@ -164,7 +164,7 @@ public class VueloLogicTest {
      *
      * @throws BusinessLogicException
      */
-    @Test
+    @Test(expected = BusinessLogicException.class)
     public void createVueloTestConNumerovalido2() throws BusinessLogicException {
         VueloEntity newEntity = factory.manufacturePojo(VueloEntity.class);
         newEntity.setProveedor(proveedorData.get(0));
@@ -177,7 +177,7 @@ public class VueloLogicTest {
      *
      * @throws BusinessLogicException
      */
-    @Test
+   @Test(expected = BusinessLogicException.class)
     public void createVueloTestConNumeroExistente() throws BusinessLogicException {
         VueloEntity newEntity = factory.manufacturePojo(VueloEntity.class);
         newEntity.setProveedor(proveedorData.get(0));
@@ -190,7 +190,7 @@ public class VueloLogicTest {
      *
      * @throws BusinessLogicException
      */
-    @Test
+    @Test(expected = BusinessLogicException.class)
     public void createVueloTestConProveedorInexistente() throws BusinessLogicException {
         VueloEntity newEntity = factory.manufacturePojo(VueloEntity.class);
         ProveedorEntity proveedorEntity = new ProveedorEntity();
@@ -204,7 +204,7 @@ public class VueloLogicTest {
      *
      * @throws BusinessLogicException
      */
-    @Test
+    @Test(expected = BusinessLogicException.class)
     public void createVueloTestConNullProveedor() throws BusinessLogicException {
         VueloEntity newEntity = factory.manufacturePojo(VueloEntity.class);
         newEntity.setProveedor(null);
@@ -253,7 +253,7 @@ public class VueloLogicTest {
      *
      * @throws BusinessLogicException
      */
-    @Test
+    @Test(expected = BusinessLogicException.class)
     public void updateVueloTest() throws BusinessLogicException {
         VueloEntity entity = data.get(0);
         VueloEntity pojoEntity = factory.manufacturePojo(VueloEntity.class);
@@ -264,7 +264,7 @@ public class VueloLogicTest {
         
         Assert.assertEquals(pojoEntity.getId(), resp.getId());
         Assert.assertEquals(pojoEntity.getNumero(), resp.getNumero());
-        Assert.assertEquals(entity.getCosto(), resp.getCosto(), 0);
+        Assert.assertEquals(pojoEntity.getCosto(), resp.getCosto(), 0);
         Assert.assertEquals(pojoEntity.getPuntaje(), resp.getPuntaje(), 0);
         Assert.assertEquals(pojoEntity.getLatO(), resp.getLatO(), 0);
         Assert.assertEquals(pojoEntity.getLatD(), resp.getLatD(), 0);
@@ -305,7 +305,7 @@ public class VueloLogicTest {
      *
      * @throws BusinessLogicException
      */
-    @Test
+    @Test(expected = BusinessLogicException.class)
     public void deleteVueloTest() throws BusinessLogicException {
         VueloEntity entity = data.get(0);
         vueloLogic.deleteVuelo(entity.getId());
