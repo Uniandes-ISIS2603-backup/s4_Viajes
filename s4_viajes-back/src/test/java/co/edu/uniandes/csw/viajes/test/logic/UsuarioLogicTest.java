@@ -93,7 +93,6 @@ public class UsuarioLogicTest {
          em.createQuery("delete from UsuarioEntity").executeUpdate();
          //em.createQuery("delete from CarritoComprasEntity").executeUpdate(); 
   
-
     }
 
     /**

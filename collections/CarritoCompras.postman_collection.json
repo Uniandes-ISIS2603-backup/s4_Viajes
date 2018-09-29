@@ -12,7 +12,7 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "c42567af-0faf-4240-9bbe-b1410a26310e",
+						"id": "aabcce47-ee22-491b-9cc6-331d291f7795",
 						"type": "text/javascript",
 						"exec": [
 							"tests[\"El costo inicial del carrito debe ser igual a cero\"] = responseCode.code === 412;"
@@ -33,12 +33,12 @@
 					"raw": "\r\n\t{\r\n\t\"costo\": 30,\r\n\t\"nombre\": \"carrito\",\r\n    \"id\":\"502030\"\r\n\t}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/s4_viajes-api/api/carritoscompras",
+					"raw": "http://{{ip}}:{{puerto}}/s4_viajes-api/api/carritoscompras",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{ip}}"
 					],
-					"port": "8080",
+					"port": "{{puerto}}",
 					"path": [
 						"s4_viajes-api",
 						"api",
@@ -55,10 +55,11 @@
 				{
 					"listen": "test",
 					"script": {
-						"id": "68caed0d-1e9c-4c69-a21a-30039547d368",
+						"id": "902f8bbe-3ccd-467c-bcc7-f9e9f1570b45",
 						"type": "text/javascript",
 						"exec": [
-							"tests[\"No genera problemas el POST\"] = responseCode.code === 412;"
+							"postman.setGlobalVariable(\"new_id_c\",data.id);",
+							"tests[\"No genera problemas el POST\"] = responseCode.code === 200;"
 						]
 					}
 				}
@@ -76,12 +77,12 @@
 					"raw": "\r\n\t{\r\n\t\"costo\": 0,\r\n\t\"nombre\": \"carrito\",\r\n    \"id\":\"502030\"\r\n\t\t\r\n\t}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/s4_viajes-api/api/carritoscompras",
+					"raw": "http://{{ip}}:{{puerto}}/s4_viajes-api/api/carritoscompras",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{ip}}"
 					],
-					"port": "8080",
+					"port": "{{puerto}}",
 					"path": [
 						"s4_viajes-api",
 						"api",
@@ -93,7 +94,19 @@
 			"response": []
 		},
 		{
-			"name": "http://localhost:8080/s4_viajes-api/api/carritoscompras/5",
+			"name": "Edita un carrito de compras",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e1613964-9b59-43f2-a216-a9f33067fecc",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"El PUT no genera error\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
 			"request": {
 				"method": "PUT",
 				"header": [
@@ -104,15 +117,47 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "\r\n\t{\r\n\t\"costo\": 30,\r\n\t\"nombre\": \"carrito\",\r\n    \"id\":\"502030\"\r\n\t\t\r\n\t}"
+					"raw": "\r\n\t{\r\n\t\"costo\": 20,\r\n\t\"nombre\": \"carrote\"\r\n\t}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/s4_viajes-api/api/carritoscompras/1",
+					"raw": "http://{{ip}}:{{puerto}}/s4_viajes-api/api/carritoscompras/{{new_id_c}}",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{ip}}"
 					],
-					"port": "8080",
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"carritoscompras",
+						"{{new_id_c}}"
+					]
+				},
+				"description": "Actualiza un carrito de compras no existente. "
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar carrito de compras con valor negativo/",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n\t{\r\n\t\"costo\": -12,\r\n\t\"nombre\": \"carrito\",\r\n    \"id\":\"502030\"\r\n\t\t\r\n\t}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s4_viajes-api/api/carritoscompras/1",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
 					"path": [
 						"s4_viajes-api",
 						"api",
@@ -120,7 +165,7 @@
 						"1"
 					]
 				},
-				"description": "Actualiza un carrito de compras no existente. "
+				"description": "Actualiza un carrito de compras existente. "
 			},
 			"response": []
 		}

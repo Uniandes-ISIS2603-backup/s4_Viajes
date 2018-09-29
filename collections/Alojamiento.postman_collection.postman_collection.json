@@ -1,0 +1,521 @@
+{
+	"info": {
+		"_postman_id": "1f9b6227-e1c0-4b01-acfc-d8ac35ba9bb5",
+		"name": "Alojamiento.postman_collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear un proveedor ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a2f3aa72-8f1a-4bb8-af4f-65d47bda4f8a",
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_e\", data.id);",
+							"tests[\"No genera error en el POST.\"] = responseCode.code == 200; ",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"Proveedor1\",\n\t\"contrasenia\": \"123121Yy\",\n\t\"nombre\": \"Pablo\",\n\t\"puntuacion\": 4\n}"
+				},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/proveedores",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"proveedores"
+					]
+				},
+				"description": "Creacion de un proveedor con el fin de asignarlo a u libro. "
+			},
+			"response": []
+		},
+		{
+			"name": "Crear alojamiento con nombre invalido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b1b60819-98d2-4469-b42d-b8c3cf18ad70",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No crea con nombre invalido.\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error.\"] = responseBody.has(\"El nombre ingresado es invalido\"); ",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"costo\": 5.0,\n\t\"estrellas\": 2,\n\t\"nombre\": \"1212\",\n\t\"tipo\": \"Hotel\",\n\t\"noches\": 5,\n\t\"latitud\": 44.9996, \n\t\"longitud\": 57.9663,\n\t\"puntuacion\": 4,\n\t\"ubicacion\": \"Cali\",\n\t\"proveedor\": {\"id\": {{new_id_e}}}\n}"
+				},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/alojamientos",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"alojamientos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear alojamiento con costo invalido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "090d9275-bdee-4e2a-9e01-63ef846a30a4",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No crea con costo invalido.\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error.\"] = responseBody.has(\"El costo ingresado es invalido\"); ",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"costo\": -2,\n\t\"estrellas\": 2,\n\t\"nombre\": \"Hotel2\",\n\t\"tipo\": \"Hotel\",\n\t\"noches\": 5,\n\t\"latitud\": 44.9996, \n\t\"longitud\": 57.9663,\n\t\"puntuacion\": 4,\n\t\"ubicacion\": \"Bogota\",\n\t\"proveedor\": {\"id\": {{new_id_e}}}\n}"
+				},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/alojamientos",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"alojamientos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear un alojamiento",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "87df13f8-0f2e-429d-a453-bf9048ef7e5d",
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_e\", data.id);",
+							"tests[\"No genera error en el POST.\"] = responseCode.code == 200; ",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"costo\": 5.0,\n\t\"estrellas\": 2,\n\t\"nombre\": \"Hotel3\",\n\t\"tipo\": \"Hotel\",\n\t\"noches\": 5,\n\t\"latitud\": 44.9996, \n\t\"longitud\": 57.9663,\n\t\"puntuacion\": 4,\n\t\"ubicacion\": \"Bogota\",\n\t\"proveedor\": {\"id\": {{new_id_e}}}\n}"
+				},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/alojamientos",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"alojamientos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear un alojamiento con el mismo nombre",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ae708075-814a-4635-a732-9dfc109c904c",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No crea con el mismo nombre\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El nombre ya existe\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"costo\": 5.0,\n\t\"estrellas\": 2,\n\t\"nombre\": \"Hotel3\",\n\t\"tipo\": \"Hotel\",\n\t\"noches\": 5,\n\t\"latitud\": 44.9996, \n\t\"longitud\": 57.9663,\n\t\"puntuacion\": 4,\n\t\"ubicacion\": \"Bogota\",\n\t\"proveedor\": {\"id\": {{new_id_e}}}\n}"
+				},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/alojamientos",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"alojamientos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear un alojamiento con proveedor invalido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0953ec8f-cce9-474a-8665-72bcb160d62b",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No crea con proveedor que no existe\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El proveedor es invalido\");",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"costo\": 5.0,\n\t\"estrellas\": 2,\n\t\"nombre\": \"Hotel3\",\n\t\"tipo\": \"Hotel\",\n\t\"noches\": 5,\n\t\"latitud\": 44.9996, \n\t\"longitud\": 57.9663,\n\t\"puntuacion\": 4,\n\t\"ubicacion\": \"Bogota\",\n\t\"proveedor\": {\"id\": 0}\n}"
+				},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/alojamientos",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"alojamientos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener todos los alojamientos",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "32027c7a-ce76-4f01-ba5b-83af2727c784",
+						"type": "text/javascript",
+						"exec": [
+							"var data= JSON.parse(responseBody);",
+							"tests[\"No genera error en el Get all\"] = responseCode.code === 200;",
+							"tests[\"alojamientos count\"] = data.length >= 0;\" ",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/alojamientos",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"alojamientos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un alojamiento",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d5b86a1f-0b24-457a-8ded-eaae5ab89c90",
+						"type": "text/javascript",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"No genera error en el Get\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/alojamientos/{{new_id_b}}",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"alojamientos",
+						"{{new_id_b}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un alojamiento que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "671a019a-4976-4537-b3d6-1d781b583ec1",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No consulta con id que no existe\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /alojamientos/0 no existe.\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/alojamientos/0",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"alojamientos",
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modificar un alojamiento que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "b77ab419-37b8-4bef-919e-ee5d288a2f79",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No actualiza con id que no existe\"] = responseCode.code === 404;",
+							"tests[\"Mensaje correcto de error\"] = responseBody.has(\"El recurso /alojamientos/0 no existe.\"); "
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"costo\": 5.0,\n\t\"estrellas\": 2,\n\t\"nombre\": \"Hotel5\",\n\t\"tipo\": \"Hotel\",\n\t\"noches\": 5,\n\t\"latitud\": 44.9996, \n\t\"longitud\": 57.9663,\n\t\"puntuacion\": 4,\n\t\"ubicacion\": \"Bogota\",\n\t\"proveedor\": {\"id\": {{new_id_e}}}\n}"
+				},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/alojamientos/0",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"alojamientos",
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modificar un alojamiento",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "54f814ac-bb38-4bc3-9893-e3325a783d50",
+						"type": "text/javascript",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"No genera error en el Put\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"costo\": 8.0,\n\t\"estrellas\": 2,\n\t\"nombre\": \"Hotel3\",\n\t\"tipo\": \"Hotel\",\n\t\"noches\": 5,\n\t\"latitud\": 44.9996, \n\t\"longitud\": 57.9663,\n\t\"puntuacion\": 4,\n\t\"ubicacion\": \"Bogota\",\n\t\"proveedor\": {\"id\": {{new_id_e}}}\n}"
+				},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/alojamientos/{{new_id_b}}",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"alojamientos",
+						"{{new_id_b}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar un alojamiento",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a7959d48-a656-4568-9459-6f9f9cd7d579",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Delete\"] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/alojamientos/{{new_id_b}}",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"alojamientos",
+						"{{new_id_b}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
