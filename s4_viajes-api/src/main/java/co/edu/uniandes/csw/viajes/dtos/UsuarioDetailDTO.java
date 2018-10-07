@@ -7,9 +7,12 @@ package co.edu.uniandes.csw.viajes.dtos;
 
 import co.edu.uniandes.csw.viajes.entities.PagoEntity;
 import co.edu.uniandes.csw.viajes.entities.UsuarioEntity;
+import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -63,7 +66,11 @@ public class UsuarioDetailDTO extends UsuarioDTO implements Serializable {
         if (pagos != null) {
             List<PagoEntity> pagosEntity = new ArrayList<>();
             for (PagoDTO dtoPago : pagos) {
-                pagosEntity.add(dtoPago.toEntity());
+                try {
+                    pagosEntity.add(dtoPago.toEntity());
+                } catch (BusinessLogicException ex) {
+                    Logger.getLogger(UsuarioDetailDTO.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }
             usuarioEntity.setPagos(pagosEntity);
         }
@@ -89,13 +96,12 @@ public class UsuarioDetailDTO extends UsuarioDTO implements Serializable {
     public void setPagos(List<PagoDTO> pagos) {
         this.pagos = pagos;
     }
-    
-    
 
+    
+    
        @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
     }
     
     }
-    

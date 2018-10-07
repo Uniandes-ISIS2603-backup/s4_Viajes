@@ -26,24 +26,112 @@ public class PagoEntity extends BaseEntity implements Serializable  {
     private Long pagoId;
     private boolean pagaConTarjeta;
     private String tarjeta;
+    private long idComboAPagar;
 
     @PodamExclude
     @ManyToOne
     private UsuarioEntity usuario;
 
     public PagoEntity(){
-        pagoId=getId();
     }
+    
+    
     
     public ComboEntity getaPagar() {
         return aPagar;
     }
 
     public void setaPagar(ComboEntity aPagar) {
+        if(aPagar!=null)
+            idComboAPagar=aPagar.getComboIdLong();
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
+        
         this.aPagar = aPagar;
     }
     
-        public Long getPagoId() {
+    public Long getPagoId() {
         pagoId=getId();
         return pagoId;
     }
@@ -67,6 +155,16 @@ public class PagoEntity extends BaseEntity implements Serializable  {
     public void setTarjeta(String tarjeta) {
         this.tarjeta = tarjeta;
     }
+
+    public long getIdComboAPagar() {
+        return idComboAPagar;
+    }
+
+    public void setIdComboAPagar(long idComboAPagar) {
+        this.idComboAPagar = idComboAPagar;
+    }
+    
+   
     
     
     

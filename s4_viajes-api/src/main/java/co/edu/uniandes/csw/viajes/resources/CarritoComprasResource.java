@@ -15,7 +15,6 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -55,15 +54,24 @@ public class CarritoComprasResource {
     public CarritoComprasDTO createCarritoCompras(CarritoComprasDTO carritoCompras) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "CarritoComprasResource createCarritoCompras: input: {0}", carritoCompras.toString());
         // Convierte el DTO (json) en un objeto Entity para ser manejado por la lógica.
-        CarritoComprasEntity carritoComprasEntity = carritoCompras.toEntity();
-        CarritoComprasDTO nuevocarritoDTO = new CarritoComprasDTO(carritoComprasEntity);
+        CarritoComprasDTO nuevocarritoDTO = new CarritoComprasDTO(carritoComprasLogic.createCarrito(carritoCompras.toEntity()));
         return nuevocarritoDTO;
     }
     
    
-    
+     /**
+     * Modifica un Carrito de Compras con la informacion que se recibe en el cuerpo de
+     * la petición y se regresa un objeto identico con un id auto-generado por
+     * la base de datos.
+     *
+     * @param id - El id del Carrito que se desea modificar.
+     * @param nuevo - El nuevo carrito de compras. 
+     * @return JSON {@link ActividadDTO} - El Carrito modificado.
+     * @throws BusinessLogicException {@link BusinessLogicExceptionMapper} -
+     * Error de lógica cuando no existe el carrito.
+     */
     @PUT
-    @Path("id: \\d+")
+    @Path("{id: \\d+}")
     public CarritoComprasDTO modificarCarrito(@PathParam("id") Long id, CarritoComprasDTO nuevo) throws WebApplicationException, BusinessLogicException {
     nuevo.setId(id);
     if(carritoComprasLogic.getCarrito(id)==null){
@@ -71,24 +79,33 @@ public class CarritoComprasResource {
         throw new WebApplicationException("El recurso /carritos/" + id + " no existe.", 404);
       }
     
-    CarritoComprasDTO carritoDTO = new CarritoComprasDTO();
+    CarritoComprasDTO carritoDTO = new CarritoComprasDTO(carritoComprasLogic.updateCarritoCompras(id, nuevo.toEntity()));
+        LOGGER.log(Level.INFO, "UsuarioResource updateUsuario: output: {0}", carritoDTO.toString());
 
-        return nuevo;
+        return carritoDTO;
     }
 
     /**
-     * Borra la actividad con el id asociado recibido en la URL.
+     * Borra el carrito de compras con el id asociado recibido en la URL.
      *
-     * @param actividadId Identificador de la actividad que se desea borrar.
+     * @param id Identificador de la actividad que se desea borrar.
      * Este debe ser una cadena de dígitos.
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      */
     @DELETE
     @Path("id: \\d+")
-    public void deleteCarritoCompras(@PathParam("id") Long id) {
+    public void deleteCarritoCompras(@PathParam("id") Long id) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "CarritoComprasResource deleteCarritoCompras: input: {0}", id);
         // Invoca la lógica para borrar la actividad
-        //editorialLogic.deleteEditorial(editorialsId);
-        LOGGER.info("ActividadResource deleteActividad: output: void");
+    CarritoComprasEntity entity = carritoComprasLogic.getCarrito(id);
+        if(entity==null)
+       {
+           throw new WebApplicationException("El recurso /carritos/"+ id + "no existe.", 404);
+           
+       }
+        
+       carritoComprasLogic.deleteCarritoCompras(id);        
+        LOGGER.info("ActividadResource deleteCarrito: output: void");
     }
     
 }

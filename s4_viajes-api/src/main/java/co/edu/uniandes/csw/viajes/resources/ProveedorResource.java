@@ -187,18 +187,18 @@ public class ProveedorResource {
      * Error de lógica que se genera cuando no se encuentra el alojamiento.
      */
     @Path("{proveedoresId: \\d+}/alojamientos")
-    public Class<AlojamientoResource> getAlojamientoResource(@PathParam("proveedoresId") Long proveedoresId) {
+    public Class<ProveedorAlojamientosResource> getProveedorAlojamientoResource(@PathParam("proveedoresId") Long proveedoresId) {
         if (proveedorLogic.getProveedor(proveedoresId) == null) {
             throw new WebApplicationException("El recurso /proveedores/" + proveedoresId + "/alojamientos no existe.", 404);
         }
-        return AlojamientoResource.class;
+        return ProveedorAlojamientosResource.class; 
     }
     
     @Path("{proveedoresId: \\d+}/transportes")
-    public Class<TransporteTerrestreResource> getTransporteResource(@PathParam("proveedoresId") Long proveedoresId) {
+    public Class<ProveedorTransportesResource> getTransporteResource(@PathParam("proveedoresId") Long proveedoresId) {
         if (proveedorLogic.getProveedor(proveedoresId) == null) {
             throw new WebApplicationException("El recurso /proveedores/" + proveedoresId + "/transportes no existe.", 404);
         }
-        return TransporteTerrestreResource.class;
+        return ProveedorTransportesResource.class;
     }
 }

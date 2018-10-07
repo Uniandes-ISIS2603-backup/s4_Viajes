@@ -1,0 +1,312 @@
+{
+	"info": {
+		"_postman_id": "8483c2da-b642-4acc-99d1-e149f4edeb87",
+		"name": "TransporteTerrestre.postman_collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear un proveedor",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6db2e926-ad19-4fec-b0e8-31536960562d",
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_e\", data.id);",
+							"tests[\"No genera error en el POST.\"] = responseCode.code == 200; ",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"username\": \"Proveedor2\",\n\t\"contrasenia\": \"123121Yy\",\n\t\"nombre\": \"Juan\",\n\t\"puntuacion\": 4\n}"
+				},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/proveedores",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"proveedores"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear un transporte con costo invalido",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "4a2ffd15-102d-45af-b9c3-9bd314f76e5b",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No crea con costo invalido.\"] = responseCode.code === 412;",
+							"tests[\"Mensaje correcto de error.\"] = responseBody.has(\"El costo ingresado es invalido\"); ",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"costo\": -6,\n\t\"tipo\": \"taxi\",\n\t\"destino\": \"Cartagena\",\n\t\"numeroDias\": 0,\n\t\"numeroHoras\": 5,\n\t\"numeroMinutos\": 32,\n\t\"latitudOrigen\": 4.45454,\n\t\"latitudDestino\": 5.69858,\n\t\"longitudOrigen\": 3.24544,\n\t\"longitudDestino\": 48.25215,\n\t\"puntuacion\": 1,\n\t\"proveedor\": {\"id\": {{new_id_e}}}\n}"
+				},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/transportes",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"transportes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Crear un transporte",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3d9515db-a2cf-4efa-9449-4430ff14f0de",
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_e\", data.id);",
+							"tests[\"No genera error en el POST.\"] = responseCode.code == 200; ",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"costo\": 10.0,\n\t\"tipo\": \"taxi\",\n\t\"destino\": \"Cartagena\",\n\t\"numeroDias\": 0,\n\t\"numeroHoras\": 5,\n\t\"numeroMinutos\": 32,\n\t\"latitudOrigen\": 4.45454,\n\t\"latitudDestino\": 5.69858,\n\t\"longitudOrigen\": 3.24544,\n\t\"longitudDestino\": 48.25215,\n\t\"puntuacion\": 1,\n\t\"proveedor\": {\"id\": {{new_id_e}}}\n}"
+				},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/transportes",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"transportes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener todos los transportes",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6c591e42-8a2d-4657-9de5-f127a6126135",
+						"type": "text/javascript",
+						"exec": [
+							"var data= JSON.parse(responseBody);",
+							"tests[\"No genera error en el Get all\"] = responseCode.code === 200;",
+							"tests[\"transportes count\"] = data.length >= 0; ",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/transportes",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"transportes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un transporte",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "430e5597-aada-4f16-9fe5-85a7c690348e",
+						"type": "text/javascript",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"No genera error en el Get\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/transportes/{{new_id_b}}",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"transportes",
+						"{{new_id_b}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Modificar un transporte",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e5bb428b-9908-4a4f-b6b0-185d072c0202",
+						"type": "text/javascript",
+						"exec": [
+							"console.log(responseBody);",
+							"var data = JSON.parse(responseBody);",
+							"tests[\"No genera error en el Put\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"costo\": 7.0,\n\t\"tipo\": \"taxi\",\n\t\"destino\": \"Cartagena\",\n\t\"numeroDias\": 0,\n\t\"numeroHoras\": 5,\n\t\"numeroMinutos\": 32,\n\t\"latitudOrigen\": 4.45454,\n\t\"latitudDestino\": 5.69858,\n\t\"longitudOrigen\": 3.24544,\n\t\"longitudDestino\": 48.25215,\n\t\"puntuacion\": 1,\n\t\"proveedor\": {\"id\": {{new_id_e}}}\n}"
+				},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/transportes/{{new_id_b}}",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"transportes",
+						"{{new_id_b}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar un transporte",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d0a3b740-02a7-44d3-bbe6-bedec91a52a7",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Delete\"] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/transportes/{{new_id_b}}",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"transportes",
+						"{{new_id_b}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

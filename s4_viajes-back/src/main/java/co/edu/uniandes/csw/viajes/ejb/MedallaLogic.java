@@ -9,7 +9,6 @@ import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.MedallaPersistence;
 import co.edu.uniandes.csw.viajes.entities.MedallaEntity;
 import java.util.List;
-import static java.util.Objects.isNull;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -43,36 +42,7 @@ public class MedallaLogic {
             throw new BusinessLogicException("Ya existe una medalla con el nombre \"" + medallaEntity.getNombre() + "\"");
         }
             
-        String input = medallaEntity.getNombre();
-
-        Pattern p1 = Pattern.compile("^[a-zA-Z0-9!?¡¿,.]{4,25}");
-        Matcher m1 = p1.matcher(input);
-        
-        if(m1.find() == false)
-        {
-            throw new BusinessLogicException("El nombre de la medalla debe tener mínimo 4 letras y mìnimo 25 letras y solo puede contener los siguientes caracteres especiales: ,.¡¿?!.");
-        }
-        
-        input = medallaEntity.getDescripcion();
-         
-        p1 = Pattern.compile("^[A-Z][a-zA-Z0-9¡¿][a-zA-Z0-9!-/:-@¿¡]{4,100}");
-        m1 = p1.matcher(input);
-        
-        if(m1.find() == false)
-        {
-            throw new BusinessLogicException("La descripciòn de la medalla debe tener mínimo 4 letras y maximo 100 letras.");
-        }
-        
-        input = medallaEntity.getRutaImagen();
-         
-        p1 = Pattern.compile("[a-zA-Z0-9.]{8,30}");
-        m1 = p1.matcher(input);
-        
-        if(m1.find() == false)
-        {
-            throw new BusinessLogicException("La ruta de la imagen debe tener entre 8 y 30 caracteres.");
-        }
-
+        validarReglasDeNegocio(medallaEntity);
         
         // Invoca la persistencia para crear la medalla
         persistence.create(medallaEntity);                              
@@ -121,41 +91,13 @@ public class MedallaLogic {
      */
     public MedallaEntity updateMedalla(Long medallaId, MedallaEntity medallaEntity) throws BusinessLogicException
     {
-        LOGGER.log(Level.INFO, "Inicia proceso de actualizar la medalla con id = {0}", medallaId);
+        LOGGER.log(Level.INFO, "Inicia proceso de actualizar la medalla con id = {0} ", medallaId);
          //Verifica la regla de negocio que dice que no se puede actualizar el id de un vuelo con un vuelo que ya tenga ese id.
         if (persistence.find(medallaEntity.getId()) == null) 
         {
-            throw new BusinessLogicException("Ya existe una medalla con el id que quiere cambiar \"" + medallaEntity.getId() + "\"");
+            throw new BusinessLogicException("No existe una medalla con el id \"" + medallaEntity.getId() + "\" por lo que no se puede modificar");
         }
-        String input = medallaEntity.getNombre();
-
-        Pattern p1 = Pattern.compile("^[a-zA-Z0-9!?¡¿,.]{4,25}");
-        Matcher m1 = p1.matcher(input);
-        
-        if(m1.find() == false)
-        {
-            throw new BusinessLogicException("El nombre de la medalla debe tener mínimo 4 letras y mìnimo 25 letras y solo puede contener los siguientes caracteres especiales: ,.¡¿?!.");
-        }
-        
-        input = medallaEntity.getDescripcion();
-         
-        p1 = Pattern.compile("^[A-Z][a-zA-Z0-9¡¿][a-zA-Z0-9!-/:-@¿¡]{4,100}");
-        m1 = p1.matcher(input);
-        
-        if(m1.find() == false)
-        {
-            throw new BusinessLogicException("La descripciòn de la medalla debe tener mínimo 4 letras y maximo 100 letras.");
-        }
-        
-        input = medallaEntity.getRutaImagen();
-         
-        p1 = Pattern.compile("[a-zA-Z0-9.]{8,30}");
-        m1 = p1.matcher(input);
-        
-        if(m1.find() == false)
-        {
-            throw new BusinessLogicException("La ruta de la imagen debe tener entre 8 y 30 caracteres.");
-        }
+        validarReglasDeNegocio(medallaEntity);
         
         MedallaEntity newEntity = persistence.update(medallaEntity);
         LOGGER.log(Level.INFO, "Termina proceso de actualizar la medalla con id = {0}", medallaEntity.getId());
@@ -177,5 +119,53 @@ public class MedallaLogic {
         }
         persistence.delete(medallaId);
         LOGGER.log(Level.INFO, "Termina proceso de borrar la medalla con id = {0}", medallaId);
+    }
+    
+    /**
+     * Metodo qeu valida las reglas de negocio en el create y el update
+     * @param medallaEntity La medalla a la cual se le quieren validar las reglas de negocio.
+     * @throws BusinessLogicException Si alguna de las reglas de negocio no se cumple.
+     */
+    public void validarReglasDeNegocio(MedallaEntity medallaEntity) throws BusinessLogicException{
+        
+        String input = medallaEntity.getNombre();
+        
+        if(input == null || input.equals("")){
+            throw new BusinessLogicException("El nombre de la medalla no puede ser vacío o nulo.");
+        }
+
+        Pattern p1 = Pattern.compile("^[a-zA-Z0-9!-/:-@¿¡ ]{4,25}$");
+        Matcher m1 = p1.matcher(input);
+
+        if(!m1.find())
+        {
+            throw new BusinessLogicException("El nombre de la medalla debe tener mínimo 4 letras y mìnimo 25 letras y solo puede contener los siguientes caracteres especiales: ,.¡¿?!.");
+        }
+        
+        input = medallaEntity.getDescripcion();
+         
+        if(input == null || input.equals("")){
+            throw new BusinessLogicException("La descripción de la medalla no puede ser vacía o nula.");
+        }
+        Pattern p2 = Pattern.compile("^[A-Z¡¿0-9]{1}[a-zA-Z0-9!-/:-@¿¡\n ]{3,100}$");
+        m1 = p2.matcher(input);
+        
+        if(!m1.find())
+        {
+            throw new BusinessLogicException("La descripciòn de la medalla debe tener mínimo 4 letras y maximo 100 letras.");
+        }
+        
+        input = medallaEntity.getRutaImagen();
+         
+        if(input == null || input.equals("")){
+            throw new BusinessLogicException("La ruta de la imagen no puede ser vacía o nula.");
+        }
+        Pattern p3 = Pattern.compile("[a-zA-Z0-9._]{8,30}$");
+        m1 = p3.matcher(input);
+        
+        if(!m1.find())
+        {
+            throw new BusinessLogicException("La ruta de la imagen debe tener entre 8 y 30 caracteres.");
+        }
     }
 }

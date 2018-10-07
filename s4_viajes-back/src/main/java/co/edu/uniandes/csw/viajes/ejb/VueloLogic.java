@@ -145,10 +145,10 @@ public class VueloLogic {
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar el vuelo con id = {0}", vueloId);
         // Verifica la regla de negocio que dice que no se puede actualizar el id de un vuelo con un vuelo que ya tenga ese id.
 
-        if (vueloEntity.getId() == vueloId) 
-        {
-            throw new BusinessLogicException("Ya existe un Vuelo con el id que quiere cambiar \"" + vueloEntity.getId() + "\"");
-        } 
+//        if (vueloEntity.getId() == vueloId) 
+//        {
+//            throw new BusinessLogicException("Ya existe un Vuelo con el id que quiere cambiar \"" + vueloEntity.getId() + "\"");
+//        } 
         
         if (!validateNumero(vueloEntity.getNumero())) {
             throw new BusinessLogicException("El Numero de vuelo es inválido");

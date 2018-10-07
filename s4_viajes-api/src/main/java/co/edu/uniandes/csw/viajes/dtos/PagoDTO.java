@@ -7,6 +7,7 @@ package co.edu.uniandes.csw.viajes.dtos;
 
 import co.edu.uniandes.csw.viajes.entities.ComboEntity;
 import co.edu.uniandes.csw.viajes.entities.PagoEntity;
+import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -20,6 +21,7 @@ public class PagoDTO {
     private Long pagoId;
     private boolean pagaConTarjeta;
     private String tarjeta;
+    private long idComboAPagar;
     
     /**
      * Constructor vacio.
@@ -40,6 +42,7 @@ public class PagoDTO {
             pagoId=pagoEntity.getPagoId();
             pagaConTarjeta=pagoEntity.isPagaConTarjeta();
             tarjeta=pagoEntity.getTarjeta();
+            idComboAPagar=pagoEntity.getIdComboAPagar();
         }
     }
 
@@ -76,20 +79,28 @@ public class PagoDTO {
     }
     
     
-    
+    public long getIdComboAPagar() {
+        return idComboAPagar;
+    }
+
+    public void setIdComboAPagar(long idComboAPagar) {
+        this.idComboAPagar = idComboAPagar;
+    }
     
     /**
      * Método para transformar el DTO a una entidad.
      * @return La entidad del DTO asociado.
      */
-      public PagoEntity toEntity() 
+      public PagoEntity toEntity() throws BusinessLogicException 
     {
         PagoEntity pagoEntity = new PagoEntity();
         if(aPagar!=null)pagoEntity.setaPagar(aPagar.toEntity());
         else pagoEntity.setaPagar(null);
 //        pagoEntity.setPagoId(pagoId);
         pagoEntity.setPagaConTarjeta(pagaConTarjeta);
-        pagoEntity.setTarjeta(tarjeta);
+        pagoEntity.setIdComboAPagar(idComboAPagar);
+        if(pagaConTarjeta)
+            pagoEntity.setTarjeta(tarjeta);
         return pagoEntity; 
     }
       

@@ -165,9 +165,9 @@ public class ActividadResource {
      */
     private List<ActividadDetailDTO> listEntity2DetailDTO(List<ActividadEntity> entityList) {
         List<ActividadDetailDTO> list = new ArrayList<>();
-        for (ActividadEntity entity : entityList) {
+        entityList.forEach((entity) -> {
             list.add(new ActividadDetailDTO(entity));
-        }
+        });
         return list;
     }
     

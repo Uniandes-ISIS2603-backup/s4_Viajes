@@ -99,10 +99,16 @@ public class GuiaLogic {
      * Borrar un editorial
      *
      * @param guiaId: id de la editorial a borrar
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      */
-    public void deleteGuia(Long guiaId) {
+    public void deleteGuia(Long guiaId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de borrar la actividad con id = {0}", guiaId);
         
+        GuiaEntity e = persistence.findByDocumento(guiaId);
+        if(!validarGuiaExistente(e))
+        {
+            throw new BusinessLogicException("El guia a eliminar no existe");
+        }
         
         // Note que, por medio de la inyección de dependencias se llama al método "delete(id)" que se encuentra en la persistencia.
         persistence.delete(guiaId);
@@ -116,7 +122,11 @@ public class GuiaLogic {
     
     private boolean validarPuntuacion(int p)
     {return !(p > 10 || p <0);}
-
+    
+    private boolean validarGuiaExistente(GuiaEntity e)
+    {return !(e == null);}
+      
+    
 
 } 
 

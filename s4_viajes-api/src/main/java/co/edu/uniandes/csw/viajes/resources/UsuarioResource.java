@@ -11,10 +11,10 @@ import co.edu.uniandes.csw.viajes.dtos.UsuarioDetailDTO;
 import co.edu.uniandes.csw.viajes.ejb.UsuarioLogic;
 import co.edu.uniandes.csw.viajes.entities.UsuarioEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import static javafx.scene.input.KeyCode.Z;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
@@ -62,8 +62,7 @@ public class UsuarioResource {
     @POST
     public UsuarioDTO createUsuario(UsuarioDTO usuario) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "UsuarioResource createUsuario: input: {0}", usuario.toString());
-        UsuarioEntity usuarioEntity = usuario.toEntity();
-        UsuarioDTO nuevoUsuarioDTO = new UsuarioDTO(usuarioEntity);
+        UsuarioDTO nuevoUsuarioDTO = new UsuarioDTO(usuarioLogic.createUsuario(usuario.toEntity()));
         LOGGER.log(Level.INFO, "EditorialResource createEditorial: output: {0}", nuevoUsuarioDTO.toString());
 
         return nuevoUsuarioDTO;
@@ -73,11 +72,13 @@ public class UsuarioResource {
      * Obtiene un usuario con su información de acuerdo a su documento.
      * información que fue previamente ingresada en formato JSON.
      *
+     * @param usuarioId
      * @return un usuario y su información de acuerdo a su documento.
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      */
     @GET
     @Path("{usuarioId: \\d+}")
-    public UsuarioDTO consultarUsuarios(@PathParam("usuarioId") Long usuarioId) throws BusinessLogicException {
+    public UsuarioDTO consultarUsuario(@PathParam("usuarioId") Long usuarioId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "UsuarioResource getUsuario: input {0}");
         UsuarioEntity usuarioEntity = usuarioLogic.getUsuario(usuarioId);
         if (usuarioEntity == null) {
@@ -90,15 +91,51 @@ public class UsuarioResource {
 
         LOGGER.log(Level.INFO, "UsuarioResource getUsuario: output {0}");
 
-        return new UsuarioDTO();
+        return usuarioDTO;
 
+    }
+    
+     /**
+     * Convierte una lista de entidades a DTO.
+     *
+     * Este método convierte una lista de objetos UsuarioEntity a una lista de
+     * objetos UsuarioDetailDTO (json)
+     *
+     * @param entityList corresponde a la lista de usuarios de tipo Entity que
+     * vamos a convertir a DTO.
+     * @return la lista de usuarios en forma DTO (json)
+     */
+    private List<UsuarioDetailDTO> listEntity2DetailDTO(List<UsuarioEntity> entityList) {
+        List<UsuarioDetailDTO> list = new ArrayList<>();
+        for (UsuarioEntity entity : entityList) {
+            list.add(new UsuarioDetailDTO(entity));
+        }
+        return list;
+    }
+    
+    
+     /**
+     * Busca y devuelve todos los usuarios que existen en la aplicacion.
+     *
+     * @return JSONArray {@link BookDetailDTO} - Los usuarios encontrados en la
+     * aplicación. Si no hay ninguno retorna una lista vacía.
+     */
+    @GET
+    public List<UsuarioDetailDTO> getUsuarios() {
+        LOGGER.info("BookResource getBooks: input: void");
+        List<UsuarioDetailDTO> listaUsuarios = listEntity2DetailDTO(usuarioLogic.getUsuarios());
+        LOGGER.log(Level.INFO, "UsuarioResource getUsuarios: output: {0}", listaUsuarios.toString());
+        return listaUsuarios;
     }
 
     /**
      * Modifica la informacion de un usuario dado por la información ingresada
      * en formato JSON.
      *
-     * @param nuevo (@link UsuarioDTO) - el usuario que desea modificar.
+     * @param usuarioId - Id del usuario a modificar.
+     * @param nuevo (@link UsuarioDTO) - La nueva información del usuario. 
+     * @return El usuario modificado. 
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      */
 @PUT
  @Path("{usuariosId: \\d+}")
@@ -122,6 +159,7 @@ public class UsuarioResource {
      *
      * @param usuariosId Identificador dl usuario que se desea borrar. Este debe
      * ser una cadena de dígitos (int).
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      */
     @DELETE
     @Path("{usuariosId: \\d+}")
@@ -138,28 +176,6 @@ public class UsuarioResource {
        usuarioLogic.deleteUsuario(usuariosId);
        
     }
-    
-            /**
-     * Conexión con el servicio de entradas para un usuario. {@link EntradaResource}
-     *
-     * Este método conecta la ruta de /usuarios con las rutas de /entradas que
-     * dependen del usuario, es una redirección al servicio que maneja el segmento
-     * de la URL que se encarga de las entradas.
-     *
-     * @param documento El documento del usuario con respecto al cual se accede a la entrada.
-     * @return El servicio de Entradas para ese usuario en paricular.\
-     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
-     * Error de lógica que se genera cuando no se encuentra el usuario.
-     */
-    @Path("{documento: [a-zA-Z][a-zA-Z]*}/entradas")
-    public Class<EntradaResource> getEntradaResource(@PathParam("documento") String documento) {
-    //    if (usuarioLogic.getUsuario(documento) == null) {
-    //      throw new WebApplicationException("El recurso /books/" + documento + "/reviews no existe.", 404);
-    //  }
-        return EntradaResource.class;
-    }
 
 }
-
-   
 
