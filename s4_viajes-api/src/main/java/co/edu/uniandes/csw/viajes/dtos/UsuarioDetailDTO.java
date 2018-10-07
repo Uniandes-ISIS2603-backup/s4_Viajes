@@ -89,9 +89,9 @@ public class UsuarioDetailDTO extends UsuarioDTO implements Serializable {
     public void setPagos(List<PagoDTO> pagos) {
         this.pagos = pagos;
     }
+    
+    
 
-    
-    
        @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
