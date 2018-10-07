@@ -5,9 +5,11 @@
  */
 package co.edu.uniandes.csw.viajes.ejb;
 
+import co.edu.uniandes.csw.viajes.entities.ComboEntity;
 import co.edu.uniandes.csw.viajes.entities.EntradaEntity;
 import co.edu.uniandes.csw.viajes.entities.UsuarioEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
+import co.edu.uniandes.csw.viajes.persistence.ComboPersistence;
 import co.edu.uniandes.csw.viajes.persistence.EntradaPersistence;
 import co.edu.uniandes.csw.viajes.persistence.UsuarioPersistence;
 import java.text.SimpleDateFormat;
@@ -32,6 +34,8 @@ public class EntradaLogic {
     private EntradaPersistence persistence; // Variable para acceder a la persistencia de la aplicación. Es una inyección dedependencias. 
     @Inject
     private UsuarioPersistence usuarioPersistence; 
+    @Inject
+    private ComboPersistence comboPersistence; 
 
     /**
      * Crea una entrada en la persistencia.
@@ -55,6 +59,8 @@ public class EntradaLogic {
         
         verificarReglasDeNegocio(entradaEntity);
         
+        ComboEntity combo = comboPersistence.find(entradaEntity.getCombo().getId());
+        
         if(entradaEntity.getCalificacionComunidad() != 0){
             throw new BusinessLogicException("La calificación de la comunidad inicial es inválida: debe ser 0");
         }
@@ -69,6 +75,7 @@ public class EntradaLogic {
         
         // Invoca la persistencia para crear el entrada
         entradaEntity.setAutor(usuario);
+        entradaEntity.setCombo(combo);
         persistence.create(entradaEntity);
         usuario.getEntradas().add(entradaEntity);
         LOGGER.log(Level.INFO, "Termina proceso de creación de la entrada");
@@ -174,6 +181,9 @@ public class EntradaLogic {
      * @throws BusinessLogicException Si alguna regla de negocio no se cumple.
      */
     public void verificarReglasDeNegocio(EntradaEntity entradaEntity) throws BusinessLogicException{
+        if (entradaEntity.getCombo() == null){
+            throw new BusinessLogicException("El combo asignado a la entrada no puede ser nulo.");
+        }
         if (entradaEntity.getTitulo() == null || entradaEntity.getTitulo().equals(""))
         {
             throw new BusinessLogicException("El titulo es inválido: no puede ser nulo ni vacío");

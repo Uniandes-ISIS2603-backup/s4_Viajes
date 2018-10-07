@@ -176,6 +176,38 @@ public class UsuarioResource {
        usuarioLogic.deleteUsuario(usuariosId);
        
     }
+    
+    /**
+     * Retorna el recurso entrada que le corresponde al usuario ingresado por parametro
+     * @param usuariosId El id del usuario consultado
+     * @return Un EntradaResource
+     */
+    @Path("{usuariosId: \\d+}/entradas")
+    public Class<EntradaResource> getEntradaResource(@PathParam("usuariosId") Long usuariosId) {
+        try {
+            usuarioLogic.getUsuario(usuariosId); 
+        }
+        catch(BusinessLogicException e){
+            throw new WebApplicationException("El recurso /usuarios/" + usuariosId + "/entradas no existe.", 404);
+        }
+        return EntradaResource.class;
+    }
+    
+        /**
+     * Retorna el recurso medalla que le corresponde al usuario ingresado por parametro
+     * @param usuariosId El id del usuario consultado
+     * @return Un UsuarioMedallasResource
+     */
+    @Path("{usuariosId: \\d+}/medallas")
+    public Class<UsuarioMedallasResource> getMedallaResource(@PathParam("usuariosId") Long usuariosId) {
+        try {
+            usuarioLogic.getUsuario(usuariosId); 
+        }
+        catch(BusinessLogicException e){
+            throw new WebApplicationException("El recurso /usuarios/" + usuariosId + "/medallas no existe.", 404);
+        }
+        return UsuarioMedallasResource.class;
+    }
 
 }
 
