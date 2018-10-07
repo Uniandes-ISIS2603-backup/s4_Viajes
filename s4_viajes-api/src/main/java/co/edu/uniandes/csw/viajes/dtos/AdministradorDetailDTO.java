@@ -40,15 +40,12 @@ public class AdministradorDetailDTO extends AdministradorDTO implements Serializ
         super(administradorEntity);
         if (administradorEntity != null) {
             usuarios = new ArrayList<>();
-           }  
-        
-        for(UsuarioEntity entityUsuario: administradorEntity.getUsuarios())
-        {
-            usuarios.add(new UsuarioDTO(entityUsuario));
-            
-        }
-        
-        }
+            for(UsuarioEntity entityUsuario: administradorEntity.getUsuarios())
+            {
+                usuarios.add(new UsuarioDTO(entityUsuario));
+            }    
+        }  
+    }
     
     
     /**
