@@ -146,7 +146,7 @@ public class ActividadGuiaLogicTest {
      *
      * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      */
-    @Test
+    @Test(expected = BusinessLogicException.class)
     public void getGuiaTest() throws BusinessLogicException {
         ActividadEntity entity = data.get(0);
         GuiaEntity guiaEntity = guiasData.get(0);
