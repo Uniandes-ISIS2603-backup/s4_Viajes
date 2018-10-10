@@ -31,17 +31,22 @@ public class ApplicationConfig extends Application {
     private void addRestResourceClasses(Set<Class<?>> resources) {
         resources.add(co.edu.uniandes.csw.viajes.mappers.BusinessLogicExceptionMapper.class);
         resources.add(co.edu.uniandes.csw.viajes.mappers.WebApplicationExceptionMapper.class);
+        resources.add(co.edu.uniandes.csw.viajes.resources.ActividadGuiaResource.class);
         resources.add(co.edu.uniandes.csw.viajes.resources.ActividadResource.class);
         resources.add(co.edu.uniandes.csw.viajes.resources.AdministradorResource.class);
         resources.add(co.edu.uniandes.csw.viajes.resources.AlojamientoProveedorResource.class);
         resources.add(co.edu.uniandes.csw.viajes.resources.AlojamientoResource.class);
         resources.add(co.edu.uniandes.csw.viajes.resources.CarritoComprasResource.class);
         resources.add(co.edu.uniandes.csw.viajes.resources.ComboResource.class);
+        resources.add(co.edu.uniandes.csw.viajes.resources.ComentarioResource.class);
+        resources.add(co.edu.uniandes.csw.viajes.resources.EntradaResource.class);
         resources.add(co.edu.uniandes.csw.viajes.resources.GuiaResource.class);
         resources.add(co.edu.uniandes.csw.viajes.resources.MedallaResource.class);
         resources.add(co.edu.uniandes.csw.viajes.resources.PagoResource.class);
         resources.add(co.edu.uniandes.csw.viajes.resources.ProveedorActividadResource.class);
+        resources.add(co.edu.uniandes.csw.viajes.resources.ProveedorAlojamientosResource.class);
         resources.add(co.edu.uniandes.csw.viajes.resources.ProveedorResource.class);
+        resources.add(co.edu.uniandes.csw.viajes.resources.ProveedorTransportesResource.class);
         resources.add(co.edu.uniandes.csw.viajes.resources.ProveedorVueloResource.class);
         resources.add(co.edu.uniandes.csw.viajes.resources.TransporteProveedorResource.class);
         resources.add(co.edu.uniandes.csw.viajes.resources.TransporteTerrestreResource.class);
