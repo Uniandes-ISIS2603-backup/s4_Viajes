@@ -48,7 +48,6 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
     @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<AlojamientoEntity> alojamientos = new ArrayList<AlojamientoEntity>();
     
-    
    //Métodos//
     
     /**
@@ -119,7 +118,6 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
     
     /**
      * Obtiene los alojamientos del proveedor
-     *
      * @return alojamientos del proveedor.
      */
     public List<AlojamientoEntity> getAlojamientos()
@@ -190,8 +188,7 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
     public void setActividades(List<ActividadEntity> actividades) {
         this.actividades = actividades;
     }
-    
-        
+            
     /**
      * Modifica los alojamientos del proveedor.
      *
