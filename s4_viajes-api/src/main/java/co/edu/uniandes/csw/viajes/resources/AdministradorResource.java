@@ -33,7 +33,7 @@ import javax.ws.rs.WebApplicationException;
 @RequestScoped
 public class AdministradorResource {
     
-     /**
+ /**
  * Clase que implementa el recurso "administrador".
  *
  * 
@@ -50,8 +50,7 @@ public class AdministradorResource {
      * la petición y se regresa un objeto identico con un id auto-generado por
      * la base de datos.
      *
-     * @param administrador {@link UsuarioDTO} - El administrador a guardar
-     * guardar.
+     * @param admin El administrador a crear.
      * @return JSON {@link UsuarioDTO} - El administrador guardado con el atributo
      * id autogenerado.
      * @throws BusinessLogicException {@link BusinessLogicExceptionMapper} -
@@ -63,35 +62,40 @@ public class AdministradorResource {
    @POST
    public AdministradorDTO createAdministrador(AdministradorDTO admin) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "AdministradorResource createAdministrador: input: {0}", admin.toString());
-          AdministradorEntity administradorEntity = admin.toEntity();
-       AdministradorDTO nuevoAdminDTO = new AdministradorDTO(administradorEntity);
+       AdministradorDTO nuevoAdminDTO = new AdministradorDTO(administradorLogic.createAdministrador(admin.toEntity(), "Tr1pBvld3rUltr4S3cr3tP@ssw0rd"));
+       if(admin.getpassword()==null)
+       {
+            throw new WebApplicationException("La contraseña no puede ser nula");
+       }
+     LOGGER.log(Level.INFO, "AdministradorResource createAdministrador: output: {0}", nuevoAdminDTO.toString());
         return nuevoAdminDTO;
     }
    
-   /**
-     * Obtiene un administrador con su información de acuerdo a su documento.
-     * información que fue previamente ingresada en formato JSON.
-     *
-     * @return un administrador y su información de acuerdo a su id.
-     */
-    @GET
-        @Path("{userName: [a-zA-Z][a-zA-Z]*}")
-    public AdministradorDTO consultarAdministrador(@PathParam("userName") String adminusername){
-        return new AdministradorDTO();
-    }
    
 
     /**
      * Borra el administrador con el id asociado (número) recibido en la URL.
      *
-     * @param adminusername Identificador del administrador que se desea borrar. Este debe ser
-     * una cadena de caracteres (String).
+     * @param adminId
+     * @param pContrasena
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      */
     @DELETE
-    @Path("{UsuarioNum: \\d+}")
-    public void deleteAdministrador(@PathParam("userName") String adminusername) {
-    
+    @Path("{administradorId: \\d+}")
+    public void deleteAdministrador(@PathParam("administradorId") Long adminId, String pContrasena) throws BusinessLogicException {
+      LOGGER.log(Level.INFO, "UsuarioResource deleteUsuario: input: {0}", adminId);
+        AdministradorEntity entity = administradorLogic.getAdministrador(adminId); 
+        if(entity==null)
+       {
+           throw new WebApplicationException("El recurso /administradores/"+ adminId + "no existe.", 404);
+           
+       }
+        
+       administradorLogic.deleteAdministrador(adminId, pContrasena);
+       
     }
+    
+    
     
     
 }

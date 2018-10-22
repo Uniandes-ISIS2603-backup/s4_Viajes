@@ -57,6 +57,24 @@ public class AdministradorPersistence {
          //Note que en el query se hace uso del método getResultList() que obtiene una lista de administradores.
         return query.getResultList();
     }
+    
+     public AdministradorEntity findByUserName(String pUserName) {
+        LOGGER.log(Level.INFO, "Consultando el administrador con el userName={0}", pUserName);
+        TypedQuery<AdministradorEntity> query = em.createQuery("Select e From AdministradorEntity e where e.userName = :pUserName", AdministradorEntity.class);
+
+        /* Note que se hace uso del metodo "find" propio del EntityManager, el cual recibe como argumento 
+        el tipo de la clase y el objeto que nos hara el filtro en la base de datos en este caso el "id"
+        Suponga que es algo similar a "select * from AdministradorEntity where id=id;" - "SELECT * FROM table_name WHERE condition;" en SQL.
+         */
+      query = query.setParameter("userName", pUserName);
+      List<AdministradorEntity> obtenido = query.getResultList();
+      AdministradorEntity resultado = null;
+        if (!(obtenido == null || obtenido.isEmpty())) {
+            resultado = obtenido.get(0);
+        }
+        
+        return resultado;
+    }
 
     /**
      * Busca si hay usuario con el documento que se envía de argumento

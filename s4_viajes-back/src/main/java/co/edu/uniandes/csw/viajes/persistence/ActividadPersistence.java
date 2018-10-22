@@ -74,7 +74,7 @@ public class ActividadPersistence {
         el tipo de la clase y el objeto que nos hara el filtro en la base de datos en este caso el "id"
         Suponga que es algo similar a "select * from EditorialEntity where id=id;" - "SELECT * FROM table_name WHERE condition;" en SQL.
          */
-        return em.find(ActividadEntity.class, actividadId);
+        return findByIdentificador(actividadId);
     }
 
 	 /**
@@ -102,29 +102,30 @@ public class ActividadPersistence {
      * @param actividadId: id correspondiente a la editorial a borrar.
      */
     public void delete(Long actividadId) {
-        LOGGER.log(Level.INFO, "Borrando editorial con id = {0}", actividadId);
+        LOGGER.log(Level.INFO, "Borrando actividad con id = {0}", actividadId);
         // Se hace uso de mismo método que esta explicado en public EditorialEntity find(Long id) para obtener la editorial a borrar.
+        ActividadEntity e = findByIdentificador(actividadId);
         ActividadEntity entity = em.find(ActividadEntity.class, actividadId);
         /* Note que una vez obtenido el objeto desde la base de datos llamado "entity", volvemos hacer uso de un método propio del
          EntityManager para eliminar de la base de datos el objeto que encontramos y queremos borrar.
          Es similar a "delete from ActividadEntity where id=id;" - "DELETE FROM table_name WHERE condition;" en SQL.*/
-        em.remove(entity);
+        em.remove(e);
         LOGGER.log(Level.INFO, "Saliendo de borrar la actividad con id = {0}", actividadId);
     }
 	
     /**
      * Busca si hay alguna actividad con el nombre que se envía de argumento
      *
-     * @param name: Nombre de la actividad que se está buscando
+     * @param nombreActividad: Nombre de la actividad que se está buscando
      * @return null si no existe ninguna actividad con el nombre del argumento.
      * Si existe alguna devuelve la primera.
      */
-    public ActividadEntity findByName(String name) {
-        LOGGER.log(Level.INFO, "Consultando actividad por nombre ", name);
+    public ActividadEntity findByName(String nombreActividad) {
+        LOGGER.log(Level.INFO, "Consultando actividad por nombre ", nombreActividad);
         // Se crea un query para buscar editoriales con el nombre que recibe el método como argumento. ":name" es un placeholder que debe ser remplazado
-        TypedQuery query = em.createQuery("Select e From ActividadEntity e where e.name = :name", ActividadEntity.class);
+        TypedQuery query = em.createQuery("Select e From ActividadEntity e where e.nombreActividad = :nombreActividad", ActividadEntity.class);
         // Se remplaza el placeholder ":name" con el valor del argumento 
-        query = query.setParameter("name", name);
+        query = query.setParameter("nombreActividad", nombreActividad);
         // Se invoca el query se obtiene la lista resultado
         List<ActividadEntity> sameName = query.getResultList();
         ActividadEntity result;
@@ -135,7 +136,28 @@ public class ActividadPersistence {
         } else {
             result = sameName.get(0);
         }
-        LOGGER.log(Level.INFO, "Saliendo de consultar actividad por nombre ", name);
+        LOGGER.log(Level.INFO, "Saliendo de consultar actividad por nombre ", nombreActividad);
+        return result;
+    }
+    
+    public ActividadEntity findByIdentificador(Long identificador)
+    {
+           LOGGER.log(Level.INFO, "Consultando actividades por identificador ", identificador);
+        // Se crea un query para buscar guias con el documento que recibe el método como argumento. ":doc" es un placeholder que debe ser remplazado
+        TypedQuery query = em.createQuery("Select e From ActividadEntity e where e.identificador = :identificador", ActividadEntity.class);
+        // Se remplaza el placeholder ":doc" con el valor del argumento 
+        query = query.setParameter("identificador", identificador);
+        // Se invoca el query se obtiene la lista resultado
+        List<ActividadEntity> sameDoc = query.getResultList();
+        ActividadEntity result;
+        if (sameDoc == null) {
+            result = null;
+        } else if (sameDoc.isEmpty()) {
+            result = null;
+        } else {
+            result = sameDoc.get(0);
+        }
+        LOGGER.log(Level.INFO, "Saliendo de consultar actividades por identificador ", identificador);
         return result;
     }
     

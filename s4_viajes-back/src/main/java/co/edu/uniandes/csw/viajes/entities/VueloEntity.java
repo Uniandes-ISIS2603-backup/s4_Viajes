@@ -6,7 +6,7 @@
 package co.edu.uniandes.csw.viajes.entities;
 
 import java.io.Serializable;
-import java.util.Calendar;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
@@ -36,10 +36,14 @@ public class VueloEntity extends BaseEntity implements Serializable {
     private double longitudDestino;
     
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar fechaSalida;
+    private Date fechaSalida;
     
     @Temporal(javax.persistence.TemporalType.DATE)
-    private Calendar fechaLlegada;
+    private Date fechaLlegada;
+    
+    @PodamExclude
+    @ManyToOne
+    private ComboEntity combo;
     
     @PodamExclude
     @ManyToOne
@@ -115,7 +119,7 @@ public class VueloEntity extends BaseEntity implements Serializable {
      *
      * @return fecha de salida del vuelo
      */
-    public Calendar getFechaSalida(){
+    public Date getFechaSalida(){
         return fechaSalida;
     }
     
@@ -124,7 +128,7 @@ public class VueloEntity extends BaseEntity implements Serializable {
      *
      * @return fecha de llegada del vuelo.
      */
-    public Calendar getFechaLlegada(){
+    public Date getFechaLlegada(){
         return fechaLlegada;
     }
     
@@ -196,7 +200,7 @@ public class VueloEntity extends BaseEntity implements Serializable {
      *
      * @param fechaSalida la fecha a actualizar
      */
-    public void setFechaSalida(Calendar fechaSalida){
+    public void setFechaSalida(Date fechaSalida){
         this.fechaSalida = fechaSalida;
     }
     
@@ -205,7 +209,7 @@ public class VueloEntity extends BaseEntity implements Serializable {
      *
      * @param fechaLlegada la fecha a actualizar
      */
-    public void setFechaLlegada(Calendar fechaLlegada){
+    public void setFechaLlegada(Date fechaLlegada){
         this.fechaLlegada = fechaLlegada;
     }
     
@@ -226,4 +230,13 @@ public class VueloEntity extends BaseEntity implements Serializable {
     public void setProveedor(ProveedorEntity proveedorEntity) {
         this.proveedor = proveedorEntity;
     }
+
+    public ComboEntity getCombo() {
+        return combo;
+    }
+
+    public void setCombo(ComboEntity combo) {
+        this.combo = combo;
+    }    
+    
 }

@@ -66,7 +66,7 @@ public class ComboResource {
      * Error de lógica que se genera cuando ya existe el combo.
      */
     @POST
-    public ComboDTO crearCombo(ComboDTO combo) throws BusinessLogicException {
+    public ComboDetailDTO crearCombo(ComboDetailDTO combo) throws BusinessLogicException {
         
         LOGGER.log(Level.INFO, "ComboResource createCombo: input: {0}", combo.toString());
         // Convierte el DTO (json) en un objeto Entity para ser manejado por la lógica.
@@ -74,11 +74,10 @@ public class ComboResource {
         // Invoca la lógica para crear la editorial nueva
         ComboEntity nuevoComboEntity = comboLogic.createCombo(comboEntity);
         // Como debe retornar un DTO (json) se invoca el constructor del DTO con argumento el entity nuevo
-        ComboDTO nuevoComboDTO = new ComboDTO(nuevoComboEntity);
+        ComboDetailDTO nuevoComboDTO = new ComboDetailDTO(nuevoComboEntity);
         LOGGER.log(Level.INFO, "ComboResource createCombo: output: {0}", nuevoComboDTO.toString());
         return nuevoComboDTO;
        
-//        return combo;
     }
     
      /**
@@ -105,20 +104,18 @@ public class ComboResource {
      * Error de lógica que se genera cuando no se encuentra el combo.
      */
     @GET
-        @Path("{comboId: [a-zA-Z][a-zA-Z]*}")
-    public ComboDTO consultarCombo(@PathParam("comboId") String comboId) throws WebApplicationException
+        @Path("{comboId: \\d+}")
+    public ComboDetailDTO consultarCombo(@PathParam("comboId") Long comboId) throws WebApplicationException
     {
-//        LOGGER.log(Level.INFO, "ComboResource getCombo: input: {0}", comboId);
-//        ComboEntity comboEntity = comboLogic.getCombo(comboId);
-//        if (comboEntity == null) {
-//            throw new WebApplicationException("El recurso /combos/" + comboId + " no existe.", 404);
-//        }
-//        ComboDetailDTO comboDetailDTO=new ComboDetailDTO(comboEntity);
-//        LOGGER.log(Level.INFO, "ComboResource getCombo: output: {0}", comboDetailDTO.toString());
+        LOGGER.log(Level.INFO, "ComboResource getCombo: input: {0}", comboId);
+        ComboEntity comboEntity = comboLogic.getCombo(comboId);
+        if (comboEntity == null) {
+            throw new WebApplicationException("El recurso /combos/" + comboId + " no existe.", 404);
+        }
+        ComboDetailDTO comboDetailDTO=new ComboDetailDTO(comboEntity);
+        LOGGER.log(Level.INFO, "ComboResource getCombo: output: {0}", comboDetailDTO.toString());
         
-        ComboDTO comboDTO = new ComboDTO();
-        comboDTO.setId(comboId);
-        return comboDTO;
+        return comboDetailDTO;
     }
   
     /**
@@ -130,20 +127,22 @@ public class ComboResource {
      * @param combo {@link EditorialDetailDTO} El combo que se desea
  guardar.
      * @return JSON {@link ComboDetailDTO} - EL combo guardado.
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
  Error de lógica que se genera cuando no se encuentra el combo a
  actualizar.
      */
     @PUT
-    @Path("{comboId: [a-zA-Z][a-zA-Z]*}")
-    public ComboDetailDTO updateCombo(@PathParam("comboId") String comboId, ComboDetailDTO combo) throws WebApplicationException {
+    @Path("{comboId: \\d+}")
+    public ComboDetailDTO updateCombo(@PathParam("comboId") Long comboId, ComboDetailDTO combo) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "EditorialResource updateEditorial: input: id:{0} , editorial: {1}", new Object[]{comboId, combo.toString()});
-        combo.setId(comboId);
-  
+          
         if (comboLogic.getCombo(comboId) == null) {
             throw new WebApplicationException("El recurso /combos/" + comboId + " no existe.", 404);
         }
-        ComboDetailDTO comboDetailDTO = new ComboDetailDTO(comboLogic.updateCombo(comboId, combo.toEntity()));
+        ComboEntity comboEntity=combo.toEntity();
+        comboEntity.setId(comboId);
+        ComboDetailDTO comboDetailDTO = new ComboDetailDTO(comboLogic.updateCombo(comboId, comboEntity));
         LOGGER.log(Level.INFO, "ComboResource updateCombo: output: {0}", comboDetailDTO.toString());
         return comboDetailDTO;
 
@@ -160,8 +159,8 @@ public class ComboResource {
      * Error de lógica que se genera cuando no se encuentra el combo.
      */
     @DELETE
-    @Path("{comboId: [a-zA-Z][a-zA-Z]*}")
-    public void deleteEditorial(@PathParam("comboId") String comboId) throws BusinessLogicException {
+    @Path("{comboId: \\d+}")
+    public void deleteEditorial(@PathParam("comboId") Long comboId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "ComboResource deleteCombo: input: {0}", comboId);
         if (comboLogic.getCombo(comboId) == null) {
             throw new WebApplicationException("El recurso /combos/" + comboId + " no existe.", 404);

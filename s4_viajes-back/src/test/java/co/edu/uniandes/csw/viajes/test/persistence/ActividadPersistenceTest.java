@@ -7,7 +7,6 @@ package co.edu.uniandes.csw.viajes.test.persistence;
 
 import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
 import co.edu.uniandes.csw.viajes.persistence.ActividadPersistence;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import javax.inject.Inject;
@@ -43,7 +42,7 @@ public class ActividadPersistenceTest {
     @Inject
     UserTransaction utx;
 
-    private List<ActividadEntity> data = new LinkedList<>();
+    private List<ActividadEntity> data = new LinkedList<ActividadEntity>();
 
     /**
      * @return Devuelve el jar que Arquillian va a desplegar en Payara embebido.
@@ -141,7 +140,7 @@ public class ActividadPersistenceTest {
     @Test
     public void getActividadTest() {
         ActividadEntity entity = data.get(0);
-        ActividadEntity newEntity = actividadPersistence.find(entity.getId());
+        ActividadEntity newEntity = actividadPersistence.find(entity.getIdentificador());
         Assert.assertNotNull(newEntity);
         Assert.assertEquals(entity.getId(), newEntity.getId());
         Assert.assertEquals(entity.getCosto(), newEntity.getCosto());
@@ -171,7 +170,7 @@ public class ActividadPersistenceTest {
     @Test
     public void deleteActividadTest() {
         ActividadEntity entity = data.get(0);
-        actividadPersistence.delete(entity.getId());
+        actividadPersistence.delete(entity.getIdentificador());
         ActividadEntity deleted = em.find(ActividadEntity.class, entity.getId());
         Assert.assertNull(deleted);
     }

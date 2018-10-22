@@ -44,12 +44,6 @@ public class VueloLogic {
      */
     public VueloEntity createVuelo(VueloEntity vueloEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación del vuelo");
-        
-        if (vueloEntity.getProveedor() == null) {
-            throw new BusinessLogicException("El proveedor es inválido");
-        }
-        ProveedorEntity proveedorEntity = proveedorPersistence.find(vueloEntity.getProveedor().getId());
-        
         if (vueloEntity.getNumero() == null)
         {
             throw new BusinessLogicException("El Numero de vuelo es inválido");
@@ -101,7 +95,6 @@ public class VueloLogic {
         
         // Invoca la persistencia para crear el vuelo
         persistence.create(vueloEntity);
-        proveedorEntity.getVuelos().add(vueloEntity);
         LOGGER.log(Level.INFO, "Termina proceso de creación del vuelo");
         return vueloEntity;
     }
@@ -151,10 +144,10 @@ public class VueloLogic {
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar el vuelo con id = {0}", vueloId);
         // Verifica la regla de negocio que dice que no se puede actualizar el id de un vuelo con un vuelo que ya tenga ese id.
 
-        if (vueloEntity.getId() == vueloId) 
-        {
-            throw new BusinessLogicException("Ya existe un Vuelo con el id que quiere cambiar \"" + vueloEntity.getId() + "\"");
-        } 
+//        if (vueloEntity.getId() == vueloId) 
+//        {
+//            throw new BusinessLogicException("Ya existe un Vuelo con el id que quiere cambiar \"" + vueloEntity.getId() + "\"");
+//        } 
         
         if (!validateNumero(vueloEntity.getNumero())) {
             throw new BusinessLogicException("El Numero de vuelo es inválido");

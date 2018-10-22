@@ -7,7 +7,7 @@ package co.edu.uniandes.csw.viajes.dtos;
 
 import co.edu.uniandes.csw.viajes.entities.VueloEntity;
 import java.io.Serializable;
-import java.util.Calendar;
+import java.util.Date;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -46,6 +46,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class VueloDTO implements Serializable {
 
     //Atributos//
+    private Long id;
     private String numero;
     private double costo;
     private double puntuacion;
@@ -53,8 +54,8 @@ public class VueloDTO implements Serializable {
     private double longitudOrigen;
     private double latitudDestino;
     private double longitudDestino;
-    private Calendar fechaSalida;
-    private Calendar fechaLlegada;
+    private Date fechaSalida;
+    private Date fechaLlegada;
 
     //Constructores//
     
@@ -73,6 +74,7 @@ public class VueloDTO implements Serializable {
      */
     public VueloDTO(VueloEntity vueloEntity) {
         if (vueloEntity != null) {
+            this.id = vueloEntity.getId();
             this.numero = vueloEntity.getNumero();
             this.costo = vueloEntity.getCosto();
             this.puntuacion = vueloEntity.getPuntaje();
@@ -86,6 +88,16 @@ public class VueloDTO implements Serializable {
     }
 
     //Métodos//
+    
+    /**
+     * Obtiene el id de un vuelo.
+     *
+     * @return id del vuelo.
+     */
+    public Long getId() {
+        return id;
+    }
+    
     /**
      * Obtiene el número de un vuelo.
      *
@@ -154,7 +166,7 @@ public class VueloDTO implements Serializable {
      *
      * @return fecha de salida del vuelo.
      */    
-    public Calendar getFechaSalida(){
+    public Date getFechaSalida(){
         return fechaSalida;
     }
 
@@ -163,8 +175,16 @@ public class VueloDTO implements Serializable {
      *
      * @return fecha de llegada del vuelo.
      */    
-    public Calendar getFechaLlegada(){
+    public Date getFechaLlegada(){
         return fechaLlegada;
+    }
+    /**
+     * Modifica (set) el id de un vuelo ingresado por parámetro.
+     *
+     * @param pId nuevo id que modificará el actual.
+     */
+    public void setId(Long pId) {
+        id = pId;
     }
     
     /**
@@ -240,7 +260,7 @@ public class VueloDTO implements Serializable {
      *
      * @param pFechaS la nueva fecha de salida que modificará la actual.
      */
-    public void setFechaSalida(Calendar pFechaS){
+    public void setFechaSalida(Date pFechaS){
         fechaSalida = pFechaS;
     }
     
@@ -250,7 +270,7 @@ public class VueloDTO implements Serializable {
      *
      * @param pFechaL la nueva fecha de llegada que modificará la actual.
      */
-    public void setFechaLlegada(Calendar pFechaL){
+    public void setFechaLlegada(Date pFechaL){
         fechaLlegada = pFechaL;
     }
      
@@ -261,6 +281,7 @@ public class VueloDTO implements Serializable {
      */
     public VueloEntity toEntity() {
         VueloEntity vueloEntity = new VueloEntity();
+        vueloEntity.setId(this.id);
         vueloEntity.setNumero(this.numero);
         vueloEntity.setCosto(this.costo);
         vueloEntity.setPuntaje(this.puntuacion);

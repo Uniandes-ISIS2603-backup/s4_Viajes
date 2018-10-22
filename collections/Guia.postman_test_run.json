@@ -1,0 +1,506 @@
+{
+	"id": "9e70af7f-34b4-422f-9032-45506244f2b3",
+	"name": "Guia",
+	"allTests": [],
+	"timestamp": "2018-09-24T04:02:22.767Z",
+	"collection_id": "d704971d-db08-4806-a133-369ed4114680",
+	"folder_id": 0,
+	"target_type": "collection",
+	"environment_id": "a3556575-debd-4b8e-a0b8-a2fa08778b87",
+	"data": [],
+	"delay": 0,
+	"count": 1,
+	"collection": {
+		"id": "d704971d-db08-4806-a133-369ed4114680",
+		"name": "Guia",
+		"description": "",
+		"auth": null,
+		"events": null,
+		"variables": [],
+		"order": [
+			"0a84bf0c-a0ff-456c-b272-2d303632c905",
+			"340854d1-3af6-4155-9074-830903a71c54",
+			"17df8f41-9252-4e4f-ba9d-b1711d8c84e8",
+			"2cd0d36c-8432-4737-9217-f7bfb8b9475c",
+			"9cba41a3-8198-4da7-9e06-51fd3720f3fd",
+			"e588e6e1-19bd-44de-ae16-ac590b5f80a7",
+			"2fce30e5-9467-40f6-a9ee-549d46f27818",
+			"db08788a-3622-429f-aae0-f6c53210fc45"
+		],
+		"folders_order": [],
+		"owner": "5160544",
+		"permissions": {},
+		"favorite": false,
+		"shared": false,
+		"type": "collection",
+		"depth": 0
+	},
+	"folder": null,
+	"environment": null,
+	"globals": [
+		{
+			"value": "22",
+			"key": "new_id_e",
+			"enabled": true
+		},
+		{
+			"value": "23",
+			"key": "new_id_e2",
+			"enabled": true
+		},
+		{
+			"value": "21",
+			"key": "new_id_b",
+			"enabled": true
+		}
+	],
+	"results": [
+		{
+			"name": "Crear Guia con Documento Existente",
+			"id": "0a84bf0c-a0ff-456c-b272-2d303632c905",
+			"url": "http://localhost:8080/s4_viajes-api/api/guia",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 412,
+				"name": "Precondition Failed",
+				"detail": {
+					"name": "Precondition Failed",
+					"detail": "The server does not meet one of the preconditions that the requester put on the request."
+				}
+			},
+			"tests": {
+				"name": "Lanza error de precondición de una guia existente",
+				"status": "pass"
+			},
+			"testPassFailCounts": {
+				"Lanza error de precondición de una guia existente": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"67"
+			],
+			"allTests": [
+				{
+					"Lanza error de precondición de una guia existente": true
+				}
+			],
+			"time": "67",
+			"totalRequestTime": "67",
+			"iterationResults": {}
+		},
+		{
+			"name": "Crear Guia con Documento Negativo",
+			"id": "340854d1-3af6-4155-9074-830903a71c54",
+			"url": "http://localhost:8080/s4_viajes-api/api/guia",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 412,
+				"name": "Precondition Failed",
+				"detail": {
+					"name": "Precondition Failed",
+					"detail": "The server does not meet one of the preconditions that the requester put on the request."
+				}
+			},
+			"tests": {
+				"name": "Genera error de precondición al tener un documento negativo",
+				"status": "pass"
+			},
+			"testPassFailCounts": {
+				"Genera error de precondición al tener un documento negativo": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"8"
+			],
+			"allTests": [
+				{
+					"Genera error de precondición al tener un documento negativo": true
+				}
+			],
+			"time": "8",
+			"totalRequestTime": "8",
+			"iterationResults": {}
+		},
+		{
+			"name": "Crear Guia con Documento Null",
+			"id": "17df8f41-9252-4e4f-ba9d-b1711d8c84e8",
+			"url": "http://localhost:8080/s4_viajes-api/api/guia",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 412,
+				"name": "Precondition Failed",
+				"detail": {
+					"name": "Precondition Failed",
+					"detail": "The server does not meet one of the preconditions that the requester put on the request."
+				}
+			},
+			"tests": {
+				"name": "Lanza error de precondicion al tener un documento null",
+				"status": "pass"
+			},
+			"testPassFailCounts": {
+				"Lanza error de precondicion al tener un documento null": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"7"
+			],
+			"allTests": [
+				{
+					"Lanza error de precondicion al tener un documento null": true
+				}
+			],
+			"time": "7",
+			"totalRequestTime": "7",
+			"iterationResults": {}
+		},
+		{
+			"name": "Obtener un guia",
+			"id": "2cd0d36c-8432-4737-9217-f7bfb8b9475c",
+			"url": "http://localhost:8080/s4_viajes-api/api/guia/999",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"name": "Status code is 200",
+				"status": "pass"
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"11"
+			],
+			"allTests": [
+				{
+					"Status code is 200": true
+				}
+			],
+			"time": "11",
+			"totalRequestTime": "11",
+			"iterationResults": {}
+		},
+		{
+			"name": "Obtener un guia con Documento Invalido",
+			"id": "9cba41a3-8198-4da7-9e06-51fd3720f3fd",
+			"url": "http://localhost:8080/s4_viajes-api/api/guia",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 405,
+				"name": "Method Not Allowed",
+				"detail": {
+					"name": "Method Not Allowed",
+					"detail": "A request was made of a resource using a request method not supported by that resource; for example, using GET on a form which requires data to be presented via POST, or using PUT on a read-only resource."
+				}
+			},
+			"tests": {
+				"name": "Status code is 405",
+				"status": "pass"
+			},
+			"testPassFailCounts": {
+				"Status code is 405": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"4"
+			],
+			"allTests": [
+				{
+					"Status code is 405": true
+				}
+			],
+			"time": "4",
+			"totalRequestTime": "4",
+			"iterationResults": {}
+		},
+		{
+			"name": "Obtener un guia",
+			"id": "e588e6e1-19bd-44de-ae16-ac590b5f80a7",
+			"url": "http://localhost:8080/s4_viajes-api/api/guia/33",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"name": "Se obtiene el guia",
+				"status": "pass"
+			},
+			"testPassFailCounts": {
+				"Se obtiene el guia": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"21"
+			],
+			"allTests": [
+				{
+					"Se obtiene el guia": true
+				}
+			],
+			"time": "21",
+			"totalRequestTime": "21",
+			"iterationResults": {}
+		},
+		{
+			"name": "Eliminar un guia",
+			"id": "2fce30e5-9467-40f6-a9ee-549d46f27818",
+			"url": "http://localhost:8080/s4_viajes-api/api/guia/23",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 412,
+				"name": "Precondition Failed",
+				"detail": {
+					"name": "Precondition Failed",
+					"detail": "The server does not meet one of the preconditions that the requester put on the request."
+				}
+			},
+			"tests": {
+				"name": "No existe el guia a eliminar",
+				"status": "pass"
+			},
+			"testPassFailCounts": {
+				"No existe el guia a eliminar": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"9"
+			],
+			"allTests": [
+				{
+					"No existe el guia a eliminar": true
+				}
+			],
+			"time": "9",
+			"totalRequestTime": "9",
+			"iterationResults": {}
+		},
+		{
+			"name": "Modificar un guia",
+			"id": "db08788a-3622-429f-aae0-f6c53210fc45",
+			"url": "http://localhost:8080/s4_viajes-api/api/guia/33",
+			"totalTime": 0,
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"tests": {
+				"name": "Se modifico el guia",
+				"status": "pass"
+			},
+			"testPassFailCounts": {
+				"Se modifico el guia": {
+					"pass": 1,
+					"fail": 0
+				}
+			},
+			"times": [
+				"30"
+			],
+			"allTests": [
+				{
+					"Se modifico el guia": true
+				}
+			],
+			"time": "30",
+			"totalRequestTime": "30",
+			"iterationResults": {}
+		}
+	],
+	"totalPass": 8,
+	"totalFail": 0,
+	"totalTime": 157,
+	"lifecycle": "done",
+	"requests": [
+		{
+			"name": "Crear Guia con Documento Existente",
+			"id": "0a84bf0c-a0ff-456c-b272-2d303632c905",
+			"url": "http://localhost:8080/s4_viajes-api/api/guia",
+			"time": "2018-09-24T04:02:22.767Z",
+			"responseCode": {
+				"code": 412,
+				"name": "Precondition Failed",
+				"detail": {
+					"name": "Precondition Failed",
+					"detail": "The server does not meet one of the preconditions that the requester put on the request."
+				}
+			},
+			"testPassFailCounts": {
+				"Lanza error de precondición de una guia existente": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Crear Guia con Documento Negativo",
+			"id": "340854d1-3af6-4155-9074-830903a71c54",
+			"url": "http://localhost:8080/s4_viajes-api/api/guia",
+			"time": "2018-09-24T04:02:22.767Z",
+			"responseCode": {
+				"code": 412,
+				"name": "Precondition Failed",
+				"detail": {
+					"name": "Precondition Failed",
+					"detail": "The server does not meet one of the preconditions that the requester put on the request."
+				}
+			},
+			"testPassFailCounts": {
+				"Genera error de precondición al tener un documento negativo": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Crear Guia con Documento Null",
+			"id": "17df8f41-9252-4e4f-ba9d-b1711d8c84e8",
+			"url": "http://localhost:8080/s4_viajes-api/api/guia",
+			"time": "2018-09-24T04:02:22.767Z",
+			"responseCode": {
+				"code": 412,
+				"name": "Precondition Failed",
+				"detail": {
+					"name": "Precondition Failed",
+					"detail": "The server does not meet one of the preconditions that the requester put on the request."
+				}
+			},
+			"testPassFailCounts": {
+				"Lanza error de precondicion al tener un documento null": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Obtener un guia",
+			"id": "2cd0d36c-8432-4737-9217-f7bfb8b9475c",
+			"url": "http://localhost:8080/s4_viajes-api/api/guia/999",
+			"time": "2018-09-24T04:02:22.767Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 200": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Obtener un guia con Documento Invalido",
+			"id": "9cba41a3-8198-4da7-9e06-51fd3720f3fd",
+			"url": "http://localhost:8080/s4_viajes-api/api/guia",
+			"time": "2018-09-24T04:02:22.767Z",
+			"responseCode": {
+				"code": 405,
+				"name": "Method Not Allowed",
+				"detail": {
+					"name": "Method Not Allowed",
+					"detail": "A request was made of a resource using a request method not supported by that resource; for example, using GET on a form which requires data to be presented via POST, or using PUT on a read-only resource."
+				}
+			},
+			"testPassFailCounts": {
+				"Status code is 405": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Obtener un guia",
+			"id": "e588e6e1-19bd-44de-ae16-ac590b5f80a7",
+			"url": "http://localhost:8080/s4_viajes-api/api/guia/33",
+			"time": "2018-09-24T04:02:22.767Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Se obtiene el guia": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Eliminar un guia",
+			"id": "2fce30e5-9467-40f6-a9ee-549d46f27818",
+			"url": "http://localhost:8080/s4_viajes-api/api/guia/23",
+			"time": "2018-09-24T04:02:22.767Z",
+			"responseCode": {
+				"code": 412,
+				"name": "Precondition Failed",
+				"detail": {
+					"name": "Precondition Failed",
+					"detail": "The server does not meet one of the preconditions that the requester put on the request."
+				}
+			},
+			"testPassFailCounts": {
+				"No existe el guia a eliminar": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		},
+		{
+			"name": "Modificar un guia",
+			"id": "db08788a-3622-429f-aae0-f6c53210fc45",
+			"url": "http://localhost:8080/s4_viajes-api/api/guia/33",
+			"time": "2018-09-24T04:02:22.767Z",
+			"responseCode": {
+				"code": 200,
+				"name": "OK",
+				"detail": {
+					"name": "OK",
+					"detail": "Standard response for successful HTTP requests. The actual response will depend on the request method used. In a GET request, the response will contain an entity corresponding to the requested resource. In a POST request the response will contain an entity describing or containing the result of the action."
+				}
+			},
+			"testPassFailCounts": {
+				"Se modifico el guia": {
+					"pass": 1,
+					"fail": 0
+				}
+			}
+		}
+	],
+	"synced": false
+}

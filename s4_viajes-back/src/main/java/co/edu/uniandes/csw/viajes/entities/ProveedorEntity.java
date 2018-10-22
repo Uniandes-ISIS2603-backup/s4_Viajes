@@ -117,8 +117,7 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
     }
     
     /**
-     * Obtiene las alojamientos del proveedor
-     *
+     * Obtiene los alojamientos del proveedor
      * @return alojamientos del proveedor.
      */
     public List<AlojamientoEntity> getAlojamientos()
@@ -189,11 +188,11 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
     public void setActividades(List<ActividadEntity> actividades) {
         this.actividades = actividades;
     }
-    
+            
     /**
      * Modifica los alojamientos del proveedor.
      *
-     * @param alojamientos Los nuevos alojamientos.
+     * @param alojamientos os nuevos alojamientos.
      */
     public void setAlojamientos(List<AlojamientoEntity> alojamientos) {
         this.alojamientos = alojamientos;

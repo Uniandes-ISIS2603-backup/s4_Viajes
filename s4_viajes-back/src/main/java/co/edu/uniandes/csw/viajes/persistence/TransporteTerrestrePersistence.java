@@ -12,7 +12,6 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 /**
@@ -50,7 +49,7 @@ public class TransporteTerrestrePersistence {
      */
     public List<TransporteTerrestreEntity> findAll() {
         LOGGER.log(Level.INFO, "Consultando todos los transportes");
-        Query q = em.createQuery("select u from TransporteTerrestreEntity u");
+        TypedQuery q = em.createQuery("select u from TransporteTerrestreEntity u", TransporteTerrestreEntity.class);
         return q.getResultList();
     }
 
@@ -58,10 +57,10 @@ public class TransporteTerrestrePersistence {
      * Busca si hay algun transporte con el id que se envía de argumento
      *
      * @param transportesId: id correspondiente al alojamiento buscado.
-     * @return un alojamiento.
+     * @return un transporte.
      */
     public TransporteTerrestreEntity find(Long transportesId) {
-        LOGGER.log(Level.INFO, "Consultando el alojamiento con id={0}", transportesId);
+        LOGGER.log(Level.INFO, "Consultando el transporte con id = {0}", transportesId);
         return em.find(TransporteTerrestreEntity.class, transportesId);
     }
 

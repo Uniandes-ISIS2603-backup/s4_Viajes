@@ -71,7 +71,8 @@ public class ProveedorDetailDTO extends ProveedorDTO implements Serializable{
                      actividades.add(new ActividadDTO(actividad));
             if(proveedorEntity.getAlojamientos()!=null)
                 for(AlojamientoEntity alojamiento:proveedorEntity.getAlojamientos())
-                     alojamientos.add(new AlojamientoDTO(alojamiento));  
+
+                     alojamientos.add(new AlojamientoDTO(alojamiento));
         }       
      }
      
@@ -170,17 +171,19 @@ public class ProveedorDetailDTO extends ProveedorDTO implements Serializable{
         this.actividades = actividades;
     }
     
+
     /**
      * Obtiene la lista de alojamientos del proveedor
      *
      * @return alojamientos
      */
+
     public List<AlojamientoDTO> getlojamientos() {
         return alojamientos;
     }
-
+   
     /**
-     * Modifica la lista de alojamientos para el proveedor con los que llegan por parametro
+     * Modifica la lista de alojamiento para el proveedor con los que llegan por parametro
      *
      * @param alojamientos los alojamientos
      */

@@ -7,7 +7,6 @@ package co.edu.uniandes.csw.viajes.test.persistence;
 
 import co.edu.uniandes.csw.viajes.entities.GuiaEntity;
 import co.edu.uniandes.csw.viajes.persistence.GuiaPersistence;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import javax.inject.Inject;
@@ -41,7 +40,7 @@ public class GuiaPersistenceTest {
     @Inject
     UserTransaction utx;
 
-    private List<GuiaEntity> data = new LinkedList<>();
+    private List<GuiaEntity> data = new LinkedList<GuiaEntity>();
 
     /**
      * @return Devuelve el jar que Arquillian va a desplegar en Payara embebido.
@@ -178,6 +177,21 @@ public class GuiaPersistenceTest {
         Assert.assertEquals(newEntity.getNombre(), resp.getNombre());
         Assert.assertEquals(newEntity.getPuntuacion(), resp.getPuntuacion());
         Assert.assertEquals(newEntity.getDocumento(), resp.getDocumento());
+    }
+    
+    /**
+     * Prueba para consultasr un Guia por Documento.
+     */
+    @Test
+    public void findBookByDocumento() {
+        GuiaEntity entity = data.get(0);
+        GuiaEntity newEntity = guiaPersistence.findByDocumento(entity.getDocumento());
+        Assert.assertNotNull(newEntity);
+        
+        Assert.assertEquals(entity.getDocumento().shortValue(), newEntity.getDocumento().shortValue());
+
+        newEntity = guiaPersistence.findByDocumento(null);
+        Assert.assertNull(newEntity);
     }
 
     

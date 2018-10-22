@@ -6,11 +6,19 @@
 package co.edu.uniandes.csw.viajes.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import uk.co.jemos.podam.common.PodamExclude;
 
 /**
- *
+ * Clase que representa un combo en la persistencia y permite su
+ * serialización.
  * @author estudiante
  */
 @Entity
@@ -23,7 +31,7 @@ public class ComboEntity  extends BaseEntity implements Serializable {
     
     private String nombre;
     
-    private String comboId;
+    private Long comboIdLong;
 
     private int dias;
     
@@ -31,29 +39,50 @@ public class ComboEntity  extends BaseEntity implements Serializable {
 
     private int puntuacion;
     
-    private List<VueloEntity> vuelos;
+    public ComboEntity()
+    {
+    }
     
-    private List<AlojamientoEntity> alojamientos;
+    @PodamExclude
+    @OneToMany(mappedBy = "combo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<VueloEntity> vuelos=new ArrayList<VueloEntity>();
+    
+    @PodamExclude
+    @OneToMany(mappedBy = "combo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<AlojamientoEntity> alojamientos=new ArrayList<AlojamientoEntity>();
 
-    private List<ActividadEntity> actividades;
+    @PodamExclude
+    @OneToMany(mappedBy = "combo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ActividadEntity> actividades=new ArrayList<ActividadEntity>();
     
-    private List<TransporteTerrestreEntity> transportesTerrestres;
+    @PodamExclude
+    @OneToMany(mappedBy = "combo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<TransporteTerrestreEntity> transportesTerrestres=new ArrayList<TransporteTerrestreEntity>();
 
-    
+    @PodamExclude
+    @OneToOne
+    private PagoEntity pago;
 
     //-----------------------------------------------------------------------------------------------------------------------
     // Metodos
     //-----------------------------------------------------------------------------------------------------------------------
     
     
-    public String getComboId() {
-        return comboId;
+    public Long getComboIdLong() {
+        comboIdLong=getId();
+        return comboIdLong;
     }
 
-    public void setComboId(String comboId) {    
-        this.comboId = comboId;
+    public void setComboIdLong(Long comboId) {    
+        if(comboId!=null&&comboId!=0)
+        {
+            this.comboIdLong = comboId;
+            setId(comboIdLong);
+        }
+
     }
 
+    
 
     public double getCosto() {
         return costo;
@@ -125,5 +154,45 @@ public class ComboEntity  extends BaseEntity implements Serializable {
     
     public void setTransportesTerrestres(List<TransporteTerrestreEntity> transportesTerrestres) {
         this.transportesTerrestres = transportesTerrestres;
+    }
+
+    public PagoEntity getPago() {
+        return pago;
+    }
+
+    public void setPago(PagoEntity pago) {
+        this.pago = pago;
+    }
+
+    public void addActividad(ActividadEntity actividad)
+    {
+        if(actividad!=null)
+             actividades.add(actividad);
+    }
+    public void addAlojamiento(AlojamientoEntity alojamiento)
+    {
+        if(alojamiento!=null)
+             alojamientos.add(alojamiento);
+    }
+    public void addTransporteTerrestre(TransporteTerrestreEntity transporteTerrestre)
+    {
+        if(transporteTerrestre!=null)
+             transportesTerrestres.add(transporteTerrestre);
+    }
+    public void addVuelo(VueloEntity vuelo)
+    {
+        if(vuelo!=null)
+             vuelos.add(vuelo);
+    }
+    
+    public boolean isVacio()
+    {
+        if (actividades.isEmpty()
+                 &&alojamientos.isEmpty()
+                 &&transportesTerrestres.isEmpty()
+                 &&vuelos.isEmpty()) 
+            return true;
+        return false;
+            
     }
 }

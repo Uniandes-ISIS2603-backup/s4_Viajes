@@ -6,11 +6,9 @@
 package co.edu.uniandes.csw.viajes.resources;
 
 import co.edu.uniandes.csw.viajes.dtos.ComboDTO;
-import co.edu.uniandes.csw.viajes.dtos.ComboDetailDTO;
 import co.edu.uniandes.csw.viajes.dtos.PagoDTO;
 import co.edu.uniandes.csw.viajes.ejb.ComboLogic;
 import co.edu.uniandes.csw.viajes.ejb.PagoLogic;
-import co.edu.uniandes.csw.viajes.entities.ComboEntity;
 import co.edu.uniandes.csw.viajes.entities.PagoEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import java.util.ArrayList;
@@ -52,6 +50,8 @@ public class PagoResource {
     @Inject
     PagoLogic pagoLogic; // Variable para acceder a la lógica de la aplicación. Es una inyección de dependencias.
 
+     @Inject
+    ComboLogic comboLogic; // Variable para acceder a la lógica de la aplicación. Es una inyección de dependencias.
    /**
      * Crea un nuevo pago con la informacion que se recibe en el cuerpo de la
  petición y se regresa un objeto identico con un id auto-generado por la
@@ -64,14 +64,17 @@ public class PagoResource {
  Error de lógica que se genera cuando ya existe el pago.
      */
     @POST
-    public PagoDTO crearPago(PagoDTO pago) throws BusinessLogicException {
+     public PagoDTO crearPago(PagoDTO pago) throws BusinessLogicException {
         
+        
+//        throw new BusinessLogicException("id: "+pago.getaPagar().getComboIdLong()+", nombre:"+pago.getaPagar().getNombre());
         LOGGER.log(Level.INFO, "PagoResource createPago: input: {0}", pago.toString());
-        PagoDTO nuevoPagoDTO = new PagoDTO(pagoLogic.createPago(pago.toEntity()));
+        PagoEntity pagoEntity=pago.toEntity();
+        PagoDTO nuevoPagoDTO = new PagoDTO(pagoLogic.createPago(pagoEntity));
+
         LOGGER.log(Level.INFO, "PagoResource createPago: output: {0}", nuevoPagoDTO.toString());
         return nuevoPagoDTO;
        
-//        return pago;
     }
     
      /**
@@ -96,21 +99,22 @@ public class PagoResource {
      * @return JSON {@link PagoDTO} - El pago buscado
      * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
      * Error de lógica que se genera cuando no se encuentra el pago.
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      */
     @GET
-        @Path("{pagoId: [a-zA-Z][a-zA-Z]*}")
-    public PagoDTO consultarPago(@PathParam("pagoId") String pagoId) throws WebApplicationException
+        @Path("{pagoId: \\d+}")
+    public PagoDTO consultarPago(@PathParam("pagoId") Long pagoId) throws WebApplicationException, BusinessLogicException
     {
         LOGGER.log(Level.INFO, "ComboResource getCombo: input: {0}", pagoId);
-//        PagoEntity pagoEntity = pagoLogic.getPago(pagoId);
-//        if (pagoEntity == null) {
-//            throw new WebApplicationException("El recurso /pagos/" + pagoId + " no existe.", 404);
-//        }
-//        PagoDTO pagoDTO=new PagoDTO(pagoEntity);
-//        LOGGER.log(Level.INFO, "ComboResource getCombo: output: {0}", pagoDTO.toString());
+        PagoEntity pagoEntity = pagoLogic.getPago(pagoId);
+        if (pagoEntity == null) {
+            throw new WebApplicationException("El recurso /pagos/" + pagoId + " no existe.", 404);
+        }
+        PagoDTO pagoDTO=new PagoDTO(pagoEntity);
+        LOGGER.log(Level.INFO, "ComboResource getCombo: output: {0}", pagoDTO.toString());
         
-        PagoDTO pagoDTO = new PagoDTO();
-        pagoDTO.setPagoId(pagoId);
+        
+//        pagoDTO.setaPagar(combo);
         return pagoDTO;
     }
   
@@ -128,15 +132,16 @@ public class PagoResource {
  actualizar.
      */
     @PUT
-    @Path("{pagoId: [a-zA-Z][a-zA-Z]*}")
-    public PagoDTO updatePago(@PathParam("pagoId") String pagoId, PagoDTO pago) throws BusinessLogicException {
+    @Path("{pagoId: \\d+}")
+    public PagoDTO updatePago(@PathParam("pagoId") Long pagoId, PagoDTO pago) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "PagoResource updatePago: input: id:{0} , pago: {1}", new Object[]{pagoId, pago.toString()});
-        pago.setPagoId(pagoId);
   
         if (pagoLogic.getPago(pagoId) == null) {
             throw new WebApplicationException("El recurso /pagos/" + pagoId + " no existe.", 404);
         }
-        PagoDTO pagoDTO = new PagoDTO(pagoLogic.updatePago(pagoId, pago.toEntity()));
+        PagoEntity pagoEntity=pago.toEntity();
+        pagoEntity.setId(pagoId);
+        PagoDTO pagoDTO = new PagoDTO(pagoLogic.updatePago(pagoId, pagoEntity));
         LOGGER.log(Level.INFO, "PagoResource updatePago: output: {0}", pagoDTO.toString());
         return pagoDTO;
 
@@ -153,8 +158,8 @@ public class PagoResource {
      * Error de lógica que se genera cuando no se encuentra el pago.
      */
     @DELETE
-    @Path("{pagoId: [a-zA-Z][a-zA-Z]*}")
-    public void deletePago(@PathParam("pagoId") String pagoId) throws BusinessLogicException {
+    @Path("{pagoId: \\d+}")
+    public void deletePago(@PathParam("pagoId") Long pagoId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "PagoResource deletePago: input: {0}", pagoId);
         if (pagoLogic.getPago(pagoId) == null) {
             throw new WebApplicationException("El recurso /pagos/" + pagoId + " no existe.", 404);
