@@ -11,8 +11,8 @@ import co.edu.uniandes.csw.viajes.dtos.UsuarioDetailDTO;
 import co.edu.uniandes.csw.viajes.ejb.UsuarioLogic;
 import co.edu.uniandes.csw.viajes.entities.UsuarioEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
-import co.edu.uniandes.csw.viajes.mappers.BusinessLogicExceptionMapper;
-import co.edu.uniandes.csw.viajes.mappers.WebApplicationExceptionMapper;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
@@ -47,38 +47,38 @@ public class UsuarioResource {
     private static final Logger LOGGER = Logger.getLogger(ActividadResource.class.getName());
     @Inject
 
-    UsuarioLogic usuarioLogic; //variable que accede a la lÃ³gica de la aplicaciÃ³n.
+    UsuarioLogic usuarioLogic; //variable que accede a la lógica de la aplicación.
     /**
      * Crea un nuevo usuario con la informacion que se recibe en el cuerpo de la
-     * peticiÃ³n y se regresa un objeto identico con un id auto-generado por la
+     * petición y se regresa un objeto identico con un id auto-generado por la
      * base de datos.
      *
      * @param usuario {@link UsuarioDTO} - El usuario a guardar guardar.
      * @return JSON {@link UsuarioDTO} - El usuario guardado con el atributo id
      * autogenerado.
      * @throws BusinessLogicException {@link BusinessLogicExceptionMapper} -
-     * Error de lÃ³gica que se genera cuando ya existe la editorial.
+     * Error de lógica que se genera cuando ya existe la editorial.
      */
     @POST
     public UsuarioDTO createUsuario(UsuarioDTO usuario) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "UsuarioResource createUsuario: input: {0}", usuario.toString());
-        UsuarioEntity usuarioEntity = usuario.toEntity();
-        UsuarioEntity nuevoUsuarioEntity = usuarioLogic.createUsuario(usuarioEntity);
-        UsuarioDTO nuevoUsuarioDTO = new UsuarioDTO(nuevoUsuarioEntity);
+        UsuarioDTO nuevoUsuarioDTO = new UsuarioDTO(usuarioLogic.createUsuario(usuario.toEntity()));
         LOGGER.log(Level.INFO, "EditorialResource createEditorial: output: {0}", nuevoUsuarioDTO.toString());
 
         return nuevoUsuarioDTO;
     }
 
     /**
-     * Obtiene un usuario con su informaciÃ³n de acuerdo a su documento.
-     * informaciÃ³n que fue previamente ingresada en formato JSON.
+     * Obtiene un usuario con su información de acuerdo a su documento.
+     * información que fue previamente ingresada en formato JSON.
      *
-     * @return un usuario y su informaciÃ³n de acuerdo a su documento.
+     * @param usuarioId
+     * @return un usuario y su información de acuerdo a su documento.
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      */
     @GET
     @Path("{usuarioId: \\d+}")
-    public UsuarioDTO consultarUsuarios(@PathParam("usuarioId") Long usuarioId) throws BusinessLogicException {
+    public UsuarioDTO consultarUsuario(@PathParam("usuarioId") Long usuarioId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "UsuarioResource getUsuario: input {0}");
         UsuarioEntity usuarioEntity = usuarioLogic.getUsuario(usuarioId);
         if (usuarioEntity == null) {
@@ -91,15 +91,51 @@ public class UsuarioResource {
 
         LOGGER.log(Level.INFO, "UsuarioResource getUsuario: output {0}");
 
-        return new UsuarioDTO();
+        return usuarioDTO;
 
+    }
+    
+     /**
+     * Convierte una lista de entidades a DTO.
+     *
+     * Este método convierte una lista de objetos UsuarioEntity a una lista de
+     * objetos UsuarioDetailDTO (json)
+     *
+     * @param entityList corresponde a la lista de usuarios de tipo Entity que
+     * vamos a convertir a DTO.
+     * @return la lista de usuarios en forma DTO (json)
+     */
+    private List<UsuarioDetailDTO> listEntity2DetailDTO(List<UsuarioEntity> entityList) {
+        List<UsuarioDetailDTO> list = new ArrayList<>();
+        for (UsuarioEntity entity : entityList) {
+            list.add(new UsuarioDetailDTO(entity));
+        }
+        return list;
+    }
+    
+    
+     /**
+     * Busca y devuelve todos los usuarios que existen en la aplicacion.
+     *
+     * @return JSONArray {@link BookDetailDTO} - Los usuarios encontrados en la
+     * aplicación. Si no hay ninguno retorna una lista vacía.
+     */
+    @GET
+    public List<UsuarioDetailDTO> getUsuarios() {
+        LOGGER.info("BookResource getBooks: input: void");
+        List<UsuarioDetailDTO> listaUsuarios = listEntity2DetailDTO(usuarioLogic.getUsuarios());
+        LOGGER.log(Level.INFO, "UsuarioResource getUsuarios: output: {0}", listaUsuarios.toString());
+        return listaUsuarios;
     }
 
     /**
-     * Modifica la informacion de un usuario dado por la informaciÃ³n ingresada
+     * Modifica la informacion de un usuario dado por la información ingresada
      * en formato JSON.
      *
-     * @param nuevo (@link UsuarioDTO) - el usuario que desea modificar.
+     * @param usuarioId - Id del usuario a modificar.
+     * @param nuevo (@link UsuarioDTO) - La nueva información del usuario. 
+     * @return El usuario modificado. 
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      */
 @PUT
  @Path("{usuariosId: \\d+}")
@@ -119,10 +155,11 @@ public class UsuarioResource {
 
 
     /**
-     * Borra el usuario con el id asociado (nÃºmero) recibido en la URL.
+     * Borra el usuario con el id asociado (número) recibido en la URL.
      *
      * @param usuariosId Identificador dl usuario que se desea borrar. Este debe
-     * ser una cadena de dÃ­gitos (int).
+     * ser una cadena de dígitos (int).
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      */
     @DELETE
     @Path("{usuariosId: \\d+}")
@@ -140,27 +177,37 @@ public class UsuarioResource {
        
     }
     
-            /**
-     * ConexiÃ³n con el servicio de entradas para un usuario. {@link EntradaResource}
-     *
-     * Este mÃ©todo conecta la ruta de /usuarios con las rutas de /entradas que
-     * dependen del usuario, es una redirecciÃ³n al servicio que maneja el segmento
-     * de la URL que se encarga de las entradas.
-     *
-     * @param usuarioId El id del usuario con respecto al cual se accede a la entrada.
-     * @return El servicio de Entradas para ese usuario en paricular.\
-     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
-     * Error de lÃ³gica que se genera cuando no se encuentra el usuario.
+    /**
+     * Retorna el recurso entrada que le corresponde al usuario ingresado por parametro
+     * @param usuariosId El id del usuario consultado
+     * @return Un EntradaResource
      */
-    @Path("{usuarioId: \\d+}/entradas")
-    public Class<EntradaResource> getEntradaResource(@PathParam("usuarioId") Long usuarioId) throws BusinessLogicException {
-       if (usuarioLogic.getUsuario(usuarioId) == null) {
-          throw new WebApplicationException("El recurso /usuarios/" + usuarioId + "/entradas no existe.", 404);
-      }
+    @Path("{usuariosId: \\d+}/entradas")
+    public Class<EntradaResource> getEntradaResource(@PathParam("usuariosId") Long usuariosId) {
+        try {
+            usuarioLogic.getUsuario(usuariosId); 
+        }
+        catch(BusinessLogicException e){
+            throw new WebApplicationException("El recurso /usuarios/" + usuariosId + "/entradas no existe.", 404);
+        }
         return EntradaResource.class;
+    }
+    
+        /**
+     * Retorna el recurso medalla que le corresponde al usuario ingresado por parametro
+     * @param usuariosId El id del usuario consultado
+     * @return Un UsuarioMedallasResource
+     */
+    @Path("{usuariosId: \\d+}/medallas")
+    public Class<UsuarioMedallasResource> getMedallaResource(@PathParam("usuariosId") Long usuariosId) {
+        try {
+            usuarioLogic.getUsuario(usuariosId); 
+        }
+        catch(BusinessLogicException e){
+            throw new WebApplicationException("El recurso /usuarios/" + usuariosId + "/medallas no existe.", 404);
+        }
+        return UsuarioMedallasResource.class;
     }
 
 }
-
-   
 

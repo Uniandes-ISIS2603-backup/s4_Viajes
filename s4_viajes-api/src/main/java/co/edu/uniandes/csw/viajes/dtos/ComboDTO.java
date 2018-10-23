@@ -42,7 +42,10 @@ public class ComboDTO implements Serializable{
             dias=comboEntity.getDias();
             horas=comboEntity.getHoras();
             puntuacion=comboEntity.getPuntuacion();
-            comboIdLong=comboEntity.getComboIdLong();
+            if(comboEntity.getComboIdLong()==null)
+             comboIdLong=5555555l;
+            else
+               comboIdLong=comboEntity.getComboIdLong();
         }
          
      }
@@ -60,8 +63,7 @@ public class ComboDTO implements Serializable{
         comboEntity.setPuntuacion(puntuacion);
         comboEntity.setDias(dias);
         comboEntity.setHoras(horas);
-//        if(comboIdLong!=null&&comboIdLong!=0)
-//            comboEntity.setComboIdLong(comboIdLong);
+        comboEntity.setComboIdLong(comboIdLong);
         
         return comboEntity; 
     }

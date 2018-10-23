@@ -6,6 +6,7 @@
 package co.edu.uniandes.csw.viajes.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -40,24 +41,23 @@ public class ComboEntity  extends BaseEntity implements Serializable {
     
     public ComboEntity()
     {
-        comboIdLong=getId();
     }
     
     @PodamExclude
     @OneToMany(mappedBy = "combo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<VueloEntity> vuelos;
+    private List<VueloEntity> vuelos=new ArrayList<VueloEntity>();
     
     @PodamExclude
     @OneToMany(mappedBy = "combo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<AlojamientoEntity> alojamientos;
+    private List<AlojamientoEntity> alojamientos=new ArrayList<AlojamientoEntity>();
 
     @PodamExclude
     @OneToMany(mappedBy = "combo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<ActividadEntity> actividades;
+    private List<ActividadEntity> actividades=new ArrayList<ActividadEntity>();
     
     @PodamExclude
     @OneToMany(mappedBy = "combo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<TransporteTerrestreEntity> transportesTerrestres;
+    private List<TransporteTerrestreEntity> transportesTerrestres=new ArrayList<TransporteTerrestreEntity>();
 
     @PodamExclude
     @OneToOne
@@ -74,7 +74,12 @@ public class ComboEntity  extends BaseEntity implements Serializable {
     }
 
     public void setComboIdLong(Long comboId) {    
-        this.comboIdLong = comboId;
+        if(comboId!=null&&comboId!=0)
+        {
+            this.comboIdLong = comboId;
+            setId(comboIdLong);
+        }
+
     }
 
     
@@ -178,5 +183,16 @@ public class ComboEntity  extends BaseEntity implements Serializable {
     {
         if(vuelo!=null)
              vuelos.add(vuelo);
+    }
+    
+    public boolean isVacio()
+    {
+        if (actividades.isEmpty()
+                 &&alojamientos.isEmpty()
+                 &&transportesTerrestres.isEmpty()
+                 &&vuelos.isEmpty()) 
+            return true;
+        return false;
+            
     }
 }

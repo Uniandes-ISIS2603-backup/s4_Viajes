@@ -33,7 +33,7 @@ import javax.ws.rs.WebApplicationException;
 @RequestScoped
 public class AdministradorResource {
     
-     /**
+ /**
  * Clase que implementa el recurso "administrador".
  *
  * 
@@ -50,7 +50,7 @@ public class AdministradorResource {
      * la petición y se regresa un objeto identico con un id auto-generado por
      * la base de datos.
      *
-     * @param administrador {@link UsuarioDTO} - El administrador a guardar.
+     * @param admin El administrador a crear.
      * @return JSON {@link UsuarioDTO} - El administrador guardado con el atributo
      * id autogenerado.
      * @throws BusinessLogicException {@link BusinessLogicExceptionMapper} -
@@ -62,16 +62,23 @@ public class AdministradorResource {
    @POST
    public AdministradorDTO createAdministrador(AdministradorDTO admin) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "AdministradorResource createAdministrador: input: {0}", admin.toString());
-          AdministradorEntity administradorEntity = admin.toEntity();
-       AdministradorDTO nuevoAdminDTO = new AdministradorDTO(administradorEntity);
+       AdministradorDTO nuevoAdminDTO = new AdministradorDTO(administradorLogic.createAdministrador(admin.toEntity(), "Tr1pBvld3rUltr4S3cr3tP@ssw0rd"));
+       if(admin.getpassword()==null)
+       {
+            throw new WebApplicationException("La contraseña no puede ser nula");
+       }
+     LOGGER.log(Level.INFO, "AdministradorResource createAdministrador: output: {0}", nuevoAdminDTO.toString());
         return nuevoAdminDTO;
     }
+   
+   
 
     /**
      * Borra el administrador con el id asociado (número) recibido en la URL.
      *
-     * @param adminusername Identificador del administrador que se desea borrar. Este debe ser
-     * una cadena de caracteres (String).
+     * @param adminId
+     * @param pContrasena
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      */
     @DELETE
     @Path("{administradorId: \\d+}")

@@ -113,6 +113,7 @@ public class CarritoComprasLogicTest {
     public void createCarritoComprasTest() throws BusinessLogicException {
      
         CarritoComprasEntity newEntity = factory.manufacturePojo(CarritoComprasEntity.class);
+        newEntity.setCosto(0.0);
         CarritoComprasEntity result = carritoComprasLogic.createCarrito(newEntity);
         Assert.assertNotNull(result);
         CarritoComprasEntity entity = em.find(CarritoComprasEntity.class, result.getId());
@@ -152,7 +153,7 @@ public class CarritoComprasLogicTest {
      * Prueba para actualizar un Carrito de compras.
      */
     @Test
-    public void updateAuthorTest() throws BusinessLogicException{
+    public void updateCarritoComprasTest() throws BusinessLogicException{
         CarritoComprasEntity entity = data.get(0);
         CarritoComprasEntity pojoEntity = factory.manufacturePojo(CarritoComprasEntity.class);
 

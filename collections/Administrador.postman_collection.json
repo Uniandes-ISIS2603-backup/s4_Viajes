@@ -1,13 +1,25 @@
 {
 	"info": {
-		"_postman_id": "8a86d170-ab19-481a-855c-8452884496c5",
+		"_postman_id": "c7ad3944-9724-4657-89fa-e8c6bf7b2c32",
 		"name": "Administrador",
 		"description": "Pruebas de la clase administrador.",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "http://localhost:8080/s4_viajes-api/api/carritoscompras/5",
+			"name": "Crear un administrador",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "48685471-57d7-4b52-9bf1-27775413cb38",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No permite la eliminación del administrador con una contraseña incorrecta\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -18,54 +30,74 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "\r\n\t{\r\n\t\"userName\": \"Nik\",\r\n\t\"nombre\": \"Nicolas\",\r\n    \"contraseña\":\"123\"\r\n\t}"
+					"raw": "{\n    \"nombre\": \"Dovakhin\",\n    \"password\": \"cuarentaydo2\",\n    \"userName\": \"HijodeDragon\"\n\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/s4_viajes-api/api/administradores",
+					"raw": "http://{{ip}}:{{puerto}}/s4_viajes-api/api/administradores/",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{ip}}"
 					],
-					"port": "8080",
+					"port": "{{puerto}}",
 					"path": [
 						"s4_viajes-api",
 						"api",
-						"administradores"
+						"administradores",
+						""
 					]
 				},
-				"description": "Crea un administrador con la información obtenida."
+				"description": "Elimina un administrador. "
 			},
 			"response": []
 		},
 		{
-			"name": "http://localhost:8080/s4_viajes-api/api/carritoscompras/5",
+			"name": "Eliminar admin (PASSWORD FAIL)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "474a6bf5-099e-4ea9-8f65-2cc66dbfb84e",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No permite la eliminación del administrador con una contraseña incorrecta\"] = responseCode.code === 412;"
+						]
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "140f1283-d00b-4151-8e0c-24d192b89d50",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
 			"request": {
-				"method": "GET",
+				"method": "DELETE",
 				"header": [
 					{
 						"key": "Content-Type",
 						"value": "application/json"
 					}
 				],
-				"body": {
-					"mode": "raw",
-					"raw": "\r\n\t{\r\n\t\"userName\": \"Nik\",\r\n\t\"nombre\": \"Nicolas\",\r\n    \"contraseña\":\"123\"\r\n\t}"
-				},
+				"body": {},
 				"url": {
-					"raw": "http://localhost:8080/s4_viajes-api/api/administradores/uantotri",
+					"raw": "http://{{ip}}:{{puerto}}/s4_viajes-api/api/administradores/1",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{ip}}"
 					],
-					"port": "8080",
+					"port": "{{puerto}}",
 					"path": [
 						"s4_viajes-api",
 						"api",
 						"administradores",
-						"uantotri"
+						"1"
 					]
 				},
-				"description": "Obtiene la información de un administrador. "
+				"description": "Elimina un administrador. "
 			},
 			"response": []
 		}

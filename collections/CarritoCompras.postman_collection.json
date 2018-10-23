@@ -1,13 +1,25 @@
 {
 	"info": {
-		"_postman_id": "3fde2cb3-0118-411c-8c3a-5aefeb6f6101",
+		"_postman_id": "a235f285-536d-4a1f-a631-5660da98fe91",
 		"name": "CarritoCompras",
 		"description": "Realiza las pruebas de un carrito de compras. ",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "http://localhost:8080/s4_viajes-api/api/usuarios/",
+			"name": "Crear carrito con costo diferente a cero ",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "aabcce47-ee22-491b-9cc6-331d291f7795",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"El costo inicial del carrito debe ser igual a cero\"] = responseCode.code === 412;"
+						]
+					}
+				}
+			],
 			"request": {
 				"method": "POST",
 				"header": [
@@ -18,29 +30,43 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "\r\n\t{\r\n\t\"costo\": 30,\r\n\t\"nombre\": \"carrito\",\r\n    \"id\":\"502030\"\r\n\t\t\r\n\t}"
+					"raw": "\r\n\t{\r\n\t\"costo\": 30,\r\n\t\"nombre\": \"carrito\",\r\n    \"id\":\"502030\"\r\n\t}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/s4_viajes-api/api/carritoscompras",
+					"raw": "http://{{ip}}:{{puerto}}/s4_viajes-api/api/carritoscompras",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{ip}}"
 					],
-					"port": "8080",
+					"port": "{{puerto}}",
 					"path": [
 						"s4_viajes-api",
 						"api",
 						"carritoscompras"
 					]
 				},
-				"description": "Crea un nuevo carrito de compras. "
+				"description": "Crea un nuevo carrito de compras con costo distinto de 0. "
 			},
 			"response": []
 		},
 		{
-			"name": "http://localhost:8080/s4_viajes-api/api/carritoscompras/5",
+			"name": "Crear carrito con costo diferente a cero  Copy",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a901ee77-3b8a-4f74-bb0c-2e3bbda8d6b1",
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_c\",data.id);",
+							"tests[\"No genera problemas el POST\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
 			"request": {
-				"method": "GET",
+				"method": "POST",
 				"header": [
 					{
 						"key": "Content-Type",
@@ -49,23 +75,98 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "\r\n\t{\r\n\t\"costo\": 30,\r\n\t\"nombre\": \"carrito\",\r\n    \"id\":\"502030\"\r\n\t\t\r\n\t}"
+					"raw": "\r\n\t{\r\n\t\"costo\": 0,\r\n\t\"nombre\": \"carrito\",\r\n    \"id\":\"502030\"\r\n\t\t\r\n\t}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/s4_viajes-api/api/carritoscompras/20",
+					"raw": "http://{{ip}}:{{puerto}}/s4_viajes-api/api/carritoscompras",
 					"protocol": "http",
 					"host": [
-						"localhost"
+						"{{ip}}"
 					],
-					"port": "8080",
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"carritoscompras"
+					]
+				},
+				"description": "Crea un nuevo carrito de compras con costo distinto de 0. "
+			},
+			"response": []
+		},
+		{
+			"name": "Edita un carrito de compras",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e1613964-9b59-43f2-a216-a9f33067fecc",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"El PUT no genera error\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n\t{\r\n\t\"costo\": 20,\r\n\t\"nombre\": \"carrote\"\r\n\t}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s4_viajes-api/api/carritoscompras/{{new_id_c}}",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
 					"path": [
 						"s4_viajes-api",
 						"api",
 						"carritoscompras",
-						"20"
+						"{{new_id_c}}"
 					]
 				},
-				"description": "Obtiene un carrito de compras. "
+				"description": "Actualiza un carrito de compras no existente. "
+			},
+			"response": []
+		},
+		{
+			"name": "Actualizar carrito de compras con valor negativo/",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "\r\n\t{\r\n\t\"costo\": -12,\r\n\t\"nombre\": \"carrito\",\r\n    \"id\":\"502030\"\r\n\t\t\r\n\t}"
+				},
+				"url": {
+					"raw": "http://{{ip}}:{{puerto}}/s4_viajes-api/api/carritoscompras/1",
+					"protocol": "http",
+					"host": [
+						"{{ip}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"carritoscompras",
+						"1"
+					]
+				},
+				"description": "Actualiza un carrito de compras existente. "
 			},
 			"response": []
 		}

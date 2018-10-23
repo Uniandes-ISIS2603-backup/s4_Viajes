@@ -6,11 +6,9 @@
 package co.edu.uniandes.csw.viajes.resources;
 
 import co.edu.uniandes.csw.viajes.dtos.ComboDTO;
-import co.edu.uniandes.csw.viajes.dtos.ComboDetailDTO;
 import co.edu.uniandes.csw.viajes.dtos.PagoDTO;
 import co.edu.uniandes.csw.viajes.ejb.ComboLogic;
 import co.edu.uniandes.csw.viajes.ejb.PagoLogic;
-import co.edu.uniandes.csw.viajes.entities.ComboEntity;
 import co.edu.uniandes.csw.viajes.entities.PagoEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import java.util.ArrayList;
@@ -52,6 +50,8 @@ public class PagoResource {
     @Inject
     PagoLogic pagoLogic; // Variable para acceder a la lógica de la aplicación. Es una inyección de dependencias.
 
+     @Inject
+    ComboLogic comboLogic; // Variable para acceder a la lógica de la aplicación. Es una inyección de dependencias.
    /**
      * Crea un nuevo pago con la informacion que se recibe en el cuerpo de la
  petición y se regresa un objeto identico con un id auto-generado por la
@@ -64,10 +64,14 @@ public class PagoResource {
  Error de lógica que se genera cuando ya existe el pago.
      */
     @POST
-    public PagoDTO crearPago(PagoDTO pago) throws BusinessLogicException {
+     public PagoDTO crearPago(PagoDTO pago) throws BusinessLogicException {
         
+        
+//        throw new BusinessLogicException("id: "+pago.getaPagar().getComboIdLong()+", nombre:"+pago.getaPagar().getNombre());
         LOGGER.log(Level.INFO, "PagoResource createPago: input: {0}", pago.toString());
-        PagoDTO nuevoPagoDTO = new PagoDTO(pagoLogic.createPago(pago.toEntity()));
+        PagoEntity pagoEntity=pago.toEntity();
+        PagoDTO nuevoPagoDTO = new PagoDTO(pagoLogic.createPago(pagoEntity));
+
         LOGGER.log(Level.INFO, "PagoResource createPago: output: {0}", nuevoPagoDTO.toString());
         return nuevoPagoDTO;
        
@@ -95,10 +99,11 @@ public class PagoResource {
      * @return JSON {@link PagoDTO} - El pago buscado
      * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
      * Error de lógica que se genera cuando no se encuentra el pago.
+     * @throws co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException
      */
     @GET
         @Path("{pagoId: \\d+}")
-    public PagoDTO consultarPago(@PathParam("pagoId") Long pagoId) throws WebApplicationException
+    public PagoDTO consultarPago(@PathParam("pagoId") Long pagoId) throws WebApplicationException, BusinessLogicException
     {
         LOGGER.log(Level.INFO, "ComboResource getCombo: input: {0}", pagoId);
         PagoEntity pagoEntity = pagoLogic.getPago(pagoId);
