@@ -1,0 +1,238 @@
+{
+	"info": {
+		"_postman_id": "58753f9b-fc4d-40f2-b33d-d0ec56bfe99c",
+		"name": "Test Vuelo",
+		"description": "Test que cumplen las funciones básicas del recurso Vuelo.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear un vuelo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "d6b482dc-5813-493e-b27f-ee4f0f7ac77a",
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_v\", data.id);",
+							"tests[\"No genera error en el Postman. El vuelo se ha creado exitosamente.\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n  \"numero\" : \"AVI1234\", \r\n  \"costo\" : 125000, \r\n  \"puntuacion\" : 4, \r\n  \"latitudOrigen\" : 4.6098906, \r\n  \"longitudOrigen\" : -95.08167809,\r\n  \"latitudDestino\" : 4.6097100,\r\n  \"longitudDestino\" : -74.0817500,\r\n  \"fechaSalida\" : \"2018-10-20T07:30:00-08:00\",\r\n  \"fechaLlegada\" : \"2018-09-28T09:30:00-10:00\"\r\n}"
+				},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/vuelos/",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"vuelos",
+						""
+					]
+				},
+				"description": "Crea un nuevo vuelo a partir del identificador de número y con la infomración dada.\n"
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un vuelo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "73c63585-0fa0-42e3-9a65-d656cb5c56f5",
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"tests[\"No genera error en el Postman. El vuelo con el id identificado ha sido obtenido.\"] = responseCode.code === 200;",
+							"tests[\"vuelos count\"] = data.lenght > 0;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/vuelos/{{new_id_v}}",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"vuelos",
+						"{{new_id_v}}"
+					]
+				},
+				"description": "Obtiene un vuelo dado un número específico lo que retorna toda la información del vuelo\n"
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar un vuelo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "3d3e153a-159f-4582-ad39-b243b913e51f",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Postman. El vuelo se ha eliminado correctamente.\"] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/vuelos",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"vuelos"
+					]
+				},
+				"description": "Elimina el vuelo especificado por el número dado.\n"
+			},
+			"response": []
+		},
+		{
+			"name": "Modificar un vuelo",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a30ca128-f23e-42b4-a666-0e4e044db7b8",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Postman\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\r\n  \"numero\" : \"2468\", \r\n  \"costo\" : 125000, \r\n  \"puntuacion\" : 3, \r\n  \"latitudOrigen\" : 4.6098906, \r\n  \"longitudOrigen\" : -95.08167809,\r\n  \"latitudDestino\" : 4.6097100,\r\n  \"longitudDestino\" : -74.0817500,\r\n  \"fechaSalida\" : \"2018-10-20T07:30:00-05:00\",\r\n  \"fechaLlegada\" : \"2018-10-25T09:30:00-05:00\"\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/vuelos/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"vuelos",
+						"1"
+					]
+				},
+				"description": "Se cambia la información de un vuelo dado por un número donde se ingresa la información que se va a cambiar.\n"
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener vuelos",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/vuelos",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"vuelos"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un vuelo que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "2efc25bf-da16-4a68-ac88-2282522b35a7",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Postman. El vuelo no existe\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/vuelos/0",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"vuelos",
+						"0"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

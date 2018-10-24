@@ -58,6 +58,7 @@ public class ProveedorDetailDTO extends ProveedorDTO implements Serializable{
         vuelos=new ArrayList<VueloDTO>();
         transportesTerrestres=new ArrayList<TransporteTerrestreDTO>();
         actividades=new ArrayList<ActividadDTO>();
+        alojamientos=new ArrayList<AlojamientoDTO>();
         if (proveedorEntity != null) {
             if(proveedorEntity.getVuelos()!=null)
                  for(VueloEntity vuelo:proveedorEntity.getVuelos())
@@ -70,6 +71,7 @@ public class ProveedorDetailDTO extends ProveedorDTO implements Serializable{
                      actividades.add(new ActividadDTO(actividad));
             if(proveedorEntity.getAlojamientos()!=null)
                 for(AlojamientoEntity alojamiento:proveedorEntity.getAlojamientos())
+
                      alojamientos.add(new AlojamientoDTO(alojamiento));
         }       
      }
@@ -106,11 +108,11 @@ public class ProveedorDetailDTO extends ProveedorDTO implements Serializable{
             proveedorEntity.setActividades(actividadesEntity);
         }
         if (alojamientos != null) {
-            List<AlojamientoEntity> alojamientosEntity = new ArrayList<AlojamientoEntity>();
+            List<AlojamientoEntity> alojamientoEntity = new ArrayList<AlojamientoEntity>();
             for (AlojamientoDTO alojamientoDTO : alojamientos) {
-                alojamientosEntity.add(alojamientoDTO.toEntity());
+                alojamientoEntity.add(alojamientoDTO.toEntity());
             }
-            proveedorEntity.setAlojamientos(alojamientosEntity);
+            proveedorEntity.setAlojamientos(alojamientoEntity);
         }
         return proveedorEntity;
     }
@@ -169,15 +171,17 @@ public class ProveedorDetailDTO extends ProveedorDTO implements Serializable{
         this.actividades = actividades;
     }
     
-         /**
+
+    /**
      * Obtiene la lista de alojamientos del proveedor
      *
      * @return alojamientos
      */
-    public List<AlojamientoDTO> getAlojamientos() {
+
+    public List<AlojamientoDTO> getlojamientos() {
         return alojamientos;
     }
-    
+   
     /**
      * Modifica la lista de alojamiento para el proveedor con los que llegan por parametro
      *

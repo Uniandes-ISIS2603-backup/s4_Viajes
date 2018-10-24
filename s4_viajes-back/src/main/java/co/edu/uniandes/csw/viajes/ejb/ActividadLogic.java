@@ -83,6 +83,10 @@ public class ActividadLogic {
     public void deleteActividad(Long actividadId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de borrar el libro con id = {0}", actividadId);
         
+        if (!validarActividadExistente(actividadId))
+        {
+            throw new BusinessLogicException("No existe la actividad a eliminar");
+        }
         
         persistence.delete(actividadId);
         LOGGER.log(Level.INFO, "Termina proceso de borrar la actividad con id = {0}", actividadId);
@@ -151,6 +155,11 @@ public class ActividadLogic {
         List<ActividadEntity> actividades = persistence.findAll();
         LOGGER.log(Level.INFO, "Termina proceso de consultar todos las actividades");
         return actividades;
+    }
+    
+    private boolean validarActividadExistente(Long id)
+    {
+        return !(persistence.findByIdentificador(id) == null);
     }
     
     private boolean validarId(Long id)

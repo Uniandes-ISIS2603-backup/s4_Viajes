@@ -71,7 +71,7 @@ public class CarritoComprasResource {
      * Error de lógica cuando no existe el carrito.
      */
     @PUT
-    @Path("id: \\d+")
+    @Path("{id: \\d+}")
     public CarritoComprasDTO modificarCarrito(@PathParam("id") Long id, CarritoComprasDTO nuevo) throws WebApplicationException, BusinessLogicException {
     nuevo.setId(id);
     if(carritoComprasLogic.getCarrito(id)==null){

@@ -90,7 +90,6 @@ public class VueloResource {
         return vueloDTO;
     }
     
-  
     /**
      * Modifica la informacion de un vuelo dado por la información ingresada en
      * formato JSON.
@@ -140,7 +139,7 @@ public class VueloResource {
      * encontrados en la aplicación. Si no hay ninguna retorna una lista vacía.
      */
     @GET
-    public List<VueloDTO> getVuelos() {
+    public List<VueloDTO> getVuelos(){
         LOGGER.info("VueloResource getProveedores: input: void");
         List<VueloDTO> listaVuelos = listEntity2DetailDTO(vueloLogic.getVuelos());
         LOGGER.log(Level.INFO, "ProveedorResource getProveedores: output: {0}", listaVuelos.toString());
@@ -153,7 +152,6 @@ public class VueloResource {
      *
      * Este método convierte una lista de objetos EditorialEntity a una lista de
      * objetos EditorialDetailDTO (json)
-     *
      * @param entityList corresponde a la lista de proveedores de tipo Entity
      * que vamos a convertir a DTO.
      * @return la lista de proveedores en forma DTO (json)

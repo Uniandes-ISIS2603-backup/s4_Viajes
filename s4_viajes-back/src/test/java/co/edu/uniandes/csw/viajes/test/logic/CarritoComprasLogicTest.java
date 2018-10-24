@@ -153,7 +153,7 @@ public class CarritoComprasLogicTest {
      * Prueba para actualizar un Carrito de compras.
      */
     @Test
-    public void updateAuthorTest() throws BusinessLogicException{
+    public void updateCarritoComprasTest() throws BusinessLogicException{
         CarritoComprasEntity entity = data.get(0);
         CarritoComprasEntity pojoEntity = factory.manufacturePojo(CarritoComprasEntity.class);
 

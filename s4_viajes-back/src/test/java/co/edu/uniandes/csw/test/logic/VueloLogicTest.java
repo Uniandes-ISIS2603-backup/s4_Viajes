@@ -253,7 +253,7 @@ public class VueloLogicTest {
      *
      * @throws BusinessLogicException
      */
-    @Test 
+    @Test(expected = BusinessLogicException.class)
     public void updateVueloTest() throws BusinessLogicException {
         VueloEntity entity = data.get(0);
         VueloEntity pojoEntity = factory.manufacturePojo(VueloEntity.class);
@@ -305,7 +305,7 @@ public class VueloLogicTest {
      *
      * @throws BusinessLogicException
      */
-    @Test
+    @Test(expected = BusinessLogicException.class)
     public void deleteVueloTest() throws BusinessLogicException {
         VueloEntity entity = data.get(0);
         vueloLogic.deleteVuelo(entity.getId());
