@@ -253,6 +253,7 @@ public class VueloLogicTest {
      *
      * @throws BusinessLogicException
      */
+
     @Test(expected = BusinessLogicException.class)
     public void updateVueloTest() throws BusinessLogicException {
         VueloEntity entity = data.get(0);
