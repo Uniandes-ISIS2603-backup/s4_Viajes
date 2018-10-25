@@ -5,8 +5,10 @@
  */
 package co.edu.uniandes.csw.viajes.resources;
 
+import co.edu.uniandes.csw.viajes.dtos.ProveedorDetailDTO;
 import co.edu.uniandes.csw.viajes.dtos.VueloDTO;
 import co.edu.uniandes.csw.viajes.ejb.VueloLogic;
+import co.edu.uniandes.csw.viajes.entities.ProveedorEntity;
 import co.edu.uniandes.csw.viajes.entities.VueloEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.mappers.BusinessLogicExceptionMapper;
@@ -88,7 +90,6 @@ public class VueloResource {
         return vueloDTO;
     }
     
-  
     /**
      * Modifica la informacion de un vuelo dado por la información ingresada en
      * formato JSON.
@@ -129,6 +130,38 @@ public class VueloResource {
         }
         vueloLogic.deleteVuelo(vueloId);
         LOGGER.info("VueloResource deleteVuelo: output: void");
+    }
+    
+        /**
+     * Busca y devuelve todos los proveedoresque existen en la aplicacion.
+     *
+     * @return JSONArray {@link ProveedorDetailDTO} - Los proveedores
+     * encontrados en la aplicación. Si no hay ninguna retorna una lista vacía.
+     */
+    @GET
+    public List<VueloDTO> getVuelos(){
+        LOGGER.info("VueloResource getProveedores: input: void");
+        List<VueloDTO> listaVuelos = listEntity2DetailDTO(vueloLogic.getVuelos());
+        LOGGER.log(Level.INFO, "ProveedorResource getProveedores: output: {0}", listaVuelos.toString());
+        return listaVuelos;
+    }
+    
+        /**
+     *
+     * lista de entidades a DTO.
+     *
+     * Este método convierte una lista de objetos EditorialEntity a una lista de
+     * objetos EditorialDetailDTO (json)
+     * @param entityList corresponde a la lista de proveedores de tipo Entity
+     * que vamos a convertir a DTO.
+     * @return la lista de proveedores en forma DTO (json)
+     */
+    private List<VueloDTO> listEntity2DetailDTO(List<VueloEntity> entityList) {
+        List<VueloDTO> list = new ArrayList<>();
+        for (VueloEntity entity : entityList) {
+            list.add(new VueloDTO(entity));
+        }
+        return list;
     }
 
 }

@@ -1,0 +1,279 @@
+{
+	"info": {
+		"_postman_id": "c7ece1c4-bcdb-490e-be7e-15e584b23e88",
+		"name": "Test Proveedor",
+		"description": "Tests de las operciones báscias del recurso Proveedor.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Crear un proveedor",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "80ca1769-dc14-4f68-bcba-f9ac1edf5c17",
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_p\", data.id);",
+							"tests[\"No genera error en el Postman. El proveedor se ha creado exitosamente.\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\n \t\"nombre\" : \"AirCanada\", \n \t\"password\" : \"cana2018\", \n \t\"user\" : \"cana123\", \n \t\"puntaje\" : 6 \n }\n "
+				},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/proveedores/",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"proveedores",
+						""
+					]
+				},
+				"description": "Crea un proveedor identificado por su nombre y que contiene toda su información al ingresarla."
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un proveedor",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "00ac3dbd-0523-4751-88ec-38c86ccd8d07",
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"tests[\"no genera error en el Get\"] = responseCode.code === 200;",
+							"tests[\"proveedores count\"] = data.lenght > 0;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/proveedores/{{new_id_p}}",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"proveedores",
+						"{{new_id_p}}"
+					]
+				},
+				"description": "Obtiene un proveedor específico dado por su nombre, esto retorna toda su información.\n"
+			},
+			"response": []
+		},
+		{
+			"name": "Eliminar un proveedor",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "ad972180-ea7d-4801-a7f3-5646325e1627",
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"tests[\"No genera error en el Postman. Se ha eliminado el proveedor.\"] = responseCode.code === 204;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/proveedores/{{new_id_p}}",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"proveedores",
+						"{{new_id_p}}"
+					]
+				},
+				"description": "Elimina un proveedor dado su nombre como identificador.\n"
+			},
+			"response": []
+		},
+		{
+			"name": "Modificar un proveedor",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "382aca32-60ac-4c7a-8953-7dda697fcc08",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Postman. Se ha modificado el proveedor con nombre especificado.\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"puntaje\": 4,\n    \"nombre\": \"Luftansa\",\n    \"password\": \"Luf2018\",\n    \"user\": \"Lufi123\"\n    \"vuelos\":{\n    \t    \"costo\": 120000,\n\t\t    \"fechaLlegada\": \"2018-09-28T00:00:00-05:00\",\n\t\t    \"fechaSalida\": \"2018-09-20T00:00:00-05:00\",\n\t\t    \"id\": 3,\n\t\t    \"latitudDestino\": 4,\n\t\t    \"latitudOrigen\": 4,\n\t\t    \"longitudDestino\": -75,\n\t\t    \"longitudOrigen\": -96,\n\t\t    \"numero\": \"5678\",\n\t\t    \"puntuacion\": 3\n\t\t    }\n}"
+				},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/proveedores/{{new_id_p}}",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"proveedores",
+						"{{new_id_p}}"
+					]
+				},
+				"description": "Dado el identificador de nombre de un proveedor, se envía la información que se quiere cambiar de este para así modificarla."
+			},
+			"response": []
+		},
+		{
+			"name": "Create proveedor con vuelo asociado",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "89ef5ca1-b008-4034-8cd5-b8267ffa6f84",
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);",
+							"postman.setGlobalVariable(\"new_id_p\", data.id);",
+							"tests[\"No genera error en el Postman. El proveedor se ha creado exitosamente.\"] = responseCode.code === 200;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": " {\n \t\"nombre\" : \"VivaColombia\", \n \t\"password\" : \"viv2018\", \n \t\"user\" : \"viva123\", \n \t\"puntaje\" : 8,\n \t\"vuelos\":  {\n  \"numero\" : \"AVI1234\", \n  \"costo\" : 125000, \n  \"puntuacion\" : 4, \n  \"latitudOrigen\" : 4.6098906, \n  \"longitudOrigen\" : -95.08167809,\n  \"latitudDestino\" : 4.6097100,\n  \"longitudDestino\" : -74.0817500,\n  \"fechaSalida\" : \"2018-10-20T07:30:00-08:00\",\n  \"fechaLlegada\" : \"2018-09-28T09:30:00-10:00\"\n}\n }"
+				},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/proveedores/{{new_id_p}}/vuelos/",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"proveedores",
+						"{{new_id_p}}",
+						"vuelos",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener un proveedor que no existe",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "034d8a75-a401-4f0a-a7f3-936aa9bec081",
+						"type": "text/javascript",
+						"exec": [
+							"tests[\"No genera error en el Postman. El proveedor no existe\"] = responseCode.code === 404;"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/proveedores/0",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"proveedores",
+						"0"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Obtener proveedores",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{id}}:{{puerto}}/s4_viajes-api/api/proveedores",
+					"protocol": "http",
+					"host": [
+						"{{id}}"
+					],
+					"port": "{{puerto}}",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"proveedores"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

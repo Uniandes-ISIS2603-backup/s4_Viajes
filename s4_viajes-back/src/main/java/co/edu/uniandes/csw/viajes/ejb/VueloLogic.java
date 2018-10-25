@@ -44,7 +44,6 @@ public class VueloLogic {
      */
     public VueloEntity createVuelo(VueloEntity vueloEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación del vuelo");
-                
         if (vueloEntity.getNumero() == null)
         {
             throw new BusinessLogicException("El Numero de vuelo es inválido");
