@@ -12,6 +12,7 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.eclipse.persistence.exceptions.DatabaseException;
 
@@ -102,6 +103,7 @@ public class ActividadPersistence {
      * @param actividadId: id correspondiente a la editorial a borrar.
      */
     public void delete(Long actividadId) {
+
         LOGGER.log(Level.INFO, "Borrando actividad con id = {0}", actividadId);
         // Se hace uso de mismo método que esta explicado en public EditorialEntity find(Long id) para obtener la editorial a borrar.
         ActividadEntity e = findByIdentificador(actividadId);
@@ -111,6 +113,17 @@ public class ActividadPersistence {
          Es similar a "delete from ActividadEntity where id=id;" - "DELETE FROM table_name WHERE condition;" en SQL.*/
         em.remove(e);
         LOGGER.log(Level.INFO, "Saliendo de borrar la actividad con id = {0}", actividadId);
+        
+    }
+    
+    public void deleteAll()
+    {
+      List<ActividadEntity> list = findAll();
+      
+      for(ActividadEntity e: list)
+      {
+          em.remove(e);
+      }
     }
 	
     /**

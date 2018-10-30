@@ -93,14 +93,14 @@ public class ActividadResource {
     
     @GET
     @Path("{actividadId: \\d+}")
-    public ActividadDTO consultarActividad(@PathParam("actividadId") Long actividadId) throws WebApplicationException
+    public ActividadDetailDTO consultarActividad(@PathParam("actividadId") Long actividadId) throws WebApplicationException
     {
          LOGGER.log(Level.INFO, "ActividadResource consultarActividad: input: {0}", actividadId);
         ActividadEntity actividadEntity = actividadLogic.getActividadByIdentificador(actividadId);
         if (actividadEntity == null) {
             throw new WebApplicationException("El recurso /actividad/" + actividadId + " no existe.", 404);
         }
-        ActividadDTO detailDTO = new ActividadDTO(actividadEntity);
+        ActividadDetailDTO detailDTO = new ActividadDetailDTO(actividadEntity);
         LOGGER.log(Level.INFO, "ActividadResource consultarActividad: output: {0}", detailDTO.toString());
         return detailDTO;
     }
@@ -131,6 +131,17 @@ public class ActividadResource {
         actividadLogic.deleteActividad(actividadId);
         LOGGER.info("ActividadResource deleteActividad: output: void");
     }
+    
+     /**
+     * Borra todas las actividades.
+     *
+     
+    @DELETE
+    public void deleteAllActividades(){
+        // Invoca la lógica para borrar las actividades
+        actividadLogic.deleteAll();
+ 
+    }*/
    
       /**
      * Conexión con el servicio de guias para una actividad.

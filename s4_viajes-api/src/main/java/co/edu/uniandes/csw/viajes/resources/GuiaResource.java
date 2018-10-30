@@ -12,6 +12,7 @@ import co.edu.uniandes.csw.viajes.ejb.GuiaLogic;
 import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
 import co.edu.uniandes.csw.viajes.entities.GuiaEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -117,6 +118,17 @@ public class GuiaResource {
     }
     
     /**
+     * Borra todos los guias.
+     *
+     
+    @DELETE
+    public void deleteAllGuias(){
+        // Invoca la lógica para borrar los guias
+        guiaLogic.deleteAll();
+ 
+    }*/
+    
+    /**
      *
      * @param guiaId
      * @param guia
@@ -135,5 +147,31 @@ public class GuiaResource {
         GuiaDTO detailDTO = new GuiaDTO(guiaLogic.modificarGuia(guiaId, guia.toEntity()));
         LOGGER.log(Level.INFO, "GuiaResource modificarGuia: output: {0}", detailDTO.toString());
         return detailDTO;}
+    
+        /**
+     * Busca y devuelve todos los guias que existen en la aplicacion.
+     *
+     * @return JSONArray {@link GuiaDTO} - Los libros encontrados en la
+     * aplicación. Si no hay ninguno retorna una lista vacía.
+     */
+    @GET
+    public List<GuiaDTO> getActividades() {
+        LOGGER.info("ActividadResource getActividades: input: void");
+        
+        List<GuiaDTO> listaGuias = listEntity2DTO(guiaLogic.getGuias());
+        LOGGER.log(Level.INFO, "ActividadResource getActividades: output: {0}", listaGuias.toString());
+        return listaGuias;
+    }
+    
+    private List<GuiaDTO> listEntity2DTO(List<GuiaEntity> list)
+    {
+        List <GuiaDTO> newList = new ArrayList();
+        for(GuiaEntity e : list)
+        {
+            newList.add(new GuiaDTO(e));
+        }
+        
+        return newList;
+    }
     
 }
