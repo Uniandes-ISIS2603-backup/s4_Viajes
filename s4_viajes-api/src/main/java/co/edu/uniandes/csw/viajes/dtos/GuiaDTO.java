@@ -29,6 +29,8 @@ public class GuiaDTO implements Serializable{
     
     public GuiaDTO(GuiaEntity guiaEntity) {
         if (guiaEntity != null) {
+            
+            
             this.edad = guiaEntity.getEdad();
             this.documento = guiaEntity.getDocumento();
             this.nombre = guiaEntity.getNombre();

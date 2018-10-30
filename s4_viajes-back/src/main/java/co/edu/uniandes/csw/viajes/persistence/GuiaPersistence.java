@@ -98,6 +98,16 @@ public class GuiaPersistence {
         LOGGER.log(Level.INFO, "Saliendo de borrar la actividad con id = {0}", guiaId);
     }
     
+     public void deleteAll()
+    {
+      List<GuiaEntity> list = findAll();
+      
+      for(GuiaEntity e: list)
+      {
+          em.remove(e);
+      }
+    }
+    
     
     public GuiaEntity findByDocumento(Long documento)
     {
