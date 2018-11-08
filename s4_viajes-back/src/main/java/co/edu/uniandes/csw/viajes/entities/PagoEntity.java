@@ -22,11 +22,11 @@ public class PagoEntity extends BaseEntity implements Serializable  {
     
     @PodamExclude
     @OneToOne(mappedBy = "pago", fetch=FetchType.LAZY)    
-    private ComboEntity aPagar;
+    private ReservaEntity aPagar;
     private Long pagoId;
     private boolean pagaConTarjeta;
     private String tarjeta;
-    private long idComboAPagar;
+    private long idReservaAPagar=-1l;
 
     @PodamExclude
     @ManyToOne
@@ -37,97 +37,13 @@ public class PagoEntity extends BaseEntity implements Serializable  {
     
     
     
-    public ComboEntity getaPagar() {
+    public ReservaEntity getaPagar() {
         return aPagar;
     }
 
-    public void setaPagar(ComboEntity aPagar) {
+    public void setaPagar(ReservaEntity aPagar) {
         if(aPagar!=null)
-            idComboAPagar=aPagar.getComboIdLong();
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+            idReservaAPagar=aPagar.getId();
         this.aPagar = aPagar;
     }
     
@@ -156,12 +72,12 @@ public class PagoEntity extends BaseEntity implements Serializable  {
         this.tarjeta = tarjeta;
     }
 
-    public long getIdComboAPagar() {
-        return idComboAPagar;
+    public long getIdReservaAPagar() {
+        return idReservaAPagar;
     }
 
-    public void setIdComboAPagar(long idComboAPagar) {
-        this.idComboAPagar = idComboAPagar;
+    public void setIdReservaAPagar(long idComboAPagar) {
+        this.idReservaAPagar = idComboAPagar;
     }
     
    

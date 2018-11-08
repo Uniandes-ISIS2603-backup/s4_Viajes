@@ -85,6 +85,8 @@ public class UsuarioDetailDTO extends UsuarioDTO implements Serializable {
                     pagosEntity.add(dtoPago.toEntity());
                 } catch (BusinessLogicException ex) {
                     Logger.getLogger(UsuarioDetailDTO.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (Exception ex) {
+                    Logger.getLogger(UsuarioDetailDTO.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
             usuarioEntity.setPagos(pagosEntity);

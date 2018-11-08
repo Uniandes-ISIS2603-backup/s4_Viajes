@@ -54,7 +54,7 @@ public class ComboDTO implements Serializable{
      * Método para transformar el DTO a una entidad.
      * @return La entidad del DTO asociado.
      */
-      public ComboEntity toEntity() 
+      public ComboEntity toEntity() throws Exception
     {
         ComboEntity comboEntity = new ComboEntity(); 
        

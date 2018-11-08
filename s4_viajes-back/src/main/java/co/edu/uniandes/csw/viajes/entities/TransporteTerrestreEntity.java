@@ -43,7 +43,7 @@ public class TransporteTerrestreEntity extends BaseEntity implements Serializabl
 
     @PodamExclude
     @ManyToOne
-    private ComboEntity combo;
+    private ReservaEntity reserva;
 
     public Integer getNumeroMinutos() {
         return numeroMinutos;
@@ -133,11 +133,13 @@ public class TransporteTerrestreEntity extends BaseEntity implements Serializabl
         this.puntuacion = puntuacion;
     }
 
-    public ComboEntity getCombo() {
-        return combo;
+    public ReservaEntity getReserva() {
+        return reserva;
     }
 
-    public void setCombo(ComboEntity combo) {
-        this.combo = combo;
+    public void setReserva(ReservaEntity reserva) {
+        this.reserva = reserva;
     }
+
+  
 }

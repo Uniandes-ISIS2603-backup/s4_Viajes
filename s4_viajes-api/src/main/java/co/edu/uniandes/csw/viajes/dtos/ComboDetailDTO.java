@@ -8,6 +8,7 @@ package co.edu.uniandes.csw.viajes.dtos;
 import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
 import co.edu.uniandes.csw.viajes.entities.AlojamientoEntity;
 import co.edu.uniandes.csw.viajes.entities.ComboEntity;
+import co.edu.uniandes.csw.viajes.entities.ReservaEntity;
 import co.edu.uniandes.csw.viajes.entities.TransporteTerrestreEntity;
 import co.edu.uniandes.csw.viajes.entities.VueloEntity;
 import java.io.Serializable;
@@ -23,13 +24,8 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class ComboDetailDTO extends ComboDTO implements Serializable{
 
     
-    private List<VueloDTO> vuelos;
-    
-    private List<TransporteTerrestreDTO> transportesTerrestres;
-
-    private List<ActividadDTO> actividades;
-        
-    private List<AlojamientoDTO> alojamientos;
+    private List<ReservaDTO> reservas;
+   
     
     /**
      * Crea un nuevo objeto ComboDetailDTO vacio
@@ -38,11 +34,7 @@ public class ComboDetailDTO extends ComboDTO implements Serializable{
     public ComboDetailDTO()
     {
         super();
-        vuelos=new ArrayList<VueloDTO>();
-        transportesTerrestres=new ArrayList<TransporteTerrestreDTO>();
-        actividades=new ArrayList<ActividadDTO>();
-        alojamientos=new ArrayList<AlojamientoDTO>();
-
+        reservas=new ArrayList<ReservaDTO>();
     }
 
      /**
@@ -56,25 +48,11 @@ public class ComboDetailDTO extends ComboDTO implements Serializable{
      public ComboDetailDTO(ComboEntity comboEntity)
     {
         super(comboEntity);
-        vuelos=new ArrayList<VueloDTO>();
-        transportesTerrestres=new ArrayList<TransporteTerrestreDTO>();
-        actividades=new ArrayList<ActividadDTO>();
-        alojamientos=new ArrayList<AlojamientoDTO>();
-        if (comboEntity != null) {
-            if(comboEntity.getVuelos()!=null)
-                 for(VueloEntity vuelo:comboEntity.getVuelos())
-                     vuelos.add(new VueloDTO(vuelo));
-            if(comboEntity.getTransportesTerrestres()!=null)
-                for(TransporteTerrestreEntity transporte:comboEntity.getTransportesTerrestres())
-                    transportesTerrestres.add(new TransporteTerrestreDTO(transporte));
-            if(comboEntity.getActividades()!=null)
-                for(ActividadEntity actividad:comboEntity.getActividades())
-                     actividades.add(new ActividadDTO(actividad));
-             if(comboEntity.getAlojamientos()!=null)
-                for(AlojamientoEntity alojamiento:comboEntity.getAlojamientos())
-                     alojamientos.add(new AlojamientoDTO(alojamiento));         
-        }
-         
+        reservas=new ArrayList<ReservaDTO>();
+   
+        if (comboEntity != null && comboEntity.getReservas()!=null)
+                 for(ReservaEntity reserva:comboEntity.getReservas())
+                     reservas.add(new ReservaDTO(reserva));
      }
      
      /**
@@ -85,111 +63,39 @@ public class ComboDetailDTO extends ComboDTO implements Serializable{
      *
      */
     @Override
-    public ComboEntity toEntity() {
+    public ComboEntity toEntity() throws Exception{
         ComboEntity comboEntity = super.toEntity();
-        if (vuelos != null) {
-            List<VueloEntity> vuelosEntity = new ArrayList<VueloEntity>();
-            for (VueloDTO vueloDTO : vuelos) {
-                vuelosEntity.add(vueloDTO.toEntity());
+        if (reservas != null) {
+            List<ReservaEntity> reservasEntity = new ArrayList<ReservaEntity>();
+            for (ReservaDTO reservaDTO : reservas) {
+                reservasEntity.add(reservaDTO.toEntity());
             }
-            comboEntity.setVuelos(vuelosEntity);
+            comboEntity.setReservas(reservasEntity);
         }
-        if (alojamientos != null) {
-            List<AlojamientoEntity> alojamientosEntity = new ArrayList<AlojamientoEntity>();
-            for (AlojamientoDTO dalojamientoDTO : alojamientos) {
-                alojamientosEntity.add(dalojamientoDTO.toEntity());
-            }
-            comboEntity.setAlojamientos(alojamientosEntity);
-        }
-        if (transportesTerrestres != null) {
-            List<TransporteTerrestreEntity> transportesTerrestresEntity = new ArrayList<TransporteTerrestreEntity>();
-            for (TransporteTerrestreDTO transporteTerrestreDTO : transportesTerrestres) {
-                transportesTerrestresEntity.add(transporteTerrestreDTO.toEntity());
-            }
-            comboEntity.setTransportesTerrestres(transportesTerrestresEntity);
-        }
-        if (actividades != null) {
-            List<ActividadEntity> actividadesEntity = new ArrayList<ActividadEntity>();
-            for (ActividadDTO actividadDTO : actividades) {
-                actividadesEntity.add(actividadDTO.toEntity());
-            }
-            comboEntity.setActividades(actividadesEntity);
-        }
+        
         return comboEntity;
     }
 
     
      /**
-     * Obtiene la lista de vuelos del combo
+     * Obtiene la lista de reservas del combo
      *
-     * @return vuelos
+     * @return reservas
      */
-     public List<VueloDTO> getVuelos() {
-        return vuelos;
+     public List<ReservaDTO> getReservas() {
+        return reservas;
     }
 
       /**
-     * Modifica la lista de vuelos para el combo con los que llegan por parametro
+     * Modifica la lista de reservas para el combo con los que llegan por parametro
      *
-     * @param vuelos los vuelos
+     * @param reservas las reservas
      */
-    public void setVuelos(List<VueloDTO> vuelos) {
-        this.vuelos = vuelos;
+    public void setReservas(List<ReservaDTO> reservas) {
+        this.reservas = reservas;
     }
 
-    /**
-     * Obtiene la lista de transportes terrestres del combo
-     *
-     * @return transportesTerrestres
-     */
-    public List<TransporteTerrestreDTO> getTransportesTerrestres() {
-        return transportesTerrestres;
-    }
-
-    /**
-     * Modifica la lista de transportes Terrestres para el combo con los que llegan por parametro
-     *
-     * @param transportesTerrestres los transportes Terrestres
-     */
-    public void setTransportesTerrestres(List<TransporteTerrestreDTO> transportesTerrestres) {
-        this.transportesTerrestres = transportesTerrestres;
-    }
-
-     /**
-     * Obtiene la lista de actividades del combo
-     *
-     * @return actividades
-     */
-    public List<ActividadDTO> getActividades() {
-        return actividades;
-    }
-
-    /**
-     * Modifica la lista de actividades para el combo con los que llegan por parametro
-     *
-     * @param actividades las actividades
-     */
-    public void setActividades(List<ActividadDTO> actividades) {
-        this.actividades = actividades;
-    }
-
-     /**
-     * Obtiene la lista de alojamientos del combo
-     *
-     * @return alojamientos
-     */
-    public List<AlojamientoDTO> getAlojamientos() {
-        return alojamientos;
-    }
-
-    /**
-     * Modifica la lista de alojamientos para el combo con los que llegan por parametro
-     *
-     * @param alojamientos los alojamientos
-     */
-    public void setAlojamientos(List<AlojamientoDTO> alojamientos) {
-        this.alojamientos = alojamientos;
-    }
+    
     
     
     @Override

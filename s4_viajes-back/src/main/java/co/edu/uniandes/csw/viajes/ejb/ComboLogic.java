@@ -42,8 +42,8 @@ public class ComboLogic {
         if(comboEntity.getCosto()<0)
             throw new BusinessLogicException("El costo del combo no pueden ser negativo \"" + comboEntity.getNombre() + "\"");
         // Verifica la regla de negocio que Los dias de duración del combo no pueden ser 0 ni negativos
-        if(comboEntity.getDias()<=0)
-            throw new BusinessLogicException("Los dias de duración del combo no pueden ser 0 ni negativos \"" + comboEntity.getNombre() + "\"");
+        if(comboEntity.getDias()<0)
+            throw new BusinessLogicException("Los dias de duración del combo no pueden ser negativos \"" + comboEntity.getNombre() + "\"");
         // Verifica la regla de negocio que Las de duración del combo no pueden ser negativas
         if(comboEntity.getHoras()<0)
             throw new BusinessLogicException("Las de duración del combo no pueden ser negativas \"" + comboEntity.getNombre() + "\"");

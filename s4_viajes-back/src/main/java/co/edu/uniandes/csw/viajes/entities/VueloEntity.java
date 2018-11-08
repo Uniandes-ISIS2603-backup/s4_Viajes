@@ -43,7 +43,8 @@ public class VueloEntity extends BaseEntity implements Serializable {
     
     @PodamExclude
     @ManyToOne
-    private ComboEntity combo;
+    private ReservaEntity reserva;
+    
     
     @PodamExclude
     @ManyToOne
@@ -231,12 +232,14 @@ public class VueloEntity extends BaseEntity implements Serializable {
         this.proveedor = proveedorEntity;
     }
 
-    public ComboEntity getCombo() {
-        return combo;
+    public ReservaEntity getReserva() {
+        return reserva;
     }
 
-    public void setCombo(ComboEntity combo) {
-        this.combo = combo;
-    }    
+    public void setReserva(ReservaEntity reserva) {
+        this.reserva = reserva;
+    }
+
+    
     
 }

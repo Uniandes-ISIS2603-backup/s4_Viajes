@@ -142,10 +142,10 @@ public class ComboLogicTest {
             em.persist(entity);
             data.add(entity);
             if (i == 0) {
-                actividadesData.get(i).setCombo(entity);
-                vuelosData.get(i).setCombo(entity);
-                alojamientosData.get(i).setCombo(entity);
-                transportesTerrestresData.get(i).setCombo(entity);
+//                actividadesData.get(i).setCombo(entity);
+//                vuelosData.get(i).setCombo(entity);
+//                alojamientosData.get(i).setCombo(entity);
+//                transportesTerrestresData.get(i).setCombo(entity);
             }
         }
     }

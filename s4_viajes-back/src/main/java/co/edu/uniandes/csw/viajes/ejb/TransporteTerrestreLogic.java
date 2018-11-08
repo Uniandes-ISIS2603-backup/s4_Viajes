@@ -132,13 +132,13 @@ public class TransporteTerrestreLogic {
     public void deleteTransporte(Long transporteId) throws BusinessLogicException{
         LOGGER.log(Level.INFO, "Inicia proceso de borrar el transporte con id = {0}", transporteId);
         TransporteTerrestreEntity transporte = getTransporte(transporteId); 
-        ComboEntity combo = transporte.getCombo(); 
+//        ReservaEntity combo = transporte.getCombo(); 
         if (transporteId == null) {
             throw new BusinessLogicException("El transporte no se encuentra registrado, imposible eliminar: (TransporteLogicDEL)" + transporteId); 
         }
-        if(combo != null){
-            throw new BusinessLogicException("No se puede eliminar el transporte porque esta asociado a un combo: (TransporteLogicDEL)" + combo.getNombre());
-        } 
+//        if(combo != null){
+//            throw new BusinessLogicException("No se puede eliminar el transporte porque esta asociado a un combo: (TransporteLogicDEL)" + combo.getNombre());
+//        } 
         persistence.delete(transporte.getId());    
         LOGGER.log(Level.INFO, "Termina proceso de borrar el transporte con id = {0}", transporteId);
     }
