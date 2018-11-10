@@ -39,10 +39,9 @@ public class PagoDTO {
                 aPagar=new ReservaDTO(pagoEntity.getaPagar());
             else
                 aPagar=null;
-            pagoId=pagoEntity.getPagoId();
+            pagoId=pagoEntity.getId();
             pagaConTarjeta=pagoEntity.isPagaConTarjeta();
             tarjeta=pagoEntity.getTarjeta();
-            idReservaAPagar=pagoEntity.getIdReservaAPagar();
         }
     }
 
@@ -94,9 +93,6 @@ public class PagoDTO {
       public PagoEntity toEntity() throws BusinessLogicException, Exception 
     {
         PagoEntity pagoEntity = new PagoEntity();
-        if(aPagar!=null)pagoEntity.setaPagar(aPagar.toEntity());
-        else pagoEntity.setaPagar(null);
-//        pagoEntity.setPagoId(pagoId);
         pagoEntity.setPagaConTarjeta(pagaConTarjeta);
         pagoEntity.setIdReservaAPagar(idReservaAPagar);
         if(pagaConTarjeta)

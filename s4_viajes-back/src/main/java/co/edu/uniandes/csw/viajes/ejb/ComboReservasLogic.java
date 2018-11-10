@@ -62,12 +62,20 @@ public class ComboReservasLogic {
         comboEntity.addIdReserva(reservaId);
         comboEntity.addReservaFirst(reservaEntity);
 
-        comboEntity =comboPersistence.create(comboEntity);
+        comboPersistence.update(comboEntity);
 
         LOGGER.log(Level.INFO, "Termina proceso de agregarle una reserva a el combo con id = {0}", comboId);
         return comboEntity;
     }
 
+    
+    public boolean existeCombo(long comboId)
+    {
+         ComboEntity comboEntity = comboPersistence.find(comboId);
+        if(comboEntity==null )
+            return false;
+        return true;
+    }
     /**
      * Retorna todas las medallas asociadas a un usuario
      *

@@ -66,8 +66,6 @@ public class PagoResource {
     @POST
      public PagoDTO crearPago(PagoDTO pago) throws BusinessLogicException {
         
-        
-//        throw new BusinessLogicException("id: "+pago.getaPagar().getComboIdLong()+", nombre:"+pago.getaPagar().getNombre());
         LOGGER.log(Level.INFO, "PagoResource createPago: input: {0}", pago.toString());
         PagoEntity pagoEntity;
         try {

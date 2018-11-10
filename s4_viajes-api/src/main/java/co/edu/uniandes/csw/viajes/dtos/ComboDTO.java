@@ -5,7 +5,6 @@
  */
 package co.edu.uniandes.csw.viajes.dtos;
 
-import co.edu.uniandes.csw.viajes.entities.AlojamientoEntity;
 import co.edu.uniandes.csw.viajes.entities.ComboEntity;
 import java.io.Serializable;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -24,7 +23,6 @@ public class ComboDTO implements Serializable{
     private double horas;
     private int puntuacion;
 
-      
     /**
      * Constructor por vacio.
      */
@@ -42,10 +40,7 @@ public class ComboDTO implements Serializable{
             dias=comboEntity.getDias();
             horas=comboEntity.getHoras();
             puntuacion=comboEntity.getPuntuacion();
-            if(comboEntity.getComboIdLong()==null)
-             comboIdLong=5555555l;
-            else
-               comboIdLong=comboEntity.getComboIdLong();
+            comboIdLong=comboEntity.getId();         
         }
          
      }
@@ -63,7 +58,6 @@ public class ComboDTO implements Serializable{
         comboEntity.setPuntuacion(puntuacion);
         comboEntity.setDias(dias);
         comboEntity.setHoras(horas);
-        comboEntity.setComboIdLong(comboIdLong);
         
         return comboEntity; 
     }
@@ -115,8 +109,6 @@ public class ComboDTO implements Serializable{
     public void setComboIdLong(Long comboId) {
         this.comboIdLong = comboId;
     }
-    
-
     @Override
     public String toString() {
          return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);

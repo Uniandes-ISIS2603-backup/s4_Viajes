@@ -23,7 +23,6 @@ public class PagoEntity extends BaseEntity implements Serializable  {
     @PodamExclude
     @OneToOne(mappedBy = "pago", fetch=FetchType.LAZY)    
     private ReservaEntity aPagar;
-    private Long pagoId;
     private boolean pagaConTarjeta;
     private String tarjeta;
     private long idReservaAPagar=-1l;
@@ -45,15 +44,6 @@ public class PagoEntity extends BaseEntity implements Serializable  {
         if(aPagar!=null)
             idReservaAPagar=aPagar.getId();
         this.aPagar = aPagar;
-    }
-    
-    public Long getPagoId() {
-        pagoId=getId();
-        return pagoId;
-    }
-
-    public void setPagoId(Long pagoId) {
-        this.pagoId = pagoId;
     }
 
     public boolean isPagaConTarjeta() {

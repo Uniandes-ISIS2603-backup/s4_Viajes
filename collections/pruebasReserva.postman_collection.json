@@ -1,0 +1,117 @@
+{
+	"info": {
+		"_postman_id": "85402d94-fe18-481e-8d90-bef5a9bf91f9",
+		"name": "pruebasReserva",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "postReserva",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"costo\": 0,\n    \"cantidadPersonas\": 1,\n    \"pagada\": false,\n    \"fechaInicio\":\"2019-04-23T18:25:43.511Z\",\n    \"fechaFin\":\"2019-05-10T18:25:43.511Z\",\n    \"idVuelo\":1\n}\n\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/reservas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"reservas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getReserva",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deleteReserva",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/reservas/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"reservas",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAllReservas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateReserva",
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"costo\": 0,\n    \"cantidadPersonas\": 1,\n    \"pagada\": false,\n    \"fechaInicio\":\"2019-04-23T18:25:43.511Z\",\n    \"fechaFin\":\"2019-05-10T18:25:43.511Z\",\n    \"idVuelo\":2\n}\n"
+				},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/reservas/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"reservas",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

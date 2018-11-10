@@ -39,9 +39,6 @@ public class PagoLogic {
      */
     public PagoEntity createPago(PagoEntity pagoEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación del pago");
-      
-//        throw new BusinessLogicException("id:"+pagoEntity.getaPagar().getComboIdLong()+" nombre:"+pagoEntity.getaPagar().getNombre());
-
         
         if(pagoEntity==null)
             throw new BusinessLogicException("Error en el formato.");

@@ -25,6 +25,8 @@ public class ComboDetailDTO extends ComboDTO implements Serializable{
 
     
     private List<ReservaDTO> reservas;
+    private List<Long> idsReservas;
+
    
     
     /**
@@ -34,7 +36,7 @@ public class ComboDetailDTO extends ComboDTO implements Serializable{
     public ComboDetailDTO()
     {
         super();
-        reservas=new ArrayList<ReservaDTO>();
+        reservas=new ArrayList<>();
     }
 
      /**
@@ -48,13 +50,13 @@ public class ComboDetailDTO extends ComboDTO implements Serializable{
      public ComboDetailDTO(ComboEntity comboEntity)
     {
         super(comboEntity);
-        reservas=new ArrayList<ReservaDTO>();
+        reservas=new ArrayList<>();
    
-        if (comboEntity != null && comboEntity.getReservas()!=null)
-                 for(ReservaEntity reserva:comboEntity.getReservas())
-                     reservas.add(new ReservaDTO(reserva));
+        if (comboEntity != null)
+            for(ReservaEntity reserva:comboEntity.getReservas())
+                reservas.add(new ReservaDTO(reserva));
      }
-     
+    
      /**
      * Convierte un objeto ComboDetailDTO a ComboEntity incluyendo los
      * atributos de ComboDTO.
@@ -65,12 +67,8 @@ public class ComboDetailDTO extends ComboDTO implements Serializable{
     @Override
     public ComboEntity toEntity() throws Exception{
         ComboEntity comboEntity = super.toEntity();
-        if (reservas != null) {
-            List<ReservaEntity> reservasEntity = new ArrayList<ReservaEntity>();
-            for (ReservaDTO reservaDTO : reservas) {
-                reservasEntity.add(reservaDTO.toEntity());
-            }
-            comboEntity.setReservas(reservasEntity);
+        if (idsReservas != null) {
+           comboEntity.setIdsReservas(idsReservas);
         }
         
         return comboEntity;

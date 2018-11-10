@@ -24,8 +24,10 @@ public class ReservaEntity extends BaseEntity implements Serializable {
    
     private boolean pagada;
    
+//    @Temporal(javax.persistence.TemporalType.DATE)
     private Date fechaInicio;
-   
+       
+//    @Temporal(javax.persistence.TemporalType.DATE)
     private Date fechaFin;
     
     private double costo;

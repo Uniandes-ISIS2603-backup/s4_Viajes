@@ -31,7 +31,6 @@ public class ComboEntity  extends BaseEntity implements Serializable {
     
     private String nombre;
     
-    private Long comboIdLong;
 
     private int dias;
     
@@ -39,7 +38,7 @@ public class ComboEntity  extends BaseEntity implements Serializable {
 
     private int puntuacion;
     
-    private List<Long> idsReservas=new ArrayList<Long>();
+    private List<Long> idsReservas=new ArrayList<>();
 
     
     public ComboEntity()
@@ -54,23 +53,7 @@ public class ComboEntity  extends BaseEntity implements Serializable {
     //-----------------------------------------------------------------------------------------------------------------------
     // Metodos
     //-----------------------------------------------------------------------------------------------------------------------
-    
-    
-    public Long getComboIdLong() {
-        comboIdLong=getId();
-        return comboIdLong;
-    }
 
-    public void setComboIdLong(Long comboId) {    
-        if(comboId!=null&&comboId!=0)
-        {
-            this.comboIdLong = comboId;
-            setId(comboIdLong);
-        }
-
-    }
-
-    
 
     public double getCosto() {
         return costo;
@@ -113,6 +96,8 @@ public class ComboEntity  extends BaseEntity implements Serializable {
     }
    
     public List<ReservaEntity> getReservas() {
+        if(reservas==null)
+            return reservas=new ArrayList<>();
         return reservas;
     }
 
@@ -138,6 +123,8 @@ public class ComboEntity  extends BaseEntity implements Serializable {
     }
 
     public List<Long> getIdsReservas() {
+        if(idsReservas==null)
+           idsReservas= new ArrayList<>();
         return idsReservas;
     }
 
@@ -145,6 +132,8 @@ public class ComboEntity  extends BaseEntity implements Serializable {
         this.idsReservas = idsReservas;
     }
      public void addIdReserva(Long idReserva) {
+         if(idsReservas==null)
+           idsReservas= new ArrayList<>();
         idsReservas.add(0,idReserva);
     }
 }

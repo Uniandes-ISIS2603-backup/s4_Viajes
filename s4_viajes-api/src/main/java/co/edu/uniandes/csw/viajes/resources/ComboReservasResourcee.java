@@ -6,18 +6,17 @@
 package co.edu.uniandes.csw.viajes.resources;
 
 import co.edu.uniandes.csw.viajes.dtos.ActividadDTO;
-import co.edu.uniandes.csw.viajes.dtos.ComboDTO;
+import co.edu.uniandes.csw.viajes.dtos.ComboDetailDTO;
 import co.edu.uniandes.csw.viajes.dtos.ReservaDTO;
-import co.edu.uniandes.csw.viajes.ejb.ActividadLogic;
 import co.edu.uniandes.csw.viajes.ejb.ComboReservasLogic;
-import co.edu.uniandes.csw.viajes.ejb.ProveedorActividadLogic;
-import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
+import co.edu.uniandes.csw.viajes.ejb.ReservaLogic;
 import co.edu.uniandes.csw.viajes.entities.ReservaEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -27,22 +26,24 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.MediaType;
 
 /**
  *
  * @author jd.barriosc
  */
 @Path("combos/{comboId: \\d+}/reservas")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
+@Consumes("application/json")
+@Produces("application/json")
+@RequestScoped 
 public class ComboReservasResourcee {
      private static final Logger LOGGER = Logger.getLogger(ProveedorActividadResource.class.getName());
 
     @Inject
     private ComboReservasLogic comboReservasLogic; // Variable para acceder a la lógica de la aplicación. Es una inyección de dependencias.
 
-    
+    @Inject
+    ReservaLogic reservaLogic; // Variable para acceder a la lógica de la aplicación. Es una inyección de dependencias.
+
     /**
      * Guarda uua actividad dentro de un proveedor con la informacion que recibe el
      * la URL. Se devuelve la actividad que se guarda en el proveedor.
@@ -57,18 +58,46 @@ public class ComboReservasResourcee {
      */
     @POST
     @Path("{reservaId: \\d+}")
-    public ComboDTO addActividad(@PathParam("comboId") Long comboId, @PathParam("reservaId") Long reservaId)  throws WebApplicationException  {
+    public ComboDetailDTO addReserva(@PathParam("comboId") Long comboId, @PathParam("reservaId") Long reservaId)  throws WebApplicationException, Exception  {
         LOGGER.log(Level.INFO, "ComboReservas addReserva: input: comboId: {0} , reservaId: {1}", new Object[]{comboId, reservaId});
-        
-        ComboDTO comboDTO;
+        ComboDetailDTO comboDTO;
          try {
-             comboDTO = new ComboDTO(comboReservasLogic.addReserva(comboId,reservaId));
+             comboDTO = new ComboDetailDTO(comboReservasLogic.addReserva(comboId,reservaId));
          } catch (BusinessLogicException ex) {
             throw new WebApplicationException(ex.getMessage(), 404);
          }
         return comboDTO;
     }
     
+    /**
+     * Crea un nuevo pago con la informacion que se recibe en el cuerpo de la
+ petición y se regresa un objeto identico con un id auto-generado por la
+ base de datos.
+     *
+     * @param reserva {@link ReservaDTO} - La reserva que se desea guardar.
+     * @param comboId
+     * @return JSON {@link ReservaDTO} - La reserva guardado con el atributo id
+ autogenerado.
+     * @throws BusinessLogicException {@link BusinessLogicExceptionMapper} -
+ Error de lógica que se genera cuando ya existe la reserva.
+     */
+    @POST
+     public ComboDetailDTO crearAddReserva(ReservaDTO reserva,@PathParam("comboId") Long comboId) throws BusinessLogicException, Exception {
+        
+         if(!comboReservasLogic.existeCombo(comboId))
+            throw new WebApplicationException("El combo no existe", 404);
+
+        ReservaEntity reservaEntity= reserva.toEntity();
+        reservaLogic.createReserva(reservaEntity);
+
+        ComboDetailDTO comboDTO;
+         try {
+             comboDTO = new ComboDetailDTO(comboReservasLogic.addReserva(comboId,reservaEntity.getId()));
+         } catch (BusinessLogicException ex) {
+            throw new WebApplicationException(ex.getMessage(), 404);
+         }
+        return comboDTO;       
+    }
     /**
      * Busca y devuelve todos las actividades que existen en el proveedor.
      *
@@ -78,7 +107,7 @@ public class ComboReservasResourcee {
      * proveedor. Si no hay ninguno retorna una lista vacía.
      */
     @GET
-    public List<ReservaDTO> getActividades(@PathParam("comboId") Long comboId) throws WebApplicationException  {
+    public List<ReservaDTO> getReservas(@PathParam("comboId") Long comboId) throws WebApplicationException  {
         LOGGER.log(Level.INFO, "ProveedorActividadResource getActividades: input: {0}", comboId);
         List<ReservaDTO> listaDTOs;
          try {

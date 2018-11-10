@@ -7,8 +7,6 @@ package co.edu.uniandes.csw.viajes.ejb;
 
 import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
 import co.edu.uniandes.csw.viajes.entities.AlojamientoEntity;
-import co.edu.uniandes.csw.viajes.entities.ComboEntity;
-import co.edu.uniandes.csw.viajes.entities.PagoEntity;
 import co.edu.uniandes.csw.viajes.entities.ReservaEntity;
 import co.edu.uniandes.csw.viajes.entities.TransporteTerrestreEntity;
 import co.edu.uniandes.csw.viajes.entities.VueloEntity;
@@ -63,59 +61,8 @@ public class ReservaLogic {
         if (reservaEntity.getIdActividad()==-1l&&reservaEntity.getIdAlojamiento()==-1l&&
             reservaEntity.getIdTransporteTerrestre()==-1l&&reservaEntity.getIdVuelo()==-1l) 
             throw new BusinessLogicException("La reserva debe tener un servicio asociado");
-        
-        if(reservaEntity.getIdActividad()!=-1)
-        {
-            ActividadEntity actividadEntity = actividadPersistence.find(reservaEntity.getIdActividad());
-            if (actividadEntity == null) {
-                LOGGER.log(Level.SEVERE, "La actividad de la reserva con el id = {0} no existe", reservaEntity.getIdActividad());
-                throw new BusinessLogicException("La actividad de la reserva que se desea realizar no existe");
-            }
-            try {
-                reservaEntity.setActividad(actividadEntity);
-            } catch (Exception ex) {
-                throw new BusinessLogicException(ex.getMessage());
-            }
-        }
-        if(reservaEntity.getIdAlojamiento()!=-1l)
-        {
-            AlojamientoEntity alojamientoEntity = alojamientoPersistence.find(reservaEntity.getIdAlojamiento());
-            if (alojamientoEntity == null) {
-                LOGGER.log(Level.SEVERE, "El alojamiento de la reserva con el id = {0} no existe", reservaEntity.getIdAlojamiento());
-                throw new BusinessLogicException("El alojamiento de la reserva que se desea realizar no existe");
-            }
-            try {
-                reservaEntity.setAlojamiento(alojamientoEntity);
-            } catch (Exception ex) {
-                throw new BusinessLogicException(ex.getMessage());
-            }
-        }
-        if(reservaEntity.getIdTransporteTerrestre()!=-1l)
-        {
-            TransporteTerrestreEntity transporteTerrestreEntity = transporteTerrestrePersistence.find(reservaEntity.getIdTransporteTerrestre());
-            if (transporteTerrestreEntity == null) {
-                LOGGER.log(Level.SEVERE, "El transporteTerrestre de la reserva con el id = {0} no existe", reservaEntity.getIdTransporteTerrestre());
-                throw new BusinessLogicException("El transporteTerrestre de la reserva que se desea realizar no existe");
-            }
-            try {
-                reservaEntity.setTransporteTerrestre(transporteTerrestreEntity);
-            } catch (Exception ex) {
-                throw new BusinessLogicException(ex.getMessage());
-            }
-        }
-        if(reservaEntity.getIdVuelo()!=-1l)
-        {
-            VueloEntity vueloEntity = vueloPersistence.find(reservaEntity.getIdVuelo());
-            if (vueloEntity == null) {
-                LOGGER.log(Level.SEVERE, "El vuelo de la reserva con el id = {0} no existe", reservaEntity.getIdVuelo());
-                throw new BusinessLogicException("El vuelo de la reserva que se desea realizar no existe");
-            }
-            try {
-                reservaEntity.setVuelo(vueloEntity);
-            } catch (Exception ex) {
-                throw new BusinessLogicException(ex.getMessage());
-            }
-        }
+       
+        escogerServicio(reservaEntity);
         
          if(reservaEntity.getCantidadPersonas()<=0)
            throw new BusinessLogicException("La cantidad de personas no puede ser negativa");
@@ -184,6 +131,72 @@ public class ReservaLogic {
         return reservaEntity;
     }
 
+    public void escogerServicio(ReservaEntity reservaEntity) throws BusinessLogicException
+    {
+        if(reservaEntity.getIdActividad()!=-1)
+        {
+            ActividadEntity actividadEntity = actividadPersistence.find(reservaEntity.getIdActividad());
+            if (actividadEntity == null) {
+                LOGGER.log(Level.SEVERE, "La actividad de la reserva con el id = {0} no existe", reservaEntity.getIdActividad());
+                throw new BusinessLogicException("La actividad de la reserva que se desea realizar no existe");
+            }
+            try {
+                reservaEntity.setActividad(actividadEntity);
+                reservaEntity.setCosto(actividadEntity.getCosto()*reservaEntity.getCantidadPersonas());
+
+            } catch (Exception ex) {
+                throw new BusinessLogicException(ex.getMessage());
+            }
+        }
+        if(reservaEntity.getIdAlojamiento()!=-1l)
+        {
+            AlojamientoEntity alojamientoEntity = alojamientoPersistence.find(reservaEntity.getIdAlojamiento());
+            if (alojamientoEntity == null) {
+                LOGGER.log(Level.SEVERE, "El alojamiento de la reserva con el id = {0} no existe", reservaEntity.getIdAlojamiento());
+                throw new BusinessLogicException("El alojamiento de la reserva que se desea realizar no existe");
+            }
+            try {
+                reservaEntity.setAlojamiento(alojamientoEntity);
+                reservaEntity.setCosto(alojamientoEntity.getCosto()*reservaEntity.getCantidadPersonas());
+
+            } catch (Exception ex) {
+                throw new BusinessLogicException(ex.getMessage());
+            }
+        }
+        if(reservaEntity.getIdTransporteTerrestre()!=-1l)
+        {
+            TransporteTerrestreEntity transporteTerrestreEntity = transporteTerrestrePersistence.find(reservaEntity.getIdTransporteTerrestre());
+            if (transporteTerrestreEntity == null) {
+                LOGGER.log(Level.SEVERE, "El transporteTerrestre de la reserva con el id = {0} no existe", reservaEntity.getIdTransporteTerrestre());
+                throw new BusinessLogicException("El transporteTerrestre de la reserva que se desea realizar no existe");
+            }
+            try {
+                reservaEntity.setTransporteTerrestre(transporteTerrestreEntity);
+                reservaEntity.setCosto(transporteTerrestreEntity.getCosto()*reservaEntity.getCantidadPersonas());
+            } catch (Exception ex) {
+                throw new BusinessLogicException(ex.getMessage());
+            }
+        }
+        if(reservaEntity.getIdVuelo()!=-1l)
+        {
+            VueloEntity vueloEntity = vueloPersistence.find(reservaEntity.getIdVuelo());
+            if (vueloEntity == null) {
+                LOGGER.log(Level.SEVERE, "El vuelo de la reserva con el id = {0} no existe", reservaEntity.getIdVuelo());
+                throw new BusinessLogicException("El vuelo de la reserva que se desea realizar no existe");
+            }
+            try {
+                reservaEntity.setVuelo(vueloEntity);
+                reservaEntity.setCosto(vueloEntity.getCosto()*reservaEntity.getCantidadPersonas());
+//                reservaEntity.setFechaInicio(new Date(vueloEntity.getFechaSalida().getTime()));
+//                reservaEntity.setFechaFin(new Date(vueloEntity.getFechaLlegada().getTime()));
+                reservaEntity.setFechaInicio(vueloEntity.getFechaSalida());
+                reservaEntity.setFechaFin(vueloEntity.getFechaLlegada());
+
+            } catch (Exception ex) {
+                throw new BusinessLogicException(ex.getMessage());
+            }
+        }
+    }
     /**
      * Actualizar un libro por ID
      *
@@ -206,58 +219,7 @@ public class ReservaLogic {
                 reservaEntity.getIdTransporteTerrestre()==-1l&&reservaEntity.getIdVuelo()==-1l) {
             throw new BusinessLogicException("La reserva debe tener un servicio asociado");
         }
-        if(reservaEntity.getIdActividad()!=-1)
-        {
-            ActividadEntity actividadEntity = actividadPersistence.find(reservaEntity.getIdActividad());
-            if (actividadEntity == null) {
-                LOGGER.log(Level.SEVERE, "La actividad de la reserva con el id = {0} no existe", reservaEntity.getIdActividad());
-                throw new BusinessLogicException("La actividad de la reserva que se desea realizar no existe");
-            }
-            try {
-                reservaEntity.setActividad(actividadEntity);
-            } catch (Exception ex) {
-                throw new BusinessLogicException(ex.getMessage());
-            }
-        }
-        if(reservaEntity.getIdAlojamiento()!=-1l)
-        {
-            AlojamientoEntity alojamientoEntity = alojamientoPersistence.find(reservaEntity.getIdAlojamiento());
-            if (alojamientoEntity == null) {
-                LOGGER.log(Level.SEVERE, "El alojamiento de la reserva con el id = {0} no existe", reservaEntity.getIdAlojamiento());
-                throw new BusinessLogicException("El alojamiento de la reserva que se desea realizar no existe");
-            }
-            try {
-                reservaEntity.setAlojamiento(alojamientoEntity);
-            } catch (Exception ex) {
-                throw new BusinessLogicException(ex.getMessage());
-            }
-        }
-        if(reservaEntity.getIdTransporteTerrestre()!=-1l)
-        {
-            TransporteTerrestreEntity transporteTerrestreEntity = transporteTerrestrePersistence.find(reservaEntity.getIdTransporteTerrestre());
-            if (transporteTerrestreEntity == null) {
-                LOGGER.log(Level.SEVERE, "El transporteTerrestre de la reserva con el id = {0} no existe", reservaEntity.getIdTransporteTerrestre());
-                throw new BusinessLogicException("El transporteTerrestre de la reserva que se desea realizar no existe");
-            }
-            try {
-                reservaEntity.setTransporteTerrestre(transporteTerrestreEntity);
-            } catch (Exception ex) {
-                throw new BusinessLogicException(ex.getMessage());
-            }
-        }
-        if(reservaEntity.getIdVuelo()!=-1l)
-        {
-            VueloEntity vueloEntity = vueloPersistence.find(reservaEntity.getIdVuelo());
-            if (vueloEntity == null) {
-                LOGGER.log(Level.SEVERE, "El vuelo de la reserva con el id = {0} no existe", reservaEntity.getIdVuelo());
-                throw new BusinessLogicException("El vuelo de la reserva que se desea realizar no existe");
-            }
-            try {
-                reservaEntity.setVuelo(vueloEntity);
-            } catch (Exception ex) {
-                throw new BusinessLogicException(ex.getMessage());
-            }
-        }
+        escogerServicio(reservaEntity);
 
         
          if(reservaEntity.getCantidadPersonas()<=0)

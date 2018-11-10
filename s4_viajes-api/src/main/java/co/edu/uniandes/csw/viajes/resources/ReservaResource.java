@@ -7,10 +7,7 @@ package co.edu.uniandes.csw.viajes.resources;
 
 import co.edu.uniandes.csw.viajes.dtos.PagoDTO;
 import co.edu.uniandes.csw.viajes.dtos.ReservaDTO;
-import co.edu.uniandes.csw.viajes.ejb.ComboLogic;
-import co.edu.uniandes.csw.viajes.ejb.PagoLogic;
 import co.edu.uniandes.csw.viajes.ejb.ReservaLogic;
-import co.edu.uniandes.csw.viajes.entities.PagoEntity;
 import co.edu.uniandes.csw.viajes.entities.ReservaEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import java.util.ArrayList;

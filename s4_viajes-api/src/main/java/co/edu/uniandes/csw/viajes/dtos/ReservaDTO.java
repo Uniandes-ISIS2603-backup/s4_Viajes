@@ -5,13 +5,8 @@
  */
 package co.edu.uniandes.csw.viajes.dtos;
 
-import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
-import co.edu.uniandes.csw.viajes.entities.AlojamientoEntity;
-import co.edu.uniandes.csw.viajes.entities.ComboEntity;
+
 import co.edu.uniandes.csw.viajes.entities.ReservaEntity;
-import co.edu.uniandes.csw.viajes.entities.TransporteTerrestreEntity;
-import co.edu.uniandes.csw.viajes.entities.VueloEntity;
-import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import java.io.Serializable;
 import java.sql.Date;
 import javax.persistence.FetchType;
@@ -72,10 +67,6 @@ public class ReservaDTO implements Serializable{
              fechaFin=reservaEntity.getFechaFin();
              idReserva=reservaEntity.getId();
              costo=reservaEntity.getCosto();
-             idActividad=reservaEntity.getIdActividad();
-             idAlojamiento=reservaEntity.getIdAlojamiento();
-             idTransporteTerrestre=reservaEntity.getIdTransporteTerrestre();
-             idVuelo=reservaEntity.getIdVuelo();
              if(reservaEntity.getVuelo()!=null)
                 vuelo=new VueloDTO(reservaEntity.getVuelo());
              else if(reservaEntity.getAlojamiento()!=null)
@@ -97,14 +88,7 @@ public class ReservaDTO implements Serializable{
          reservaEntity.setIdAlojamiento(idAlojamiento);
          reservaEntity.setIdTransporteTerrestre(idTransporteTerrestre);
          reservaEntity.setIdVuelo(idVuelo);
-         if(vuelo!=null)
-             reservaEntity.setVuelo(vuelo.toEntity());
-         else if(alojamiento!=null)
-             reservaEntity.setAlojamiento(alojamiento.toEntity());
-         else if(transporteTerrestre!=null)
-             reservaEntity.setTransporteTerrestre(transporteTerrestre.toEntity());
-         else if(actividad!=null)
-             reservaEntity.setActividad(actividad.toEntity());
+         
         
          return reservaEntity;
      }
