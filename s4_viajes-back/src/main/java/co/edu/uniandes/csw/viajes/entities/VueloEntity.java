@@ -6,10 +6,9 @@
 package co.edu.uniandes.csw.viajes.entities;
 
 import java.io.Serializable;
-import java.util.Date;
+import java.sql.Date;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
-import javax.persistence.Temporal;
 import uk.co.jemos.podam.common.PodamExclude;
 
 /**
@@ -35,15 +34,16 @@ public class VueloEntity extends BaseEntity implements Serializable {
     
     private double longitudDestino;
     
-    @Temporal(javax.persistence.TemporalType.DATE)
+//    @Temporal(javax.persistence.TemporalType.DATE)
     private Date fechaSalida;
     
-    @Temporal(javax.persistence.TemporalType.DATE)
+//    @Temporal(javax.persistence.TemporalType.DATE)
     private Date fechaLlegada;
     
     @PodamExclude
     @ManyToOne
-    private ComboEntity combo;
+    private ReservaEntity reserva;
+    
     
     @PodamExclude
     @ManyToOne
@@ -231,12 +231,14 @@ public class VueloEntity extends BaseEntity implements Serializable {
         this.proveedor = proveedorEntity;
     }
 
-    public ComboEntity getCombo() {
-        return combo;
+    public ReservaEntity getReserva() {
+        return reserva;
     }
 
-    public void setCombo(ComboEntity combo) {
-        this.combo = combo;
-    }    
+    public void setReserva(ReservaEntity reserva) {
+        this.reserva = reserva;
+    }
+
+    
     
 }

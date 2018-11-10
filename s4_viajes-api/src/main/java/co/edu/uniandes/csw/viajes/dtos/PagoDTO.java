@@ -17,11 +17,11 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 public class PagoDTO {
    
-    private ComboDTO aPagar;
+    private ReservaDTO aPagar;
     private Long pagoId;
     private boolean pagaConTarjeta;
     private String tarjeta;
-    private long idComboAPagar;
+    private long idReservaAPagar;
     
     /**
      * Constructor vacio.
@@ -36,21 +36,20 @@ public class PagoDTO {
         if(pagoEntity!=null)
         {
             if(pagoEntity.getaPagar()!=null)
-                aPagar=new ComboDTO(pagoEntity.getaPagar());
+                aPagar=new ReservaDTO(pagoEntity.getaPagar());
             else
                 aPagar=null;
-            pagoId=pagoEntity.getPagoId();
+            pagoId=pagoEntity.getId();
             pagaConTarjeta=pagoEntity.isPagaConTarjeta();
             tarjeta=pagoEntity.getTarjeta();
-            idComboAPagar=pagoEntity.getIdComboAPagar();
         }
     }
 
-    public ComboDTO getaPagar() {
+    public ReservaDTO getaPagar() {
         return aPagar;
     }
 
-    public void setaPagar(ComboDTO aPagar) {
+    public void setaPagar(ReservaDTO aPagar) {
         this.aPagar = aPagar;
     }
 
@@ -79,26 +78,23 @@ public class PagoDTO {
     }
     
     
-    public long getIdComboAPagar() {
-        return idComboAPagar;
+    public long getIdReservaAPagar() {
+        return idReservaAPagar;
     }
 
-    public void setIdComboAPagar(long idComboAPagar) {
-        this.idComboAPagar = idComboAPagar;
+    public void setIdReservaAPagar(long idReservaAPagar) {
+        this.idReservaAPagar = idReservaAPagar;
     }
     
     /**
      * Método para transformar el DTO a una entidad.
      * @return La entidad del DTO asociado.
      */
-      public PagoEntity toEntity() throws BusinessLogicException 
+      public PagoEntity toEntity() throws BusinessLogicException, Exception 
     {
         PagoEntity pagoEntity = new PagoEntity();
-        if(aPagar!=null)pagoEntity.setaPagar(aPagar.toEntity());
-        else pagoEntity.setaPagar(null);
-//        pagoEntity.setPagoId(pagoId);
         pagoEntity.setPagaConTarjeta(pagaConTarjeta);
-        pagoEntity.setIdComboAPagar(idComboAPagar);
+        pagoEntity.setIdReservaAPagar(idReservaAPagar);
         if(pagaConTarjeta)
             pagoEntity.setTarjeta(tarjeta);
         return pagoEntity; 
