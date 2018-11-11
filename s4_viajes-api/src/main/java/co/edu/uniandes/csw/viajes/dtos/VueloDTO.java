@@ -82,7 +82,7 @@ public class VueloDTO implements Serializable {
             this.longitudOrigen = vueloEntity.getLonO();
             this.latitudDestino = vueloEntity.getLatD();
             this.longitudDestino = vueloEntity.getLonD();
-            this.fechaSalida = vueloEntity.getFechaSalida();
+            this.fechaSalida =  vueloEntity.getFechaSalida();
             this.fechaLlegada = vueloEntity.getFechaLlegada();
         }
     }

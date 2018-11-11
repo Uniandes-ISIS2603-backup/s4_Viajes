@@ -48,9 +48,8 @@ public class UsuarioDTO implements Serializable{
     private String nombre;
     private String userName;
     private String password;
-
-   
     private int edad;
+    private CarritoComprasDTO carrito;
 
 
    public UsuarioDTO(){
@@ -68,7 +67,7 @@ public class UsuarioDTO implements Serializable{
            this.nombre = usuarioEntity.getNombre();
            this.id = usuarioEntity.getId();
            this.password = usuarioEntity.getContraseña();
-          
+           this.carrito = new CarritoComprasDTO(usuarioEntity.getCarrito());
        }
    }
    
@@ -83,6 +82,14 @@ public class UsuarioDTO implements Serializable{
    
    public String getNombre(){
        return nombre;
+   }
+   
+    public CarritoComprasDTO getCarrito(){
+       return carrito;
+   }
+    
+     public void setCarrito(CarritoComprasDTO carro){
+       this.carrito= carro;
    }
    
    
@@ -205,6 +212,7 @@ public class UsuarioDTO implements Serializable{
         usuarioEntity.setDocumento(this.documento);
         usuarioEntity.setEdad(this.edad);
         usuarioEntity.setContraseña(this.password);
+        usuarioEntity.setCarrito(this.carrito.toEntity());
         return usuarioEntity;
         
         

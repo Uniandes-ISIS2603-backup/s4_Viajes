@@ -63,7 +63,7 @@ public class UsuarioResource {
     public UsuarioDTO createUsuario(UsuarioDTO usuario) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "UsuarioResource createUsuario: input: {0}", usuario.toString());
         UsuarioDTO nuevoUsuarioDTO = new UsuarioDTO(usuarioLogic.createUsuario(usuario.toEntity()));
-        LOGGER.log(Level.INFO, "EditorialResource createEditorial: output: {0}", nuevoUsuarioDTO.toString());
+        LOGGER.log(Level.INFO, "UsuarioResource createUsuario: output: {0}", nuevoUsuarioDTO.toString());
 
         return nuevoUsuarioDTO;
     }
