@@ -117,7 +117,7 @@ public class PagoPersistenceTest {
 //        Assert.assertEquals(newEntity.getaPagar().getNombre(), entity.getaPagar().getNombre());
         Assert.assertEquals(newEntity.isPagaConTarjeta(), entity.isPagaConTarjeta());
         Assert.assertEquals(newEntity.getTarjeta(), entity.getTarjeta());
-        Assert.assertEquals(newEntity.getPagoId(), entity.getPagoId());
+        Assert.assertEquals(newEntity.getId(), entity.getId());
 
     
     }
@@ -151,7 +151,7 @@ public class PagoPersistenceTest {
 //        Assert.assertEquals(entity.getaPagar().getNombre(), newEntity.getaPagar().getNombre());
         Assert.assertEquals(newEntity.isPagaConTarjeta(), entity.isPagaConTarjeta());
         Assert.assertEquals(newEntity.getTarjeta(), entity.getTarjeta());
-        Assert.assertEquals(newEntity.getPagoId(), entity.getPagoId());
+        Assert.assertEquals(newEntity.getId(), entity.getId());
 
     }
 
@@ -184,7 +184,7 @@ public class PagoPersistenceTest {
 //        Assert.assertEquals(newEntity.getaPagar().getNombre(), resp.getaPagar().getNombre());
         Assert.assertEquals(newEntity.isPagaConTarjeta(), resp.isPagaConTarjeta());
         Assert.assertEquals(newEntity.getTarjeta(), resp.getTarjeta());
-        Assert.assertEquals(newEntity.getPagoId(), resp.getPagoId());
+        Assert.assertEquals(newEntity.getId(), resp.getId());
 
     }
 

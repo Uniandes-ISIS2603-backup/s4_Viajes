@@ -27,7 +27,7 @@ public class ActividadDetailDTO extends ActividadDTO implements Serializable {
     /**
      * Constructor para transformar un Entity a un DTO
      *
-     * @param editorialEntity La entidad de la editorial para transformar a DTO.
+     * @param actividadEntity La entidad de la actividad para transformar a DTO.
      */
     public ActividadDetailDTO(ActividadEntity actividadEntity) {
         super(actividadEntity);

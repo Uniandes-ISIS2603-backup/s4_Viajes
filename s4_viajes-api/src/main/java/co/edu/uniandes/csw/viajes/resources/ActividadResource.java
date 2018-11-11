@@ -93,14 +93,14 @@ public class ActividadResource {
     
     @GET
     @Path("{actividadId: \\d+}")
-    public ActividadDTO consultarActividad(@PathParam("actividadId") Long actividadId) throws WebApplicationException
+    public ActividadDetailDTO consultarActividad(@PathParam("actividadId") Long actividadId) throws WebApplicationException
     {
          LOGGER.log(Level.INFO, "ActividadResource consultarActividad: input: {0}", actividadId);
         ActividadEntity actividadEntity = actividadLogic.getActividadByIdentificador(actividadId);
         if (actividadEntity == null) {
-            throw new WebApplicationException("El recurso /editorials/" + actividadId + " no existe.", 404);
+            throw new WebApplicationException("El recurso /actividad/" + actividadId + " no existe.", 404);
         }
-        ActividadDTO detailDTO = new ActividadDTO(actividadEntity);
+        ActividadDetailDTO detailDTO = new ActividadDetailDTO(actividadEntity);
         LOGGER.log(Level.INFO, "ActividadResource consultarActividad: output: {0}", detailDTO.toString());
         return detailDTO;
     }
@@ -131,26 +131,38 @@ public class ActividadResource {
         actividadLogic.deleteActividad(actividadId);
         LOGGER.info("ActividadResource deleteActividad: output: void");
     }
+    
+     /**
+     * Borra todas las actividades.
+     *
+     
+    @DELETE
+    public void deleteAllActividades(){
+        // Invoca la lógica para borrar las actividades
+        actividadLogic.deleteAll();
+ 
+    }*/
    
-    /**
-     * Conexión con el servicio de guias para una actividad. {@link GuiaResource}
+      /**
+     * Conexión con el servicio de guias para una actividad.
+     * {@link ActividadGuiaResource}
      *
-     * Este método conecta la ruta de /actividad con las rutas de / que
-     * dependen de la actividad, es una redirección al servicio que maneja el segmento
-     * de la URL que se encarga de los guias.
+     * Este método conecta la ruta de /actividad con las rutas de /guia que
+     * dependen de la actividad, es una redirección al servicio que maneja el
+     * segmento de la URL que se encarga de los guias de una actividad.
      *
-     * @param actividadId El ID de la actividad con respecto al cual se accede al
-     * servicio.
-     * @return El servicio de Guias para esa actividad en paricular.\
+     * @param actividadId El ID de la actividad con respecto a la cual se
+     * accede al servicio.
+     * @return El servicio de guias para esta editorial en paricular.
      * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
-     * Error de lógica que se genera cuando no se encuentra el libro.
+     * Error de lógica que se genera cuando no se encuentra el guia.
      */
     @Path("{actividadId: \\d+}/guia")
-    public Class<GuiaResource> getGuiaResource(@PathParam("actividadId") Long actividadId) {
+    public Class<ActividadGuiaResource> getActividadGuiaResource(@PathParam("actividadId") Long actividadId) {
         if (actividadLogic.getActividad(actividadId) == null) {
-            throw new WebApplicationException("El recurso /actividad/" + actividadId + "/reviews no existe.", 404);
+            throw new WebApplicationException("El recurso /actividad/" + actividadId + " no existe.", 404);
         }
-        return GuiaResource.class;
+        return ActividadGuiaResource.class;
     }
     
      /**

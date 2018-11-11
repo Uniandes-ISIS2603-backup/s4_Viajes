@@ -12,6 +12,7 @@ import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.GuiaPersistence;
 import co.edu.uniandes.csw.viajes.entities.GuiaEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.Stateless;
@@ -42,6 +43,11 @@ public class GuiaLogic {
     public GuiaEntity createGuia(GuiaEntity guiaEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación del guia");
         // Verifica la regla de negocio que dice que no puede haber dos editoriales con el mismo nombre
+         if (validarDocumentoExistente(guiaEntity.getDocumento()))
+        {
+            throw new BusinessLogicException("Ya existe un guia con ese documento");
+        }
+        
         if (!validarDocumento(guiaEntity.getDocumento()))
         {
             throw new BusinessLogicException("El documento del guia es invalido");
@@ -115,6 +121,24 @@ public class GuiaLogic {
         LOGGER.log(Level.INFO, "Termina proceso de borrar la actividad con id = {0}", guiaId);
     }
     
+      public void deleteAll(){
+        persistence.deleteAll();
+    }
+
+    
+    
+      /**
+     * Devuelve todos los guias que hay en la base de datos.
+     *
+     * @return Lista de guias.
+     */
+    public List<GuiaEntity> getGuias() {
+        LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los guias");
+        List<GuiaEntity> guias = persistence.findAll();
+        LOGGER.log(Level.INFO, "Termina proceso de consultar todos las actividades");
+        return guias;
+    }
+    
     private boolean validarDocumento(Long doc)
     {
     return !(doc == null || doc <= 0L);
@@ -125,6 +149,11 @@ public class GuiaLogic {
     
     private boolean validarGuiaExistente(GuiaEntity e)
     {return !(e == null);}
+    
+    private boolean validarDocumentoExistente(Long doc)
+    {
+        return !(persistence.findByDocumento(doc) == null);
+    }
       
     
 

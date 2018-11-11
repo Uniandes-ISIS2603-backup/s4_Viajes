@@ -47,6 +47,11 @@ public class ActividadLogic {
         {
             throw new BusinessLogicException("La puntuacion a actualizar es invalida");
         }
+         
+        if(validarActividadExistente(actividadEntity.getIdentificador()))
+        {
+            throw new BusinessLogicException("Ya existe una actividad con el mismo id");
+        }
         
         if (persistence.find(actividadEntity.getId()) != null) {
             throw new BusinessLogicException("Ya existe una Actividad con el mismo id \"" + actividadEntity.getId() + "\"");
@@ -90,6 +95,10 @@ public class ActividadLogic {
         
         persistence.delete(actividadId);
         LOGGER.log(Level.INFO, "Termina proceso de borrar la actividad con id = {0}", actividadId);
+    }
+    
+    public void deleteAll(){
+        persistence.deleteAll();
     }
 
     public ActividadEntity getActividad(Long actividadId) {

@@ -10,8 +10,8 @@ import co.edu.uniandes.csw.viajes.entities.ProveedorEntity;
 import co.edu.uniandes.csw.viajes.entities.VueloEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.VueloPersistence;
+import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
@@ -128,8 +128,8 @@ public class VueloLogicTest {
         newEntity.setLonO(-74.0817500);
         newEntity.setLatD(39.9075000);
         newEntity.setLonD(116.3972300);
-        newEntity.setFechaSalida(new Date());
-        newEntity.setFechaLlegada(new Date());
+        newEntity.setFechaSalida(new Date(0, 0, 0));
+        newEntity.setFechaLlegada(new Date(0, 0, 0));
         
         VueloEntity result = vueloLogic.createVuelo(newEntity);
         Assert.assertNotNull(result);
@@ -253,6 +253,7 @@ public class VueloLogicTest {
      *
      * @throws BusinessLogicException
      */
+
     @Test(expected = BusinessLogicException.class)
     public void updateVueloTest() throws BusinessLogicException {
         VueloEntity entity = data.get(0);

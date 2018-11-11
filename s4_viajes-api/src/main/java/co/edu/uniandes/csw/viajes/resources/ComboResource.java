@@ -70,7 +70,12 @@ public class ComboResource {
         
         LOGGER.log(Level.INFO, "ComboResource createCombo: input: {0}", combo.toString());
         // Convierte el DTO (json) en un objeto Entity para ser manejado por la lógica.
-        ComboEntity comboEntity = combo.toEntity();
+        ComboEntity comboEntity;
+        try {
+            comboEntity = combo.toEntity();
+        } catch (Exception ex) {
+            throw new WebApplicationException("ERROR: "+ex.getMessage(), 404);
+        }
         // Invoca la lógica para crear la editorial nueva
         ComboEntity nuevoComboEntity = comboLogic.createCombo(comboEntity);
         // Como debe retornar un DTO (json) se invoca el constructor del DTO con argumento el entity nuevo
@@ -140,7 +145,15 @@ public class ComboResource {
         if (comboLogic.getCombo(comboId) == null) {
             throw new WebApplicationException("El recurso /combos/" + comboId + " no existe.", 404);
         }
-        ComboEntity comboEntity=combo.toEntity();
+        ComboEntity comboEntity;
+        try 
+        {
+        comboEntity=combo.toEntity();
+        }
+        catch (Exception e){
+                throw new WebApplicationException(e.getMessage(), 404);
+
+        }
         comboEntity.setId(comboId);
         ComboDetailDTO comboDetailDTO = new ComboDetailDTO(comboLogic.updateCombo(comboId, comboEntity));
         LOGGER.log(Level.INFO, "ComboResource updateCombo: output: {0}", comboDetailDTO.toString());

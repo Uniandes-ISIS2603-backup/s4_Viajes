@@ -91,21 +91,6 @@ public class VueloResource {
     }
     
     /**
-     * Busca y devuelve todos los vuelos que existen en la aplicacion.
-     *
-     * @return JSONArray {@link ProveedorDetailDTO} - Los proveedores
-     * encontrados en la aplicación. Si no hay ninguna retorna una lista vacía.
-     */
-    @GET
-    public List<VueloDTO> getVuelos() {
-        LOGGER.info("VueloResource getVuelos: input: void");
-        List<VueloDTO> listaVuelos = listEntity2DTO(vueloLogic.getVuelos());
-        LOGGER.log(Level.INFO, "VueloResource getVuelos: output: {0}", listaVuelos.toString());
-        return listaVuelos;
-    }
-    
-  
-    /**
      * Modifica la informacion de un vuelo dado por la información ingresada en
      * formato JSON.
      *
@@ -146,19 +131,32 @@ public class VueloResource {
         vueloLogic.deleteVuelo(vueloId);
         LOGGER.info("VueloResource deleteVuelo: output: void");
     }
-           
-    /**
+    
+        /**
+     * Busca y devuelve todos los proveedoresque existen en la aplicacion.
+     *
+     * @return JSONArray {@link ProveedorDetailDTO} - Los proveedores
+     * encontrados en la aplicación. Si no hay ninguna retorna una lista vacía.
+     */
+    @GET
+    public List<VueloDTO> getVuelos(){
+        LOGGER.info("VueloResource getProveedores: input: void");
+        List<VueloDTO> listaVuelos = listEntity2DetailDTO(vueloLogic.getVuelos());
+        LOGGER.log(Level.INFO, "ProveedorResource getProveedores: output: {0}", listaVuelos.toString());
+        return listaVuelos;
+    }
+    
+        /**
      *
      * lista de entidades a DTO.
      *
-     * Este método convierte una lista de objetos VueloEntity a una lista de
-     * objetos VueloDTO (json)
-     *
+     * Este método convierte una lista de objetos EditorialEntity a una lista de
+     * objetos EditorialDetailDTO (json)
      * @param entityList corresponde a la lista de proveedores de tipo Entity
      * que vamos a convertir a DTO.
      * @return la lista de proveedores en forma DTO (json)
      */
-    private List<VueloDTO> listEntity2DTO(List<VueloEntity> entityList) {
+    private List<VueloDTO> listEntity2DetailDTO(List<VueloEntity> entityList) {
         List<VueloDTO> list = new ArrayList<>();
         for (VueloEntity entity : entityList) {
             list.add(new VueloDTO(entity));

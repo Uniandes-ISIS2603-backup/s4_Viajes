@@ -1,43 +1,24 @@
 {
 	"info": {
-		"_postman_id": "b296e907-4db9-4c51-b63c-3f9243bf92c2",
-		"name": "Pago",
+		"_postman_id": "c05e793c-a7fb-4412-948b-20319680c492",
+		"name": "pruebasCombo",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
 		{
-			"name": "getPago",
+			"name": "getCombo",
 			"request": {
 				"method": "GET",
-				"header": [
-					{
-						"key": "Content-Type",
-						"value": "application/json"
-					}
-				],
-				"body": {
-					"mode": "raw",
-					"raw": "{\n\t\n}"
-				},
+				"header": [],
+				"body": {},
 				"url": {
-					"raw": "http://localhost:8080/s4_viajes-api/api/pagos/2",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"s4_viajes-api",
-						"api",
-						"pagos",
-						"2"
-					]
+					"raw": ""
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "postPago",
+			"name": "post",
 			"request": {
 				"method": "POST",
 				"header": [
@@ -48,10 +29,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t \"pagaConTarjeta\": true,\n\t \"tarjeta\":1234567890123456,\n\t \"idReservaAPagar\": 1\n}"
+					"raw": "{\n    \"costo\": 1000000,\n    \"dias\": 5,\n    \"horas\": 0,\n    \"id\": \"viaje123\",\n    \"puntuacion\": 3\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/s4_viajes-api/api/pagos",
+					"raw": "http://localhost:8080/s4_viajes-api/api/combos",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -60,14 +41,37 @@
 					"path": [
 						"s4_viajes-api",
 						"api",
-						"pagos"
+						"combos"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "updatePago",
+			"name": "deleteCombo",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://localhost:8080/s4_viajes-api/api/combos/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"s4_viajes-api",
+						"api",
+						"combos",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "updateCombo",
 			"request": {
 				"method": "PUT",
 				"header": [
@@ -78,10 +82,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\n\t \"pagaConTarjeta\": false,\n\t \"idReservaAPagar\": 6\n\n}"
+					"raw": "{\n\t\"costo\": 880000,\n    \"dias\": 4,\n    \"horas\": 2,\n    \"nombre\": \"Aruba 2019\",\n    \"puntuacion\": 3\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/s4_viajes-api/api/pagos/8",
+					"raw": "http://localhost:8080/s4_viajes-api/api/combos/1",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -90,32 +94,33 @@
 					"path": [
 						"s4_viajes-api",
 						"api",
-						"pagos",
-						"8"
+						"combos",
+						"1"
 					]
 				}
 			},
 			"response": []
 		},
 		{
-			"name": "deletePago",
+			"name": "getAllCombos",
 			"request": {
-				"method": "DELETE",
+				"method": "GET",
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "http://localhost:8080/s4_viajes-api/api/pagos/2",
-					"protocol": "http",
-					"host": [
-						"localhost"
-					],
-					"port": "8080",
-					"path": [
-						"s4_viajes-api",
-						"api",
-						"pagos",
-						"2"
-					]
+					"raw": ""
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addReserva",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": ""
 				}
 			},
 			"response": []

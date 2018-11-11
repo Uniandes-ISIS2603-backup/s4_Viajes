@@ -24,8 +24,8 @@ import uk.co.jemos.podam.common.PodamExclude;
 public class ActividadEntity extends BaseEntity implements Serializable {
     
     @PodamExclude
-    @OneToMany(mappedBy = "actividad", fetch=FetchType.LAZY)
-    private List<GuiaEntity> guias = new LinkedList<GuiaEntity>();
+    @OneToMany(mappedBy = "actividad")
+    private List<GuiaEntity> guias = new ArrayList<GuiaEntity>();
     
     private Long identificador;
     
@@ -43,7 +43,7 @@ public class ActividadEntity extends BaseEntity implements Serializable {
 
     @PodamExclude
     @ManyToOne
-    private ComboEntity combo;
+    private ReservaEntity reserva;
     
     
     public Long getIdentificador()
@@ -89,7 +89,7 @@ public class ActividadEntity extends BaseEntity implements Serializable {
     /**
      * Devuelve las guias de la actividad.
      *
-     * @return Lista de entidades de Libro.
+     * @return Lista de entidades de Actividad.
      */
     public List<GuiaEntity> getGuias() {
         return guias;
@@ -112,10 +112,6 @@ public class ActividadEntity extends BaseEntity implements Serializable {
      */
     public void setGuias(List<GuiaEntity> books) {
         this.guias = books;
-    }
-    
-    public void agregarGuia(GuiaEntity guia){
-        guias.add(guia);
     }
     
     public void setCosto(int pCosto){
@@ -157,13 +153,18 @@ public class ActividadEntity extends BaseEntity implements Serializable {
     }
 
     
-    public ComboEntity getCombo() {
-        return combo;
+   
+    public void agregarGuia(GuiaEntity guia)
+    {
+      guias.add(guia);
     }
 
-    public void setCombo(ComboEntity combo) {
-        this.combo = combo;
+     public ReservaEntity getReserva() {
+        return reserva;
     }
 
-    
+    public void setReserva(ReservaEntity reserva) {
+        this.reserva = reserva;
+    }
+
 }

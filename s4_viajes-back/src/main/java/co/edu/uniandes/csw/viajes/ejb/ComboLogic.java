@@ -5,8 +5,10 @@
  */
 package co.edu.uniandes.csw.viajes.ejb;
 import co.edu.uniandes.csw.viajes.entities.ComboEntity;
+import co.edu.uniandes.csw.viajes.entities.ReservaEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.ComboPersistence;
+import co.edu.uniandes.csw.viajes.persistence.ReservaPersistence;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -23,6 +25,8 @@ public class ComboLogic {
     @Inject
     private ComboPersistence persistence; // Variable para acceder a la persistencia de la aplicación. Es una inyección de dependencias.
 
+     @Inject
+    private ReservaPersistence reservaPersistence;
     
      /**
      * Guardar un nuevo combo. 
@@ -38,19 +42,24 @@ public class ComboLogic {
         // Verifica la regla de negocio que El combo debe tener un nombre
         if(comboEntity.getNombre().trim().equals(""))
             throw new BusinessLogicException("El combo debe tener un nombre\"" + comboEntity.getNombre() + "\"");
-        // Verifica la regla de negocio que El costo del combo no pueden ser negativo
-        if(comboEntity.getCosto()<0)
-            throw new BusinessLogicException("El costo del combo no pueden ser negativo \"" + comboEntity.getNombre() + "\"");
-        // Verifica la regla de negocio que Los dias de duración del combo no pueden ser 0 ni negativos
-        if(comboEntity.getDias()<=0)
-            throw new BusinessLogicException("Los dias de duración del combo no pueden ser 0 ni negativos \"" + comboEntity.getNombre() + "\"");
-        // Verifica la regla de negocio que Las de duración del combo no pueden ser negativas
-        if(comboEntity.getHoras()<0)
-            throw new BusinessLogicException("Las de duración del combo no pueden ser negativas \"" + comboEntity.getNombre() + "\"");
         // Verifica la regla de negocio que La puntuación del combo debe estar entre 0 y 5
         if(comboEntity.getPuntuacion()<0||comboEntity.getPuntuacion()>5)
             throw new BusinessLogicException("La puntuación del combo debe estar entre 0 y 5 \"" + comboEntity.getNombre() + "\"");
-        
+        double costo=0;
+        for(long idReserva : comboEntity.getIdsReservas())
+            {
+               ReservaEntity reserva = reservaPersistence.find(idReserva);
+               if(reserva==null)
+                   {
+//                           throw new BusinessLogicException("El combo reserva que envio no existe");
+                    }
+               else
+               {
+                   comboEntity.addReserva(reserva);
+                   costo+=reserva.getCosto();
+               }
+            } 
+        comboEntity.setCosto(costo);
         
         comboEntity =persistence.create(comboEntity);
 
@@ -82,6 +91,21 @@ public class ComboLogic {
         if (comboEntity == null) {
             LOGGER.log(Level.SEVERE, "El combo con el id = {0} no existe", comboId);
         }
+        double costo=0;
+         for(long idReserva : comboEntity.getIdsReservas())
+            {
+               ReservaEntity reserva = reservaPersistence.find(idReserva);
+               if(reserva==null)
+                   {
+//                           throw new BusinessLogicException("El combo reserva que envio no existe");
+                    }
+               else
+                {
+                   comboEntity.addReserva(reserva);
+                   costo+=reserva.getCosto();
+                }            
+            } 
+
         LOGGER.log(Level.INFO, "Termina proceso de consultar el combo con id = {0}", comboId);
         return comboEntity;  
     }
