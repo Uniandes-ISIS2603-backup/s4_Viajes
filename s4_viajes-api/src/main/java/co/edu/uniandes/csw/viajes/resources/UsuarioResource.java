@@ -122,7 +122,7 @@ public class UsuarioResource {
      */
     @GET
     public List<UsuarioDetailDTO> getUsuarios() {
-        LOGGER.info("BookResource getBooks: input: void");
+        LOGGER.info("UsuarioResource getUsuarios: input: void");
         List<UsuarioDetailDTO> listaUsuarios = listEntity2DetailDTO(usuarioLogic.getUsuarios());
         LOGGER.log(Level.INFO, "UsuarioResource getUsuarios: output: {0}", listaUsuarios.toString());
         return listaUsuarios;
