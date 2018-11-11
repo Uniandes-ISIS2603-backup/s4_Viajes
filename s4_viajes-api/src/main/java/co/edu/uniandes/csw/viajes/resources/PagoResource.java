@@ -66,10 +66,13 @@ public class PagoResource {
     @POST
      public PagoDTO crearPago(PagoDTO pago) throws BusinessLogicException {
         
-        
-//        throw new BusinessLogicException("id: "+pago.getaPagar().getComboIdLong()+", nombre:"+pago.getaPagar().getNombre());
         LOGGER.log(Level.INFO, "PagoResource createPago: input: {0}", pago.toString());
-        PagoEntity pagoEntity=pago.toEntity();
+        PagoEntity pagoEntity;
+        try {
+            pagoEntity = pago.toEntity();
+        } catch (Exception ex) {
+            throw new WebApplicationException("Error: "+ex.getMessage(), 404);
+        }
         PagoDTO nuevoPagoDTO = new PagoDTO(pagoLogic.createPago(pagoEntity));
 
         LOGGER.log(Level.INFO, "PagoResource createPago: output: {0}", nuevoPagoDTO.toString());
@@ -139,7 +142,12 @@ public class PagoResource {
         if (pagoLogic.getPago(pagoId) == null) {
             throw new WebApplicationException("El recurso /pagos/" + pagoId + " no existe.", 404);
         }
-        PagoEntity pagoEntity=pago.toEntity();
+        PagoEntity pagoEntity;
+        try {
+            pagoEntity = pago.toEntity();
+        } catch (Exception ex) {
+            throw new WebApplicationException("Error: "+ex.getMessage(), 404);
+        }
         pagoEntity.setId(pagoId);
         PagoDTO pagoDTO = new PagoDTO(pagoLogic.updatePago(pagoId, pagoEntity));
         LOGGER.log(Level.INFO, "PagoResource updatePago: output: {0}", pagoDTO.toString());

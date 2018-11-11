@@ -31,7 +31,6 @@ public class ComboEntity  extends BaseEntity implements Serializable {
     
     private String nombre;
     
-    private Long comboIdLong;
 
     private int dias;
     
@@ -39,50 +38,22 @@ public class ComboEntity  extends BaseEntity implements Serializable {
 
     private int puntuacion;
     
+    private List<Long> idsReservas=new ArrayList<>();
+
+    
     public ComboEntity()
     {
     }
-    
-    @PodamExclude
-    @OneToMany(mappedBy = "combo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<VueloEntity> vuelos=new ArrayList<VueloEntity>();
-    
-    @PodamExclude
-    @OneToMany(mappedBy = "combo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<AlojamientoEntity> alojamientos=new ArrayList<AlojamientoEntity>();
 
     @PodamExclude
     @OneToMany(mappedBy = "combo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<ActividadEntity> actividades=new ArrayList<ActividadEntity>();
+    private List<ReservaEntity> reservas=new ArrayList<ReservaEntity>();
     
-    @PodamExclude
-    @OneToMany(mappedBy = "combo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<TransporteTerrestreEntity> transportesTerrestres=new ArrayList<TransporteTerrestreEntity>();
-
-    @PodamExclude
-    @OneToOne
-    private PagoEntity pago;
 
     //-----------------------------------------------------------------------------------------------------------------------
     // Metodos
     //-----------------------------------------------------------------------------------------------------------------------
-    
-    
-    public Long getComboIdLong() {
-        comboIdLong=getId();
-        return comboIdLong;
-    }
 
-    public void setComboIdLong(Long comboId) {    
-        if(comboId!=null&&comboId!=0)
-        {
-            this.comboIdLong = comboId;
-            setId(comboIdLong);
-        }
-
-    }
-
-    
 
     public double getCosto() {
         return costo;
@@ -123,76 +94,46 @@ public class ComboEntity  extends BaseEntity implements Serializable {
     public void setPuntuacion(int puntuacion) {
         this.puntuacion = puntuacion;
     }
-    
-    public List<VueloEntity> getVuelos() {
-        return vuelos;
+   
+    public List<ReservaEntity> getReservas() {
+        if(reservas==null)
+            return reservas=new ArrayList<>();
+        return reservas;
     }
 
-    public void setVuelos(List<VueloEntity> vuelos) {
-        this.vuelos = vuelos;
+    public void setReservas(List<ReservaEntity> reservas) {
+        this.reservas = reservas;
     }
-
-    public List<AlojamientoEntity> getAlojamientos() {
-        return alojamientos;
-    }
-
-    public void setAlojamientos(List<AlojamientoEntity> alojamientos) {
-        this.alojamientos = alojamientos;
-    }
-
-    public List<ActividadEntity> getActividades() {
-        return actividades;
-    }
-
-    public void setActividades(List<ActividadEntity> actividades) {
-        this.actividades = actividades;
-    }
-
-     public List<TransporteTerrestreEntity> getTransportesTerrestres() {
-        return transportesTerrestres;
-    }
-    
-    public void setTransportesTerrestres(List<TransporteTerrestreEntity> transportesTerrestres) {
-        this.transportesTerrestres = transportesTerrestres;
-    }
-
-    public PagoEntity getPago() {
-        return pago;
-    }
-
-    public void setPago(PagoEntity pago) {
-        this.pago = pago;
-    }
-
-    public void addActividad(ActividadEntity actividad)
+ 
+    public void addReserva(ReservaEntity reserva)
     {
-        if(actividad!=null)
-             actividades.add(actividad);
+        if(reserva!=null)
+             reservas.add(reserva);
     }
-    public void addAlojamiento(AlojamientoEntity alojamiento)
+     public void addReservaFirst(ReservaEntity reserva)
     {
-        if(alojamiento!=null)
-             alojamientos.add(alojamiento);
+        if(reserva!=null)
+             reservas.add(0,reserva);
     }
-    public void addTransporteTerrestre(TransporteTerrestreEntity transporteTerrestre)
-    {
-        if(transporteTerrestre!=null)
-             transportesTerrestres.add(transporteTerrestre);
-    }
-    public void addVuelo(VueloEntity vuelo)
-    {
-        if(vuelo!=null)
-             vuelos.add(vuelo);
-    }
-    
     public boolean isVacio()
     {
-        if (actividades.isEmpty()
-                 &&alojamientos.isEmpty()
-                 &&transportesTerrestres.isEmpty()
-                 &&vuelos.isEmpty()) 
+        if (idsReservas.isEmpty()) 
             return true;
-        return false;
-            
+        return false;     
+    }
+
+    public List<Long> getIdsReservas() {
+        if(idsReservas==null)
+           idsReservas= new ArrayList<>();
+        return idsReservas;
+    }
+
+    public void setIdsReservas(List<Long> idsReservas) {
+        this.idsReservas = idsReservas;
+    }
+     public void addIdReserva(Long idReserva) {
+         if(idsReservas==null)
+           idsReservas= new ArrayList<>();
+        idsReservas.add(0,idReserva);
     }
 }

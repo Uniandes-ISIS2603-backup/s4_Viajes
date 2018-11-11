@@ -64,8 +64,7 @@ public class AlojamientoEntity extends BaseEntity implements Serializable {
     
     @PodamExclude
     @ManyToOne
-    private ComboEntity combo;
-
+    private ReservaEntity reserva;
     /**
      * Proveedor del alojamiento. 
      * Relacion muchos a uno. 
@@ -146,14 +145,6 @@ public class AlojamientoEntity extends BaseEntity implements Serializable {
         this.ubicacion = ubicacion;
     }
 
-    public ComboEntity getCombo() {
-        return combo;
-    }
-
-    public void setCombo(ComboEntity combo) {
-        this.combo = combo;
-    }
-
     public ProveedorEntity getProveedor() {
         return proveedor;
     }
@@ -162,4 +153,13 @@ public class AlojamientoEntity extends BaseEntity implements Serializable {
         this.proveedor = proveedor;
     }
 
+    public ReservaEntity getReserva() {
+        return reserva;
+    }
+
+    public void setReserva(ReservaEntity reserva) {
+        this.reserva = reserva;
+    }
+
+    
 }

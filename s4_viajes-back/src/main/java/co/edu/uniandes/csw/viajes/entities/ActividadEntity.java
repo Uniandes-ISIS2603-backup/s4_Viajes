@@ -43,7 +43,7 @@ public class ActividadEntity extends BaseEntity implements Serializable {
 
     @PodamExclude
     @ManyToOne
-    private ComboEntity combo;
+    private ReservaEntity reserva;
     
     
     public Long getIdentificador()
@@ -153,18 +153,18 @@ public class ActividadEntity extends BaseEntity implements Serializable {
     }
 
     
-    public ComboEntity getCombo() {
-        return combo;
-    }
-
-    public void setCombo(ComboEntity combo) {
-        this.combo = combo;
-    }
-
+   
     public void agregarGuia(GuiaEntity guia)
     {
       guias.add(guia);
     }
 
-    
+     public ReservaEntity getReserva() {
+        return reserva;
+    }
+
+    public void setReserva(ReservaEntity reserva) {
+        this.reserva = reserva;
+    }
+
 }

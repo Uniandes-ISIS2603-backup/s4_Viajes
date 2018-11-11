@@ -8,6 +8,7 @@ package co.edu.uniandes.csw.viajes.ejb;
 import co.edu.uniandes.csw.viajes.entities.AlojamientoEntity;
 import co.edu.uniandes.csw.viajes.entities.ComboEntity;
 import co.edu.uniandes.csw.viajes.entities.ProveedorEntity;
+import co.edu.uniandes.csw.viajes.entities.ReservaEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.AlojamientoPersistence;
 import co.edu.uniandes.csw.viajes.persistence.ComboPersistence;
@@ -150,13 +151,13 @@ public class AlojamientoLogic {
     public void deleteAlojamiento(Long alojamientoId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de borrar el alojamiento con id = {0}", alojamientoId);
         AlojamientoEntity alojamiento = getAlojamiento(alojamientoId);
-        ComboEntity combo = alojamiento.getCombo(); 
+//        ReservaEntity reserva = alojamiento.getReserva(); 
         if (alojamiento == null) {
             throw new BusinessLogicException("El alojamiento no se encuentra registrado, imposible eliminar: (AlojamientoLogicDEL)" + alojamientoId);
         }
-        if(combo != null){
-            throw new BusinessLogicException("No se puede eliminar el alojamiento porque esta asociado a un combo: (AlojamientoLogicDEL)" + combo.getNombre());
-        }
+//        if(reserva != null){
+//            throw new BusinessLogicException("No se puede eliminar el alojamiento porque esta asociado a un combo: (AlojamientoLogicDEL)" + reserva.getId());
+//        }
         persistence.delete(alojamientoId);  
         LOGGER.log(Level.INFO, "Termina proceso de borrar el alojamiento con id = {0}", alojamientoId);
     }
