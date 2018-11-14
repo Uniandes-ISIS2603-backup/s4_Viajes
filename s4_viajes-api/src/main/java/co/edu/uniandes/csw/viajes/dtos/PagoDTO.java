@@ -18,7 +18,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class PagoDTO {
    
     private ReservaDTO aPagar;
-    private Long pagoId;
+    private Long id;
     private boolean pagaConTarjeta;
     private String tarjeta;
     private long idReservaAPagar;
@@ -39,7 +39,7 @@ public class PagoDTO {
                 aPagar=new ReservaDTO(pagoEntity.getaPagar());
             else
                 aPagar=null;
-            pagoId=pagoEntity.getId();
+            id=pagoEntity.getId();
             pagaConTarjeta=pagoEntity.isPagaConTarjeta();
             tarjeta=pagoEntity.getTarjeta();
         }
@@ -54,11 +54,11 @@ public class PagoDTO {
     }
 
     public Long getPagoId() {
-        return pagoId;
+        return id;
     }
 
     public void setPagoId(Long pagoId) {
-        this.pagoId = pagoId;
+        this.id = pagoId;
     }
 
     public boolean isPagaConTarjeta() {
@@ -78,11 +78,11 @@ public class PagoDTO {
     }
     
     
-    public long getIdReservaAPagar() {
+    public long getId() {
         return idReservaAPagar;
     }
 
-    public void setIdReservaAPagar(long idReservaAPagar) {
+    public void setId(long idReservaAPagar) {
         this.idReservaAPagar = idReservaAPagar;
     }
     

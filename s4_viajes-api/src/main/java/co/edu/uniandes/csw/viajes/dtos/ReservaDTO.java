@@ -30,7 +30,7 @@ public class ReservaDTO implements Serializable{
     
     private double costo;
     
-    private Long idReserva; 
+    private Long id; 
     
     private VueloDTO vuelo;
     
@@ -65,7 +65,7 @@ public class ReservaDTO implements Serializable{
              pagada=reservaEntity.isPagada();
              fechaInicio=reservaEntity.getFechaInicio();
              fechaFin=reservaEntity.getFechaFin();
-             idReserva=reservaEntity.getId();
+             id=reservaEntity.getId();
              costo=reservaEntity.getCosto();
              if(reservaEntity.getVuelo()!=null)
                 vuelo=new VueloDTO(reservaEntity.getVuelo());
@@ -134,11 +134,11 @@ public class ReservaDTO implements Serializable{
     }
 
     public Long getIdReserva() {
-        return idReserva;
+        return id;
     }
 
     public void setIdReserva(Long idReserva) {
-        this.idReserva = idReserva;
+        this.id = idReserva;
     }
 
     public VueloDTO getVuelo() {
