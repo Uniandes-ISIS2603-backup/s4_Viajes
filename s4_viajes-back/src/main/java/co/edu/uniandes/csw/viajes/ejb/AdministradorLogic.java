@@ -8,6 +8,7 @@ package co.edu.uniandes.csw.viajes.ejb;
 import co.edu.uniandes.csw.viajes.entities.AdministradorEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.AdministradorPersistence;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
@@ -104,6 +105,18 @@ public class AdministradorLogic {
         }
                    AdministradorEntity administrador = persistence.update(administradorEntity);
 
+        return administrador;
+    }
+    
+    /**
+     * Devuelve todos los administradores que hay en la base de datos.
+     *
+     * @return Lista de administradores de tipo administrador.
+     */
+    public List<AdministradorEntity> getAdministrador() {
+        LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los administradores");
+        List<AdministradorEntity> administrador = persistence.findAll();
+        LOGGER.log(Level.INFO, "Termina proceso de consultar todos los administradores");
         return administrador;
     }
     

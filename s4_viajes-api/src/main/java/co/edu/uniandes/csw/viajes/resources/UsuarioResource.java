@@ -63,7 +63,7 @@ public class UsuarioResource {
     public UsuarioDTO createUsuario(UsuarioDTO usuario) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "UsuarioResource createUsuario: input: {0}", usuario.toString());
         UsuarioDTO nuevoUsuarioDTO = new UsuarioDTO(usuarioLogic.createUsuario(usuario.toEntity()));
-        LOGGER.log(Level.INFO, "EditorialResource createEditorial: output: {0}", nuevoUsuarioDTO.toString());
+        LOGGER.log(Level.INFO, "UsuarioResource createUsuario: output: {0}", nuevoUsuarioDTO.toString());
 
         return nuevoUsuarioDTO;
     }
@@ -122,7 +122,7 @@ public class UsuarioResource {
      */
     @GET
     public List<UsuarioDetailDTO> getUsuarios() {
-        LOGGER.info("BookResource getBooks: input: void");
+        LOGGER.info("UsuarioResource getUsuarios: input: void");
         List<UsuarioDetailDTO> listaUsuarios = listEntity2DetailDTO(usuarioLogic.getUsuarios());
         LOGGER.log(Level.INFO, "UsuarioResource getUsuarios: output: {0}", listaUsuarios.toString());
         return listaUsuarios;

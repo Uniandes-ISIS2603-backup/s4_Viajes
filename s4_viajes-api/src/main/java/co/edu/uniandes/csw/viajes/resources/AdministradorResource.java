@@ -6,9 +6,12 @@
 package co.edu.uniandes.csw.viajes.resources;
 
 import co.edu.uniandes.csw.viajes.dtos.AdministradorDTO;
+import co.edu.uniandes.csw.viajes.dtos.AdministradorDetailDTO;
 import co.edu.uniandes.csw.viajes.ejb.AdministradorLogic;
 import co.edu.uniandes.csw.viajes.entities.AdministradorEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
@@ -71,6 +74,39 @@ public class AdministradorResource {
         return nuevoAdminDTO;
     }
    
+     /**
+     * Busca y devuelve todos los administradores que existen en la aplicacion.
+     *
+     * @return JSONArray {@link BookDetailDTO} - Los administradores encontrados en la
+     * aplicación. Si no hay ninguno retorna una lista vacía.
+     */
+    @GET
+    public List<AdministradorDetailDTO> getAdministradores() {
+        LOGGER.info("AdministradorResource getAdministradores: input: void");
+        List<AdministradorDetailDTO> listaAdministradores = listEntity2DetailDTO(administradorLogic.getAdministrador());
+        LOGGER.log(Level.INFO, "AdministradorResource getAdministradores: output: {0}", listaAdministradores.toString());
+        return listaAdministradores;
+    }
+
+   
+   /**
+     * Convierte una lista de entidades a DTO.
+     *
+     * Este método convierte una lista de objetos UsuarioEntity a una lista de
+     * objetos AdministradorDetailDTO (json)
+     *
+     * @param entityList corresponde a la lista de adminisradores de tipo Entity que
+     * vamos a convertir a DTO.
+     * @return la lista de usuarios en forma DTO (json)
+     */
+    private List<AdministradorDetailDTO> listEntity2DetailDTO(List<AdministradorEntity> entityList) {
+        List<AdministradorDetailDTO> list = new ArrayList<>();
+        for (AdministradorEntity entity : entityList) {
+            list.add(new AdministradorDetailDTO(entity));
+        }
+        return list;
+    }
+    
    
 
     /**

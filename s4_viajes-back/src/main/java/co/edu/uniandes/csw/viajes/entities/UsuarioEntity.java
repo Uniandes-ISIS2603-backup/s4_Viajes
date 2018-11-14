@@ -109,7 +109,7 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
 
     public void setCarrito(CarritoComprasEntity pCarrito)
     {
-        this.carritoCompras = carritoCompras;
+        this.carritoCompras = pCarrito;
     }
      /**
      * Devuelve el nombre del usuario.

@@ -103,10 +103,6 @@ public class AdministradorDTO implements Serializable{
         administradorEntity.setId(this.id);
         administradorEntity.setContraseña(this.password);
         administradorEntity.setUserName(this.userName);
- 
-
-       
-        
         return administradorEntity;
 
     }

@@ -160,12 +160,6 @@ public class MedallaLogic {
         if(input == null || input.equals("")){
             throw new BusinessLogicException("La ruta de la imagen no puede ser vacía o nula.");
         }
-        Pattern p3 = Pattern.compile("[a-zA-Z0-9._]{8,30}$");
-        m1 = p3.matcher(input);
-        
-        if(!m1.find())
-        {
-            throw new BusinessLogicException("La ruta de la imagen debe tener entre 8 y 30 caracteres.");
-        }
+
     }
 }
