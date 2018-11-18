@@ -30,168 +30,168 @@ import uk.co.jemos.podam.api.PodamFactoryImpl;
  */
 @RunWith(Arquillian.class)
 public class TransporteTerrestrePersistenceTest {
-
-    @Inject
-    private TransporteTerrestrePersistence transportePersistence;
-
-    @PersistenceContext
-    private EntityManager em;
-
-    @Inject
-    UserTransaction utx;
-
-    private List<TransporteTerrestreEntity> data = new ArrayList<>(); 
-
-    /**
-     * @return Devuelve el jar que Arquillian va a desplegar en Payara embebido.
-     * El jar contiene las clases, el descriptor de la base de datos y el
-     * archivo beans.xml para resolver la inyección de dependencias.
-     */
-    @Deployment
-    public static JavaArchive createDeployment() {
-        return ShrinkWrap.create(JavaArchive.class)
-                .addPackage(TransporteTerrestreEntity.class.getPackage())
-                .addPackage(TransporteTerrestrePersistence.class.getPackage())
-                .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
-                .addAsManifestResource("META-INF/beans.xml", "beans.xml");
-    }
-
-    /**
-     * Configuración inicial de la prueba.
-     */
-    @Before
-    public void configTest() {
-        try {
-            utx.begin();
-            em.joinTransaction();
-            clearData();
-            insertData();
-            utx.commit();
-        } catch (Exception e) {
-            e.printStackTrace();
-            try {
-                utx.rollback();
-            } catch (Exception e1) {
-                e1.printStackTrace();
-            }
-        }
-    }
-
-    /**
-     * Limpia las tablas que están implicadas en la prueba.
-     */
-    private void clearData() {
-        em.createQuery("delete from TransporteTerrestreEntity").executeUpdate();
-    }
-
-    /**
-     * Inserta los datos iniciales para el correcto funcionamiento de las
-     * pruebas.
-     */
-    private void insertData() {
-        PodamFactory factory = new PodamFactoryImpl();
-        for (int i = 0; i < 3; i++) {
-            TransporteTerrestreEntity entity = factory.manufacturePojo(TransporteTerrestreEntity.class);
-
-            em.persist(entity);
-            data.add(entity);
-        }
-    }
-
-    /**
-     * Prueba para crear un Alojamiento.
-     */
-    @Test
-    public void createTransporteTerrestreTest() {
-        PodamFactory factory = new PodamFactoryImpl();
-        TransporteTerrestreEntity newEntity = factory.manufacturePojo(TransporteTerrestreEntity.class);
-        TransporteTerrestreEntity result = transportePersistence.create(newEntity);
-
-        Assert.assertNotNull(result);
-
-        TransporteTerrestreEntity entity = em.find(TransporteTerrestreEntity.class, result.getId());
-
-        Assert.assertEquals(newEntity.getDestino(), entity.getDestino());
-        Assert.assertEquals(newEntity.getCosto(), entity.getCosto(),0);
-        Assert.assertEquals(newEntity.getPuntuacion(), entity.getPuntuacion(),0);
-        Assert.assertEquals(newEntity.getLatitudDestino(), entity.getLatitudDestino(),0);
-        Assert.assertEquals(newEntity.getLatitudOrigen(), entity.getLatitudOrigen(),0);
-        Assert.assertEquals(newEntity.getLongitudDestino(), entity.getLongitudDestino(),0);
-        Assert.assertEquals(newEntity.getLongitudOrigen(), entity.getLongitudOrigen(),0);
-        Assert.assertEquals(newEntity.getNumeroDias(), entity.getNumeroDias(),0);
-        Assert.assertEquals(newEntity.getNumeroHoras(), entity.getNumeroHoras(),0);
-        Assert.assertEquals(newEntity.getNumeroMinutos(), entity.getNumeroMinutos(),0);
-    }
-
-    /**
-     * Prueba para consultar la lista de Alojamientos.
-     */
-    @Test
-    public void getTransportesTest() {
-        List<TransporteTerrestreEntity> list = transportePersistence.findAll();
-        Assert.assertEquals(data.size(), list.size());
-        for (TransporteTerrestreEntity ent : list) {
-            boolean found = false;
-            for (TransporteTerrestreEntity entity : data) {
-                if (ent.getId().equals(entity.getId())) {
-                    found = true;
-                }
-            }
-            Assert.assertTrue(found);
-        }
-    }
-
-    /**
-     * Prueba para consultar un Alojamiento.
-     */
-    @Test
-    public void getTransporteTest() {
-        TransporteTerrestreEntity entity = data.get(0);
-        TransporteTerrestreEntity newEntity = transportePersistence.find(entity.getId());
-        Assert.assertNotNull(newEntity);
-        Assert.assertEquals(newEntity.getDestino(), entity.getDestino());
-        Assert.assertEquals(newEntity.getCosto(), entity.getCosto(), 0);
-        Assert.assertEquals(newEntity.getPuntuacion(), entity.getPuntuacion(), 0);
-        Assert.assertEquals(newEntity.getLatitudDestino(), entity.getLatitudDestino(), 0);
-        Assert.assertEquals(newEntity.getLatitudOrigen(), entity.getLatitudOrigen(), 0);
-        Assert.assertEquals(newEntity.getLongitudDestino(), entity.getLongitudDestino(), 0);
-        Assert.assertEquals(newEntity.getLongitudOrigen(), entity.getLongitudOrigen(), 0);
-        Assert.assertEquals(newEntity.getNumeroDias(), entity.getNumeroDias(), 0);
-        Assert.assertEquals(newEntity.getNumeroHoras(), entity.getNumeroHoras(), 0);
-        Assert.assertEquals(newEntity.getNumeroMinutos(), entity.getNumeroMinutos(),0);
-    }
-
-    /**
-     * Prueba para eliminar un Alojamiento.
-     */
-    @Test
-    public void deleteTransporteTest() {
-        TransporteTerrestreEntity entity = data.get(0);
-        transportePersistence.delete(entity.getId());
-        TransporteTerrestreEntity deleted = em.find(TransporteTerrestreEntity.class, entity.getId());
-        Assert.assertNull(deleted);
-    }
-
-    /**
-     * Prueba para actualizar un Alojamiento.
-     */
-    @Test
-    public void updateBookTest() {
-        TransporteTerrestreEntity entity = data.get(0);
-        PodamFactory factory = new PodamFactoryImpl();
-        TransporteTerrestreEntity newEntity = factory.manufacturePojo(TransporteTerrestreEntity.class);
-
-        newEntity.setId(entity.getId());
-
-        transportePersistence.update(newEntity);
-
-        TransporteTerrestreEntity resp = em.find(TransporteTerrestreEntity.class, entity.getId());
-
-        Assert.assertEquals(newEntity.getDestino(), resp.getDestino());
-        Assert.assertEquals(newEntity.getCosto(), resp.getCosto(), 0);
-        Assert.assertEquals(newEntity.getPuntuacion(), resp.getPuntuacion(), 0);
-        Assert.assertEquals(newEntity.getNumeroDias(), resp.getNumeroDias(), 0);
-        Assert.assertEquals(newEntity.getNumeroHoras(), resp.getNumeroHoras(), 0);
-        Assert.assertEquals(newEntity.getNumeroMinutos(), resp.getNumeroMinutos(),0);
-    }
+//
+//    @Inject
+//    private TransporteTerrestrePersistence transportePersistence;
+//
+//    @PersistenceContext
+//    private EntityManager em;
+//
+//    @Inject
+//    UserTransaction utx;
+//
+//    private List<TransporteTerrestreEntity> data = new ArrayList<>(); 
+//
+//    /**
+//     * @return Devuelve el jar que Arquillian va a desplegar en Payara embebido.
+//     * El jar contiene las clases, el descriptor de la base de datos y el
+//     * archivo beans.xml para resolver la inyección de dependencias.
+//     */
+//    @Deployment
+//    public static JavaArchive createDeployment() {
+//        return ShrinkWrap.create(JavaArchive.class)
+//                .addPackage(TransporteTerrestreEntity.class.getPackage())
+//                .addPackage(TransporteTerrestrePersistence.class.getPackage())
+//                .addAsManifestResource("META-INF/persistence.xml", "persistence.xml")
+//                .addAsManifestResource("META-INF/beans.xml", "beans.xml");
+//    }
+//
+//    /**
+//     * Configuración inicial de la prueba.
+//     */
+//    @Before
+//    public void configTest() {
+//        try {
+//            utx.begin();
+//            em.joinTransaction();
+//            clearData();
+//            insertData();
+//            utx.commit();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//            try {
+//                utx.rollback();
+//            } catch (Exception e1) {
+//                e1.printStackTrace();
+//            }
+//        }
+//    }
+//
+//    /**
+//     * Limpia las tablas que están implicadas en la prueba.
+//     */
+//    private void clearData() {
+//        em.createQuery("delete from TransporteTerrestreEntity").executeUpdate();
+//    }
+//
+//    /**
+//     * Inserta los datos iniciales para el correcto funcionamiento de las
+//     * pruebas.
+//     */
+//    private void insertData() {
+//        PodamFactory factory = new PodamFactoryImpl();
+//        for (int i = 0; i < 3; i++) {
+//            TransporteTerrestreEntity entity = factory.manufacturePojo(TransporteTerrestreEntity.class);
+//
+//            em.persist(entity);
+//            data.add(entity);
+//        }
+//    }
+//
+//    /**
+//     * Prueba para crear un Alojamiento.
+//     */
+//    @Test
+//    public void createTransporteTerrestreTest() {
+//        PodamFactory factory = new PodamFactoryImpl();
+//        TransporteTerrestreEntity newEntity = factory.manufacturePojo(TransporteTerrestreEntity.class);
+//        TransporteTerrestreEntity result = transportePersistence.create(newEntity);
+//
+//        Assert.assertNotNull(result);
+//
+//        TransporteTerrestreEntity entity = em.find(TransporteTerrestreEntity.class, result.getId());
+//
+//        Assert.assertEquals(newEntity.getDestino(), entity.getDestino());
+//        Assert.assertEquals(newEntity.getCosto(), entity.getCosto(),0);
+//        Assert.assertEquals(newEntity.getPuntuacion(), entity.getPuntuacion(),0);
+//        Assert.assertEquals(newEntity.getLatitudDestino(), entity.getLatitudDestino(),0);
+//        Assert.assertEquals(newEntity.getLatitudOrigen(), entity.getLatitudOrigen(),0);
+//        Assert.assertEquals(newEntity.getLongitudDestino(), entity.getLongitudDestino(),0);
+//        Assert.assertEquals(newEntity.getLongitudOrigen(), entity.getLongitudOrigen(),0);
+//        Assert.assertEquals(newEntity.getNumeroDias(), entity.getNumeroDias(),0);
+//        Assert.assertEquals(newEntity.getNumeroHoras(), entity.getNumeroHoras(),0);
+//        Assert.assertEquals(newEntity.getNumeroMinutos(), entity.getNumeroMinutos(),0);
+//    }
+//
+//    /**
+//     * Prueba para consultar la lista de Alojamientos.
+//     */
+//    @Test
+//    public void getTransportesTest() {
+//        List<TransporteTerrestreEntity> list = transportePersistence.findAll();
+//        Assert.assertEquals(data.size(), list.size());
+//        for (TransporteTerrestreEntity ent : list) {
+//            boolean found = false;
+//            for (TransporteTerrestreEntity entity : data) {
+//                if (ent.getId().equals(entity.getId())) {
+//                    found = true;
+//                }
+//            }
+//            Assert.assertTrue(found);
+//        }
+//    }
+//
+//    /**
+//     * Prueba para consultar un Alojamiento.
+//     */
+//    @Test
+//    public void getTransporteTest() {
+//        TransporteTerrestreEntity entity = data.get(0);
+//        TransporteTerrestreEntity newEntity = transportePersistence.find(entity.getId());
+//        Assert.assertNotNull(newEntity);
+//        Assert.assertEquals(newEntity.getDestino(), entity.getDestino());
+//        Assert.assertEquals(newEntity.getCosto(), entity.getCosto(), 0);
+//        Assert.assertEquals(newEntity.getPuntuacion(), entity.getPuntuacion(), 0);
+//        Assert.assertEquals(newEntity.getLatitudDestino(), entity.getLatitudDestino(), 0);
+//        Assert.assertEquals(newEntity.getLatitudOrigen(), entity.getLatitudOrigen(), 0);
+//        Assert.assertEquals(newEntity.getLongitudDestino(), entity.getLongitudDestino(), 0);
+//        Assert.assertEquals(newEntity.getLongitudOrigen(), entity.getLongitudOrigen(), 0);
+//        Assert.assertEquals(newEntity.getNumeroDias(), entity.getNumeroDias(), 0);
+//        Assert.assertEquals(newEntity.getNumeroHoras(), entity.getNumeroHoras(), 0);
+//        Assert.assertEquals(newEntity.getNumeroMinutos(), entity.getNumeroMinutos(),0);
+//    }
+//
+//    /**
+//     * Prueba para eliminar un Alojamiento.
+//     */
+//    @Test
+//    public void deleteTransporteTest() {
+//        TransporteTerrestreEntity entity = data.get(0);
+//        transportePersistence.delete(entity.getId());
+//        TransporteTerrestreEntity deleted = em.find(TransporteTerrestreEntity.class, entity.getId());
+//        Assert.assertNull(deleted);
+//    }
+//
+//    /**
+//     * Prueba para actualizar un Alojamiento.
+//     */
+//    @Test
+//    public void updateBookTest() {
+//        TransporteTerrestreEntity entity = data.get(0);
+//        PodamFactory factory = new PodamFactoryImpl();
+//        TransporteTerrestreEntity newEntity = factory.manufacturePojo(TransporteTerrestreEntity.class);
+//
+//        newEntity.setId(entity.getId());
+//
+//        transportePersistence.update(newEntity);
+//
+//        TransporteTerrestreEntity resp = em.find(TransporteTerrestreEntity.class, entity.getId());
+//
+//        Assert.assertEquals(newEntity.getDestino(), resp.getDestino());
+//        Assert.assertEquals(newEntity.getCosto(), resp.getCosto(), 0);
+//        Assert.assertEquals(newEntity.getPuntuacion(), resp.getPuntuacion(), 0);
+//        Assert.assertEquals(newEntity.getNumeroDias(), resp.getNumeroDias(), 0);
+//        Assert.assertEquals(newEntity.getNumeroHoras(), resp.getNumeroHoras(), 0);
+//        Assert.assertEquals(newEntity.getNumeroMinutos(), resp.getNumeroMinutos(),0);
+//    }
 }

@@ -12,7 +12,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  *
- * @author estudiante
+ * @author Juan Diego Barrios
  */
 public class ComboDTO implements Serializable{ 
 
@@ -49,7 +49,7 @@ public class ComboDTO implements Serializable{
      * Método para transformar el DTO a una entidad.
      * @return La entidad del DTO asociado.
      */
-      public ComboEntity toEntity() throws Exception
+      public ComboEntity toEntity()
     {
         ComboEntity comboEntity = new ComboEntity(); 
        

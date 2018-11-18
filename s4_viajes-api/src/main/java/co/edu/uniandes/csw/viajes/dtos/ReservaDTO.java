@@ -9,11 +9,8 @@ package co.edu.uniandes.csw.viajes.dtos;
 import co.edu.uniandes.csw.viajes.entities.ReservaEntity;
 import java.io.Serializable;
 import java.sql.Date;
-import javax.persistence.FetchType;
-import javax.persistence.OneToOne;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
-import uk.co.jemos.podam.common.PodamExclude;
 
 /**
  *
@@ -32,21 +29,11 @@ public class ReservaDTO implements Serializable{
     
     private Long id; 
     
-    private VueloDTO vuelo;
+    private ServicioDTO servicio;
     
-    private AlojamientoDTO alojamiento;
-
-    private ActividadDTO actividad;
+    private Long idServicio;
     
-    private TransporteTerrestreDTO transporteTerrestre;
-    
-    private long idVuelo=-1l;
-      
-    private long idAlojamiento=-1l;
 
-    private long idActividad=-1l;
-
-    private long idTransporteTerrestre=-1l;
 
     /**
      * Constructor por vacio.
@@ -67,14 +54,8 @@ public class ReservaDTO implements Serializable{
              fechaFin=reservaEntity.getFechaFin();
              id=reservaEntity.getId();
              costo=reservaEntity.getCosto();
-             if(reservaEntity.getVuelo()!=null)
-                vuelo=new VueloDTO(reservaEntity.getVuelo());
-             else if(reservaEntity.getAlojamiento()!=null)
-                alojamiento=new AlojamientoDTO(reservaEntity.getAlojamiento());
-             else if(reservaEntity.getTransporteTerrestre()!=null)
-                transporteTerrestre=new TransporteTerrestreDTO(reservaEntity.getTransporteTerrestre());
-             else if(reservaEntity.getActividad()!=null)
-                actividad=new ActividadDTO(reservaEntity.getActividad());
+             if(reservaEntity.getServicio()!=null)
+                servicio=new ServicioDTO(reservaEntity.getServicio());
          }
      }
      
@@ -84,10 +65,7 @@ public class ReservaDTO implements Serializable{
          reservaEntity.setPagada(pagada);
          reservaEntity.setFechaInicio(fechaInicio);
          reservaEntity.setFechaFin(fechaFin);
-         reservaEntity.setIdActividad(idActividad);
-         reservaEntity.setIdAlojamiento(idAlojamiento);
-         reservaEntity.setIdTransporteTerrestre(idTransporteTerrestre);
-         reservaEntity.setIdVuelo(idVuelo);
+         reservaEntity.setIdServicio(idServicio);
          
         
          return reservaEntity;
@@ -141,76 +119,6 @@ public class ReservaDTO implements Serializable{
         this.id = idReserva;
     }
 
-    public VueloDTO getVuelo() {
-        return vuelo;
-    }
-
-    public void setVuelo(VueloDTO vuelo) {
-        this.vuelo = vuelo;
-    }
-
-    public AlojamientoDTO getAlojamiento() {
-        return alojamiento;
-    }
-
-    public void setAlojamiento(AlojamientoDTO alojamiento) {
-        this.alojamiento = alojamiento;
-    }
-
-    public ActividadDTO getActividad() {
-        return actividad;
-    }
-
-    public void setActividad(ActividadDTO actividad) {
-        this.actividad = actividad;
-    }
-
-    public TransporteTerrestreDTO getTransporteTerrestre() {
-        return transporteTerrestre;
-    }
-
-    public void setTransporteTerrestre(TransporteTerrestreDTO transporteTerrestre) {
-        this.transporteTerrestre = transporteTerrestre;
-    }
-
-    public long getIdVuelo() {
-        return idVuelo;
-    }
-
-    public void setIdVuelo(long idVuelo) {
-        this.idVuelo = idVuelo;
-    }
-
-    public long getIdAlojamiento() {
-        return idAlojamiento;
-    }
-
-    public void setIdAlojamiento(long idAlojamiento) {
-        this.idAlojamiento = idAlojamiento;
-    }
-
-    public long getIdActividad() {
-        return idActividad;
-    }
-
-    public void setIdActividad(long idActividad) {
-        this.idActividad = idActividad;
-    }
-
-    public long getIdTransporteTerrestre() {
-        return idTransporteTerrestre;
-    }
-
-    public void setIdTransporteTerrestre(long idTransporteTerrestre) {
-        this.idTransporteTerrestre = idTransporteTerrestre;
-    }
-     
-    
-    
-    
-     
-     
-     
      
     @Override
     public String toString() {

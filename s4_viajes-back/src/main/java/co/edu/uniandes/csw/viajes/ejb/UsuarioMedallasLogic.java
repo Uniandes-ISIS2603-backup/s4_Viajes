@@ -5,7 +5,9 @@
  */
 package co.edu.uniandes.csw.viajes.ejb;
 
+import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
 import co.edu.uniandes.csw.viajes.entities.MedallaEntity;
+import co.edu.uniandes.csw.viajes.entities.ProveedorEntity;
 import co.edu.uniandes.csw.viajes.entities.UsuarioEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.MedallaPersistence;
@@ -34,37 +36,65 @@ public class UsuarioMedallasLogic {
     /**
      * Agregar un medalla a el usuario
      *
-     * @param medallasId El id medalla a guardar
-     * @param usuariosId El id de el usuario en la cual se va a guardar el
+     * @param medallaId El id medalla a guardar
+     * @param usuarioId El id de el usuario en la cual se va a guardar el
      * medalla.
      * @return La medalla creado.
      */
-    public MedallaEntity addMedalla(Long medallasId, Long usuariosId) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de agregarle una medalla a el usuario con id = {0}", usuariosId);
-        UsuarioEntity usuarioEntity = usuarioPersistence.find(usuariosId);
-        MedallaEntity medallaEntity = medallaPersistence.find(medallasId);
-        List<MedallaEntity> medallas = usuarioEntity.getMedallas();
-        for(MedallaEntity medalla : medallas)
-        {
-            if(medalla.getId() == medallasId)
+    public UsuarioEntity addMedalla(Long medallaId, Long usuarioId) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "Inicia proceso de agregarle una medalla al usuario con id = {0}", usuarioId);
+        UsuarioEntity usuarioEntity = usuarioPersistence.find(usuarioId);
+        MedallaEntity medallaEntity = medallaPersistence.find(medallaId);
+        if(usuarioEntity==null)
+            throw new BusinessLogicException("El ususario con id "+usuarioId +" no existe");
+        if(medallaEntity==null)
+            throw new BusinessLogicException("La medalla con id "+medallaId +" no existe");
+        for(long idMedalla : usuarioEntity.getIdsMedallas())
+            if(medallaId == idMedalla)
+                throw new BusinessLogicException("El usuario ya tiene asignada una medalla con id " + medallaId +".");
+            else
             {
-                throw new BusinessLogicException("El usuario ya tiene asignada la medalla con id " + medallasId +".");
-            }
-        }
-        medallas.add(medallaEntity);
-        LOGGER.log(Level.INFO, "Termina proceso de agregarle un medalla a el usuario con id = {0}", usuariosId);
-        return medallaEntity;
+                MedallaEntity medalla = medallaPersistence.find(idMedalla);
+               if(medalla==null)
+                   {
+//                     throw new BusinessLogicException("La medalla con id " + medallaId +" no existe");
+                   }
+               else
+                    usuarioEntity.addMedalla(medalla);
+            } 
+        usuarioEntity.addIdMedalla(medallaId);
+        usuarioEntity.addMedallaFirst(medallaEntity);
+
+        usuarioPersistence.update(usuarioEntity);
+
+        LOGGER.log(Level.INFO, "Termina proceso de agregarle una medalla al usuario con id = {0}", usuarioId);
+        return usuarioEntity;
     }
 
     /**
      * Retorna todas las medallas asociadas a un usuario
      *
-     * @param usuariosId El ID de el usuario buscado
+     * @param usuarioId El ID de el usuario buscado
      * @return La lista de medallas de el usuario
      */
-    public List<MedallaEntity> getMedallas(Long usuariosId) {
-        LOGGER.log(Level.INFO, "Inicia proceso de consultar las medallas asociados a el usuario con id = {0}", usuariosId);
-        return usuarioPersistence.find(usuariosId).getMedallas();
+    public List<MedallaEntity> getMedallas(Long usuarioId) throws BusinessLogicException {
+       LOGGER.log(Level.INFO, "Inicia proceso de consultar las medallas asociados al usuario con id = {0}", usuarioId);
+        UsuarioEntity usuarioEntity = usuarioPersistence.find(usuarioId);
+        if(usuarioEntity==null)
+            throw new BusinessLogicException("El usuario con id "+usuarioId +" no existe");
+        List<MedallaEntity> medallas=new ArrayList<>();
+        for(long idMedalla : usuarioEntity.getIdsMedallas())   
+        {
+            MedallaEntity medalla = medallaPersistence.find(idMedalla);
+            if(medalla==null)
+               {
+//                     throw new BusinessLogicException("La medalla con id " + medallaId +" no existe");
+               }
+            else
+                medallas.add(medalla);
+        }
+        
+        return medallas;
     }
 
     /**
@@ -76,30 +106,22 @@ public class UsuarioMedallasLogic {
      * @throws BusinessLogicException Si de la medalla no se encuentra en la
      * usuario
      */
-    public MedallaEntity getMedalla(Long usuariosId, Long medallasId) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de consultar de la medalla con id = {0} de el usuario con id = " + usuariosId, medallasId);
-        List<MedallaEntity> medallas = usuarioPersistence.find(usuariosId).getMedallas();
-        MedallaEntity medallaEntity = medallaPersistence.find(medallasId);
-        int index = medallas.indexOf(medallaEntity);
-        LOGGER.log(Level.INFO, "Termina proceso de consultar de la medalla con id = {0} de el usuario con id = " + usuariosId, medallasId);
-        if (index >= 0) {
-            return medallas.get(index);
-        }
-        throw new BusinessLogicException("La medalla no está asociado a el usuario");
+    public MedallaEntity getMedalla(Long usuarioId, Long medallaId) throws BusinessLogicException {
+       LOGGER.log(Level.INFO, "Inicia proceso de consultar la medalla con id = {0} del usuario con id = " + usuarioId, medallaId);
+        UsuarioEntity usuarioEntity = usuarioPersistence.find(usuarioId);
+        if(usuarioEntity==null)
+            throw new BusinessLogicException("El usuario con id "+usuarioId +" no existe");
+        MedallaEntity medalla=null;
+        for(long idMedalla : usuarioEntity.getIdsMedallas())   
+            if(medallaId==idMedalla){
+                medalla = medallaPersistence.find(medallaId);
+                break;
+            }      
+        if(medalla==null)
+            throw new BusinessLogicException("El usuario con id "+usuarioId +" no tiene la medalla con id "+medallaId);
+        LOGGER.log(Level.INFO, "Termina proceso de consultar la medalla con id = {0} del usuario con id = " + usuarioId, medallaId); 
+        return medalla;
     }
 
-    /**
-     * Remplazar medallas de un usuario
-     *
-     * @param medallas Lista de medallas que serán los de el usuario.
-     * @param usuariosId El id de el usuario que se quiere actualizar.
-     * @return La lista de medallas actualizada.
-     */
-    public List<MedallaEntity> replaceMedallas(Long usuariosId, List<MedallaEntity> medallas) {
-        LOGGER.log(Level.INFO, "Inicia proceso de actualizar el usuario con id = {0}", usuariosId);
-        UsuarioEntity usuarioEntity = usuarioPersistence.find(usuariosId);
-        usuarioEntity.setMedallas(medallas);
-        LOGGER.log(Level.INFO, "Termina proceso de actualizar el usuario con id = {0}", usuariosId);
-        return medallas;
-    }
+
 }

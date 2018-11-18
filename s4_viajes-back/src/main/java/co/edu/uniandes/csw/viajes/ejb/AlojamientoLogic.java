@@ -26,7 +26,7 @@ import javax.inject.Inject;
  * @author estudiante
  */
 @Stateless
-public class AlojamientoLogic {
+public class AlojamientoLogic extends ServicioLogic{
 
     public static final Logger LOGGER = Logger.getLogger(AlojamientoLogic.class.getName());
 
@@ -51,24 +51,7 @@ public class AlojamientoLogic {
     public AlojamientoEntity createAlojamiento(AlojamientoEntity alojamientoEntity) throws BusinessLogicException{
     
         LOGGER.log(Level.INFO, "Inicial el proceso de creacion de alojamiento."); 
-        if(alojamientoEntity.getProveedor() == null || proveedorPersistence.find(alojamientoEntity.getProveedor().getId()) == null){
-            throw new BusinessLogicException("El proveedor es invalido. (AlojamientoLogic)");
-        }
-        if (!validateNombre(alojamientoEntity.getNombre())) {
-            throw new BusinessLogicException("El nombre ingresado es inválido: (AlojamientoLogic) " + alojamientoEntity.getNombre());
-        }
-        if (persistence.findByNombre(alojamientoEntity.getNombre()) != null) {
-            throw new BusinessLogicException("El nombre ingresado ya existe: (AlojamientoLogic) " + alojamientoEntity.getNombre());
-        }
-        if (alojamientoEntity.getCosto() < 0) {
-            throw new BusinessLogicException("El costo ingresado es invalido: (AlojamientoLogic) " + alojamientoEntity.getCosto());
-        }
-        if (alojamientoEntity.getEstrellas() < 0 || alojamientoEntity.getEstrellas() > 5) {
-            throw new BusinessLogicException("Las estrellas ingresadas son invalidas: (AlojamientoLogic)" + alojamientoEntity.getEstrellas());
-        }
-        if(alojamientoEntity.getNoches() < 0){
-            throw new BusinessLogicException("Las noches son invalidas: (AlojamientoLogic) " + alojamientoEntity.getNoches());
-        } 
+        super.createServicio(alojamientoEntity);
         persistence.create(alojamientoEntity);
         LOGGER.log(Level.INFO,"Termina la creacion del alojamiento." ); 
         return alojamientoEntity;  
@@ -133,9 +116,9 @@ public class AlojamientoLogic {
         if (alojamientoEntity.getEstrellas() < 0 || alojamientoEntity.getEstrellas() > 5) {
             throw new BusinessLogicException("Las estrellas ingresadas son invalidas: (AlojamientoLogicUP)" + alojamientoEntity.getEstrellas());
         }
-        if(alojamientoEntity.getNoches() < 0){
-            throw new BusinessLogicException("Las noches son invalidas: (AlojamientoLogicUP) " + alojamientoEntity.getNoches());
-        }
+//        if(alojamientoEntity.getNoches() < 0){
+//            throw new BusinessLogicException("Las noches son invalidas: (AlojamientoLogicUP) " + alojamientoEntity.getNoches());
+//        }
         AlojamientoEntity alojamiento = persistence.update(alojamientoEntity); 
         LOGGER.log(Level.INFO, "Termina proceso de actualizar el alojamiento con id = {0}", alojamientoEntity.getId());
         return alojamiento;  

@@ -36,7 +36,7 @@ import javax.ws.rs.WebApplicationException;
 @Produces("application/json")
 @RequestScoped 
 public class ComboReservasResourcee {
-     private static final Logger LOGGER = Logger.getLogger(ProveedorActividadResource.class.getName());
+     private static final Logger LOGGER = Logger.getLogger(ComboReservasResourcee.class.getName());
 
     @Inject
     private ComboReservasLogic comboReservasLogic; // Variable para acceder a la lógica de la aplicación. Es una inyección de dependencias.

@@ -24,7 +24,7 @@ import javax.inject.Inject;
  * @author estudiante
  */
 @Stateless
-public class TransporteTerrestreLogic {
+public class TransporteTerrestreLogic extends TransporteLogic{
 
     public static final Logger LOGGER = Logger.getLogger(TransporteTerrestreLogic.class.getName());
 
@@ -47,24 +47,9 @@ public class TransporteTerrestreLogic {
      */
     public TransporteTerrestreEntity createTransporte(TransporteTerrestreEntity transporteEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación del transporte");
+        super.createTransporte(transporteEntity);
+
         
-        if (transporteEntity.getProveedor() == null || proveedorPersistence.find(transporteEntity.getProveedor().getId()) == null) {
-            throw new BusinessLogicException("El id del proveedor es inválido: (Transportelogic)");
-        }
-        if(persistence.find(transporteEntity.getId()) != null){
-            throw new BusinessLogicException("El transporte ya esta registrado: (TransporteLogic)" + transporteEntity.getId());
-        }
-        if (transporteEntity.getCosto() < 0) {
-            throw new BusinessLogicException("El costo del transporte es invalido: (TransporteLogic) " + transporteEntity.getCosto());
-        }
-        if (transporteEntity.getDestino() == null) {
-            throw new BusinessLogicException("El destino ingresado es invalido: (TransporteLogic)" + transporteEntity.getDestino());
-        }
-        if (transporteEntity.getNumeroDias() < 0 && transporteEntity.getNumeroMinutos() < 0 && transporteEntity.getNumeroHoras() < 0 ) {
-            throw new BusinessLogicException("La duracion de viaje es invalida (TransporteLogic), numero dias: "
-                    + "" + transporteEntity.getNumeroDias() + " numero horas: " + transporteEntity.getNumeroHoras() 
-                    + " numero minutos: " + transporteEntity.getNumeroMinutos()); 
-        }
         persistence.create(transporteEntity);
         LOGGER.log(Level.INFO, "Termina proceso de creación del transporte");
         return transporteEntity;
@@ -115,9 +100,9 @@ public class TransporteTerrestreLogic {
         if (transporteEntity.getDestino() == null) {
             throw new BusinessLogicException("El destino ingresado es invalido: (TransporteLogicUP)" );
         }
-        if (transporteEntity.getNumeroDias() < 0 && transporteEntity.getNumeroMinutos() < 0 && transporteEntity.getNumeroHoras() < 0 ) {
-            throw new BusinessLogicException("La duracion de viaje es invalida (TransporteLogicUP)"); 
-        }
+//        if (transporteEntity.getNumeroDias() < 0 && transporteEntity.getNumeroMinutos() < 0 && transporteEntity.getNumeroHoras() < 0 ) {
+//            throw new BusinessLogicException("La duracion de viaje es invalida (TransporteLogicUP)"); 
+//        }
         TransporteTerrestreEntity transporte = persistence.update(transporteEntity); 
         LOGGER.log(Level.INFO, "Termina proceso de actualizar el transporte con id = {0}", transporteEntity.getId());
         return transporte; 

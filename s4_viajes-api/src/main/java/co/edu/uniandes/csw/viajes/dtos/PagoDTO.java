@@ -5,7 +5,6 @@
  */
 package co.edu.uniandes.csw.viajes.dtos;
 
-import co.edu.uniandes.csw.viajes.entities.ComboEntity;
 import co.edu.uniandes.csw.viajes.entities.PagoEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -13,13 +12,12 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  *
- * @author estudiante
+ * @author Juan Diego Barrios
  */
 public class PagoDTO {
    
-    private ReservaDTO aPagar;
     private Long id;
-    private boolean pagaConTarjeta;
+    private ReservaDTO aPagar;
     private String tarjeta;
     private long idReservaAPagar;
     
@@ -40,7 +38,6 @@ public class PagoDTO {
             else
                 aPagar=null;
             id=pagoEntity.getId();
-            pagaConTarjeta=pagoEntity.isPagaConTarjeta();
             tarjeta=pagoEntity.getTarjeta();
         }
     }
@@ -59,14 +56,6 @@ public class PagoDTO {
 
     public void setPagoId(Long pagoId) {
         this.id = pagoId;
-    }
-
-    public boolean isPagaConTarjeta() {
-        return pagaConTarjeta;
-    }
-
-    public void setPagaConTarjeta(boolean pagaConTarjeta) {
-        this.pagaConTarjeta = pagaConTarjeta;
     }
 
     public String getTarjeta() {
@@ -93,10 +82,9 @@ public class PagoDTO {
       public PagoEntity toEntity() throws BusinessLogicException, Exception 
     {
         PagoEntity pagoEntity = new PagoEntity();
-        pagoEntity.setPagaConTarjeta(pagaConTarjeta);
         pagoEntity.setIdReservaAPagar(idReservaAPagar);
-        if(pagaConTarjeta)
-            pagoEntity.setTarjeta(tarjeta);
+        pagoEntity.setTarjeta(tarjeta);
+        
         return pagoEntity; 
     }
       

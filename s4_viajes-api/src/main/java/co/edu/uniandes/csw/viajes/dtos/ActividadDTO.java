@@ -15,67 +15,22 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  *
  * @author Juan Esteban Cantor
  */
-public class ActividadDTO implements Serializable{
+public class ActividadDTO extends ServicioDTO implements Serializable{
     
-    private Long identificador;
-    private String nombreActividad;
-    private int costo;
-    private int puntuacion;
-    private int duracion;
-    private double latitud;
-    private double longitud;
+  
     private ActividadEntity actividad;
     
     public ActividadDTO(){}
     
     public ActividadDTO(ActividadEntity actividadEntity) {
-        if (actividadEntity != null)
-        {
-            this.identificador = actividadEntity.getIdentificador();
-            this.costo = actividadEntity.getCosto();
-            this.nombreActividad = actividadEntity.getNombreActividad();
-            this.puntuacion = actividadEntity.getPuntuacion();
-            this.duracion = actividadEntity.getDuracion();
-            this.latitud = actividadEntity.getLatitud();
-            this.longitud = actividadEntity.getLongitud();
-        }
+            super(actividadEntity);  
     }
-    
-    public Long getId() {return identificador;}   
-    public String getNombreActividad() {return nombreActividad;}
-    public int getCosto(){return costo;}
-    public Long getIdentificador(){return identificador;}
-    
-    public int getPuntuacion(){return puntuacion;}
-    public int getDuracion(){return duracion;}
-    public double getLatitud(){return latitud;}
-    public double getLongitud(){return longitud;}
-    
-    public void setNombreActividad (String nomActividad) {this.nombreActividad = nomActividad;}
-    public void setCosto(int costo){this.costo = costo;}
-    public void setIdentificador (Long id){this.identificador = id;}
-    
-    public void setPuntuacion(int puntuacion){this.puntuacion = puntuacion;}
-    public void setDuracion(int duracion){this.duracion = duracion;}
-    public void setLatitud(double lat){this.latitud = lat;}
-    public void setLongitud(double lon){this.longitud = lon;}
-    
+
     public ActividadEntity toEntity() {
-        ActividadEntity actividadEntity = new ActividadEntity();
-        actividadEntity.setIdentificador(this.identificador);
-        actividadEntity.setCosto(this.costo);
-        actividadEntity.setDuracion(this.duracion);
-        actividadEntity.setLatitud(this.latitud);
-        actividadEntity.setLongitud(this.longitud);
-        actividadEntity.setPuntuacion(this.puntuacion);
-        actividadEntity.setNombreActividad(this.nombreActividad);
-        
+        ActividadEntity actividadEntity =(ActividadEntity) super.toEntity();
         return actividadEntity;
     }
 
-    @Override
-    public String toString() {
-        return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
-    }
+
     
 }

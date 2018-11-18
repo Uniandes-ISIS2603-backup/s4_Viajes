@@ -7,9 +7,6 @@ package co.edu.uniandes.csw.viajes.dtos;
 
 import co.edu.uniandes.csw.viajes.entities.VueloEntity;
 import java.io.Serializable;
-import java.sql.Date;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  * /**
@@ -43,21 +40,9 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  *
  * @author Juan Felipe Torres
  */
-public class VueloDTO implements Serializable {
+public class VueloDTO extends TransporteDTO implements Serializable {
 
-    //Atributos//
-    private Long id;
-    private String numero;
-    private double costo;
-    private double puntuacion;
-    private double latitudOrigen;
-    private double longitudOrigen;
-    private double latitudDestino;
-    private double longitudDestino;
-    private Date fechaSalida;
-    private Date fechaLlegada;
-
-    //Constructores//
+   
     
     /**
      * Constructor por defecto
@@ -73,229 +58,15 @@ public class VueloDTO implements Serializable {
      * @param vueloEntity: Es la entidad que se va a convertir a DTO
      */
     public VueloDTO(VueloEntity vueloEntity) {
-        if (vueloEntity != null) {
-            this.id = vueloEntity.getId();
-            this.numero = vueloEntity.getNumero();
-            this.costo = vueloEntity.getCosto();
-            this.puntuacion = vueloEntity.getPuntaje();
-            this.latitudOrigen = vueloEntity.getLatO();
-            this.longitudOrigen = vueloEntity.getLonO();
-            this.latitudDestino = vueloEntity.getLatD();
-            this.longitudDestino = vueloEntity.getLonD();
-            this.fechaSalida =  vueloEntity.getFechaSalida();
-            this.fechaLlegada = vueloEntity.getFechaLlegada();
-        }
+        super(vueloEntity);
     }
-
-    //Métodos//
-    
-    /**
-     * Obtiene el id de un vuelo.
-     *
-     * @return id del vuelo.
-     */
-    public Long getId() {
-        return id;
-    }
-    
-    /**
-     * Obtiene el número de un vuelo.
-     *
-     * @return número del vuelo.
-     */
-    public String getNumero() {
-        return numero;
-    }
-
-    /**
-     * Obtiene el costo de un vuelo.
-     *
-     * @return costo del vuelo.
-     */
-    public double getCosto() {
-        return costo;
-    }
-
-    /**
-     * Obtiene el puntaje de un vuelo.
-     *
-     * @return puntuación del vuelo.
-     */
-    public double getPuntuacion() {
-        return puntuacion;
-    }
-
-    /**
-     * Obtiene las coordenadas (latitud) de origen del vuelo
-     *
-     * @return coordenadas (lat) de origen del vuelo.
-     */
-    public double getLatitudOrigen() {
-        return latitudOrigen;
-    }
-
-    /**
-     * Obtiene las coordenadas (longitud) de origen del vuelo
-     *
-     * @return coordenadas (long) de origen del vuelo.
-     */    
-    public double getLongitudOrigen(){
-        return longitudOrigen;
-    }
-
-    /**
-     * Obtiene las coordenadas (latitud) de destino del vuelo
-     *
-     * @return coordenadas (lat) de destino del vuelo.
-     */
-    public double getLatitudDestino() {
-        return latitudDestino;
-    }
-    
-    /**
-     * Obtiene las coordenadas (longitud) de destino del vuelo
-     *
-     * @return coordenadas (long) de destino del vuelo.
-     */    
-    public double getLongitudDestino(){
-        return longitudDestino;
-    }
-    
-    /**
-     * Obtiene la fecha de salida del vuelo.
-     *
-     * @return fecha de salida del vuelo.
-     */    
-    public Date getFechaSalida(){
-        return fechaSalida;
-    }
-
-    /**
-     * Obtiene la fecha de llegada del vuelo.
-     *
-     * @return fecha de llegada del vuelo.
-     */    
-    public Date getFechaLlegada(){
-        return fechaLlegada;
-    }
-    /**
-     * Modifica (set) el id de un vuelo ingresado por parámetro.
-     *
-     * @param pId nuevo id que modificará el actual.
-     */
-    public void setId(Long pId) {
-        id = pId;
-    }
-    
-    /**
-     * Modifica (set) el número de un vuelo ingresado por parámetro.
-     *
-     * @param pNumero nuevo número que modificará el actual.
-     */
-    public void setNumero(String pNumero) {
-        numero = pNumero;
-    }
-
-    /**
-     * Modifica (set) el costo de un vuelo ingresado por parámetro.
-     *
-     * @param pCosto nuevo costo que modificará el actual.
-     */
-    public void setCosto(double pCosto) {
-        costo = pCosto;
-    }
-
-    /**
-     * Modifica (set) la puntuación de un vuelo ingresada por parámetro.
-     *
-     * @param pPuntaje nueva puntuación que modificará la actual.
-     */
-    public void setPuntuacion(double pPuntaje) {
-        puntuacion = pPuntaje;
-    }
-
-    /**
-     * Modifica (set) las coordenadas (lat,long) de origen ingresadas por
-     * parámetro.
-     *
-     * @param pLatO nuevas coordenadas de origen que modificarán las actuales.
-     */
-    public void setLatitudOrigen(double pLatO) {
-        latitudOrigen = pLatO;
-    }
-
-    /**
-     * Modifica (set) las coordenadas (long) de origen ingresadas por
-     * parámetro.
-     *
-     * @param pLonO nuevas coordenadas de origen que modificarán las actuales.
-     */    
-    public void setLongitudOrigen(double pLonO){
-        longitudOrigen = pLonO;
-    }
-
-    /**
-     * Modifica (set) las coordenadas (lat) de destino ingresadas por
-     * parámetro.
-     *
-     * @param pLatD nuevas coordenadas de destino que modificarán las actuales.
-     */
-    public void setLatitudDestino(double pLatD) {
-        latitudDestino = pLatD;
-    }
-    
-    /**
-     * Modifica (set) las coordenadas (long) de destino ingresadas por
-     * parámetro.
-     *
-     * @param pLonD nuevas coordenadas de destino que modificarán las actuales.
-     */
-    public void setLongitudDestino(double pLonD){
-        longitudDestino = pLonD;
-    }
-    
-    /**
-     * Modifica (set) la fecha de salida de vuelo ingresada por
-     * parámetro.
-     *
-     * @param pFechaS la nueva fecha de salida que modificará la actual.
-     */
-    public void setFechaSalida(Date pFechaS){
-        fechaSalida = pFechaS;
-    }
-    
-    /**
-     * Modifica (set) la fecha de llegada de vuelo ingresada por
-     * parámetro.
-     *
-     * @param pFechaL la nueva fecha de llegada que modificará la actual.
-     */
-    public void setFechaLlegada(Date pFechaL){
-        fechaLlegada = pFechaL;
-    }
-     
     /**
      * Convertir DTO a Entity
      *
      * @return Un Entity con los valores del DTO
      */
     public VueloEntity toEntity() {
-        VueloEntity vueloEntity = new VueloEntity();
-        vueloEntity.setId(this.id);
-        vueloEntity.setNumero(this.numero);
-        vueloEntity.setCosto(this.costo);
-        vueloEntity.setPuntaje(this.puntuacion);
-        vueloEntity.setLatO(this.latitudOrigen);
-        vueloEntity.setLonO(this.longitudOrigen);
-        vueloEntity.setLatD(this.latitudDestino);
-        vueloEntity.setLonD(this.longitudDestino);
-        vueloEntity.setFechaSalida(this.fechaSalida);
-        vueloEntity.setFechaLlegada(this.fechaLlegada);
-        return vueloEntity;
+        return (VueloEntity)super.toEntity();
     }
-
-    @Override
-    public String toString() {
-         return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);
-    }    
+  
 }

@@ -5,11 +5,7 @@
  */
 package co.edu.uniandes.csw.viajes.ejb;
 
-import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
-import co.edu.uniandes.csw.viajes.entities.AlojamientoEntity;
 import co.edu.uniandes.csw.viajes.entities.ProveedorEntity;
-import co.edu.uniandes.csw.viajes.entities.TransporteTerrestreEntity;
-import co.edu.uniandes.csw.viajes.entities.VueloEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.ProveedorPersistence;
 import java.util.List;
@@ -155,23 +151,12 @@ public class ProveedorLogic {
     public void deleteProveedor(Long proveedorId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de borrar elproveedor con id = {0}", proveedorId);
         // Note que, por medio de la inyección de dependencias se llama al método "delete(id)" que se encuentra en la persistencia.
-        List<VueloEntity> vuelos = getProveedor(proveedorId).getVuelos();
-        if (vuelos != null && !vuelos.isEmpty()) {
-            throw new BusinessLogicException("No se puede borrar el proveedor con id = " + proveedorId + " porque tiene vuelos asociados");
-        }
-        List<TransporteTerrestreEntity> transportes = getProveedor(proveedorId).getTransportes();
-        if (transportes != null && !transportes.isEmpty()) {
-            throw new BusinessLogicException("No se puede borrar el proveedor con id = " + proveedorId + " porque tiene transportes asociados");
-        }
-                // Note que, por medio de la inyección de dependencias se llama al método "delete(id)" que se encuentra en la persistencia.
-        List<ActividadEntity> actividades = getProveedor(proveedorId).getActividades();
-        if (actividades != null && !actividades.isEmpty()) {
-            throw new BusinessLogicException("No se puede borrar el proveedor con id = " + proveedorId + " porque tiene actividades asociados");
-        }
-                List<AlojamientoEntity> alojamientos = getProveedor(proveedorId).getAlojamientos();
-        if (alojamientos != null && !alojamientos.isEmpty()) {
-            throw new BusinessLogicException("No se puede borrar el proveedor con id = " + proveedorId + " porque tiene alojamientos asociados");
-        }
+        ProveedorEntity proveedor=getProveedor(proveedorId);
+        if(proveedor==null)
+            throw new BusinessLogicException("No existe el proveedor con id \"" + proveedorId + "\"");
+        if(proveedor.getIdsServicios().size()>0)
+            throw new BusinessLogicException("No se puee eliminar el proveedor con id \"" + proveedorId + "\" ya que tiene servicios asociados");
+
         persistence.delete(proveedorId);
         LOGGER.log(Level.INFO, "Termina proceso de borrar el proveedor con id = {0}", proveedorId);
     }

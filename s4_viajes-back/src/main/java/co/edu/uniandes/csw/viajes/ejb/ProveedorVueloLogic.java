@@ -5,11 +5,14 @@
  */
 package co.edu.uniandes.csw.viajes.ejb;
 
+import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
 import co.edu.uniandes.csw.viajes.entities.ProveedorEntity;
+import co.edu.uniandes.csw.viajes.entities.ServicioEntity;
 import co.edu.uniandes.csw.viajes.entities.VueloEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.ProveedorPersistence;
 import co.edu.uniandes.csw.viajes.persistence.VueloPersistence;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,14 +42,35 @@ public class ProveedorVueloLogic {
      * vuelo.
      * @return El vuelo agregado al proveedor.
      */
-    public VueloEntity addVuelo(Long vueloId, Long proveedorId) {
-        LOGGER.log(Level.INFO, "Inicia proceso de agregarle un vuelo al proveedor con id = {0}", proveedorId);
+    public ProveedorEntity addVuelo(Long vueloId, Long proveedorId) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "Inicia proceso de agregarle una actividad al proveedor con id = {0}", proveedorId);
         ProveedorEntity proveedorEntity = proveedorPersistence.find(proveedorId);
         VueloEntity vueloEntity = vueloPersistence.find(vueloId);
-        vueloEntity.setProveedor(proveedorEntity);
-        proveedorEntity.getVuelos().add(vueloEntity);
-        LOGGER.log(Level.INFO, "Termina proceso de agregarle un vuelo al proveedor con id = {0}", proveedorId);
-        return vueloEntity;
+        if(proveedorEntity==null)
+            throw new BusinessLogicException("El proveedor con id "+proveedorId +" no existe");
+        if(vueloEntity==null)
+            throw new BusinessLogicException("EL vuelo con id "+vueloId +" no existe");
+        
+         for(long idServicio : proveedorEntity.getIdsServicios())
+            if(vueloId == idServicio)
+                throw new BusinessLogicException("El combo ya tiene asignada un vuelo con id " + vueloId +".");
+            else
+            {
+                ServicioEntity vuelo = vueloPersistence.find(idServicio);
+               if(vuelo==null)
+                   {
+                       //No era un vuelo
+                   }
+               else
+                    proveedorEntity.addServicio(vuelo);
+            } 
+        proveedorEntity.addIdServicio(vueloId);
+        proveedorEntity.addServicioFirst(vueloEntity);
+
+        proveedorPersistence.update(proveedorEntity);
+
+        LOGGER.log(Level.INFO, "Termina proceso de agregarle una actividad al proveedor con id = {0}", proveedorId);
+        return proveedorEntity;
     }
     
     /**
@@ -55,9 +79,24 @@ public class ProveedorVueloLogic {
      * @param proveedorId El ID del proveedor buscado
      * @return La lista de vuelos del proveedor
      */
-    public List<VueloEntity> getVuelos(Long proveedorId) {
-        LOGGER.log(Level.INFO, "Inicia proceso de consultar los vuelos asociados al proveedor con id = {0}", proveedorId);
-        return proveedorPersistence.find(proveedorId).getVuelos();
+    public List<VueloEntity> getVuelos(Long proveedorId) throws BusinessLogicException {
+      LOGGER.log(Level.INFO, "Inicia proceso de consultar los vuelos asociados al proveedor con id = {0}", proveedorId);
+        ProveedorEntity proveedorEntity = proveedorPersistence.find(proveedorId);
+        if(proveedorEntity==null)
+            throw new BusinessLogicException("El proveedor con id "+proveedorId +" no existe");
+        List<VueloEntity> vuelos=new ArrayList<>();
+        for(long idServicio : proveedorEntity.getIdsServicios())   
+        {
+            VueloEntity vuelo = vueloPersistence.find(idServicio);
+            if(vuelo==null)
+               {
+                  //No era una actividad
+               }
+            else
+                vuelos.add(vuelo);
+        }
+        
+        return vuelos;
     }
     
         /**
@@ -70,37 +109,20 @@ public class ProveedorVueloLogic {
      */
     public VueloEntity getVuelo(Long proveedorId, Long vueloId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar el vuelo con id = {0} del proveedor con id = " + proveedorId, vueloId);
-        List<VueloEntity> vuelos = proveedorPersistence.find(proveedorId).getVuelos();
-        VueloEntity vueloEntity = vueloPersistence.find(vueloId);
-        int index = vuelos.indexOf(vueloEntity);
-        LOGGER.log(Level.INFO, "Termina proceso de consultar el vuelo con id = {0} del proveedor con id = " + proveedorId, vueloId);
-        if (index >= 0) {
-            return vuelos.get(index);
-        }
-        throw new BusinessLogicException("El vuelo no está asociado al proveedor");
+        ProveedorEntity proveedorEntity = proveedorPersistence.find(proveedorId);
+        if(proveedorEntity==null)
+            throw new BusinessLogicException("El proveedor con id "+proveedorId +" no existe");
+        VueloEntity vuelo=null;
+        for(long idServicio : proveedorEntity.getIdsServicios())   
+            if(vueloId==idServicio){
+                vuelo = vueloPersistence.find(vueloId);
+                break;
+            }      
+        if(vuelo==null)
+            throw new BusinessLogicException("El proveedor con id "+proveedorId +" no tiene la actividad con id "+vueloId);
+        LOGGER.log(Level.INFO, "Termina proceso de consultar la actividad con id = {0} del proveedor con id = " + proveedorId, vueloId); 
+        return vuelo;
     }
 
-    /**
-     * Remplazar vuelos de un proveedor
-     *
-     * @param vuelos Lista de vuelos que serán los del proveedor.
-     * @param proveedorId El id del proveedor que se quiere actualizar.
-     * @return La lista de vuelos actualizada.
-     */
-    public List<VueloEntity> replaceVuelos(Long proveedorId, List<VueloEntity> vuelos) {
-        LOGGER.log(Level.INFO, "Inicia proceso de actualizar el proveedor con id = {0}", proveedorId);
-        ProveedorEntity proveedorEntity = proveedorPersistence.find(proveedorId);
-        List<VueloEntity> vueloList = vueloPersistence.findAll();
-        for (VueloEntity vuelo : vueloList) {
-            if (vuelos.contains(vuelo)) {
-                vuelo.setProveedor(proveedorEntity);
-            } else if (vuelo.getProveedor() != null && vuelo.getProveedor().equals(proveedorEntity)) {
-                vuelo.setProveedor(null);
-            }
-        }
-        proveedorEntity.setVuelos(vuelos);
-        LOGGER.log(Level.INFO, "Termina proceso de actualizar el proveedor con id = {0}", proveedorId);
-        return vuelos;
-    }
     
 }

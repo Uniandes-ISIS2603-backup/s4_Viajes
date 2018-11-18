@@ -8,7 +8,6 @@ package co.edu.uniandes.csw.viajes.resources;
 import co.edu.uniandes.csw.viajes.dtos.TransporteTerrestreDTO;
 import co.edu.uniandes.csw.viajes.ejb.ProveedorLogic;
 import co.edu.uniandes.csw.viajes.ejb.TransporteTerrestreLogic;
-import co.edu.uniandes.csw.viajes.ejb.TransporteTerrestreProveedorLogic;
 import co.edu.uniandes.csw.viajes.entities.TransporteTerrestreEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import java.util.ArrayList;
@@ -45,8 +44,6 @@ public class TransporteTerrestreResource {
     @Inject
     private ProveedorLogic proveedorLogic;
 
-    @Inject
-    private TransporteTerrestreProveedorLogic transporteProveedorLogic;
 
     /**
      * Crea un nuevo transporte con la informacion que se recibe en el cuerpo de
@@ -161,7 +158,6 @@ public class TransporteTerrestreResource {
         if (entity == null) {
             throw new WebApplicationException("El recurso /transportes/" + transportesId + " no existe.", 404);
         }
-        transporteProveedorLogic.removeProveedor(transportesId); 
         transporteTerrestreLogic.deleteTransporte(transportesId);
         LOGGER.info("TrasnporteResource deleteTransporte: output: void");
     }

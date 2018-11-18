@@ -5,16 +5,14 @@
  */
 package co.edu.uniandes.csw.viajes.dtos;
 
+import co.edu.uniandes.csw.viajes.entities.ComboEntity;
 import co.edu.uniandes.csw.viajes.entities.EntradaEntity;
 import co.edu.uniandes.csw.viajes.entities.MedallaEntity;
 import co.edu.uniandes.csw.viajes.entities.PagoEntity;
 import co.edu.uniandes.csw.viajes.entities.UsuarioEntity;
-import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -25,17 +23,30 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class UsuarioDetailDTO extends UsuarioDTO implements Serializable {
  
     //Relación con cero o muchos pagos
-    private List<PagoDTO> pagos;
+    private List<PagoDTO> pagos= new ArrayList<>();
     
     //Relación con cero o muchas medallas
-    private List<MedallaDTO> medallas;
+    private List<MedallaDTO> medallas= new ArrayList<>();
     
     //Relación con cero o muchas entradas
-    private List<EntradaDTO> entradas;
+    private List<EntradaDTO> entradas= new ArrayList<>();
+    
+    //Relación con cero o muchos combos
+    private List<ComboDTO> combos= new ArrayList<>();
+    
+    private Long idPago;
+    
+    private Long idMedalla;
+
+    private Long idEntrada;
+
+    private Long idCombo;
+
+    
 
     public UsuarioDetailDTO()
     {
-        super();
+        super();        
     }
     
      /**
@@ -49,21 +60,14 @@ public class UsuarioDetailDTO extends UsuarioDTO implements Serializable {
     public UsuarioDetailDTO(UsuarioEntity usuarioEntity) {
         super(usuarioEntity);
         if (usuarioEntity != null) {
-            pagos = new ArrayList<>();
             for(PagoEntity entityPagos: usuarioEntity.getPagos())
-            {
-                pagos.add(new PagoDTO(entityPagos));
-            }
-            medallas = new ArrayList<>();
+                 pagos.add(new PagoDTO(entityPagos));
             for(MedallaEntity entityMedallas: usuarioEntity.getMedallas())
-            {
                 medallas.add(new MedallaDTO(entityMedallas));
-            }
-            entradas = new ArrayList<>();
             for(EntradaEntity entityEntradas: usuarioEntity.getEntradas())
-            {
-                entradas.add(new EntradaDTO(entityEntradas));
-            }
+                 entradas.add(new EntradaDTO(entityEntradas));
+            for(ComboEntity entityCombos: usuarioEntity.getCombos())
+               combos.add(new ComboDTO(entityCombos));           
         }  
         
     }
@@ -78,37 +82,14 @@ public class UsuarioDetailDTO extends UsuarioDTO implements Serializable {
     @Override
     public UsuarioEntity toEntity() {
         UsuarioEntity usuarioEntity = super.toEntity();
-        if (pagos != null) {
-            List<PagoEntity> pagosEntity = new ArrayList<>();
-            for (PagoDTO dtoPago : pagos) {
-                try {
-                    pagosEntity.add(dtoPago.toEntity());
-                } catch (BusinessLogicException ex) {
-                    Logger.getLogger(UsuarioDetailDTO.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (Exception ex) {
-                    Logger.getLogger(UsuarioDetailDTO.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-            usuarioEntity.setPagos(pagosEntity);
-        }
-        if (medallas != null) {
-            List<MedallaEntity> medallasEntity = new ArrayList<>();
-            for (MedallaDTO dtoMedalla : medallas) {
-                medallasEntity.add(dtoMedalla.toEntity());
-
-            }
-            usuarioEntity.setMedallas(medallasEntity);
-        }
-        
-        if (entradas != null) {
-            List<EntradaEntity> entradasEntity = new ArrayList<>();
-            for (EntradaDTO dtoEntrada : entradas) {
-                entradasEntity.add(dtoEntrada.toEntity());
-
-            }
-            usuarioEntity.setEntradas(entradasEntity);
-        }
-     
+        if(idCombo!=null&&idCombo!=0l)
+            usuarioEntity.addIdCombo(idCombo);
+        if(idEntrada!=null&&idEntrada!=0l)
+            usuarioEntity.addIdCombo(idEntrada);
+        if(idMedalla!=null&&idMedalla!=0l)
+            usuarioEntity.addIdCombo(idMedalla);
+        if(idPago!=null&&idPago!=0l)
+             usuarioEntity.addIdCombo(idPago);
         return usuarioEntity;
     }
     
@@ -117,7 +98,6 @@ public class UsuarioDetailDTO extends UsuarioDTO implements Serializable {
      *
      * @return los pagos
      */
-
     public List<PagoDTO> getPagos() {
         return pagos;
     }
@@ -167,6 +147,14 @@ public class UsuarioDetailDTO extends UsuarioDTO implements Serializable {
 
     public void setEntradas(List<EntradaDTO> entradas) {
         this.entradas = entradas;
+    }
+
+    public List<ComboDTO> getCombos() {
+        return combos;
+    }
+
+    public void setCombos(List<ComboDTO> combos) {
+        this.combos = combos;
     }
 
     

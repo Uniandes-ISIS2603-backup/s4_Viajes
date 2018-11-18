@@ -6,6 +6,7 @@
 package co.edu.uniandes.csw.viajes.resources;
 
 import co.edu.uniandes.csw.viajes.dtos.MedallaDTO;
+import co.edu.uniandes.csw.viajes.dtos.UsuarioDTO;
 import co.edu.uniandes.csw.viajes.ejb.MedallaLogic;
 import co.edu.uniandes.csw.viajes.ejb.UsuarioMedallasLogic;
 import co.edu.uniandes.csw.viajes.entities.MedallaEntity;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -30,8 +32,10 @@ import javax.ws.rs.core.MediaType;
  *
  * @author Luis Gómez Amado
  */
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
+@Path("usuarios/{usuarioId: \\d+}/medallas")
+@Consumes("application/json")
+@Produces("application/json")
+@RequestScoped 
 public class UsuarioMedallasResource {
     
      private static final Logger LOGGER = Logger.getLogger(UsuarioMedallasResource.class.getName());
@@ -46,7 +50,7 @@ public class UsuarioMedallasResource {
      * Guarda una medalla dentro de un usuario con la informacion que recibe el
      * la URL. Se devuelve la medalla que se guarda en el usuario.
      *
-     * @param usuariosId Identificador del usuario que se esta
+     * @param usuarioId Identificador del usuario que se esta
      * actualizando. Este debe ser una cadena de caracteres.
      * @param idMedalla Identificador de la medalla que se desea guardar. Este debe
      * ser una cadena de dígitos.
@@ -56,14 +60,12 @@ public class UsuarioMedallasResource {
      */
     @POST
     @Path("{idMedalla: \\d+}")
-    public MedallaDTO addMedalla(@PathParam("usuariosId") Long usuariosId, @PathParam("idMedalla") Long idMedalla) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "UsuarioMedallasResource addMedalla: input: usuariosId: {0} , idMedalla: {1}", new Object[]{usuariosId, idMedalla});
-        if (medallaLogic.getMedalla(idMedalla) == null) {
-            throw new WebApplicationException("El recurso /medallas/" + idMedalla + " no existe.", 404);
-        }
-        MedallaDTO medallaDTO = new MedallaDTO(usuarioMedallasLogic.addMedalla(idMedalla, usuariosId));
-        LOGGER.log(Level.INFO, "UsuarioMedallasResource addMedalla: output: {0}", medallaDTO.toString());
-        return medallaDTO;
+    public UsuarioDTO addMedalla(@PathParam("usuarioId") Long usuarioId, @PathParam("idMedalla") Long idMedalla) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "UsuarioMedallasResource addMedalla: input: usuarioId: {0} , idMedalla: {1}", new Object[]{usuarioId, idMedalla});
+        
+        UsuarioDTO usuarioDTO = new UsuarioDTO(usuarioMedallasLogic.addMedalla(idMedalla, usuarioId));
+        LOGGER.log(Level.INFO, "UsuarioMedallasResource addMedalla: output: {0}", usuarioDTO.toString());
+        return usuarioDTO;
     }
      
     /**
@@ -75,9 +77,9 @@ public class UsuarioMedallasResource {
      * usuario. Si no hay ninguno retorna una lista vacía.
      */
     @GET
-    public List<MedallaDTO> getMedallas(@PathParam("usuariosId") Long usuariosId) {
-        LOGGER.log(Level.INFO, "UsuarioMedallasResource getMedallas: input: {0}", usuariosId);
-        List<MedallaDTO> listaDTOs = medallasListEntity2DTO(usuarioMedallasLogic.getMedallas(usuariosId));
+    public List<MedallaDTO> getMedallas(@PathParam("usuarioId") Long usuarioId) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "UsuarioMedallasResource getMedallas: input: {0}", usuarioId);
+        List<MedallaDTO> listaDTOs = medallasListEntity2DTO(usuarioMedallasLogic.getMedallas(usuarioId));
         LOGGER.log(Level.INFO, "UsuarioMedallasResource getMedallas: output: {0}", listaDTOs.toString());
         return listaDTOs;
     }
@@ -85,7 +87,7 @@ public class UsuarioMedallasResource {
         /**
      * Busca y devuelve la medalla con el numero dado por parametro si la tiene un usuario.
      *
-     * @param usuariosId Identificador del usuario que se esta
+     * @param usuarioId Identificador del usuario que se esta
      * actualizando. Este debe ser una cadena de caracteres.
      * @param idMedalla Identificador de la medalla que se desea guardar. Este debe
      * ser una cadena de dígitos.
@@ -93,41 +95,38 @@ public class UsuarioMedallasResource {
      * usuario. Si no hay ninguno retorna una lista vacía.
      */
     @GET
-    @Path("{numero: \\d+}")
-    public MedallaDTO getMedalla(@PathParam("usuariosId") Long usuariosId, @PathParam("numero") Long idMedalla) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "UsuarioMedallasResource getMedalla: input: usuariosID: {0} , idMedalla: {1}", new Object[]{usuariosId, idMedalla});
-        if (medallaLogic.getMedalla(idMedalla) == null) {
-            throw new WebApplicationException("El recurso /usuarios/" + usuariosId + "/medallas/" + idMedalla + " no existe.", 404);
-        }
-        MedallaDTO medallaDTO = new MedallaDTO(usuarioMedallasLogic.getMedalla(usuariosId, idMedalla));
+    @Path("{idMedalla: \\d+}")
+    public MedallaDTO getMedalla(@PathParam("usuarioId") Long usuarioId, @PathParam("idMedalla") Long idMedalla) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "UsuarioMedallasResource getMedalla: input: usuariosID: {0} , idMedalla: {1}", new Object[]{usuarioId, idMedalla});
+        MedallaDTO medallaDTO = new MedallaDTO(usuarioMedallasLogic.getMedalla(usuarioId, idMedalla));
         LOGGER.log(Level.INFO, "UsuarioMedallasResource getMedalla: output: {0}", medallaDTO.toString());
         return medallaDTO;
     }
     
-        /**
-     * Remplaza las instancias de Medalla asociadas a una instancia de Usuario
-     *
-     * @param usuariosId Identificador del usuario en el que se esta
-     * remplazando. Este debe ser una cadena de dígitos.
-     * @param medallas JSONArray {@link MedallaDTO} El arreglo de medallas nuevo para la
-     * usuario.
-     * @return JSON {@link MedallaDTO} - El arreglo de medallas guardado en la
-     * usuario.
-     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
-     * Error de lógica que se genera cuando no se encuentra el libro.
-     */
-    @PUT
-    public List<MedallaDTO> replaceMedallas(@PathParam("usuariosId") Long usuariosId, List<MedallaDTO> medallas) {
-        LOGGER.log(Level.INFO, "UsuarioMedallasResource replaceMedallas: input: usuariosId: {0} , medallas: {1}", new Object[]{usuariosId, medallas.toString()});
-        for (MedallaDTO medalla : medallas) {
-            if (medallaLogic.getMedalla(medalla.getId()) == null) {
-                throw new WebApplicationException("El recurso /medallas/" + medalla.getId() + " no existe.", 404);
-            }
-        }
-        List<MedallaDTO> listaDetailDTOs = medallasListEntity2DTO(usuarioMedallasLogic.replaceMedallas(usuariosId, medallasListDTO2Entity(medallas)));
-        LOGGER.log(Level.INFO, "UsuarioMedallasResource replaceMedallas: output: {0}", listaDetailDTOs.toString());
-        return listaDetailDTOs;
-    }
+//        /**
+//     * Remplaza las instancias de Medalla asociadas a una instancia de Usuario
+//     *
+//     * @param usuarioId Identificador del usuario en el que se esta
+//     * remplazando. Este debe ser una cadena de dígitos.
+//     * @param medallas JSONArray {@link MedallaDTO} El arreglo de medallas nuevo para la
+//     * usuario.
+//     * @return JSON {@link MedallaDTO} - El arreglo de medallas guardado en la
+//     * usuario.
+//     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
+//     * Error de lógica que se genera cuando no se encuentra el libro.
+//     */
+//    @PUT
+//    public List<MedallaDTO> replaceMedallas(@PathParam("usuarioId") Long usuarioId, List<MedallaDTO> medallas) {
+//        LOGGER.log(Level.INFO, "UsuarioMedallasResource replaceMedallas: input: usuariosId: {0} , medallas: {1}", new Object[]{usuarioId, medallas.toString()});
+//        for (MedallaDTO medalla : medallas) {
+//            if (medallaLogic.getMedalla(medalla.getId()) == null) {
+//                throw new WebApplicationException("El recurso /medallas/" + medalla.getId() + " no existe.", 404);
+//            }
+//        }
+//        List<MedallaDTO> listaDetailDTOs = medallasListEntity2DTO(usuarioMedallasLogic.replaceMedallas(usuarioId, medallasListDTO2Entity(medallas)));
+//        LOGGER.log(Level.INFO, "UsuarioMedallasResource replaceMedallas: output: {0}", listaDetailDTOs.toString());
+//        return listaDetailDTOs;
+//    }
     
     /**
      * Convierte una lista de MedallaEntity a una lista de MedallaDetailDTO.

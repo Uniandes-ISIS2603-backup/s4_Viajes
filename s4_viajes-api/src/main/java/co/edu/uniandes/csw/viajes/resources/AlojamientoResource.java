@@ -154,7 +154,7 @@ public class AlojamientoResource {
         if (alojamientoEntity == null) {
             throw new WebApplicationException("El recurso /alojamientos/" + alojamientosId + " no existe.", 404);
         }
-        alojamientoProveedorLogic.removeProveedor(alojamientosId); 
+//        alojamientoProveedorLogic.removeProveedor(alojamientosId); 
         alojamientoLogic.deleteAlojamiento(alojamientosId);
         LOGGER.info("AlojamientoResource deleteAlojamiento: output: void");
     }
