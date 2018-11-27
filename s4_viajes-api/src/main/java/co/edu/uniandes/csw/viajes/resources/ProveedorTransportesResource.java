@@ -6,6 +6,7 @@
 package co.edu.uniandes.csw.viajes.resources;
 
 import co.edu.uniandes.csw.viajes.dtos.ProveedorDTO;
+import co.edu.uniandes.csw.viajes.dtos.ProveedorDetailDTO;
 import co.edu.uniandes.csw.viajes.dtos.TransporteTerrestreDTO;
 import co.edu.uniandes.csw.viajes.ejb.ProveedorTransportesTerrestresLogic;
 import co.edu.uniandes.csw.viajes.ejb.TransporteTerrestreLogic;
@@ -60,10 +61,17 @@ public class ProveedorTransportesResource {
      */
     @POST
     @Path("{transporteTerrestreId: \\d+}")
-    public ProveedorDTO addTransporte(@PathParam("proveedorId") Long proveedorId, @PathParam("transporteTerrestreId") Long transporteTerrestreId) throws BusinessLogicException {
+    public ProveedorDetailDTO addTransporte(@PathParam("proveedorId") Long proveedorId, @PathParam("transporteTerrestreId") Long transporteTerrestreId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "ProveedorTransportesResource addTransporte: input: proveedoresID: {0} , transportesId: {1}", new Object[]{proveedorId, transporteTerrestreId});
-        ProveedorDTO proveedorDTO = new ProveedorDTO(proveedorTransportesLogic.addTransporteTerrestre(transporteTerrestreId, proveedorId));
+        ProveedorDetailDTO proveedorDTO = new ProveedorDetailDTO(proveedorTransportesLogic.addTransporteTerrestre(transporteTerrestreId, proveedorId));
         LOGGER.log(Level.INFO, "ProveedorTransportesResource addTransporte: output: {0}", proveedorDTO.toString());
+        return proveedorDTO;
+    }
+    
+    @POST
+    public ProveedorDetailDTO createTransporte(@PathParam("proveedorId") Long proveedorId,TransporteTerrestreDTO transporteT) throws BusinessLogicException {
+        
+        ProveedorDetailDTO proveedorDTO = new ProveedorDetailDTO(proveedorTransportesLogic.addTransporteTerrestre((transporteLogic.createTransporte(transporteT.toEntity())).getId(), proveedorId));
         return proveedorDTO;
     }
     

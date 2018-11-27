@@ -54,16 +54,7 @@ public class ProveedorTransportesTerrestresLogic {
          for(long idServicio : proveedorEntity.getIdsServicios())
             if(transporteTerrestreId == idServicio)
                 throw new BusinessLogicException("El combo ya tiene asignada una actividad con id " + transporteTerrestreId +".");
-            else
-            {
-                ServicioEntity actividad = transporteTerrestrePersistence.find(idServicio);
-               if(actividad==null)
-                   {
-                       //No era una actividad
-                   }
-               else
-                    proveedorEntity.addServicio(actividad);
-            } 
+          
         proveedorEntity.addIdServicio(transporteTerrestreId);
         proveedorEntity.addServicioFirst(transporteTerrestreEntity);
 

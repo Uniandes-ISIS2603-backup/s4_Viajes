@@ -71,10 +71,8 @@ public class ProveedorAlojamientosResource {
     @POST
     public ProveedorDetailDTO createAlojamiento( @PathParam("proveedorId") Long proveedorId,AlojamientoDTO alojamiento) throws BusinessLogicException  {      
         LOGGER.log(Level.INFO, "AlojamientoResource createAlojamiento: input: {0}", alojamiento.toString());
-        AlojamientoDTO nuevoAlojamientoDTO = new AlojamientoDTO(alojamientoLogic.createAlojamiento(alojamiento.toEntity()));
                 
         ProveedorDetailDTO proveedorDTO = new ProveedorDetailDTO(proveedorAlojamientosLogic.addAlojamiento((alojamientoLogic.createAlojamiento(alojamiento.toEntity())).getId(), proveedorId));
-        LOGGER.log(Level.INFO, "AlojamientoResource createAlojamiento: output: {0}", nuevoAlojamientoDTO.toString());
         return proveedorDTO; 
     }
     /**
