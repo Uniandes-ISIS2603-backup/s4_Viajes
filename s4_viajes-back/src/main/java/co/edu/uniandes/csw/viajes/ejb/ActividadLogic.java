@@ -9,6 +9,7 @@ import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
 import co.edu.uniandes.csw.viajes.entities.GuiaEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.ActividadPersistence;
+import co.edu.uniandes.csw.viajes.persistence.GuiaPersistence;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,6 +28,8 @@ public class ActividadLogic extends ServicioLogic{
     @Inject
     private ActividadPersistence persistence; // Variable para acceder a la persistencia de la aplicación. Es una inyección de dependencias.
 
+     @Inject
+    private GuiaPersistence guiaPersistence; 
     /**
      * Crea una actividad en la persistencia.
      *
@@ -68,34 +71,33 @@ public class ActividadLogic extends ServicioLogic{
         persistence.deleteAll();
     }
 
-    public ActividadEntity getActividad(Long actividadId) {
+    public ActividadEntity getActividad(Long actividadId) throws BusinessLogicException {
         
         LOGGER.log(Level.INFO, "Inicia proceso de consultar la actividad con id = {0}", actividadId);
         // Note que, por medio de la inyección de dependencias se llama al método "find(id)" que se encuentra en la persistencia.
         
         //PERSISTENCIA
         ActividadEntity actividadEntity = persistence.find(actividadId);
-        if (actividadEntity == null) {
-            LOGGER.log(Level.SEVERE, "La actividad con el id = {0} no existe", actividadId);
-        }
+        if (actividadEntity == null) 
+            throw new BusinessLogicException("No existe ninguna actividad con id "+actividadId);
+        
+         for(long idGuia : actividadEntity.getIdsGuias())
+            {
+               GuiaEntity guia = guiaPersistence.find(idGuia);
+               if(guia==null)
+                   {
+//                           throw new BusinessLogicException("El combo reserva que envio no existe");
+                    }
+               else
+                   actividadEntity.addGuia(guia);
+                          
+            } 
         LOGGER.log(Level.INFO, "Termina proceso de consultar la actividad con id = {0}", actividadId);
         return actividadEntity;
           
     }
     
-    public ActividadEntity getActividadByIdentificador(Long identificador)
-    {
-        LOGGER.log(Level.INFO, "Inicia proceso de consultar la actividad con identificador = {0}", identificador);
-        // Note que, por medio de la inyección de dependencias se llama al método "find(id)" que se encuentra en la persistencia.
-        
-        //PERSISTENCIA
-        ActividadEntity actividadEntity = persistence.findByIdentificador(identificador);
-        if (actividadEntity == null) {
-            LOGGER.log(Level.SEVERE, "La actividad con el identificador = {0} no existe", identificador);
-        }
-        LOGGER.log(Level.INFO, "Termina proceso de consultar la actividad con id = {0}", identificador);
-        return actividadEntity;
-    }
+ 
     
     public ActividadEntity modificarActividad(Long id, ActividadEntity actividadEntity)throws BusinessLogicException{
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar la actividad con id = {0}", id);

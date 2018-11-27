@@ -8,6 +8,7 @@ package co.edu.uniandes.csw.viajes.dtos;
 import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
 import co.edu.uniandes.csw.viajes.entities.GuiaEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -20,9 +21,14 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  */
 public class ActividadDetailDTO extends ActividadDTO implements Serializable {
     
-    private List <GuiaDTO> guias;
+    private List <GuiaDTO> guias=new ArrayList<>();
     
-    public ActividadDetailDTO(){}
+    private Long idGuia;
+
+    
+    public ActividadDetailDTO(){       
+        super();
+    }
     
     /**
      * Constructor para transformar un Entity a un DTO
@@ -31,13 +37,11 @@ public class ActividadDetailDTO extends ActividadDTO implements Serializable {
      */
     public ActividadDetailDTO(ActividadEntity actividadEntity) {
         super(actividadEntity);
-        if (actividadEntity != null) {
-            if (actividadEntity.getGuias() != null) {
-                guias = new LinkedList<>();
-                for (GuiaEntity entityGuia : actividadEntity.getGuias()) {
-                    guias.add(new GuiaDTO(entityGuia));
-                }
-            }
+        if (actividadEntity != null) 
+            for (GuiaEntity entityGuia : actividadEntity.getGuias()) {
+                guias.add(new GuiaDTO(entityGuia));
+                
+            
         }
     }
     
@@ -49,13 +53,9 @@ public class ActividadDetailDTO extends ActividadDTO implements Serializable {
     @Override
     public ActividadEntity toEntity() {
         ActividadEntity actividadEntity = super.toEntity();
-        if (guias != null) {
-            List<GuiaEntity> guiasEntity = new LinkedList<>();
-            for (GuiaDTO guia : guias) {
-                guiasEntity.add(guia.toEntity());
-            }
-                actividadEntity.setGuias(guiasEntity);
-        }
+        if(idGuia!=null&&idGuia!=0l)
+             actividadEntity.addIdGuia(idGuia);
+       
         return actividadEntity;
     }
 
