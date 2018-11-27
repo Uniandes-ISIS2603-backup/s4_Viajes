@@ -5,9 +5,18 @@
  */
 package co.edu.uniandes.csw.viajes.ejb;
 
+import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
+import co.edu.uniandes.csw.viajes.entities.AlojamientoEntity;
 import co.edu.uniandes.csw.viajes.entities.ProveedorEntity;
+import co.edu.uniandes.csw.viajes.entities.ReservaEntity;
+import co.edu.uniandes.csw.viajes.entities.TransporteTerrestreEntity;
+import co.edu.uniandes.csw.viajes.entities.VueloEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
+import co.edu.uniandes.csw.viajes.persistence.ActividadPersistence;
+import co.edu.uniandes.csw.viajes.persistence.AlojamientoPersistence;
 import co.edu.uniandes.csw.viajes.persistence.ProveedorPersistence;
+import co.edu.uniandes.csw.viajes.persistence.TransporteTerrestrePersistence;
+import co.edu.uniandes.csw.viajes.persistence.VueloPersistence;
 import java.util.List;
 import static java.util.Objects.isNull;
 import java.util.logging.Level;
@@ -30,6 +39,17 @@ public class ProveedorLogic {
     @Inject
     private ProveedorPersistence persistence; // Variable para acceder a la persistencia de la aplicación. Es una inyección de dependencias.
 
+     @Inject
+    private ActividadPersistence actividadPersistence;
+    
+    @Inject
+    private AlojamientoPersistence alojamientoPersistence;
+     
+    @Inject
+    private TransporteTerrestrePersistence transporteTerrestrePersistence;
+      
+    @Inject
+    private VueloPersistence vueloPersistence;
     /**
      * Crea un proveedor en la persistencia.
      *
@@ -116,10 +136,38 @@ public class ProveedorLogic {
         if (proveedorEntity == null) {
             LOGGER.log(Level.SEVERE, "El proveedor con el id = {0} no existe", proveedorId);
         }
+        escogerServicios(proveedorEntity);
+       
         LOGGER.log(Level.INFO, "Termina proceso de consultar el proveedor con id = {0}", proveedorId);
         return proveedorEntity;
     }
 
+    public void escogerServicios(ProveedorEntity proveedorEntity) 
+    {
+        
+        
+        for(Long id:proveedorEntity.getIdsServicios())
+            if(id!=0l)
+            {
+                VueloEntity vueloEntity = vueloPersistence.find(id);
+                ActividadEntity actividadEntity=actividadPersistence.find(id);
+                AlojamientoEntity alojamientoEntity=alojamientoPersistence.find(id);
+                TransporteTerrestreEntity transporteTerrestreEntity=transporteTerrestrePersistence.find(id);
+                if (vueloEntity == null&&actividadEntity == null&&alojamientoEntity == null&&transporteTerrestreEntity == null) {
+                    //hay un servicio faltante
+                }
+                else if(vueloEntity != null)
+                    proveedorEntity.addServicio(vueloEntity);                 
+                else if(actividadEntity != null)
+                    proveedorEntity.addServicio(actividadEntity);                 
+                else if(alojamientoEntity != null)
+                   proveedorEntity.addServicio(alojamientoEntity);
+                else if(transporteTerrestreEntity != null)
+                   proveedorEntity.addServicio(transporteTerrestreEntity);
+                    
+            }
+                   
+    }
     /**
      * Actualizar un proveedor.
      *

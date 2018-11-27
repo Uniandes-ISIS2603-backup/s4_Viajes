@@ -7,6 +7,7 @@ package co.edu.uniandes.csw.viajes.resources;
 
 import co.edu.uniandes.csw.viajes.dtos.ActividadDTO;
 import co.edu.uniandes.csw.viajes.dtos.ProveedorDTO;
+import co.edu.uniandes.csw.viajes.dtos.ProveedorDetailDTO;
 import co.edu.uniandes.csw.viajes.dtos.VueloDTO;
 import co.edu.uniandes.csw.viajes.ejb.ActividadLogic;
 import co.edu.uniandes.csw.viajes.ejb.ProveedorActividadLogic;
@@ -65,23 +66,23 @@ public class ProveedorActividadResource {
      */
     @POST
     @Path("{actividadId: \\d+}")
-    public ProveedorDTO addActividad(@PathParam("proveedorId") Long proveedorId, @PathParam("actividadId") Long actividadId) throws BusinessLogicException {
+    public ProveedorDetailDTO addActividad(@PathParam("proveedorId") Long proveedorId, @PathParam("actividadId") Long actividadId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "ProveedorActividadResource addAlojamiento: input: proveedorID: {0} , actividadId: {1}", new Object[]{proveedorId, actividadId});
-        ProveedorDTO proveedorDTO = new ProveedorDTO(proveedorActividadLogic.addActividad(actividadId, proveedorId));
+        ProveedorDetailDTO proveedorDTO = new ProveedorDetailDTO(proveedorActividadLogic.addActividad(actividadId, proveedorId));
         LOGGER.log(Level.INFO, "ProveedorActividadResource addActividad: output: {0}", proveedorDTO.toString());
         return proveedorDTO;
     }
     
     
     @POST
-    public ProveedorDTO createActividad(@PathParam("proveedorId") Long proveedorId,ActividadDTO actividad) throws BusinessLogicException {
+    public ProveedorDetailDTO createActividad(@PathParam("proveedorId") Long proveedorId,ActividadDTO actividad) throws BusinessLogicException {
         if(actividad == null) throw new BusinessLogicException("No se recibió ninguna actividad");
         // Convierte el DTO (json) en un objeto Entity para ser manejado por la lógica.
         ActividadEntity actividadEntity = actividad.toEntity();
         // Invoca la lógica para crear la actividad nueva
         ActividadEntity nuevoActividadEntity = actividadLogic.createActividad(actividadEntity);
         // Como debe retornar un DTO (json) se invoca el constructor del DTO con argumento el entity nuevo
-        ProveedorDTO proveedorDTO = new ProveedorDTO(proveedorActividadLogic.addActividad(nuevoActividadEntity.getId(), proveedorId));
+        ProveedorDetailDTO proveedorDTO = new ProveedorDetailDTO(proveedorActividadLogic.addActividad(nuevoActividadEntity.getId(), proveedorId));
 
         return proveedorDTO;
     }

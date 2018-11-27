@@ -82,7 +82,7 @@ public class ProveedorResource {
      */
     @GET
         @Path("{proveedorId: \\d+}")
-    public ProveedorDTO consultarProveedor(@PathParam("proveedorId") Long proveedorId) {
+    public ProveedorDetailDTO consultarProveedor(@PathParam("proveedorId") Long proveedorId) {
         LOGGER.log(Level.INFO, "ProveedorResource getProveedor: input: {0}", proveedorId);
         ProveedorEntity proveedorEntity = proveedorLogic.getProveedor(proveedorId);
         if (proveedorEntity == null) {
