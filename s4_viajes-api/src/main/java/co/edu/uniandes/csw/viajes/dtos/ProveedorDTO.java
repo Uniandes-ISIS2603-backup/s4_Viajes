@@ -46,7 +46,7 @@ public class ProveedorDTO implements Serializable {
     
     private String username;
     
-    private String contrasena;
+    private String password;
     
     private String nombre;
     
@@ -74,8 +74,8 @@ public class ProveedorDTO implements Serializable {
             this.proveedorId = proveedorEntity.getId();
             this.nombre = proveedorEntity.getNombre();
             this.username = proveedorEntity.getUser();
-            this.contrasena = proveedorEntity.getPassword();
-            this.puntuacion = proveedorEntity.getPuntaje();
+            this.password = proveedorEntity.getPassword();
+            this.puntuacion = proveedorEntity.getPuntuacion();
             this.imagen=proveedorEntity.getImagen();
         }
     }
@@ -92,22 +92,14 @@ public class ProveedorDTO implements Serializable {
         return proveedorId;
     }
     
-    /**
-     * Obtiene el usuario de un proveedor.
-     *
-     * @return username del proveedor.
-     */
-    public String getUser() {
-        return username;
-    }
-
+   
     /**
      * Obtiene la contraseña de un proveedor.
      *
      * @return password del proveedor.
      */
     public String getPassword() {
-        return contrasena;
+        return password;
     }
 
     /**
@@ -120,15 +112,6 @@ public class ProveedorDTO implements Serializable {
     }
 
     /**
-     * Obtiene el puntaje de un proveedor.
-     *
-     * @return puntuacion del proveedor.
-     */
-    public int getPuntaje() {
-        return puntuacion;
-    }
-
-    /**
      * Modifica (set) el id de un proveedor por el ingresado por parámetro.
      *
      * @param pId nuevo Id que modificará el actual.
@@ -136,15 +119,7 @@ public class ProveedorDTO implements Serializable {
     public void setId(Long pId) {
         proveedorId = pId;
     }
-    
-    /**
-     * Modifica (set) el usuario de un proveedor por el ingresado por parámetro.
-     *
-     * @param pUser nuevo usuario que modificará el actual.
-     */
-    public void setUser(String pUser) {
-        username = pUser;
-    }
+   
 
     /**
      * Modifica (set) la contraseña de un proveedor por la ingresada por
@@ -153,7 +128,7 @@ public class ProveedorDTO implements Serializable {
      * @param pPassword nueva contraseña que modificará la actual.
      */
     public void setPassword(String pPassword) {
-        contrasena = pPassword;
+        password = pPassword;
     }
 
     /**
@@ -165,14 +140,7 @@ public class ProveedorDTO implements Serializable {
         nombre = pNombre;
     }
 
-    /**
-     * Modifica (set) el puntaje de un proveedor por el ingresado por parámetro.
-     *
-     * @param pPuntaje nuevo puntaje que modificará el actual.
-     */
-    public void setPuntaje(int pPuntaje) {
-        puntuacion = pPuntaje;
-    }
+  
 
     public String getImagen() {
         return imagen;
@@ -180,6 +148,22 @@ public class ProveedorDTO implements Serializable {
 
     public void setImagen(String imagen) {
         this.imagen = imagen;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public int getPuntuacion() {
+        return puntuacion;
+    }
+
+    public void setPuntuacion(int puntuacion) {
+        this.puntuacion = puntuacion;
     }
     
     
@@ -192,9 +176,9 @@ public class ProveedorDTO implements Serializable {
     public ProveedorEntity toEntity() {
         ProveedorEntity proveedorEntity = new ProveedorEntity();
         proveedorEntity.setNombre(this.nombre);
-        proveedorEntity.setUser(this.username);
-        proveedorEntity.setPassword(this.contrasena);
-        proveedorEntity.setPuntaje(this.puntuacion);
+        proveedorEntity.setUsername(this.username);
+        proveedorEntity.setPassword(this.password);
+        proveedorEntity.setPuntuacion(this.puntuacion);
         proveedorEntity.setImagen(this.imagen);
         return proveedorEntity;
     }

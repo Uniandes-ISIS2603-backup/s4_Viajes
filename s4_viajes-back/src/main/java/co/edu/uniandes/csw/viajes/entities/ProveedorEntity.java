@@ -26,7 +26,7 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
 
     private String username;
     
-    private String contrasena;
+    private String password;
     
     private String nombre;
     
@@ -65,7 +65,7 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
      * @return password del proveedor.
      */
     public String getPassword() {
-        return contrasena;
+        return password;
     }
 
     /**
@@ -75,15 +75,6 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
      */
     public String getNombre() {
         return nombre;
-    }
-
-    /**
-     * Obtiene el puntaje de un proveedor.
-     *
-     * @return puntuacion del proveedor.
-     */
-    public int getPuntaje() {
-        return puntuacion;
     }
 
 
@@ -103,7 +94,7 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
      * @param contrasena nueva contraseña que modificará la actual.
      */
     public void setPassword(String contrasena) {
-        this.contrasena = contrasena;
+        this.password = contrasena;
     }
 
     /**
@@ -115,15 +106,7 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
         this.nombre = nombre;
     }
 
-    /**
-     * Modifica (set) el puntaje de un proveedor por el ingresado por parámetro.
-     *
-     * @param puntuacion nuevo puntaje que modificará el actual.
-     */
-    public void setPuntaje(int puntuacion) {
-        this.puntuacion = puntuacion;
-    }
-
+   
     public String getUsername() {
         return username;
     }
@@ -183,11 +166,11 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
     }
    
     public String getContrasena() {
-        return contrasena;
+        return password;
     }
 
     public void setContrasena(String contrasena) {
-        this.contrasena = contrasena;
+        this.password = contrasena;
     }
     
    

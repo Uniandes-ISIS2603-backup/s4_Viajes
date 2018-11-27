@@ -49,23 +49,9 @@ public class ProveedorActividadLogic {
             throw new BusinessLogicException("El proveedor con id "+proveedorId +" no existe");
         if(actividadEntity==null)
             throw new BusinessLogicException("La actividad con id "+actividadId +" no existe");
-
-
-  
-        
          for(long idServicio : proveedorEntity.getIdsServicios())
             if(actividadId == idServicio)
                 throw new BusinessLogicException("El combo ya tiene asignada una actividad con id " + actividadId +".");
-            else
-            {
-                ServicioEntity actividad = actividadPersistence.find(idServicio);
-               if(actividad==null)
-                   {
-                       //No era una actividad
-                   }
-               else
-                    proveedorEntity.addServicio(actividad);
-            } 
         proveedorEntity.addIdServicio(actividadId);
         proveedorEntity.addServicioFirst(actividadEntity);
 

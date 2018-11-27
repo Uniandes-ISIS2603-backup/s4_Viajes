@@ -20,7 +20,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class ComboDetailDTO extends ComboDTO implements Serializable{
 
     
-    private List<ReservaDTO> reservas;
+    private List<ReservaDTO> reservas=new ArrayList<>();
     
     private Long idReserva;
 
@@ -31,7 +31,6 @@ public class ComboDetailDTO extends ComboDTO implements Serializable{
     public ComboDetailDTO()
     {
         super();
-        reservas=new ArrayList<>();
     }
 
      /**
@@ -45,7 +44,6 @@ public class ComboDetailDTO extends ComboDTO implements Serializable{
      public ComboDetailDTO(ComboEntity comboEntity)
     {
         super(comboEntity);
-        reservas=new ArrayList<>();
    
         if (comboEntity != null)
             for(ReservaEntity reserva:comboEntity.getReservas())

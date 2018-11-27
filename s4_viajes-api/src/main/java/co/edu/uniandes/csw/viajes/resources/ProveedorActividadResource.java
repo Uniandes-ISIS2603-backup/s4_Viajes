@@ -72,6 +72,19 @@ public class ProveedorActividadResource {
         return proveedorDTO;
     }
     
+    
+    @POST
+    public ProveedorDTO createActividad(@PathParam("proveedorId") Long proveedorId,ActividadDTO actividad) throws BusinessLogicException {
+        if(actividad == null) throw new BusinessLogicException("No se recibió ninguna actividad");
+        // Convierte el DTO (json) en un objeto Entity para ser manejado por la lógica.
+        ActividadEntity actividadEntity = actividad.toEntity();
+        // Invoca la lógica para crear la actividad nueva
+        ActividadEntity nuevoActividadEntity = actividadLogic.createActividad(actividadEntity);
+        // Como debe retornar un DTO (json) se invoca el constructor del DTO con argumento el entity nuevo
+        ProveedorDTO proveedorDTO = new ProveedorDTO(proveedorActividadLogic.addActividad(nuevoActividadEntity.getId(), proveedorId));
+
+        return proveedorDTO;
+    }
     /**
      * Busca y devuelve todos las actividades que existen en el proveedor.
      *

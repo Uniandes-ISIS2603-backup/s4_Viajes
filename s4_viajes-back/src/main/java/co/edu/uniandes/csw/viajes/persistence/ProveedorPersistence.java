@@ -136,4 +136,21 @@ public class ProveedorPersistence {
         return result;
     }
          
+    public ProveedorEntity findByUserName(String username) {
+        TypedQuery query = em.createQuery("Select e From ProveedorEntity e where e.username = :username", ProveedorEntity.class);
+        // Se remplaza el placeholder ":nombre" con el valor del argumento 
+        query = query.setParameter("username", username);
+        // Se invoca el query se obtiene la lista resultado
+        List<ProveedorEntity> sameNombre = query.getResultList();
+        ProveedorEntity result;
+        if (sameNombre == null) {
+            result = null;
+        } else if (sameNombre.isEmpty()) {
+            result = null;
+        } else {
+            result = sameNombre.get(0);
+        }
+        LOGGER.log(Level.INFO, "Saliendo de consultar proveedor por username ", username);
+        return result;
+    }
 }

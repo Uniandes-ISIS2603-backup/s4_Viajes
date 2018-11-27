@@ -41,10 +41,23 @@ public class ProveedorLogic {
     public ProveedorEntity createProveedor(ProveedorEntity proveedorEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación del proveedor");
         // Verifica la regla de negocio que dice que no puede haber dos proveedores con el mismo nombre
-        if (persistence.findByName(proveedorEntity.getNombre()) != null) {
+         if(proveedorEntity.getNombre()==null||proveedorEntity.getNombre().trim().equals(""))
+            throw new BusinessLogicException("El proveedor debe tener un nombre");
+             
+        if (persistence.findByName(proveedorEntity.getNombre()) != null) 
             throw new BusinessLogicException("Ya existe un proveedor con el nombre \"" + proveedorEntity.getNombre() + "\"");
-        }
-            
+         
+        if(proveedorEntity.getUsername()==null||proveedorEntity.getUsername().trim().equals(""))
+            throw new BusinessLogicException("El proveedor debe tener un username");     
+        if (persistence.findByUserName(proveedorEntity.getUsername()) != null) 
+            throw new BusinessLogicException("Ya existe un proveedor con el username \"" + proveedorEntity.getUsername() + "\"");
+       
+        if(proveedorEntity.getImagen()==null||proveedorEntity.getImagen().trim().equals(""))
+            throw new BusinessLogicException("El servicio debe tener una imagen");
+        if(proveedorEntity.getPassword()==null||proveedorEntity.getPassword().trim().equals(""))
+            throw new BusinessLogicException("El servicio debe tener una contraseña");
+        
+        proveedorEntity.setPuntuacion(-1);
         String input = proveedorEntity.getNombre();
          
         // Verifica la regla de negocio que dice que el nombre del proveedor debe ser compuesto por solo letras y debe tener mínimo 5 letras y máximo 30 letras.
@@ -55,13 +68,7 @@ public class ProveedorLogic {
         {
             throw new BusinessLogicException("El nombre del proveedor debe ser compuesto por solo letras y debe tener mínimo 5 letras y máximo 30 letras.");
         }
-        
-        // Verifica la regla de negocio que dice que no pueden haber dos proveedores con el mismo username.
-        if(isNull(proveedorEntity.getUser()))
-        {
-            throw new BusinessLogicException("El usuario del proveedor ya existe, debe ingresar uno diferente.");
-        }
-             
+         
         // Verifica la regla de negocio que dice que la contraseña debe complur lo siguiente:
         // Mínimo 4 caracteres
         //Maximo 8 caracteres
@@ -76,9 +83,7 @@ public class ProveedorLogic {
         {
             throw new BusinessLogicException("La contraseña no cumple con las reglas establecidas.");
         }
-         // Verifica la regla de negocio que El servicio debe tener un nombre
-        if(proveedorEntity.getImagen()==null||proveedorEntity.getImagen().trim().equals(""))
-            throw new BusinessLogicException("El servicio debe tener una imagen");
+        
         // Invoca la persistencia para crear el proveedor
         persistence.create(proveedorEntity);
         LOGGER.log(Level.INFO, "Termina proceso de creación del proveedor");

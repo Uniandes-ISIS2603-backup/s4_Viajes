@@ -139,7 +139,7 @@ public class ProveedorLogicTest {
         newEntity.setNombre("Proveedor sas");
         newEntity.setUser("proveedor99");
         newEntity.setPassword("Proveedor123");
-        newEntity.setPuntaje(4);
+        newEntity.setPuntuacion(4);
         ProveedorEntity result = proveedorLogic.createProveedor(newEntity);
         
         Assert.assertNotNull(result);
@@ -148,7 +148,7 @@ public class ProveedorLogicTest {
         Assert.assertEquals(newEntity.getNombre(), entity.getNombre());
         Assert.assertEquals(newEntity.getUser(), entity.getUser());
         Assert.assertEquals(newEntity.getPassword(), entity.getPassword());
-        Assert.assertEquals(newEntity.getPuntaje(), entity.getPuntaje());
+        Assert.assertEquals(newEntity.getPuntuacion(), entity.getPuntuacion());
     }
 
     /**
@@ -194,7 +194,7 @@ public class ProveedorLogicTest {
         Assert.assertEquals(entity.getNombre(), resultEntity.getNombre());
         Assert.assertEquals(entity.getPassword(), resultEntity.getPassword());
         Assert.assertEquals(entity.getUser(), resultEntity.getUser());
-        Assert.assertEquals(entity.getPuntaje(), resultEntity.getPuntaje());
+        Assert.assertEquals(entity.getPuntuacion(), resultEntity.getPuntuacion());
     }
 
     /**
@@ -211,7 +211,7 @@ public class ProveedorLogicTest {
         Assert.assertEquals(pojoEntity.getNombre(), resp.getNombre());
         Assert.assertEquals(pojoEntity.getUser(), resp.getUser());
         Assert.assertEquals(pojoEntity.getPassword(), resp.getPassword());
-        Assert.assertEquals(pojoEntity.getPuntaje(), resp.getPuntaje());       
+        Assert.assertEquals(pojoEntity.getPuntuacion(), resp.getPuntuacion());       
     }
 
     /**

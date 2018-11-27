@@ -7,6 +7,7 @@ package co.edu.uniandes.csw.viajes.entities;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -24,12 +25,8 @@ public class ReservaEntity extends BaseEntity implements Serializable {
    
     private boolean pagada;
    
-//    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date fechaInicio;
-       
-//    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date fechaFin;
-    
+    private List<Date> fechas;
+
     private double costo;
     
     
@@ -57,15 +54,6 @@ public class ReservaEntity extends BaseEntity implements Serializable {
     public ReservaEntity(){
     }
    
-    public ReservaEntity(ServicioEntity servicio,int cantidadPersonas,Date fechaInicio,Date fechaFin){
-        this.fechaInicio=fechaInicio;
-        this.fechaFin=fechaFin;
-        pagada=false;
-        this.servicio=servicio;
-        this.cantidadPersonas=cantidadPersonas;
-        costo=cantidadPersonas*servicio.getCosto();
-    }
-    
     public int getCantidadPersonas() {
         return cantidadPersonas;
     }
@@ -82,21 +70,15 @@ public class ReservaEntity extends BaseEntity implements Serializable {
         this.pagada = pagada;
     }
 
-    public Date getFechaInicio() {
-        return fechaInicio;
+    public List<Date> getFechas() {
+        return fechas;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
-        this.fechaInicio = fechaInicio;
+    public void setFechas(List<Date> fechas) {
+        this.fechas = fechas;
     }
 
-    public Date getFechaFin() {
-        return fechaFin;
-    }
-
-    public void setFechaFin(Date fechaFin) {
-        this.fechaFin = fechaFin;
-    }
+   
 
     public double getCosto() {
         

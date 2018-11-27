@@ -9,6 +9,7 @@ package co.edu.uniandes.csw.viajes.dtos;
 import co.edu.uniandes.csw.viajes.entities.ReservaEntity;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -21,9 +22,7 @@ public class ReservaDTO implements Serializable{
    
     private boolean pagada;
    
-    private Date fechaInicio;
-   
-    private Date fechaFin;
+    private List<Date> fechas;
     
     private double costo;
     
@@ -50,8 +49,7 @@ public class ReservaDTO implements Serializable{
          {
              cantidadPersonas=reservaEntity.getCantidadPersonas();
              pagada=reservaEntity.isPagada();
-             fechaInicio=reservaEntity.getFechaInicio();
-             fechaFin=reservaEntity.getFechaFin();
+             fechas=reservaEntity.getFechas();
              id=reservaEntity.getId();
              costo=reservaEntity.getCosto();
              if(reservaEntity.getServicio()!=null)
@@ -63,9 +61,9 @@ public class ReservaDTO implements Serializable{
          ReservaEntity reservaEntity=new ReservaEntity();
          reservaEntity.setCantidadPersonas(cantidadPersonas);
          reservaEntity.setPagada(pagada);
-         reservaEntity.setFechaInicio(fechaInicio);
-         reservaEntity.setFechaFin(fechaFin);
-         reservaEntity.setIdServicio(idServicio);
+         reservaEntity.setFechas(fechas);
+         if(idServicio!=null)
+            reservaEntity.setIdServicio(idServicio);
          
         
          return reservaEntity;
@@ -87,21 +85,15 @@ public class ReservaDTO implements Serializable{
         this.pagada = pagada;
     }
 
-    public Date getFechaInicio() {
-        return fechaInicio;
+    public List<Date> getFechas() {
+        return fechas;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
-        this.fechaInicio = fechaInicio;
+    public void setFechas(List<Date> fechas) {
+        this.fechas = fechas;
     }
 
-    public Date getFechaFin() {
-        return fechaFin;
-    }
 
-    public void setFechaFin(Date fechaFin) {
-        this.fechaFin = fechaFin;
-    }
 
     public double getCosto() {
         return costo;
