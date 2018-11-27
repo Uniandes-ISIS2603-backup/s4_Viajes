@@ -33,14 +33,23 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
     private int puntuacion;
     
     private List<Long> idsServicios=new ArrayList<>();
+    
+    private String imagen;
 
     
     @PodamExclude
     @OneToMany (mappedBy = "proveedor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ServicioEntity> servicios = new ArrayList<>();
 
-   //Métodos//
-    
+    public String getImagen() {
+        return imagen;    
+    }
+
+    //Métodos//
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
     /**
      * Obtiene el usuario de un proveedor.
      *

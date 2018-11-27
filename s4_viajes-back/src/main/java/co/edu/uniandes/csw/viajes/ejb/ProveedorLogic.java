@@ -76,7 +76,9 @@ public class ProveedorLogic {
         {
             throw new BusinessLogicException("La contraseña no cumple con las reglas establecidas.");
         }
-        
+         // Verifica la regla de negocio que El servicio debe tener un nombre
+        if(proveedorEntity.getImagen()==null||proveedorEntity.getImagen().trim().equals(""))
+            throw new BusinessLogicException("El servicio debe tener una imagen");
         // Invoca la persistencia para crear el proveedor
         persistence.create(proveedorEntity);
         LOGGER.log(Level.INFO, "Termina proceso de creación del proveedor");

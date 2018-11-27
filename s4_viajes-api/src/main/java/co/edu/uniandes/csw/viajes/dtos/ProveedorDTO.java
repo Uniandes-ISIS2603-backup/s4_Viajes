@@ -51,6 +51,8 @@ public class ProveedorDTO implements Serializable {
     private String nombre;
     
     private int puntuacion;
+    
+    private String imagen;
 
     //Constructores//
     
@@ -74,6 +76,7 @@ public class ProveedorDTO implements Serializable {
             this.username = proveedorEntity.getUser();
             this.contrasena = proveedorEntity.getPassword();
             this.puntuacion = proveedorEntity.getPuntaje();
+            this.imagen=proveedorEntity.getImagen();
         }
     }
 
@@ -170,6 +173,16 @@ public class ProveedorDTO implements Serializable {
     public void setPuntaje(int pPuntaje) {
         puntuacion = pPuntaje;
     }
+
+    public String getImagen() {
+        return imagen;
+    }
+
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+    
+    
     
     /**
      * Convertir DTO a Entity
@@ -182,7 +195,7 @@ public class ProveedorDTO implements Serializable {
         proveedorEntity.setUser(this.username);
         proveedorEntity.setPassword(this.contrasena);
         proveedorEntity.setPuntaje(this.puntuacion);
-        
+        proveedorEntity.setImagen(this.imagen);
         return proveedorEntity;
     }
 
