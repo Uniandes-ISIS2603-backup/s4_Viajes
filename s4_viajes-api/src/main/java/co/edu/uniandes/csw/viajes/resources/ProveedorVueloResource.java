@@ -6,6 +6,7 @@
 package co.edu.uniandes.csw.viajes.resources;
 
 import co.edu.uniandes.csw.viajes.dtos.ProveedorDTO;
+import co.edu.uniandes.csw.viajes.dtos.ProveedorDetailDTO;
 import co.edu.uniandes.csw.viajes.dtos.VueloDTO;
 import co.edu.uniandes.csw.viajes.ejb.ProveedorVueloLogic;
 import co.edu.uniandes.csw.viajes.ejb.VueloLogic;
@@ -63,12 +64,19 @@ public class ProveedorVueloResource {
      */
     @POST
     @Path("{vueloId: \\d+}")
-    public ProveedorDTO addVuelo(@PathParam("proveedorId") Long proveedorId, @PathParam("vueloId") Long vueloId) throws BusinessLogicException {
+    public ProveedorDetailDTO addVuelo(@PathParam("proveedorId") Long proveedorId, @PathParam("vueloId") Long vueloId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "ProveedorVuelosResource addVuelo: input: vueloID: {0} , vuelosId: {1}", new Object[]{proveedorId, vueloId});
-        ProveedorDTO proveedorDTO = new ProveedorDTO(proveedorVueloLogic.addVuelo(vueloId, proveedorId));
+        ProveedorDetailDTO proveedorDTO = new ProveedorDetailDTO(proveedorVueloLogic.addVuelo(vueloId, proveedorId));
         LOGGER.log(Level.INFO, "ProveedorVueloResource addVuelo: output: {0}", proveedorDTO.toString());
         return proveedorDTO;
     }
+    
+    @POST
+    public ProveedorDetailDTO crearVuelo(@PathParam("proveedorId") Long proveedorId,VueloDTO vuelo) throws BusinessLogicException {
+        ProveedorDetailDTO proveedorDTO = new ProveedorDetailDTO(proveedorVueloLogic.addVuelo((vueloLogic.createVuelo(vuelo.toEntity())).getId(), proveedorId));
+        return proveedorDTO;
+    }
+
     
     /**
      * Busca y devuelve todos los vuelos que existen en el proveedor.

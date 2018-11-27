@@ -54,16 +54,6 @@ public class ProveedorVueloLogic {
          for(long idServicio : proveedorEntity.getIdsServicios())
             if(vueloId == idServicio)
                 throw new BusinessLogicException("El combo ya tiene asignada un vuelo con id " + vueloId +".");
-            else
-            {
-                ServicioEntity vuelo = vueloPersistence.find(idServicio);
-               if(vuelo==null)
-                   {
-                       //No era un vuelo
-                   }
-               else
-                    proveedorEntity.addServicio(vuelo);
-            } 
         proveedorEntity.addIdServicio(vueloId);
         proveedorEntity.addServicioFirst(vueloEntity);
 
@@ -119,7 +109,7 @@ public class ProveedorVueloLogic {
                 break;
             }      
         if(vuelo==null)
-            throw new BusinessLogicException("El proveedor con id "+proveedorId +" no tiene la actividad con id "+vueloId);
+            throw new BusinessLogicException("El proveedor con id "+proveedorId +" no tiene el vuelo con id "+vueloId);
         LOGGER.log(Level.INFO, "Termina proceso de consultar la actividad con id = {0} del proveedor con id = " + proveedorId, vueloId); 
         return vuelo;
     }
