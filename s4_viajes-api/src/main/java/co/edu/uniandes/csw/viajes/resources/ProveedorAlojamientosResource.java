@@ -7,6 +7,7 @@ package co.edu.uniandes.csw.viajes.resources;
 
 import co.edu.uniandes.csw.viajes.dtos.AlojamientoDTO;
 import co.edu.uniandes.csw.viajes.dtos.ProveedorDTO;
+import co.edu.uniandes.csw.viajes.dtos.ProveedorDetailDTO;
 import co.edu.uniandes.csw.viajes.ejb.AlojamientoLogic;
 import co.edu.uniandes.csw.viajes.ejb.ProveedorAlojamientosLogic;
 import co.edu.uniandes.csw.viajes.entities.AlojamientoEntity;
@@ -60,13 +61,22 @@ public class ProveedorAlojamientosResource {
      */
     @POST
     @Path("{alojamientoId: \\d+}")
-    public ProveedorDTO addAlojamiento(@PathParam("proveedorId") Long proveedorId, @PathParam("alojamientoId") Long alojamientoId) throws BusinessLogicException {
+    public ProveedorDetailDTO addAlojamiento(@PathParam("proveedorId") Long proveedorId, @PathParam("alojamientoId") Long alojamientoId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "ProveedorAlojamientosResource addAlojamiento: input: proveedorID: {0} , alojamientoId: {1}", new Object[]{proveedorId, alojamientoId});        
-        ProveedorDTO proveedorDTO = new ProveedorDTO(proveedorAlojamientosLogic.addAlojamiento(alojamientoId, proveedorId));
+        ProveedorDetailDTO proveedorDTO = new ProveedorDetailDTO(proveedorAlojamientosLogic.addAlojamiento(alojamientoId, proveedorId));
         LOGGER.log(Level.INFO, "ProveedorAlojamientosResource addAlojamiento: output: {0}", proveedorDTO.toString());
         return proveedorDTO;
     }
     
+    @POST
+    public ProveedorDetailDTO createAlojamiento( @PathParam("proveedorId") Long proveedorId,AlojamientoDTO alojamiento) throws BusinessLogicException  {      
+        LOGGER.log(Level.INFO, "AlojamientoResource createAlojamiento: input: {0}", alojamiento.toString());
+        AlojamientoDTO nuevoAlojamientoDTO = new AlojamientoDTO(alojamientoLogic.createAlojamiento(alojamiento.toEntity()));
+                
+        ProveedorDetailDTO proveedorDTO = new ProveedorDetailDTO(proveedorAlojamientosLogic.addAlojamiento((alojamientoLogic.createAlojamiento(alojamiento.toEntity())).getId(), proveedorId));
+        LOGGER.log(Level.INFO, "AlojamientoResource createAlojamiento: output: {0}", nuevoAlojamientoDTO.toString());
+        return proveedorDTO; 
+    }
     /**
      * 
      * @param proveedorId

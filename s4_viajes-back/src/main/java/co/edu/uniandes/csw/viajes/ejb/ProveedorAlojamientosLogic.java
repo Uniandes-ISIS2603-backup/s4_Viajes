@@ -51,22 +51,10 @@ public class ProveedorAlojamientosLogic {
         if(alojamientoEntity==null)
             throw new BusinessLogicException("EL alojamiento con id "+alojamientosId +" no existe");
 
-
-  
-        
          for(long idServicio : proveedorEntity.getIdsServicios())
             if(alojamientosId == idServicio)
                 throw new BusinessLogicException("El combo ya tiene asignado un alojamiento con id " + alojamientosId +".");
-            else
-            {
-               ServicioEntity actividad = alojamientoPersistence.find(idServicio);
-               if(actividad==null)
-                   {
-                       //No era una actividad
-                   }
-               else
-                    proveedorEntity.addServicio(actividad);
-            } 
+           
         proveedorEntity.addIdServicio(alojamientosId);
         proveedorEntity.addServicioFirst(alojamientoEntity);
 
