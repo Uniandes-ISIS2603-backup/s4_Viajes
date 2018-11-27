@@ -5,12 +5,8 @@
  */
 package co.edu.uniandes.csw.viajes.dtos;
 
-import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
-import co.edu.uniandes.csw.viajes.entities.AlojamientoEntity;
 import co.edu.uniandes.csw.viajes.entities.ComboEntity;
 import co.edu.uniandes.csw.viajes.entities.ReservaEntity;
-import co.edu.uniandes.csw.viajes.entities.TransporteTerrestreEntity;
-import co.edu.uniandes.csw.viajes.entities.VueloEntity;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,10 +21,9 @@ public class ComboDetailDTO extends ComboDTO implements Serializable{
 
     
     private List<ReservaDTO> reservas;
-    private List<Long> idsReservas;
-
-   
     
+    private Long idReserva;
+
     /**
      * Crea un nuevo objeto ComboDetailDTO vacio
      *
@@ -65,12 +60,10 @@ public class ComboDetailDTO extends ComboDTO implements Serializable{
      *
      */
     @Override
-    public ComboEntity toEntity() throws Exception{
+    public ComboEntity toEntity() {
         ComboEntity comboEntity = super.toEntity();
-        if (idsReservas != null) {
-           comboEntity.setIdsReservas(idsReservas);
-        }
-        
+         if(idReserva!=null&&idReserva!=0l)
+             comboEntity.addIdReserva(idReserva);
         return comboEntity;
     }
 

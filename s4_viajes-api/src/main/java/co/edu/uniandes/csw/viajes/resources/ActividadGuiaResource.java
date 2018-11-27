@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -31,8 +32,10 @@ import javax.ws.rs.core.MediaType;
  *
  * @author estudiante
  */
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
+@Path("actividades/{actividadId: \\d+}/guias")
+@Consumes("application/json")
+@Produces("application/json")
+@RequestScoped 
 public class ActividadGuiaResource {
     
     private static final Logger LOGGER = Logger.getLogger(ActividadGuiaResource.class.getName());

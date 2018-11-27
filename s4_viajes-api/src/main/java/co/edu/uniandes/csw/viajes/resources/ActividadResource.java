@@ -109,7 +109,7 @@ public class ActividadResource {
     @Path("{actividadId: \\d+}")
     public ActividadDTO modificarActividad(@PathParam("actividadId") Long actividadId, ActividadDTO actividad) throws WebApplicationException, BusinessLogicException {
         LOGGER.log(Level.INFO, "ActividadResource modificarActividad: input: id:{0} , actividad: {1}", new Object[]{actividadId, actividad.toString()});
-        actividad.setIdentificador(actividadId);
+        actividad.setId(actividadId);
         if (actividadLogic.getActividad(actividadId) == null) {
             throw new WebApplicationException("El recurso /actividad/" + actividadId + " no existe.", 404);
         }

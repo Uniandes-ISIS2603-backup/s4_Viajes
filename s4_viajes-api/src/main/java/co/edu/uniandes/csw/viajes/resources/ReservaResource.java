@@ -77,7 +77,7 @@ public class ReservaResource {
      * encontradas en la aplicación. Si no hay ninguna retorna una lista vacía.
      */
     @GET
-    public List<ReservaDTO> getReservas() {
+    public List<ReservaDTO> getReservas() throws BusinessLogicException {
         LOGGER.info("ReservaResource getReservas: input: void");
         List<ReservaDTO> listaReservas = listEntity2DetailDTO(reservaLogic.getReservas());
         LOGGER.log(Level.INFO, "ReservaResource getReservas: output: {0}", listaReservas.toString());

@@ -17,7 +17,7 @@ import javax.inject.Inject;
 
 /**
  *
- * @author estudiante
+ * @author Juan Diego Barrios
  */
 public class ComboLogic {
     public static final Logger LOGGER = Logger.getLogger(ComboLogic.class.getName());
@@ -42,9 +42,6 @@ public class ComboLogic {
         // Verifica la regla de negocio que El combo debe tener un nombre
         if(comboEntity.getNombre().trim().equals(""))
             throw new BusinessLogicException("El combo debe tener un nombre\"" + comboEntity.getNombre() + "\"");
-        // Verifica la regla de negocio que La puntuación del combo debe estar entre 0 y 5
-        if(comboEntity.getPuntuacion()<0||comboEntity.getPuntuacion()>5)
-            throw new BusinessLogicException("La puntuación del combo debe estar entre 0 y 5 \"" + comboEntity.getNombre() + "\"");
         double costo=0;
         for(long idReserva : comboEntity.getIdsReservas())
             {
@@ -60,6 +57,7 @@ public class ComboLogic {
                }
             } 
         comboEntity.setCosto(costo);
+        comboEntity.setPuntuacion(-1);
         
         comboEntity =persistence.create(comboEntity);
 
@@ -75,6 +73,24 @@ public class ComboLogic {
     {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar los combos de un carrito de compras.");
         List<ComboEntity> combos = persistence.findAll();
+        for(ComboEntity combo:combos)
+        {
+            double costo=0;
+             for(long idReserva : combo.getIdsReservas())
+            {
+               ReservaEntity reserva = reservaPersistence.find(idReserva);
+               if(reserva==null)
+                   {
+//                           throw new BusinessLogicException("El combo reserva que envio no existe");
+                    }
+               else
+               {
+                   combo.addReserva(reserva);
+                   costo+=reserva.getCosto();
+               }
+            } 
+            combo.setCosto(costo);
+        }
         LOGGER.log(Level.INFO, "Termina proceso de consultar los combos de un carrito de compras.");
         return combos;
     }

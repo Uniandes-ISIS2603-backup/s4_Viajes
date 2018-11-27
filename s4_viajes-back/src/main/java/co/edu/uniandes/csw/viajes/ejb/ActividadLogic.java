@@ -21,7 +21,7 @@ import javax.inject.Inject;
  */
 
 @Stateless
-public class ActividadLogic {
+public class ActividadLogic extends ServicioLogic{
      private static final Logger LOGGER = Logger.getLogger(ActividadLogic.class.getName());
 
     @Inject
@@ -38,40 +38,7 @@ public class ActividadLogic {
     public ActividadEntity createActividad(ActividadEntity actividadEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación de la actividad");
         // Verifica la regla de negocio que dice que no puede haber dos actividades con el mismo id
-         if (!validarId(actividadEntity.getIdentificador()))
-        {
-            throw new BusinessLogicException("La actividad tiene un identificador no valido");
-        }
-         
-         if(!validarPuntuacion(actividadEntity.getPuntuacion()))
-        {
-            throw new BusinessLogicException("La puntuacion a actualizar es invalida");
-        }
-         
-        if(validarActividadExistente(actividadEntity.getIdentificador()))
-        {
-            throw new BusinessLogicException("Ya existe una actividad con el mismo id");
-        }
-        
-        if (persistence.find(actividadEntity.getId()) != null) {
-            throw new BusinessLogicException("Ya existe una Actividad con el mismo id \"" + actividadEntity.getId() + "\"");
-        }
-        
-        if(persistence.findByName(actividadEntity.getNombreActividad()) != null)
-        {
-            throw new BusinessLogicException("Ya existe una Actividad con el mismo nombre");
-        }
-        
-        if(persistence.findByIdentificador(actividadEntity.getIdentificador()) != null)
-        {
-            throw new BusinessLogicException("Ya existe una Actividad con el mismo identificador");
-        }
-    
-       if (actividadEntity.getGuias() == null)
-        {
-            throw new BusinessLogicException("La lista de guias no se ha inicializado correctamente");
-
-        }
+        super.createServicio(actividadEntity);
         // Invoca la persistencia para crear la editorial
         persistence.create(actividadEntity);
         LOGGER.log(Level.INFO, "Termina proceso de creación de la actividad");
@@ -137,15 +104,15 @@ public class ActividadLogic {
             throw new BusinessLogicException("El id a actualizar es inválido");
         }
         
-        if(!validarNombre(actividadEntity.getNombreActividad()))
-        {
-            throw new BusinessLogicException("El nombre a actualizar es invalido");
-        }
-        
-        if(!validarPuntuacion(actividadEntity.getPuntuacion()))
-        {
-            throw new BusinessLogicException("La puntuacion a actualizar es invalida");
-        }
+//        if(!validarNombre(actividadEntity.getNombreActividad()))
+//        {
+//            throw new BusinessLogicException("El nombre a actualizar es invalido");
+//        }
+//        
+//        if(!validarPuntuacion(actividadEntity.getPuntuacion()))
+//        {
+//            throw new BusinessLogicException("La puntuacion a actualizar es invalida");
+//        }
         
         // Note que, por medio de la inyección de dependencias se llama al método "update(entity)" que se encuentra en la persistencia.
         //PERSISTENCIA

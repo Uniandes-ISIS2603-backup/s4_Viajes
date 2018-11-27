@@ -16,7 +16,7 @@ import javax.persistence.TypedQuery;
 
 /**
  *
- * @author estudiante
+ * @author Juan Diego Barrios
  */
 @Stateless
 public class ComboPersistence {

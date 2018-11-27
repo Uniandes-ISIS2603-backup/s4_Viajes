@@ -60,9 +60,10 @@ public class AlojamientoResource {
      * @throws BusinessLogicException
      */
     @POST
-    public AlojamientoDTO createAlojamiento( AlojamientoDTO alojamiento) throws BusinessLogicException {
+    public AlojamientoDTO createAlojamiento( AlojamientoDTO alojamiento) throws BusinessLogicException  {      
         LOGGER.log(Level.INFO, "AlojamientoResource createAlojamiento: input: {0}", alojamiento.toString());
         AlojamientoDTO nuevoAlojamientoDTO = new AlojamientoDTO(alojamientoLogic.createAlojamiento(alojamiento.toEntity()));
+        
         LOGGER.log(Level.INFO, "AlojamientoResource createAlojamiento: output: {0}", nuevoAlojamientoDTO.toString());
         return nuevoAlojamientoDTO; 
     }
@@ -154,7 +155,7 @@ public class AlojamientoResource {
         if (alojamientoEntity == null) {
             throw new WebApplicationException("El recurso /alojamientos/" + alojamientosId + " no existe.", 404);
         }
-        alojamientoProveedorLogic.removeProveedor(alojamientosId); 
+//        alojamientoProveedorLogic.removeProveedor(alojamientosId); 
         alojamientoLogic.deleteAlojamiento(alojamientosId);
         LOGGER.info("AlojamientoResource deleteAlojamiento: output: void");
     }

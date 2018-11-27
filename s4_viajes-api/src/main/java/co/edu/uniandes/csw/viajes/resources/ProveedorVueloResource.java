@@ -5,6 +5,7 @@
  */
 package co.edu.uniandes.csw.viajes.resources;
 
+import co.edu.uniandes.csw.viajes.dtos.ProveedorDTO;
 import co.edu.uniandes.csw.viajes.dtos.VueloDTO;
 import co.edu.uniandes.csw.viajes.ejb.ProveedorVueloLogic;
 import co.edu.uniandes.csw.viajes.ejb.VueloLogic;
@@ -16,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -34,8 +36,9 @@ import javax.ws.rs.core.MediaType;
  * @author jf.torresp
  */
 @Path("proveedores/{proveedorId: \\d+}/vuelos")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
+@Consumes("application/json")
+@Produces("application/json")
+@RequestScoped 
 public class ProveedorVueloResource {
     
     private static final Logger LOGGER = Logger.getLogger(ProveedorVueloResource.class.getName());
@@ -60,14 +63,11 @@ public class ProveedorVueloResource {
      */
     @POST
     @Path("{vueloId: \\d+}")
-    public VueloDTO addVuelo(@PathParam("proveedorId") Long proveedorId, @PathParam("vueloId") Long vueloId) {
+    public ProveedorDTO addVuelo(@PathParam("proveedorId") Long proveedorId, @PathParam("vueloId") Long vueloId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "ProveedorVuelosResource addVuelo: input: vueloID: {0} , vuelosId: {1}", new Object[]{proveedorId, vueloId});
-        if (vueloLogic.getVuelo(vueloId) == null) {
-            throw new WebApplicationException("El recurso /vuelos/" + vueloId + " no existe.", 404);
-        }
-        VueloDTO vueloDTO = new VueloDTO(proveedorVueloLogic.addVuelo(vueloId, proveedorId));
-        LOGGER.log(Level.INFO, "ProveedorVueloResource addVuelo: output: {0}", vueloDTO.toString());
-        return vueloDTO;
+        ProveedorDTO proveedorDTO = new ProveedorDTO(proveedorVueloLogic.addVuelo(vueloId, proveedorId));
+        LOGGER.log(Level.INFO, "ProveedorVueloResource addVuelo: output: {0}", proveedorDTO.toString());
+        return proveedorDTO;
     }
     
     /**
@@ -79,7 +79,7 @@ public class ProveedorVueloResource {
      * proveedor. Si no hay ninguno retorna una lista vacía.
      */
     @GET
-    public List<VueloDTO> getVuelos(@PathParam("proveedorId") Long proveedorId) {
+    public List<VueloDTO> getVuelos(@PathParam("proveedorId") Long proveedorId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "ProveedorVueloResource getVuelos: input: {0}", proveedorId);
         List<VueloDTO> listaDTOs = vuelosListEntity2DTO(proveedorVueloLogic.getVuelos(proveedorId));
         LOGGER.log(Level.INFO, "ProveedorVueloResource geVuelos: output: {0}", listaDTOs.toString());
@@ -104,39 +104,36 @@ public class ProveedorVueloResource {
     @Path("{vueloId: \\d+}")
     public VueloDTO getVuelo(@PathParam("proveedorId") Long proveedorId, @PathParam("vueloId") Long vueloId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "ProveedorVueloResource getVuelo: input: proveedorID: {0} , vuelosId: {1}", new Object[]{proveedorId, vueloId});
-        if (vueloLogic.getVuelo(vueloId) == null) {
-            throw new WebApplicationException("El recurso /proveedores/" + proveedorId + "/vuelos/" + vueloId + " no existe.", 404);
-        }
         VueloDTO vueloDTO = new VueloDTO(proveedorVueloLogic.getVuelo(proveedorId, vueloId));
         LOGGER.log(Level.INFO, "ProveedorVueloResource getVuelo: output: {0}", vueloDTO.toString());
         return vueloDTO;
     }
 
-    /**
-     * Remplaza las instancias de Vuelo asociadas a una instancia de Proveedor
-     *
-     * @param proveedorId Identificador del proveedor que se esta
-     * remplazando. Este debe ser una cadena de dígitos.
-     * @param vuelos JSONArray {@link VueloDTO} El arreglo de vuelos nuevo para el
-     * proveedor.
-     * @return JSON {@link VueloDTO} - El arreglo de vuelos guardado en 
-     * el proveedor.
-     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
-     * Error de lógica que se genera cuando no se encuentra el vuelo.
-     */
-    @PUT
-    @Path("{vueloId: \\d+}")
-    public List<VueloDTO> replaceVuelos(@PathParam("proveedorId") Long proveedorId, List<VueloDTO> vuelos) {
-        LOGGER.log(Level.INFO, "ProveedorVueloResource replaceVuelos: input: proveedorId: {0} , vuelos: {1}", new Object[]{proveedorId, vuelos.toString()});
-        for (VueloDTO vuelo : vuelos) {
-            if (vueloLogic.getVuelo(vuelo.getId()) == null) {
-                throw new WebApplicationException("El recurso /vuelos/" + vuelo.getId() + " no existe.", 404);
-            }
-        }
-        List<VueloDTO> listaDTOs = vuelosListEntity2DTO(proveedorVueloLogic.replaceVuelos(proveedorId, vuelosListDTO2Entity(vuelos)));
-        LOGGER.log(Level.INFO, "ProveedorVueloResource replaceVuelos: output: {0}", listaDTOs.toString());
-        return listaDTOs;
-    }
+//    /**
+//     * Remplaza las instancias de Vuelo asociadas a una instancia de Proveedor
+//     *
+//     * @param proveedorId Identificador del proveedor que se esta
+//     * remplazando. Este debe ser una cadena de dígitos.
+//     * @param vuelos JSONArray {@link VueloDTO} El arreglo de vuelos nuevo para el
+//     * proveedor.
+//     * @return JSON {@link VueloDTO} - El arreglo de vuelos guardado en 
+//     * el proveedor.
+//     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
+//     * Error de lógica que se genera cuando no se encuentra el vuelo.
+//     */
+//    @PUT
+//    @Path("{vueloId: \\d+}")
+//    public List<VueloDTO> replaceVuelos(@PathParam("proveedorId") Long proveedorId, List<VueloDTO> vuelos) {
+//        LOGGER.log(Level.INFO, "ProveedorVueloResource replaceVuelos: input: proveedorId: {0} , vuelos: {1}", new Object[]{proveedorId, vuelos.toString()});
+//        for (VueloDTO vuelo : vuelos) {
+//            if (vueloLogic.getVuelo(vuelo.getId()) == null) {
+//                throw new WebApplicationException("El recurso /vuelos/" + vuelo.getId() + " no existe.", 404);
+//            }
+//        }
+//        List<VueloDTO> listaDTOs = vuelosListEntity2DTO(proveedorVueloLogic.replaceVuelos(proveedorId, vuelosListDTO2Entity(vuelos)));
+//        LOGGER.log(Level.INFO, "ProveedorVueloResource replaceVuelos: output: {0}", listaDTOs.toString());
+//        return listaDTOs;
+//    }
 
     /**
      * Convierte una lista de VueloEntity a una lista de VueloDTO.

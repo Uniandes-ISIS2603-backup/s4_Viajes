@@ -81,6 +81,16 @@ public class EntradaPersistence {
     }
     
     /**
+     * Busca si hay algun pago con el id que se envía de argumento
+     *
+     * @param entradaId: id correspondiente al pago buscado.
+     * @return un pago.
+     */
+    public EntradaEntity find(Long entradaId) {
+        LOGGER.log(Level.INFO, "Consultando la entrada con id={0}", entradaId);
+        return em.find(EntradaEntity.class, entradaId);
+    }
+    /**
      * Actualiza una entrada.
      *
      * @param entradaEntity: la entrada que viene con los nuevos cambios.
