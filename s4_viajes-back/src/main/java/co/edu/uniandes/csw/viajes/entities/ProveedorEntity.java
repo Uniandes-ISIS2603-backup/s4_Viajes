@@ -36,6 +36,7 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
     
     private String imagen;
 
+    private int cantidadCalificaciones;
     
     @PodamExclude
     @OneToMany (mappedBy = "proveedor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -171,6 +172,14 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
 
     public void setContrasena(String contrasena) {
         this.password = contrasena;
+    }
+
+    public int getCantidadCalificaciones() {
+        return cantidadCalificaciones;
+    }
+
+    public void setCantidadCalificaciones(int cantidadCalificaciones) {
+        this.cantidadCalificaciones = cantidadCalificaciones;
     }
     
    

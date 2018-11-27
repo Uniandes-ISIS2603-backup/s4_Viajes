@@ -53,6 +53,8 @@ public class ProveedorDTO implements Serializable {
     private int puntuacion;
     
     private String imagen;
+    
+    private int cantidadCalificaciones;
 
     //Constructores//
     
@@ -77,6 +79,7 @@ public class ProveedorDTO implements Serializable {
             this.password = proveedorEntity.getPassword();
             this.puntuacion = proveedorEntity.getPuntuacion();
             this.imagen=proveedorEntity.getImagen();
+            this.cantidadCalificaciones=proveedorEntity.getCantidadCalificaciones();
         }
     }
 
@@ -180,9 +183,19 @@ public class ProveedorDTO implements Serializable {
         proveedorEntity.setPassword(this.password);
         proveedorEntity.setPuntuacion(this.puntuacion);
         proveedorEntity.setImagen(this.imagen);
+        proveedorEntity.setCantidadCalificaciones(cantidadCalificaciones);
         return proveedorEntity;
     }
 
+    public int getCantidadCalificaciones() {
+        return cantidadCalificaciones;
+    }
+
+    public void setCantidadCalificaciones(int cantidadCalificaciones) {
+        this.cantidadCalificaciones = cantidadCalificaciones;
+    }
+
+    
     @Override
     public String toString() {
          return ToStringBuilder.reflectionToString(this, ToStringStyle.MULTI_LINE_STYLE);

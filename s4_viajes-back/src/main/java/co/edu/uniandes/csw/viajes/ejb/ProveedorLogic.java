@@ -78,6 +78,7 @@ public class ProveedorLogic {
             throw new BusinessLogicException("El servicio debe tener una contraseña");
         
         proveedorEntity.setPuntuacion(-1);
+        proveedorEntity.setCantidadCalificaciones(0);
         String input = proveedorEntity.getNombre();
          
         // Verifica la regla de negocio que dice que el nombre del proveedor debe ser compuesto por solo letras y debe tener mínimo 5 letras y máximo 30 letras.
