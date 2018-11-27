@@ -54,33 +54,28 @@ public class ReservaLogic {
      */
     public ReservaEntity createReserva(ReservaEntity reservaEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación de la reserva");
-        if(true)
-            throw new BusinessLogicException("ENTRA POR FIN.");
 
-//        if(reservaEntity==null)
-//            throw new BusinessLogicException("Error en el formato.");
-//
-//        if (reservaEntity.getIdServicio()==0l) 
-//            throw new BusinessLogicException("La reserva debe tener un servicio asociado");
-//       
-//        escogerServicio(reservaEntity);
-//        
-//        if(reservaEntity.getServicio()!=null)
-//            throw new BusinessLogicException("Se agrego el servicio");
-//
-//        if(reservaEntity.getCantidadPersonas()<=0)
-//           throw new BusinessLogicException("La cantidad de personas no puede ser negativa");
-//         
-//          
-//        if (reservaEntity.getFechaInicio()==null||reservaEntity.getFechaFin()==null) 
-//           throw new BusinessLogicException("Las fechas no pueden ser nulas");
-//         
-//         if (reservaEntity.getFechaFin().compareTo(reservaEntity.getFechaInicio()) < 0) 
-//           throw new BusinessLogicException("La fecha inicial no puede ser despues de la final");
-//            
-//        reservaEntity = persistence.create(reservaEntity);
-//        
-//        LOGGER.log(Level.INFO, "Termina proceso de creación de la reserva");
+        if(reservaEntity==null)
+            throw new BusinessLogicException("Error en el formato.");
+
+        if (reservaEntity.getIdServicio()==0l) 
+            throw new BusinessLogicException("La reserva debe tener un servicio asociado");
+       
+        escogerServicio(reservaEntity);
+ 
+        if(reservaEntity.getCantidadPersonas()<=0)
+           throw new BusinessLogicException("La cantidad de personas no puede ser cero ni negativa");
+         
+          
+        if (reservaEntity.getFechaInicio()==null||reservaEntity.getFechaFin()==null) 
+           throw new BusinessLogicException("Las fechas no pueden ser nulas");
+         
+         if (reservaEntity.getFechaFin().compareTo(reservaEntity.getFechaInicio()) < 0) 
+           throw new BusinessLogicException("La fecha inicial no puede ser despues de la final");
+            
+        persistence.create(reservaEntity);
+        
+        LOGGER.log(Level.INFO, "Termina proceso de creación de la reserva");
         return reservaEntity;
     }
 

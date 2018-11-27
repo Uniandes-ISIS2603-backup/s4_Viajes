@@ -64,7 +64,7 @@ public class ReservaResource {
         LOGGER.log(Level.INFO, "ReservaResource createReserva: input: {0}", reserva.toString());
         ReservaEntity reservaEntity= reserva.toEntity();
         ReservaDTO nuevaReservaDTO = new ReservaDTO(reservaLogic.createReserva(reservaEntity));
-
+       
         LOGGER.log(Level.INFO, "ReservaResource createReserva: output: {0}", nuevaReservaDTO.toString());
         return nuevaReservaDTO;
        

@@ -127,6 +127,14 @@ public class ReservaDTO implements Serializable{
         this.idServicio = idServicio;
     }
 
+    public ServicioDTO getServicio() {
+        return servicio;
+    }
+
+    public void setServicio(ServicioDTO servicio) {
+        this.servicio = servicio;
+    }
+
     
      
     @Override
