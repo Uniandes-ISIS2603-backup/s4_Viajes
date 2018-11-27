@@ -99,7 +99,7 @@ public class ServicioDTO implements Serializable{
             id=servicioEntity.getId();
             cantidadCalificaciones=servicioEntity.getCantidadCalificaciones();
             duracion=servicioEntity.getDuracion();
-//            imagen=servicioEntity.getImagen();
+            imagen=servicioEntity.getImagen();
         }
     }
     
@@ -119,7 +119,7 @@ public class ServicioDTO implements Serializable{
         servicioEntity.setPuntuacion(puntuacion);
         servicioEntity.setCantidadCalificaciones(cantidadCalificaciones);
         servicioEntity.setDuracion(duracion);
-//        servicioEntity.setImagen(imagen);
+        servicioEntity.setImagen(imagen);
         return servicioEntity;
     }
       
@@ -134,7 +134,7 @@ public class ServicioDTO implements Serializable{
         servicioEntity.setPuntuacion(puntuacion);
         servicioEntity.setCantidadCalificaciones(cantidadCalificaciones);
         servicioEntity.setDuracion(duracion);
-//        servicioEntity.setImagen(imagen);
+        servicioEntity.setImagen(imagen);
 
       }
 

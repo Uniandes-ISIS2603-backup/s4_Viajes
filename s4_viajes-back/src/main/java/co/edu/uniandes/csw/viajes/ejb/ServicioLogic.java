@@ -36,9 +36,9 @@ public class ServicioLogic {
             throw new BusinessLogicException("El servicio debe tener un nombre");
        
         
-//         // Verifica la regla de negocio que El servicio debe tener un nombre
-//        if(servicioEntity.getImagen()==null||servicioEntity.getImagen().trim().equals(""))
-//            throw new BusinessLogicException("El servicio debe tener una imagen");
+         // Verifica la regla de negocio que El servicio debe tener un nombre
+        if(servicioEntity.getImagen()==null||servicioEntity.getImagen().trim().equals(""))
+            throw new BusinessLogicException("El servicio debe tener una imagen");
        
          // Verifica la regla de negocio que El servicio debe tener un costo positivo
         if(servicioEntity.getCosto()<0)
