@@ -49,16 +49,6 @@ public class ComboReservasLogic {
         for(long idReserva : comboEntity.getIdsReservas())
             if(reservaId == idReserva)
                 throw new BusinessLogicException("El combo ya tiene asignada la reserva con id " + reservaId +".");
-            else
-            {
-               ReservaEntity reserva = reservaPersistence.find(idReserva);
-               if(reserva==null)
-                   {
-//                           throw new BusinessLogicException("El combo reserva que envio no existe");
-                    }
-               else
-                   comboEntity.addReserva(reserva);
-            } 
         comboEntity.addIdReserva(reservaId);
         comboEntity.addReservaFirst(reservaEntity);
 
