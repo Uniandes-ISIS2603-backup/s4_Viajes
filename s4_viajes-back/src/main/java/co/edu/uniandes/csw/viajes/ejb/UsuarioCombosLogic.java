@@ -33,6 +33,8 @@ public class UsuarioCombosLogic {
     @Inject
     private UsuarioPersistence usuarioPersistence;
 
+      @Inject
+    private ComboLogic comboLogic;
     /**
      * Agregar un medalla a el usuario
      *
@@ -76,7 +78,7 @@ public class UsuarioCombosLogic {
         List<ComboEntity> combos=new ArrayList<>();
         for(long idCombo : usuarioEntity.getIdsCombos())   
         {
-            ComboEntity combo = comboPersistence.find(idCombo);
+            ComboEntity combo=comboLogic.getCombo(idCombo);
             if(combo==null)
                {
 //                     throw new BusinessLogicException("El combo con id " + medallaId +" no existe");
@@ -105,7 +107,7 @@ public class UsuarioCombosLogic {
         ComboEntity combo=null;
         for(long idCombo : usuarioEntity.getIdsCombos())   
             if(comboId==idCombo){
-                combo = comboPersistence.find(comboId);
+                combo=comboLogic.getCombo(idCombo);
                 break;
             }      
         if(combo==null)

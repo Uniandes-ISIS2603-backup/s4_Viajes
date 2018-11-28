@@ -41,6 +41,9 @@ public class UsuarioPagosLogic {
    
    @Inject
     private ReservaPersistence reservaPersistence;
+   
+   @Inject
+    private ComboLogic comboLogic;
 
     /**
      * Retorna todos los pagos asociadas a un usuario
@@ -62,7 +65,7 @@ public class UsuarioPagosLogic {
 
     public List<PagoEntity> getPagosCombo(Long idCombo)
     {
-        ComboEntity combo=comboPersistence.find(idCombo);
+        ComboEntity combo=comboLogic.getCombo(idCombo);
         List<PagoEntity> pagos=new ArrayList<>();
         if(combo!=null)
         {
@@ -86,7 +89,7 @@ public class UsuarioPagosLogic {
     {
         PagoEntity pay=null;
         for(Long idCombo:usuario.getIdsCombos()){         
-            ComboEntity combo=comboPersistence.find(idCombo);
+            ComboEntity combo=comboLogic.getCombo(idCombo);
             if(combo!=null)
                 for(Long idReserva:combo.getIdsReservas())
                 {

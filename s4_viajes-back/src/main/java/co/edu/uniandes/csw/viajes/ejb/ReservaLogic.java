@@ -7,7 +7,6 @@ package co.edu.uniandes.csw.viajes.ejb;
 
 import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
 import co.edu.uniandes.csw.viajes.entities.AlojamientoEntity;
-import co.edu.uniandes.csw.viajes.entities.PagoEntity;
 import co.edu.uniandes.csw.viajes.entities.ReservaEntity;
 import co.edu.uniandes.csw.viajes.entities.TransporteTerrestreEntity;
 import co.edu.uniandes.csw.viajes.entities.VueloEntity;
@@ -83,7 +82,9 @@ public class ReservaLogic {
         
          reservarServicio(reservaEntity, reservaEntity.getCantidadPersonas(), reservaEntity.getFechas());
 
-        persistence.create(reservaEntity);
+         reservaEntity.setCosto(reservaEntity.getServicio().getCosto()*reservaEntity.getCantidadPersonas()*reservaEntity.getFechas().size());
+          reservaEntity.setPagada(false);
+         persistence.create(reservaEntity);
         
         LOGGER.log(Level.INFO, "Termina proceso de creación de la reserva");
         return reservaEntity;

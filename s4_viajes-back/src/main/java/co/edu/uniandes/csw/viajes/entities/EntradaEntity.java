@@ -43,6 +43,7 @@ public class EntradaEntity extends BaseEntity implements Serializable{
     @PodamStrategyValue(DateStrategy.class)
     private Date fecha;
     
+    private Long idCombo;
     public UsuarioEntity getAutor()
     {
         return autor;
@@ -133,5 +134,13 @@ public class EntradaEntity extends BaseEntity implements Serializable{
     {
         fecha = pFecha;
     } 
+     
+    public Long getIdCombo() {
+        return idCombo;
+    }
+
+    public void setIdCombo(Long idCombo) {
+        this.idCombo = idCombo;
+    }
     
 }

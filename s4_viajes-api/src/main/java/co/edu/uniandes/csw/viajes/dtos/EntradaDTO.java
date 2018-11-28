@@ -24,6 +24,7 @@ public class EntradaDTO implements Serializable{
     private double puntuacion;
     private double calificacionComunidad;
     private Date fecha;
+    private Long idCombo;
 
    public EntradaDTO(){}
    
@@ -39,6 +40,7 @@ public class EntradaDTO implements Serializable{
            this.puntuacion = entradaEntity.getPuntuacion();
            this.calificacionComunidad = entradaEntity.getCalificacionComunidad();
            this.fecha = entradaEntity.getFecha();
+           this.idCombo=entradaEntity.getIdCombo();
           
        }
    }
@@ -113,15 +115,24 @@ public class EntradaDTO implements Serializable{
         fecha = pFecha;
     } 
 
+    public Long getIdCombo() {
+        return idCombo;
+    }
+
+    public void setIdCombo(Long idCombo) {
+        this.idCombo = idCombo;
+    }
+     
+
     public EntradaEntity toEntity() {
        EntradaEntity entradaEntity = new EntradaEntity();
-        entradaEntity.setId(this.id);
         entradaEntity.setTitulo(this.titulo);
         entradaEntity.setTextoContenido(this.textoContenido);
         entradaEntity.setMultimedia(this.multimedia);
         entradaEntity.setPuntuacion(this.puntuacion);
         entradaEntity.setCalificacionComunidad(this.calificacionComunidad);
         entradaEntity.setFecha(this.fecha);
+        entradaEntity.setIdCombo(this.idCombo);
         return entradaEntity;
     }
       
