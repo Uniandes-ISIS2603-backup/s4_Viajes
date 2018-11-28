@@ -6,13 +6,16 @@
 package co.edu.uniandes.csw.viajes.resources;
 
 import co.edu.uniandes.csw.viajes.dtos.ComboDTO;
+import co.edu.uniandes.csw.viajes.dtos.ComboDetailDTO;
 import co.edu.uniandes.csw.viajes.dtos.UsuarioDTO;
+import co.edu.uniandes.csw.viajes.dtos.UsuarioDetailDTO;
 import co.edu.uniandes.csw.viajes.ejb.ComboLogic;
 import co.edu.uniandes.csw.viajes.ejb.UsuarioCombosLogic;
 import co.edu.uniandes.csw.viajes.entities.ComboEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -22,6 +25,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
 
 /**
  *
@@ -54,9 +58,26 @@ public class UsuarioCombosResource {
      */
     @POST
     @Path("{idCombo: \\d+}")
-    public UsuarioDTO addPago(@PathParam("usuarioId") Long usuarioId, @PathParam("idCombo") Long idCombo) throws BusinessLogicException {       
-        UsuarioDTO usuarioDTO = new UsuarioDTO(usuarioCombosLogic.addCombo(idCombo, usuarioId));
+    public UsuarioDetailDTO addCombo(@PathParam("usuarioId") Long usuarioId, @PathParam("idCombo") Long idCombo) throws BusinessLogicException {       
+        UsuarioDetailDTO usuarioDTO = new UsuarioDetailDTO(usuarioCombosLogic.addCombo(idCombo, usuarioId));
         return usuarioDTO;
+    }
+    
+     @POST
+    public UsuarioDetailDTO crearCombo(@PathParam("usuarioId") Long usuarioId,ComboDetailDTO combo) throws BusinessLogicException {
+        
+        LOGGER.log(Level.INFO, "ComboResource createCombo: input: {0}", combo.toString());
+        // Convierte el DTO (json) en un objeto Entity para ser manejado por la lógica.
+        ComboEntity comboEntity;
+        try {
+            comboEntity = combo.toEntity();
+        } catch (Exception ex) {
+            throw new BusinessLogicException("ERROR: "+ex.getMessage());
+        }
+       
+        UsuarioDetailDTO usuarioDTO = new UsuarioDetailDTO(usuarioCombosLogic.addCombo((comboLogic.createCombo(comboEntity)).getId(), usuarioId));
+        return usuarioDTO;
+       
     }
      
     /**
@@ -68,7 +89,7 @@ public class UsuarioCombosResource {
      * usuario. Si no hay ninguno retorna una lista vacía.
      */
     @GET
-    public List<ComboDTO> getMedallas(@PathParam("usuarioId") Long usuarioId) throws BusinessLogicException {
+    public List<ComboDTO> getCombos(@PathParam("usuarioId") Long usuarioId) throws BusinessLogicException {
         List<ComboDTO> listaDTOs = combosListEntity2DTO(usuarioCombosLogic.getCombos(usuarioId));
         return listaDTOs;
     }
@@ -85,7 +106,7 @@ public class UsuarioCombosResource {
      */
     @GET
     @Path("{idCombo: \\d+}")
-    public ComboDTO getMedalla(@PathParam("usuarioId") Long usuarioId, @PathParam("idCombo") Long idCombo) throws BusinessLogicException {
+    public ComboDTO getCombo(@PathParam("usuarioId") Long usuarioId, @PathParam("idCombo") Long idCombo) throws BusinessLogicException {
         ComboDTO comboDTO = new ComboDTO(usuarioCombosLogic.getCombo(usuarioId, idCombo));
         return comboDTO;
     }

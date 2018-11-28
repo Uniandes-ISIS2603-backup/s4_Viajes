@@ -52,16 +52,7 @@ public class UsuarioCombosLogic {
         for(long idCombo : usuarioEntity.getIdsCombos())
             if(comboId == idCombo)
                 throw new BusinessLogicException("El usuario ya tiene asignado un combo con id " + comboId +".");
-            else
-            {
-                ComboEntity combo = comboPersistence.find(idCombo);
-               if(combo==null)
-                   {
-//                     throw new BusinessLogicException("La medalla con id " + medallaId +" no existe");
-                   }
-               else
-                    usuarioEntity.addCombo(combo);
-            } 
+         
         usuarioEntity.addIdCombo(comboId);
         usuarioEntity.addComboFirst(comboEntity);
 
@@ -78,7 +69,7 @@ public class UsuarioCombosLogic {
      * @return La lista de combos de el usuario
      */
     public List<ComboEntity> getCombos(Long usuarioId) throws BusinessLogicException {
-       LOGGER.log(Level.INFO, "Inicia proceso de consultar las medallas asociados al usuario con id = {0}", usuarioId);
+       LOGGER.log(Level.INFO, "Inicia proceso de consultar los combos asociados al usuario con id = {0}", usuarioId);
         UsuarioEntity usuarioEntity = usuarioPersistence.find(usuarioId);
         if(usuarioEntity==null)
             throw new BusinessLogicException("El usuario con id "+usuarioId +" no existe");

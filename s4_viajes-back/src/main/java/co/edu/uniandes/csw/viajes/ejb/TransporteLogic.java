@@ -5,7 +5,6 @@
  */
 package co.edu.uniandes.csw.viajes.ejb;
 
-import co.edu.uniandes.csw.viajes.entities.ServicioEntity;
 import co.edu.uniandes.csw.viajes.entities.TransporteEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 
