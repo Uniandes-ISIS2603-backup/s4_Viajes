@@ -9,6 +9,8 @@ import java.io.Serializable;
 import java.util.Calendar;
 import java.util.List;
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import uk.co.jemos.podam.common.PodamExclude;
 
 /**
  *
@@ -22,6 +24,9 @@ public class ComentarioEntity extends BaseEntity implements Serializable {
     private double calificacion;
     private Calendar fechaPub;
     
+//    @PodamExclude
+//    @ManyToOne
+//    private EntradaEntity entrada;
     
     public int getNumero()
     {
@@ -72,4 +77,14 @@ public class ComentarioEntity extends BaseEntity implements Serializable {
     {
         fechaPub = pFecha;
     } 
+
+//    public EntradaEntity getEntrada() {
+//        return entrada;
+//    }
+//
+//    public void setEntrada(EntradaEntity entrada) {
+//        this.entrada = entrada;
+//    }
+
+     
 }

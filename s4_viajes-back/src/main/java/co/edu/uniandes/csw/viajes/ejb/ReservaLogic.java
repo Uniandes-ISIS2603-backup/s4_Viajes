@@ -188,9 +188,10 @@ public class ReservaLogic {
             if(vueloEntity != null)
             {
                 List<Date> fechas=vueloEntity.getFechasDisponibles();
+                boolean fallo=false;
                 for(Date fecha:fechasReserva){
                     boolean ya=false;
-                    for(int i=0;i<fechas.size()&&!ya;i++)
+                    for(int i=0;i<fechas.size()&&!fallo&&!ya;i++)
                     {
                         Date date= fechas.get(i);
                         if(date.compareTo(fecha)==0)
@@ -292,6 +293,103 @@ public class ReservaLogic {
         else
             throw new BusinessLogicException("La reserva, no tiene un servicio asociado.");            
     }
+    
+    
+    public void eliminarReservaServicio(ReservaEntity reservaEntity,int cantidadPersonas, List<Date> fechasReserva) throws BusinessLogicException
+    {
+        if(reservaEntity.getIdServicio()!=0l)
+        {
+            VueloEntity vueloEntity = vueloPersistence.find(reservaEntity.getIdServicio());
+            ActividadEntity actividadEntity=actividadPersistence.find(reservaEntity.getIdServicio());
+            AlojamientoEntity alojamientoEntity=alojamientoPersistence.find(reservaEntity.getIdServicio());
+            TransporteTerrestreEntity transporteTerrestreEntity=transporteTerrestrePersistence.find(reservaEntity.getIdServicio());
+            if (vueloEntity == null&&actividadEntity == null&&alojamientoEntity == null&&transporteTerrestreEntity == null) {
+                LOGGER.log(Level.SEVERE, "El servicio de la reserva con el id = {0} no existe", reservaEntity.getIdServicio());
+                throw new BusinessLogicException("El servico de la reserva que se desea realizar no existe");
+            }
+            if(vueloEntity != null)
+            {
+                List<Date> fechas=vueloEntity.getFechasDisponibles();
+                for(Date fecha:fechasReserva)
+                {
+                    boolean ya=false;
+                    for(int i=0;i<fechas.size()&&!ya;i++)
+                    {
+                        Date date= fechas.get(i);
+                        if(date.compareTo(fecha)==0)
+                        {
+                            int nCantidad=vueloEntity.getDisponibilidadFecha().get(i)+cantidadPersonas;
+                            vueloEntity.getDisponibilidadFecha().set(i, nCantidad);
+                            vueloPersistence.update(vueloEntity);
+                            ya=true;
+                        }
+                    }
+                }   
+            }
+            else if(actividadEntity != null)
+            {
+                List<Date> fechas=actividadEntity.getFechasDisponibles();
+                for(Date fecha:fechasReserva)
+                {
+                    boolean ya=false;
+                    for(int i=0;i<fechas.size()&&!ya;i++)
+                    {
+                        Date date= fechas.get(i);
+                        if(date.compareTo(fecha)==0)
+                        {
+                            int nCantidad=actividadEntity.getDisponibilidadFecha().get(i)+cantidadPersonas;
+                            actividadEntity.getDisponibilidadFecha().set(i, nCantidad);
+                            vueloPersistence.update(vueloEntity);
+                            ya=true;
+                        }
+                    }
+                }
+      
+            }
+            else if(alojamientoEntity != null)
+            {
+                List<Date> fechas=alojamientoEntity.getFechasDisponibles();
+                for(Date fecha:fechasReserva)
+                {
+                    boolean ya=false;
+                    for(int i=0;i<fechas.size()&&!ya;i++)
+                    {
+                        Date date= fechas.get(i);
+                        if(date.compareTo(fecha)==0)
+                        {
+                            int nCantidad=alojamientoEntity.getDisponibilidadFecha().get(i)+cantidadPersonas;
+                            alojamientoEntity.getDisponibilidadFecha().set(i, nCantidad);
+                            vueloPersistence.update(vueloEntity);
+                            ya=true;
+                        }
+                    }
+              }
+              
+               
+            }
+            else if(transporteTerrestreEntity != null)
+            {
+                List<Date> fechas=transporteTerrestreEntity.getFechasDisponibles();
+                for(Date fecha:fechasReserva)
+                {
+                    boolean ya=false;
+                    for(int i=0;i<fechas.size()&&!ya;i++)
+                    {
+                        Date date= fechas.get(i);
+                        if(date.compareTo(fecha)==0)
+                        {
+                            int nCantidad=transporteTerrestreEntity.getDisponibilidadFecha().get(i)+cantidadPersonas;
+                            transporteTerrestreEntity.getDisponibilidadFecha().set(i, nCantidad);
+                            vueloPersistence.update(vueloEntity);
+                            ya=true;
+                        }
+                    }    
+                }               
+            }            
+        }
+        else
+            throw new BusinessLogicException("La reserva, no tiene un servicio asociado.");            
+    }
     /**
      * Actualizar un libro por ID
      *
@@ -330,7 +428,24 @@ public class ReservaLogic {
         LOGGER.log(Level.INFO, "Inicia proceso de borrar la reserva con id = {0}", reservaId);
         if(reservaId == null)
           throw new BusinessLogicException("Identificador de la reserva inexistente.");
+        ReservaEntity reserva=persistence.find(reservaId);
+        if(reserva == null)
+          throw new BusinessLogicException("La reserva no existe.");
+       boolean esPasada=true;
+        Date hoy = new java.sql.Date(Calendar.getInstance().getTime().getTime());
 
+        for(Date fecha:reserva.getFechas())
+            if(hoy.compareTo(fecha)<0)
+            {
+                esPasada=false;
+                break;
+            }
+            
+        
+        if(reserva.isPagada()&&!esPasada)
+            throw new BusinessLogicException("No se puede eliminar, la reserva no se ha completado y esta pagada, comunicate la empresa para más informacion.");
+
+        eliminarReservaServicio(reserva, reserva.getCantidadPersonas(), reserva.getFechas());
         persistence.delete(reservaId);
         LOGGER.log(Level.INFO, "Termina proceso de borrar la reserva con id = {0}", reservaId);
     }

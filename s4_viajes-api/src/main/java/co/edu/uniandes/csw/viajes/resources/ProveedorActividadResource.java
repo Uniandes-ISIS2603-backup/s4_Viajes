@@ -6,13 +6,11 @@
 package co.edu.uniandes.csw.viajes.resources;
 
 import co.edu.uniandes.csw.viajes.dtos.ActividadDTO;
-import co.edu.uniandes.csw.viajes.dtos.ProveedorDTO;
 import co.edu.uniandes.csw.viajes.dtos.ProveedorDetailDTO;
 import co.edu.uniandes.csw.viajes.dtos.VueloDTO;
 import co.edu.uniandes.csw.viajes.ejb.ActividadLogic;
 import co.edu.uniandes.csw.viajes.ejb.ProveedorActividadLogic;
 import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
-import co.edu.uniandes.csw.viajes.entities.VueloEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.mappers.BusinessLogicExceptionMapper;
 import co.edu.uniandes.csw.viajes.mappers.WebApplicationExceptionMapper;
@@ -25,12 +23,10 @@ import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
-import javax.ws.rs.core.MediaType;
 
 /**
  *

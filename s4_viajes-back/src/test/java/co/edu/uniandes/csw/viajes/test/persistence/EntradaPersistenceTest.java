@@ -139,7 +139,6 @@ public class EntradaPersistenceTest {
         EntradaEntity entity = em.find(EntradaEntity.class, result.getId());
 
         Assert.assertEquals(newEntity.getAutor(), entity.getAutor());
-        Assert.assertEquals(newEntity.getComentarios(), entity.getComentarios());
         Assert.assertEquals(newEntity.getCombo(), entity.getCombo());
         Assert.assertEquals(newEntity.getTitulo(), entity.getTitulo());
         Assert.assertEquals(newEntity.getTextoContenido(), entity.getTextoContenido());

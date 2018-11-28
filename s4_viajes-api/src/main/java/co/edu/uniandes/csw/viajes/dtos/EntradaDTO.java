@@ -7,6 +7,7 @@ package co.edu.uniandes.csw.viajes.dtos;
 
 import co.edu.uniandes.csw.viajes.entities.EntradaEntity;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -25,6 +26,8 @@ public class EntradaDTO implements Serializable{
     private double calificacionComunidad;
     private Date fecha;
     private Long idCombo;
+    private ComboDTO combo=new ComboDTO();
+  
 
    public EntradaDTO(){}
    
@@ -40,8 +43,8 @@ public class EntradaDTO implements Serializable{
            this.puntuacion = entradaEntity.getPuntuacion();
            this.calificacionComunidad = entradaEntity.getCalificacionComunidad();
            this.fecha = entradaEntity.getFecha();
-           this.idCombo=entradaEntity.getIdCombo();
-          
+           if(entradaEntity.getCombo()!=null)
+               combo=new ComboDTO(entradaEntity.getCombo());
        }
    }
     

@@ -102,7 +102,7 @@ public class VueloResource {
      */
     @PUT
     @Path("{vueloId: \\d+}")
-    public VueloDTO modificarVuelo(@PathParam("vueloId")Long vueloId) throws WebApplicationException
+    public VueloDTO modificarVuelo(@PathParam("vueloId")Long vueloId) throws WebApplicationException, BusinessLogicException
     {
        LOGGER.log(Level.INFO, "EditorialResource getEditorial: input: {0}", vueloId);
         VueloEntity vueloEntity = vueloLogic.getVuelo(vueloId);
@@ -126,10 +126,7 @@ public class VueloResource {
     @Path("{vueloId: \\d+}")
     public void deleteVuelo(@PathParam("vueloId") Long vueloId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "VueloResource deleteVuelo: input: {0}", vueloId);
-        VueloEntity entity = vueloLogic.getVuelo(vueloId);
-        if (entity == null) {
-            throw new WebApplicationException("El recurso /vuelos/" + vueloId + " no existe.", 404);
-        }
+        
         vueloLogic.deleteVuelo(vueloId);
         LOGGER.info("VueloResource deleteVuelo: output: void");
     }

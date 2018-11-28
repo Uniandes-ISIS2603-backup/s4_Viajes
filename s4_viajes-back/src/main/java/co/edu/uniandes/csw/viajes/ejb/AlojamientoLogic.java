@@ -13,6 +13,7 @@ import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.AlojamientoPersistence;
 import co.edu.uniandes.csw.viajes.persistence.ComboPersistence;
 import co.edu.uniandes.csw.viajes.persistence.ProveedorPersistence;
+import co.edu.uniandes.csw.viajes.persistence.ReservaPersistence;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,6 +39,10 @@ public class AlojamientoLogic extends ServicioLogic{
     
     @Inject
     private ComboPersistence comboPersistence; 
+    
+     @Inject
+    private ReservaPersistence reservaPersistence; 
+
 
     /**
      * Guardar un nuevo alojamiento
@@ -141,13 +146,14 @@ public class AlojamientoLogic extends ServicioLogic{
     public void deleteAlojamiento(Long alojamientoId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de borrar el alojamiento con id = {0}", alojamientoId);
         AlojamientoEntity alojamiento = getAlojamiento(alojamientoId);
-//        ReservaEntity reserva = alojamiento.getReserva(); 
         if (alojamiento == null) {
             throw new BusinessLogicException("El alojamiento no se encuentra registrado, imposible eliminar: (AlojamientoLogicDEL)" + alojamientoId);
         }
-//        if(reserva != null){
-//            throw new BusinessLogicException("No se puede eliminar el alojamiento porque esta asociado a un combo: (AlojamientoLogicDEL)" + reserva.getId());
-//        }
+        for(ReservaEntity reserva:reservaPersistence.findAll())
+            if(alojamientoId.compareTo(reserva.getIdServicio())==0)
+                throw new BusinessLogicException("No se puede eliminar el servicio pues ya tiene reservas asociasas");
+
+    
         persistence.delete(alojamientoId);  
         LOGGER.log(Level.INFO, "Termina proceso de borrar el alojamiento con id = {0}", alojamientoId);
     }

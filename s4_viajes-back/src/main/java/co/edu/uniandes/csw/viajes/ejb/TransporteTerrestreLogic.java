@@ -7,10 +7,12 @@ package co.edu.uniandes.csw.viajes.ejb;
 
 import co.edu.uniandes.csw.viajes.entities.ComboEntity;
 import co.edu.uniandes.csw.viajes.entities.ProveedorEntity;
+import co.edu.uniandes.csw.viajes.entities.ReservaEntity;
 import co.edu.uniandes.csw.viajes.entities.TransporteTerrestreEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.ComboPersistence;
 import co.edu.uniandes.csw.viajes.persistence.ProveedorPersistence;
+import co.edu.uniandes.csw.viajes.persistence.ReservaPersistence;
 import co.edu.uniandes.csw.viajes.persistence.TransporteTerrestrePersistence;
 import java.util.List;
 //import java.util.List;
@@ -36,6 +38,9 @@ public class TransporteTerrestreLogic extends TransporteLogic{
     
     @Inject
     private ComboPersistence comboPesistence; 
+    
+     @Inject
+    private ReservaPersistence reservaPersistence; 
 
     /**
      * Guardar un nuevo alojamiento.
@@ -73,11 +78,11 @@ public class TransporteTerrestreLogic extends TransporteLogic{
      * @param transporteId El id del transpore a buscar
      * @return El alojamiento encontrado, null si no lo encuentra.
      */
-    public TransporteTerrestreEntity getTransporte(Long transporteId)  {
+    public TransporteTerrestreEntity getTransporte(Long transporteId) throws BusinessLogicException  {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar el transporte con id = {0}", transporteId);
         TransporteTerrestreEntity transporteEntity = persistence.find(transporteId);
         if (transporteEntity == null) {
-            LOGGER.log(Level.SEVERE, "El transporte con el id = {0} no existe: (TransporteLogic)", transporteId);
+        throw new BusinessLogicException("EL transporte no existe");
         }
         LOGGER.log(Level.INFO, "Termina proceso de consultar el transporte con id = {0}", transporteId);
         return transporteEntity;
@@ -116,14 +121,17 @@ public class TransporteTerrestreLogic extends TransporteLogic{
      */
     public void deleteTransporte(Long transporteId) throws BusinessLogicException{
         LOGGER.log(Level.INFO, "Inicia proceso de borrar el transporte con id = {0}", transporteId);
+       
         TransporteTerrestreEntity transporte = getTransporte(transporteId); 
-//        ReservaEntity combo = transporte.getCombo(); 
         if (transporteId == null) {
             throw new BusinessLogicException("El transporte no se encuentra registrado, imposible eliminar: (TransporteLogicDEL)" + transporteId); 
         }
-//        if(combo != null){
-//            throw new BusinessLogicException("No se puede eliminar el transporte porque esta asociado a un combo: (TransporteLogicDEL)" + combo.getNombre());
-//        } 
+
+        for(ReservaEntity reserva:reservaPersistence.findAll())
+            if(transporteId.compareTo(reserva.getIdServicio())==0)
+                throw new BusinessLogicException("No se puede eliminar el servicio pues ya tiene reservas asociasas");
+
+        
         persistence.delete(transporte.getId());    
         LOGGER.log(Level.INFO, "Termina proceso de borrar el transporte con id = {0}", transporteId);
     }

@@ -151,11 +151,6 @@ public class AlojamientoResource {
     @Path("{alojamientosId: \\d+}")
     public void deleteAlojamiento(@PathParam("alojamientosId") Long alojamientosId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "AlojamientoResource deleteAlojamiento: input: {0}", alojamientosId);
-        AlojamientoEntity alojamientoEntity = alojamientoLogic.getAlojamiento(alojamientosId);
-        if (alojamientoEntity == null) {
-            throw new WebApplicationException("El recurso /alojamientos/" + alojamientosId + " no existe.", 404);
-        }
-//        alojamientoProveedorLogic.removeProveedor(alojamientosId); 
         alojamientoLogic.deleteAlojamiento(alojamientosId);
         LOGGER.info("AlojamientoResource deleteAlojamiento: output: void");
     }

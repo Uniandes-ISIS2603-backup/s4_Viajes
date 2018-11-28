@@ -106,7 +106,7 @@ public class TransporteTerrestreResource {
      */
     @GET
     @Path("{transportesId: \\d+}")
-    public TransporteTerrestreDTO getTransporte(@PathParam("transportesId") Long transportesId) {
+    public TransporteTerrestreDTO getTransporte(@PathParam("transportesId") Long transportesId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "TransporteTerrestreResource getTransporte: input: {0}", transportesId);
         TransporteTerrestreEntity transporteTerrestreEntity = transporteTerrestreLogic.getTransporte(transportesId);
         if (transporteTerrestreEntity == null) {
@@ -154,10 +154,7 @@ public class TransporteTerrestreResource {
     @Path("{transportesId: \\d+}")
     public void deleteTransporte( @PathParam("transportesId") Long transportesId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "TransporteTerrestreResource deleteTransporte: input: {0}", transportesId);
-        TransporteTerrestreEntity entity = transporteTerrestreLogic.getTransporte(transportesId);
-        if (entity == null) {
-            throw new WebApplicationException("El recurso /transportes/" + transportesId + " no existe.", 404);
-        }
+        
         transporteTerrestreLogic.deleteTransporte(transportesId);
         LOGGER.info("TrasnporteResource deleteTransporte: output: void");
     }

@@ -6,9 +6,11 @@
 package co.edu.uniandes.csw.viajes.ejb;
 
 import co.edu.uniandes.csw.viajes.entities.ProveedorEntity;
+import co.edu.uniandes.csw.viajes.entities.ReservaEntity;
 import co.edu.uniandes.csw.viajes.entities.VueloEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.ProveedorPersistence;
+import co.edu.uniandes.csw.viajes.persistence.ReservaPersistence;
 import co.edu.uniandes.csw.viajes.persistence.VueloPersistence;
 import java.util.List;
 import java.util.logging.Level;
@@ -34,6 +36,10 @@ public class VueloLogic extends TransporteLogic{
 
     @Inject
     private ProveedorPersistence proveedorPersistence;
+    
+        
+     @Inject
+    private ReservaPersistence reservaPersistence; 
     /**
      * Crea un vuelo en la persistencia.
      *
@@ -71,13 +77,13 @@ public class VueloLogic extends TransporteLogic{
      * @param vueloId: id del vuelo para ser buscado.
      * @return el vuelo solicitado por medio de su id.
      */
-    public VueloEntity getVuelo(Long vueloId) {
+    public VueloEntity getVuelo(Long vueloId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar el vuelo con id = {0}", vueloId);
         // Note que, por medio de la inyección de dependencias se llama al método "find(id)" que se encuentra en la persistencia.
         VueloEntity vueloEntity = persistence.find(vueloId);
         
         if (vueloEntity == null) {
-            LOGGER.log(Level.SEVERE, "El vuelo con el id = {0} no existe", vueloId);
+            throw new BusinessLogicException("El vuelo buscado no existe");
         }
         LOGGER.log(Level.INFO, "Termina proceso de consultar el vuelo con id = {0}", vueloId);
         return vueloEntity;
@@ -124,6 +130,12 @@ public class VueloLogic extends TransporteLogic{
         if (vueloId == null) {
             throw new BusinessLogicException("No se puede borrar el vuelo con id = " + vueloId + " porque no existe");
         }
+        VueloEntity vueloEntity=getVuelo(vueloId);
+        
+        for(ReservaEntity reserva:reservaPersistence.findAll())
+            if(vueloId.compareTo(reserva.getIdServicio())==0)
+                throw new BusinessLogicException("No se puede eliminar el servicio pues ya tiene reservas asociasas");
+
         persistence.delete(vueloId);
         LOGGER.log(Level.INFO, "Termina proceso de borrar el vuelo con id = {0}", vueloId);
     }
