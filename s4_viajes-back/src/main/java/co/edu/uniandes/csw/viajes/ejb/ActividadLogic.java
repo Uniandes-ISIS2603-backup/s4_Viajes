@@ -7,9 +7,11 @@ package co.edu.uniandes.csw.viajes.ejb;
 
 import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
 import co.edu.uniandes.csw.viajes.entities.GuiaEntity;
+import co.edu.uniandes.csw.viajes.entities.ReservaEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.ActividadPersistence;
 import co.edu.uniandes.csw.viajes.persistence.GuiaPersistence;
+import co.edu.uniandes.csw.viajes.persistence.ReservaPersistence;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -30,6 +32,9 @@ public class ActividadLogic extends ServicioLogic{
 
      @Inject
     private GuiaPersistence guiaPersistence; 
+     
+          @Inject
+    private ReservaPersistence reservaPersistence; 
     /**
      * Crea una actividad en la persistencia.
      *
@@ -58,10 +63,20 @@ public class ActividadLogic extends ServicioLogic{
     public void deleteActividad(Long actividadId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de borrar el libro con id = {0}", actividadId);
         
-        if (!validarActividadExistente(actividadId))
+        ActividadEntity actividad=persistence.findByIdentificador(actividadId);
+        if (actividad==null)
         {
             throw new BusinessLogicException("No existe la actividad a eliminar");
         }
+        
+        
+        for(ReservaEntity reserva:reservaPersistence.findAll())
+            if(actividadId.compareTo(reserva.getIdServicio())==0)
+                throw new BusinessLogicException("No se puede eliminar el servicio pues ya tiene reservas asociasas");
+        for(Long idGuia:actividad.getIdsGuias())
+            if(guiaPersistence.find(idGuia)!=null)
+                guiaPersistence.delete(idGuia);
+        
         
         persistence.delete(actividadId);
         LOGGER.log(Level.INFO, "Termina proceso de borrar la actividad con id = {0}", actividadId);
