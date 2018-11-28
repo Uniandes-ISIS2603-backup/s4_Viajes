@@ -5,6 +5,7 @@
  */
 package co.edu.uniandes.csw.viajes.ejb;
 
+import co.edu.uniandes.csw.viajes.entities.ComboEntity;
 import co.edu.uniandes.csw.viajes.entities.UsuarioEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.UsuarioPersistence;
@@ -48,6 +49,10 @@ public class UsuarioLogic {
         {
             throw new BusinessLogicException("El documento debe tener máximo 12 caracteres");
         }
+            
+        
+        newUsuarioEntity.addCombo(new ComboEntity());
+            
         
 //         if(persistence.findByUserName(usuarioEntity.getUserName())!=null)
 //        {

@@ -69,35 +69,15 @@ public class ComboReservasResourcee {
         return comboDTO;
     }
     
-    /**
-     * Crea un nuevo pago con la informacion que se recibe en el cuerpo de la
- petición y se regresa un objeto identico con un id auto-generado por la
- base de datos.
-     *
-     * @param reserva {@link ReservaDTO} - La reserva que se desea guardar.
-     * @param comboId
-     * @return JSON {@link ReservaDTO} - La reserva guardado con el atributo id
- autogenerado.
-     * @throws BusinessLogicException {@link BusinessLogicExceptionMapper} -
- Error de lógica que se genera cuando ya existe la reserva.
-     */
-    @POST
-     public ComboDetailDTO crearAddReserva(ReservaDTO reserva,@PathParam("comboId") Long comboId) throws BusinessLogicException, Exception {
+     @POST
+     public ComboDetailDTO crearReserva(@PathParam("comboId") Long comboId,ReservaDTO reserva) throws BusinessLogicException, Exception {
         
-         if(!comboReservasLogic.existeCombo(comboId))
-            throw new WebApplicationException("El combo no existe", 404);
-
-        ReservaEntity reservaEntity= reserva.toEntity();
-        reservaLogic.createReserva(reservaEntity);
-
-        ComboDetailDTO comboDTO;
-         try {
-             comboDTO = new ComboDetailDTO(comboReservasLogic.addReserva(comboId,reservaEntity.getId()));
-         } catch (BusinessLogicException ex) {
-            throw new WebApplicationException(ex.getMessage(), 404);
-         }
-        return comboDTO;       
+        ComboDetailDTO comboDTO = new ComboDetailDTO(comboReservasLogic.addReserva(comboId,(reservaLogic.createReserva(reserva.toEntity())).getId()));
+        return comboDTO;        
+       
     }
+    
+    
     /**
      * Busca y devuelve todos las actividades que existen en el proveedor.
      *

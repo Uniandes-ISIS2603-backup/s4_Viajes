@@ -59,6 +59,7 @@ public class ComboLogic {
         comboEntity.setCosto(costo);
         comboEntity.setPuntuacion(-1);
         
+        
         comboEntity =persistence.create(comboEntity);
 
         LOGGER.log(Level.INFO, "Termina proceso de creación del combo");
