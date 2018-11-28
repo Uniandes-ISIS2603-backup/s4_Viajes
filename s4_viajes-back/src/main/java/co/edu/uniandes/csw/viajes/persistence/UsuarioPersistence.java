@@ -78,7 +78,7 @@ public class UsuarioPersistence {
     }
     
      public UsuarioEntity findByUserName(String username) {
-        TypedQuery query = em.createQuery("Select e From ProveedorEntity e where e.username = :username", UsuarioEntity.class);
+        TypedQuery query = em.createQuery("Select e From UsuarioEntity e where e.userName = :username", UsuarioEntity.class);
         // Se remplaza el placeholder ":nombre" con el valor del argumento 
         query = query.setParameter("username", username);
         // Se invoca el query se obtiene la lista resultado
@@ -91,7 +91,6 @@ public class UsuarioPersistence {
         } else {
             result = sameNombre.get(0);
         }
-        LOGGER.log(Level.INFO, "Saliendo de consultar proveedor por username ", username);
         return result;
     }
 

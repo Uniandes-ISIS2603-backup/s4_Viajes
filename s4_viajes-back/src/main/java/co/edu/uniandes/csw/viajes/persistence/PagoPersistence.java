@@ -6,6 +6,7 @@
 package co.edu.uniandes.csw.viajes.persistence;
 
 import co.edu.uniandes.csw.viajes.entities.PagoEntity;
+import co.edu.uniandes.csw.viajes.entities.ProveedorEntity;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -62,6 +63,21 @@ public class PagoPersistence {
         return em.find(PagoEntity.class, pagoId);
     }
 
+    public PagoEntity findByIdReserva(Long idReservaAPagar) {
+        TypedQuery query = em.createQuery("Select e From PagoEntity e where e.idReservaAPagar = :idReservaAPagar", PagoEntity.class);
+        query = query.setParameter("idReservaAPagar", idReservaAPagar);
+        List<PagoEntity> sameNombre = query.getResultList();
+        PagoEntity result;
+        if (sameNombre == null) {
+            result = null;
+        } else if (sameNombre.isEmpty()) {
+            result = null;
+        } else {
+            result = sameNombre.get(0);
+        }
+        return result;
+    
+    }
     /**
      * Actualiza un pago.
      *

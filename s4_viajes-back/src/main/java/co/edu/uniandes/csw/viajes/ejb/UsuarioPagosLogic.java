@@ -7,10 +7,12 @@ package co.edu.uniandes.csw.viajes.ejb;
 
 import co.edu.uniandes.csw.viajes.entities.ComboEntity;
 import co.edu.uniandes.csw.viajes.entities.PagoEntity;
+import co.edu.uniandes.csw.viajes.entities.ReservaEntity;
 import co.edu.uniandes.csw.viajes.entities.UsuarioEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.ComboPersistence;
 import co.edu.uniandes.csw.viajes.persistence.PagoPersistence;
+import co.edu.uniandes.csw.viajes.persistence.ReservaPersistence;
 import co.edu.uniandes.csw.viajes.persistence.UsuarioPersistence;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,43 +36,11 @@ public class UsuarioPagosLogic {
     @Inject
     private UsuarioPersistence usuarioPersistence;
 
-    /**
-     * Agregar un medalla a el usuario
-     *
-     * @param pagoId El id medalla a guardar
-     * @param usuarioId El id de el usuario en la cual se va a guardar el
-     * medalla.
-     * @return La medalla creado.
-     */
-    public UsuarioEntity addPago(Long pagoId, Long usuarioId) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de agregarle un combo al usuario con id = {0}", usuarioId);
-        UsuarioEntity usuarioEntity = usuarioPersistence.find(usuarioId);
-        PagoEntity pagoEntity = pagoPersistence.find(pagoId);
-        if(usuarioEntity==null)
-            throw new BusinessLogicException("El ususario con id "+usuarioId +" no existe");
-        if(pagoEntity==null)
-            throw new BusinessLogicException("El pago con id "+pagoId +" no existe");
-        for(long idPago : usuarioEntity.getIdsPagos())
-            if(pagoId == idPago)
-                throw new BusinessLogicException("El usuario ya tiene asignado un pago con id " + pagoId +".");
-            else
-            {
-                PagoEntity pago = pagoPersistence.find(idPago);
-               if(pago==null)
-                   {
-//                     throw new BusinessLogicException("El pago con id " + medallaId +" no existe");
-                   }
-               else
-                    usuarioEntity.addPago(pago);
-            } 
-        usuarioEntity.addIdPago(pagoId);
-        usuarioEntity.addPagoFirst(pagoEntity);
-
-        usuarioPersistence.update(usuarioEntity);
-
-        LOGGER.log(Level.INFO, "Termina proceso de agregarle un pago al usuario con id = {0}", usuarioId);
-        return usuarioEntity;
-    }
+   @Inject
+    private ComboPersistence comboPersistence;
+   
+   @Inject
+    private ReservaPersistence reservaPersistence;
 
     /**
      * Retorna todos los pagos asociadas a un usuario
@@ -84,20 +54,61 @@ public class UsuarioPagosLogic {
         if(usuarioEntity==null)
             throw new BusinessLogicException("El usuario con id "+usuarioId +" no existe");
         List<PagoEntity> pagos=new ArrayList<>();
-        for(long idPago : usuarioEntity.getIdsPagos())   
-        {
-            PagoEntity pago = pagoPersistence.find(idPago);
-            if(pago==null)
-               {
-//                     throw new BusinessLogicException("El combo con id " + medallaId +" no existe");
-               }
-            else
-                pagos.add(pago);
-        }
+        for(Long idCombo:usuarioEntity.getIdsCombos())
+            pagos.addAll(getPagosCombo(idCombo));
         
         return pagos;
     }
 
+    public List<PagoEntity> getPagosCombo(Long idCombo)
+    {
+        ComboEntity combo=comboPersistence.find(idCombo);
+        List<PagoEntity> pagos=new ArrayList<>();
+        if(combo!=null)
+        {
+            for(Long idReserva:combo.getIdsReservas())
+            {
+                ReservaEntity reserva=reservaPersistence.find(idReserva);
+                if(reserva!=null&&reserva.isPagada())
+                {
+                    PagoEntity pago=pagoPersistence.findByIdReserva(reserva.getId());
+                    if(pago!=null){
+                        pago.setaPagar(reserva);
+                        pagos.add(0,pago);
+                    }
+                }
+            }
+        }
+        return pagos;
+    }
+   
+     public PagoEntity pagoPorIdUsuario(UsuarioEntity usuario, Long idPago)
+    {
+        PagoEntity pay=null;
+        for(Long idCombo:usuario.getIdsCombos()){         
+            ComboEntity combo=comboPersistence.find(idCombo);
+            if(combo!=null)
+                for(Long idReserva:combo.getIdsReservas())
+                {
+                    ReservaEntity reserva=reservaPersistence.find(idReserva);
+                    if(reserva!=null&&reserva.isPagada())
+                    {
+                        PagoEntity pago=pagoPersistence.findByIdReserva(reserva.getId());
+                        if(pago!=null){
+                            if(pago.getId().compareTo(idPago)==0)
+                            {
+                                pago.setaPagar(reserva);
+                                pay=pago;
+                                break;
+                            }
+                        }
+                    }
+                }
+            if(pay!=null)
+                break;
+        }
+        return pay;
+    }
     /**
      * Retorna una medalla asociada a un usuario
      *
@@ -112,16 +123,9 @@ public class UsuarioPagosLogic {
         UsuarioEntity usuarioEntity = usuarioPersistence.find(usuarioId);
         if(usuarioEntity==null)
             throw new BusinessLogicException("El usuario con id "+usuarioId +" no existe");
-        PagoEntity pago=null;
-        for(long idPago : usuarioEntity.getIdsPagos())   
-            if(pagoId==idPago){
-                pago = pagoPersistence.find(pagoId);
-                break;
-            }      
-        if(pago==null)
-            throw new BusinessLogicException("El usuario con id "+usuarioId +" no tiene el pago con id "+pagoId);
-        LOGGER.log(Level.INFO, "Termina proceso de consultar el pago con id = {0} del usuario con id = " + usuarioId, pagoId); 
-        return pago;
+          if(true)
+            throw new BusinessLogicException("Aun no esta hecho");
+        return new PagoEntity();
     }
 
 }
