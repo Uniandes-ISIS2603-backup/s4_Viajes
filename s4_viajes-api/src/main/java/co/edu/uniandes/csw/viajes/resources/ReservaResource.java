@@ -7,7 +7,9 @@ package co.edu.uniandes.csw.viajes.resources;
 
 import co.edu.uniandes.csw.viajes.dtos.PagoDTO;
 import co.edu.uniandes.csw.viajes.dtos.ReservaDTO;
+import co.edu.uniandes.csw.viajes.ejb.PagoLogic;
 import co.edu.uniandes.csw.viajes.ejb.ReservaLogic;
+import co.edu.uniandes.csw.viajes.entities.PagoEntity;
 import co.edu.uniandes.csw.viajes.entities.ReservaEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import java.util.ArrayList;
@@ -47,6 +49,8 @@ public class ReservaResource {
     @Inject
     ReservaLogic reservaLogic; // Variable para acceder a la lógica de la aplicación. Es una inyección de dependencias.
 
+    @Inject
+    PagoLogic pagoLogic;
    /**
      * Crea un nuevo pago con la informacion que se recibe en el cuerpo de la
  petición y se regresa un objeto identico con un id auto-generado por la
@@ -132,16 +136,38 @@ public class ReservaResource {
     public ReservaDTO updateReserva(@PathParam("reservaId") Long reservaId, ReservaDTO reserva) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "ReservaResource updateReserva: input: id:{0} , reserva: {1}", new Object[]{reservaId, reserva.toString()});
  
-        ReservaEntity reservaEntity;
+        if(true)
+            throw new BusinessLogicException("Una reserva no puede ser actualizada");
+        
+        
+//        ReservaEntity reservaEntity;
+//        try {
+//            reservaEntity = reserva.toEntity();
+//        } catch (Exception ex) {
+//            throw new WebApplicationException("El recurso /reservas/" + reservaId + " tiene un error:"+ex.getMessage(), 404);
+//        }
+//        reservaEntity.setId(reservaId);
+//        ReservaDTO reservaDTO = new ReservaDTO(reservaLogic.updateReserva(reservaId, reservaEntity));
+//        LOGGER.log(Level.INFO, "ReservaResource updatePago: output: {0}", reservaDTO.toString());
+        return reserva;
+
+    }
+    
+     @POST
+    @Path("{reservaId: \\d+}/pagos")
+    public PagoDTO pagarReserva(@PathParam("reservaId") Long reservaId, PagoDTO pago) throws BusinessLogicException {
+       LOGGER.log(Level.INFO, "PagoResource createPago: input: {0}", pago.toString());
+        PagoEntity pagoEntity;
         try {
-            reservaEntity = reserva.toEntity();
+            pagoEntity = pago.toEntity();
         } catch (Exception ex) {
-            throw new WebApplicationException("El recurso /reservas/" + reservaId + " tiene un error:"+ex.getMessage(), 404);
+            throw new BusinessLogicException(ex.getMessage());
         }
-        reservaEntity.setId(reservaId);
-        ReservaDTO reservaDTO = new ReservaDTO(reservaLogic.updateReserva(reservaId, reservaEntity));
-        LOGGER.log(Level.INFO, "ReservaResource updatePago: output: {0}", reservaDTO.toString());
-        return reservaDTO;
+        pagoEntity.setIdReservaAPagar(reservaId);
+        PagoDTO nuevoPagoDTO = new PagoDTO(pagoLogic.createPago(pagoEntity));
+
+        LOGGER.log(Level.INFO, "PagoResource createPago: output: {0}", nuevoPagoDTO.toString());
+        return nuevoPagoDTO;
 
     }
 

@@ -50,6 +50,9 @@ public class PagoLogic {
             LOGGER.log(Level.SEVERE, "La reserva del pago con el id = {0} no existe", pagoEntity.getIdReservaAPagar());
             throw new BusinessLogicException("La reserva del pago que se desea realizar no existe");
         }
+        if (reservaEntity.isPagada()) 
+            throw new BusinessLogicException("La reserva ya ha sido pagada");
+        
         pagoEntity.setaPagar(reservaEntity);
 
         
@@ -73,7 +76,9 @@ public class PagoLogic {
         }
             
          
-        pagoEntity = persistence.create(pagoEntity);
+        persistence.create(pagoEntity);
+        reservaEntity.setPagada(true);
+        reservaPersistence.update(reservaEntity);
         
         LOGGER.log(Level.INFO, "Termina proceso de creación del pago");
         return pagoEntity;
@@ -131,45 +136,47 @@ public class PagoLogic {
      * @throws BusinessLogicException Si el IBN de la actualización es inválido
      */
     public PagoEntity updatePago(Long pagoId, PagoEntity pagoEntity) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de actualizar el pago con id = {0}", pagoId);
-        if(pagoId == null)
-            throw new BusinessLogicException("Identificador del combo inexistente.");
-        if(pagoEntity == null)
-            throw new BusinessLogicException("Identificador del combo inexistente.");
+          throw new BusinessLogicException("No se puede actualizar un pago realizado, comuniquese con la empresa para solucionar");
 
-        if(persistence.find(pagoEntity.getId())==null)
-              throw new BusinessLogicException("El pago que desea actualizar no existe");
-
-        if (pagoEntity.getIdReservaAPagar()==-1l) {
-            throw new BusinessLogicException("El pago debe tener una resrva asociada");
-        }
-        ReservaEntity reservaEntity = reservaPersistence.find(pagoEntity.getIdReservaAPagar());
-        if (reservaEntity == null) {
-            LOGGER.log(Level.SEVERE, "La reserva del pago con el id = {0} no existegetIdReservaAPagartIdComboAPagar()");
-            throw new BusinessLogicException("La reserva del pago que se desea realizar no existe");
-        }
-        pagoEntity.setaPagar(reservaEntity);
-         
-        String tarjeta=pagoEntity.getTarjeta();
-        if(tarjeta.trim().equals(""))
-            throw new BusinessLogicException("No introdujo ninguna tarjeta");
-//           revisar resto reglas de negocio sobre una tarjeta
-        if(tarjeta.length()!=16)
-            throw new BusinessLogicException("Debe ingresar los 16 caracteres que componen la tarjeta");
-        try
-        {
-            Integer.parseInt(tarjeta.substring(0,8));
-            Integer.parseInt(tarjeta.substring(8));
-        }
-        catch(Exception e)
-        {
-            throw new BusinessLogicException("La tarjeta de credito tiene caracteres no permitidos");
-        }
-            
-         
-        PagoEntity newEntity = persistence.update(pagoEntity);
-        LOGGER.log(Level.INFO, "Termina proceso de actualizar el pago con id = {0}", pagoEntity.getId());
-        return newEntity;
+//        LOGGER.log(Level.INFO, "Inicia proceso de actualizar el pago con id = {0}", pagoId);
+//        if(pagoId == null)
+//            throw new BusinessLogicException("Identificador del combo inexistente.");
+//        if(pagoEntity == null)
+//            throw new BusinessLogicException("Identificador del combo inexistente.");
+//
+//        if(persistence.find(pagoEntity.getId())==null)
+//              throw new BusinessLogicException("El pago que desea actualizar no existe");
+//
+//        if (pagoEntity.getIdReservaAPagar()==-1l) {
+//            throw new BusinessLogicException("El pago debe tener una resrva asociada");
+//        }
+//        ReservaEntity reservaEntity = reservaPersistence.find(pagoEntity.getIdReservaAPagar());
+//        if (reservaEntity == null) {
+//            LOGGER.log(Level.SEVERE, "La reserva del pago con el id = {0} no existegetIdReservaAPagartIdComboAPagar()");
+//            throw new BusinessLogicException("La reserva del pago que se desea realizar no existe");
+//        }
+//        pagoEntity.setaPagar(reservaEntity);
+//         
+//        String tarjeta=pagoEntity.getTarjeta();
+//        if(tarjeta.trim().equals(""))
+//            throw new BusinessLogicException("No introdujo ninguna tarjeta");
+////           revisar resto reglas de negocio sobre una tarjeta
+//        if(tarjeta.length()!=16)
+//            throw new BusinessLogicException("Debe ingresar los 16 caracteres que componen la tarjeta");
+//        try
+//        {
+//            Integer.parseInt(tarjeta.substring(0,8));
+//            Integer.parseInt(tarjeta.substring(8));
+//        }
+//        catch(Exception e)
+//        {
+//            throw new BusinessLogicException("La tarjeta de credito tiene caracteres no permitidos");
+//        }
+//            
+//         
+//        PagoEntity newEntity = persistence.update(pagoEntity);
+//        LOGGER.log(Level.INFO, "Termina proceso de actualizar el pago con id = {0}", pagoEntity.getId());
+//        return newEntity;
     }
 
     /**
@@ -179,12 +186,20 @@ public class PagoLogic {
      * @throws BusinessLogicException si el pago...
      */
     public void deletePago(Long pagoId) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de borrar el pago con id = {0}", pagoId);
-        if(pagoId == null)
-          throw new BusinessLogicException("Identificador del pago inexistente.");
+          throw new BusinessLogicException("No se puede eliminar un pago realizado, comuniquese con la empresa para solucionar");
 
-        persistence.delete(pagoId);
-        LOGGER.log(Level.INFO, "Termina proceso de borrar el pago con id = {0}", pagoId);
+//        LOGGER.log(Level.INFO, "Inicia proceso de borrar el pago con id = {0}", pagoId);
+//        if(pagoId == null)
+//          throw new BusinessLogicException("Identificador del pago inexistente.");
+//        
+//        PagoEntity pagoEntity = persistence.find(pagoId);
+//        if (pagoEntity == null) {
+//            throw new BusinessLogicException("El pago con el id ="+ pagoId+" no existe");
+//        }
+//       
+//        
+//        persistence.delete(pagoId);
+//        LOGGER.log(Level.INFO, "Termina proceso de borrar el pago con id = {0}", pagoId);
     }
 
 

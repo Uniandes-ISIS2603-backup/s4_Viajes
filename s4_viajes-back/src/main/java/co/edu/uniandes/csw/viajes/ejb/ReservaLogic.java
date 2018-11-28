@@ -7,12 +7,14 @@ package co.edu.uniandes.csw.viajes.ejb;
 
 import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
 import co.edu.uniandes.csw.viajes.entities.AlojamientoEntity;
+import co.edu.uniandes.csw.viajes.entities.PagoEntity;
 import co.edu.uniandes.csw.viajes.entities.ReservaEntity;
 import co.edu.uniandes.csw.viajes.entities.TransporteTerrestreEntity;
 import co.edu.uniandes.csw.viajes.entities.VueloEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.ActividadPersistence;
 import co.edu.uniandes.csw.viajes.persistence.AlojamientoPersistence;
+import co.edu.uniandes.csw.viajes.persistence.PagoPersistence;
 
 import co.edu.uniandes.csw.viajes.persistence.ReservaPersistence;
 import co.edu.uniandes.csw.viajes.persistence.TransporteTerrestrePersistence;
@@ -33,6 +35,9 @@ public class ReservaLogic {
 
     @Inject
     private ReservaPersistence persistence;
+   
+    @Inject
+    private PagoPersistence pagoPersistence;
 
     @Inject
     private ActividadPersistence actividadPersistence;
@@ -290,36 +295,28 @@ public class ReservaLogic {
      * Actualizar un libro por ID
      *
      * @param reservaId El ID del libro a actualizar
+     * @param pago
      * @param reservaEntity La entidad del libro con los cambios deseados
      * @return La entidad del libro luego de actualizarla
      * @throws BusinessLogicException Si el IBN de la actualización es inválido
      */
-    public ReservaEntity updateReserva(Long reservaId, ReservaEntity reservaEntity) throws BusinessLogicException {
+    public ReservaEntity pagarReserva(Long reservaId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar el pago con id = {0}", reservaId);
-        if(reservaEntity==null)
-            throw new BusinessLogicException("Error en el formato.");
         
-        if (persistence.find(reservaId) == null) {
-            LOGGER.log(Level.SEVERE, "La reserva con el id = {0} no existe", reservaId);
-            throw new BusinessLogicException("La reserva con el id ="+ reservaId+" no existe");
-        }
-//        
-//        if (reservaEntity.getIdActividad()==-1l&&reservaEntity.getIdAlojamiento()==-1l&&
-//                reservaEntity.getIdTransporteTerrestre()==-1l&&reservaEntity.getIdVuelo()==-1l) {
-//            throw new BusinessLogicException("La reserva debe tener un servicio asociado");
-//        }
-        escogerServicio(reservaEntity);
 
+        ReservaEntity reserva=persistence.find(reservaId);
+        if(reserva==null)
+            throw new BusinessLogicException("La reserva no existe");
+        if(reserva.isPagada())
+            throw new BusinessLogicException("La reserva ya habia sido pagada");
+       
+        escogerServicio(reserva);
         
-         if(reservaEntity.getCantidadPersonas()<=0)
-           throw new BusinessLogicException("La cantidad de personas no puede ser negativa");
-         
-          
-         
-            
-        ReservaEntity newEntity = persistence.update(reservaEntity);
-        LOGGER.log(Level.INFO, "Termina proceso de actualizar el pago con id = {0}", reservaEntity.getId());
-        return newEntity;
+        reserva.setPagada(true);
+   
+        persistence.update(reserva);
+        LOGGER.log(Level.INFO, "Termina proceso de actualizar el pago con id = {0}", reserva.getId());
+        return reserva;
     }
 
     /**

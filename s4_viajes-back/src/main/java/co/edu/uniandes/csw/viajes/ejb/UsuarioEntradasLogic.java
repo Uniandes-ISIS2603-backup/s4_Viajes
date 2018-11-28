@@ -53,16 +53,7 @@ public class UsuarioEntradasLogic {
         for(long idEntrada : usuarioEntity.getIdsEntradas())
             if(entradaId == idEntrada)
                 throw new BusinessLogicException("El usuario ya tiene asignado una entrada con id " + entradaId +".");
-            else
-            {
-                EntradaEntity entrada = entradaPersistence.find(idEntrada);
-               if(entrada==null)
-                   {
-//                     throw new BusinessLogicException("El pago con id " + medallaId +" no existe");
-                   }
-               else
-                    usuarioEntity.addEntrada(entrada);
-            } 
+          
         usuarioEntity.addIdEntrada(entradaId);
         usuarioEntity.addEntradaFirst(entradaEntity);
 

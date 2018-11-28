@@ -39,6 +39,7 @@ public class PagoDTO {
                 aPagar=null;
             id=pagoEntity.getId();
             tarjeta=pagoEntity.getTarjeta();
+            idReservaAPagar=pagoEntity.getIdReservaAPagar();
         }
     }
 
@@ -50,14 +51,6 @@ public class PagoDTO {
         this.aPagar = aPagar;
     }
 
-    public Long getPagoId() {
-        return id;
-    }
-
-    public void setPagoId(Long pagoId) {
-        this.id = pagoId;
-    }
-
     public String getTarjeta() {
         return tarjeta;
     }
@@ -65,14 +58,21 @@ public class PagoDTO {
     public void setTarjeta(String tarjeta) {
         this.tarjeta = tarjeta;
     }
-    
-    
-    public long getId() {
+
+    public long getIdReservaAPagar() {
         return idReservaAPagar;
     }
 
-    public void setId(long idReservaAPagar) {
+    public void setIdReservaAPagar(long idReservaAPagar) {
         this.idReservaAPagar = idReservaAPagar;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
     
     /**

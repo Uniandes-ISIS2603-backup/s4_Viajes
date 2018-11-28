@@ -33,9 +33,10 @@ import javax.ws.rs.WebApplicationException;
  *
  * @author Luis Gómez Amado
  */
+@Path("entradas")
 @Produces("application/json")
 @Consumes("application/json")
-@RequestScoped
+@RequestScoped 
 public class EntradaResource {
      /**
      * Clase que implementa el recurso "entrada".

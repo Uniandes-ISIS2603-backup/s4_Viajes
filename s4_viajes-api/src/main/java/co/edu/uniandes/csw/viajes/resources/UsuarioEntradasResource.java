@@ -8,6 +8,7 @@ package co.edu.uniandes.csw.viajes.resources;
 import co.edu.uniandes.csw.viajes.dtos.ComboDTO;
 import co.edu.uniandes.csw.viajes.dtos.EntradaDTO;
 import co.edu.uniandes.csw.viajes.dtos.UsuarioDTO;
+import co.edu.uniandes.csw.viajes.dtos.UsuarioDetailDTO;
 import co.edu.uniandes.csw.viajes.ejb.ComboLogic;
 import co.edu.uniandes.csw.viajes.ejb.EntradaLogic;
 import co.edu.uniandes.csw.viajes.ejb.UsuarioCombosLogic;
@@ -58,8 +59,8 @@ public class UsuarioEntradasResource {
      */
     @POST
     @Path("{idEntrada: \\d+}")
-    public UsuarioDTO addEntrada(@PathParam("usuarioId") Long usuarioId, @PathParam("idEntrada") Long idEntrada) throws BusinessLogicException {       
-        UsuarioDTO usuarioDTO = new UsuarioDTO(usuarioEntradasLogic.addEntrada(idEntrada, usuarioId));
+    public UsuarioDetailDTO addEntrada(@PathParam("usuarioId") Long usuarioId, @PathParam("idEntrada") Long idEntrada) throws BusinessLogicException {       
+        UsuarioDetailDTO usuarioDTO = new UsuarioDetailDTO(usuarioEntradasLogic.addEntrada(idEntrada, usuarioId));
         return usuarioDTO;
     }
      

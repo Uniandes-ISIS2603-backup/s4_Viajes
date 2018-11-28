@@ -71,7 +71,7 @@ public class PagoResource {
         try {
             pagoEntity = pago.toEntity();
         } catch (Exception ex) {
-            throw new WebApplicationException("Error: "+ex.getMessage(), 404);
+            throw new BusinessLogicException(ex.getMessage());
         }
         PagoDTO nuevoPagoDTO = new PagoDTO(pagoLogic.createPago(pagoEntity));
 
@@ -139,17 +139,17 @@ public class PagoResource {
     public PagoDTO updatePago(@PathParam("pagoId") Long pagoId, PagoDTO pago) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "PagoResource updatePago: input: id:{0} , pago: {1}", new Object[]{pagoId, pago.toString()});
   
-        if (pagoLogic.getPago(pagoId) == null) {
-            throw new WebApplicationException("El recurso /pagos/" + pagoId + " no existe.", 404);
-        }
-        PagoEntity pagoEntity;
-        try {
-            pagoEntity = pago.toEntity();
-        } catch (Exception ex) {
-            throw new WebApplicationException("Error: "+ex.getMessage(), 404);
-        }
-        pagoEntity.setId(pagoId);
-        PagoDTO pagoDTO = new PagoDTO(pagoLogic.updatePago(pagoId, pagoEntity));
+//        if (pagoLogic.getPago(pagoId) == null) {
+//            throw new WebApplicationException("El recurso /pagos/" + pagoId + " no existe.", 404);
+//        }
+//        PagoEntity pagoEntity;
+//        try {
+//            pagoEntity = pago.toEntity();
+//        } catch (Exception ex) {
+//            throw new WebApplicationException("Error: "+ex.getMessage(), 404);
+//        }
+//        pagoEntity.setId(pagoId);
+        PagoDTO pagoDTO = new PagoDTO(pagoLogic.updatePago(pagoId, null));
         LOGGER.log(Level.INFO, "PagoResource updatePago: output: {0}", pagoDTO.toString());
         return pagoDTO;
 
@@ -169,9 +169,6 @@ public class PagoResource {
     @Path("{pagoId: \\d+}")
     public void deletePago(@PathParam("pagoId") Long pagoId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "PagoResource deletePago: input: {0}", pagoId);
-        if (pagoLogic.getPago(pagoId) == null) {
-            throw new WebApplicationException("El recurso /pagos/" + pagoId + " no existe.", 404);
-        }
         pagoLogic.deletePago(pagoId);
         LOGGER.info("ComboResource deleteCombo: output: void");
     }

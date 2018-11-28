@@ -46,24 +46,7 @@ public class UsuarioPagosResource {
      @Inject
      private PagoLogic pagoLogic;
      
-      /**
-     * Guarda una medalla dentro de un usuario con la informacion que recibe el
-     * la URL. Se devuelve la medalla que se guarda en el usuario.
-     *
-     * @param usuarioId Identificador del usuario que se esta
-     * actualizando. Este debe ser una cadena de caracteres.
-     * @param idPago Identificador de la medalla que se desea guardar. Este debe
-     * ser una cadena de dígitos.
-     * @return JSON {@link MedallaDTO} - La medalla guardada en el usuario.
-     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
-     * Error de lógica que se genera cuando no se encuentra el libro.
-     */
-    @POST
-    @Path("{idPago: \\d+}")
-    public UsuarioDTO addPago(@PathParam("usuarioId") Long usuarioId, @PathParam("idPago") Long idPago) throws BusinessLogicException {       
-        UsuarioDTO usuarioDTO = new UsuarioDTO(usuarioPagosLogic.addPago(idPago, usuarioId));
-        return usuarioDTO;
-    }
+     
      
     /**
      * Busca y devuelve todas las medallas que tiene un usuario.
@@ -74,7 +57,7 @@ public class UsuarioPagosResource {
      * usuario. Si no hay ninguno retorna una lista vacía.
      */
     @GET
-    public List<PagoDTO> getMedallas(@PathParam("usuarioId") Long usuarioId) throws BusinessLogicException {
+    public List<PagoDTO> getPagos(@PathParam("usuarioId") Long usuarioId) throws BusinessLogicException {
         List<PagoDTO> listaDTOs = pagosListEntity2DTO(usuarioPagosLogic.getPagos(usuarioId));
         return listaDTOs;
     }
@@ -96,31 +79,7 @@ public class UsuarioPagosResource {
         return pagoDTO;
     }
     
-//        /**
-//     * Remplaza las instancias de Medalla asociadas a una instancia de Usuario
-//     *
-//     * @param usuarioId Identificador del usuario en el que se esta
-//     * remplazando. Este debe ser una cadena de dígitos.
-//     * @param medallas JSONArray {@link MedallaDTO} El arreglo de medallas nuevo para la
-//     * usuario.
-//     * @return JSON {@link MedallaDTO} - El arreglo de medallas guardado en la
-//     * usuario.
-//     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
-//     * Error de lógica que se genera cuando no se encuentra el libro.
-//     */
-//    @PUT
-//    public List<MedallaDTO> replaceMedallas(@PathParam("usuarioId") Long usuarioId, List<MedallaDTO> medallas) {
-//        LOGGER.log(Level.INFO, "UsuarioMedallasResource replaceMedallas: input: usuariosId: {0} , medallas: {1}", new Object[]{usuarioId, medallas.toString()});
-//        for (MedallaDTO medalla : medallas) {
-//            if (medallaLogic.getMedalla(medalla.getId()) == null) {
-//                throw new WebApplicationException("El recurso /medallas/" + medalla.getId() + " no existe.", 404);
-//            }
-//        }
-//        List<MedallaDTO> listaDetailDTOs = medallasListEntity2DTO(usuarioMedallasLogic.replaceMedallas(usuarioId, medallasListDTO2Entity(medallas)));
-//        LOGGER.log(Level.INFO, "UsuarioMedallasResource replaceMedallas: output: {0}", listaDetailDTOs.toString());
-//        return listaDetailDTOs;
-//    }
-    
+
     /**
      * Convierte una lista de MedallaEntity a una lista de MedallaDetailDTO.
      *
