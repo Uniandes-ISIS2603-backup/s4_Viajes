@@ -7,9 +7,11 @@ package co.edu.uniandes.csw.viajes.ejb;
 
 import co.edu.uniandes.csw.viajes.entities.ProveedorEntity;
 import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
+import co.edu.uniandes.csw.viajes.entities.ServicioEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.ActividadPersistence;
 import co.edu.uniandes.csw.viajes.persistence.ProveedorPersistence;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -39,14 +41,24 @@ public class ProveedorActividadLogic {
      * actividad.
      * @return El actividad agregado al proveedor.
      */
-    public ActividadEntity addActividad(Long actividadId, Long proveedorId) {
+    public ProveedorEntity addActividad(Long actividadId, Long proveedorId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de agregarle una actividad al proveedor con id = {0}", proveedorId);
         ProveedorEntity proveedorEntity = proveedorPersistence.find(proveedorId);
         ActividadEntity actividadEntity = actividadPersistence.find(actividadId);
-        actividadEntity.setProveedor(proveedorEntity);
-        proveedorEntity.getActividades().add(actividadEntity);
+        if(proveedorEntity==null)
+            throw new BusinessLogicException("El proveedor con id "+proveedorId +" no existe");
+        if(actividadEntity==null)
+            throw new BusinessLogicException("La actividad con id "+actividadId +" no existe");
+         for(long idServicio : proveedorEntity.getIdsServicios())
+            if(actividadId == idServicio)
+                throw new BusinessLogicException("El combo ya tiene asignada una actividad con id " + actividadId +".");
+        proveedorEntity.addIdServicio(actividadId);
+        proveedorEntity.addServicioFirst(actividadEntity);
+
+        proveedorPersistence.update(proveedorEntity);
+
         LOGGER.log(Level.INFO, "Termina proceso de agregarle una actividad al proveedor con id = {0}", proveedorId);
-        return actividadEntity;
+        return proveedorEntity;
     }
     
     /**
@@ -55,9 +67,24 @@ public class ProveedorActividadLogic {
      * @param proveedorId El ID del proveedor buscado
      * @return La lista de actividades del proveedor
      */
-    public List<ActividadEntity> getActividades(Long proveedorId) {
+    public List<ActividadEntity> getActividades(Long proveedorId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar las actividades asociados al proveedor con id = {0}", proveedorId);
-        return proveedorPersistence.find(proveedorId).getActividades();
+        ProveedorEntity proveedorEntity = proveedorPersistence.find(proveedorId);
+        if(proveedorEntity==null)
+            throw new BusinessLogicException("El proveedor con id "+proveedorId +" no existe");
+        List<ActividadEntity> actividades=new ArrayList<>();
+        for(long idServicio : proveedorEntity.getIdsServicios())   
+        {
+            ActividadEntity actividad = actividadPersistence.find(idServicio);
+            if(actividad==null)
+               {
+                  //No era una actividad
+               }
+            else
+                actividades.add(actividad);
+        }
+        
+        return actividades;
     }
     
     /**
@@ -70,36 +97,21 @@ public class ProveedorActividadLogic {
      */
     public ActividadEntity getActividad(Long proveedorId, Long actividadId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar la actividad con id = {0} del proveedor con id = " + proveedorId, actividadId);
-        List<ActividadEntity> actividades = proveedorPersistence.find(proveedorId).getActividades();
-        ActividadEntity ActividadEntity = actividadPersistence.find(actividadId);
-        int index = actividades.indexOf(ActividadEntity);
-        LOGGER.log(Level.INFO, "Termina proceso de consultar la actividad con id = {0} del proveedor con id = " + proveedorId, actividadId);
-        if (index >= 0) {
-            return actividades.get(index);
-        }
-        throw new BusinessLogicException("La actividad no está asociada al proveedor");
+        ProveedorEntity proveedorEntity = proveedorPersistence.find(proveedorId);
+        if(proveedorEntity==null)
+            throw new BusinessLogicException("El proveedor con id "+proveedorId +" no existe");
+        ActividadEntity actividad=null;
+        for(long idServicio : proveedorEntity.getIdsServicios())   
+            if(actividadId==idServicio){
+                actividad = actividadPersistence.find(actividadId);
+                break;
+            }      
+        if(actividad==null)
+            throw new BusinessLogicException("El proveedor con id "+proveedorId +" no tiene la actividad con id "+actividadId);
+        LOGGER.log(Level.INFO, "Termina proceso de consultar la actividad con id = {0} del proveedor con id = " + proveedorId, actividadId); 
+        return actividad;
+
     }
 
-    /**
-     * Remplazar actividades de un proveedor
-     *
-     * @param actividades Lista de actividades que serán los del proveedor.
-     * @param proveedorId El id del proveedor que se quiere actualizar.
-     * @return La lista de actividades actualizada.
-     */
-    public List<ActividadEntity> replaceActividades(Long proveedorId, List<ActividadEntity> actividades) {
-        LOGGER.log(Level.INFO, "Inicia proceso de actualizar el proveedor con id = {0}", proveedorId);
-        ProveedorEntity proveedorEntity = proveedorPersistence.find(proveedorId);
-        List<ActividadEntity> actividadList = actividadPersistence.findAll();
-        for (ActividadEntity actividad : actividadList) {
-            if (actividades.contains(actividad)) {
-                actividad.setProveedor(proveedorEntity);
-            } else if (actividad.getProveedor() != null && actividad.getProveedor().equals(proveedorEntity)) {
-                actividad.setProveedor(null);
-            }
-        }
-        proveedorEntity.setActividades(actividades);
-        LOGGER.log(Level.INFO, "Termina proceso de actualizar el proveedor con id = {0}", proveedorId);
-        return actividades;
-    }
+
 }

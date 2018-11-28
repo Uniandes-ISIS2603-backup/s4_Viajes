@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -31,8 +32,10 @@ import javax.ws.rs.core.MediaType;
  *
  * @author estudiante
  */
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
+@Path("actividades/{actividadId: \\d+}/guias")
+@Consumes("application/json")
+@Produces("application/json")
+@RequestScoped 
 public class ActividadGuiaResource {
     
     private static final Logger LOGGER = Logger.getLogger(ActividadGuiaResource.class.getName());
@@ -57,14 +60,19 @@ public class ActividadGuiaResource {
      */
     @POST
     @Path("{guiaId: \\d+}")
-    public GuiaDTO agregarGuia(@PathParam("actividadId") Long actividadId, @PathParam("guiaId") Long guiaId) {
+    public ActividadDetailDTO agregarGuia(@PathParam("actividadId") Long actividadId, @PathParam("guiaId") Long guiaId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "ActividadGuiaResource agregarGuia: input: actividadID: {0} , guiaId: {1}", new Object[]{actividadId, guiaId});
-        if (guiaLogic.getGuia(guiaId) == null) {
-            throw new WebApplicationException("El recurso /guia/" + guiaId + " no existe.", 404);
-        }
-        GuiaDTO guiaDTO = new GuiaDTO(actividadGuiaLogic.addGuia(guiaId, actividadId));
-        LOGGER.log(Level.INFO, "ActividadGuiaResource addGuia: output: {0}", guiaDTO.toString());
-        return guiaDTO;
+     
+        ActividadDetailDTO actividadDTO = new ActividadDetailDTO(actividadGuiaLogic.addGuia(guiaId, actividadId));
+        LOGGER.log(Level.INFO, "ActividadGuiaResource addGuia: output: {0}", actividadDTO.toString());
+        return actividadDTO;
+    }
+    
+    @POST
+    public ActividadDetailDTO createGuia(@PathParam("actividadId") Long actividadId,GuiaDTO guia) throws BusinessLogicException {
+        if(guia == null) throw new BusinessLogicException("No se recibio ningun guía");
+        ActividadDetailDTO actividadDTO = new ActividadDetailDTO(actividadGuiaLogic.addGuia((guiaLogic.createGuia(guia.toEntity())).getId(), actividadId));
+        return actividadDTO;
     }
 
     /**
@@ -76,7 +84,7 @@ public class ActividadGuiaResource {
      * guia. Si no hay ninguno retorna una lista vacía.
      */
     @GET
-    public List<GuiaDTO> getGuias(@PathParam("actividadId") Long actividadId) {
+    public List<GuiaDTO> getGuias(@PathParam("actividadId") Long actividadId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "ActividadGuiaResource getGuias: input: {0}", actividadId);
         List<GuiaDTO> listaDTOs = guiasListEntity2DTO(actividadGuiaLogic.getGuias(actividadId));
         LOGGER.log(Level.INFO, "ActividadGuiaResource getGuias: output: {0}", listaDTOs.toString());

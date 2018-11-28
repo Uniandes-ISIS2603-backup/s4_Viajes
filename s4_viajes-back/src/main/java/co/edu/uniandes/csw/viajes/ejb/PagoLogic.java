@@ -5,7 +5,6 @@
  */
 package co.edu.uniandes.csw.viajes.ejb;
 
-import co.edu.uniandes.csw.viajes.entities.ComboEntity;
 import co.edu.uniandes.csw.viajes.entities.PagoEntity;
 import co.edu.uniandes.csw.viajes.entities.ReservaEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
@@ -43,8 +42,8 @@ public class PagoLogic {
         if(pagoEntity==null)
             throw new BusinessLogicException("Error en el formato.");
 
-        if (pagoEntity.getIdReservaAPagar()==-1l) {
-            throw new BusinessLogicException("El pago debe tener una reserva asociada");
+        if (pagoEntity.getIdReservaAPagar()==0l) {
+            throw new BusinessLogicException("El pago debe tener una reserva asociada, el id "+pagoEntity.getIdReservaAPagar()+" no es valido");
         }
         ReservaEntity reservaEntity = reservaPersistence.find(pagoEntity.getIdReservaAPagar());
         if (reservaEntity == null) {
@@ -54,27 +53,26 @@ public class PagoLogic {
         pagoEntity.setaPagar(reservaEntity);
 
         
-         if(pagoEntity.isPagaConTarjeta())
-         {
-             String tarjeta=pagoEntity.getTarjeta();
-             if(tarjeta.trim().equals(""))
-                throw new BusinessLogicException("No introdujo ninguna tarjeta");
-//              revisar resto reglas de negocio sobre una tarjeta
+         
+        String tarjeta=pagoEntity.getTarjeta();
+        if(tarjeta.trim().equals(""))
+            throw new BusinessLogicException("No introdujo ninguna tarjeta");
+//      revisar resto reglas de negocio sobre una tarjeta
           
                 
-            if(tarjeta.length()!=16)
-                throw new BusinessLogicException("Debe ingresar los 16 caracteres que componen la tarjeta");
-            try
-            {
-                Integer.parseInt(tarjeta.substring(0,8));
-                Integer.parseInt(tarjeta.substring(8));
-            }
-            catch(Exception e)
-            {
-                throw new BusinessLogicException("La tarjeta de credito tiene caracteres no permitidos");
-            }
+        if(tarjeta.length()!=16)
+            throw new BusinessLogicException("Debe ingresar los 16 caracteres que componen la tarjeta");
+        try
+        {
+            Integer.parseInt(tarjeta.substring(0,8));
+            Integer.parseInt(tarjeta.substring(8));
+        }
+        catch(Exception e)
+        {
+            throw new BusinessLogicException("La tarjeta de credito tiene caracteres no permitidos");
+        }
             
-         }
+         
         pagoEntity = persistence.create(pagoEntity);
         
         LOGGER.log(Level.INFO, "Termina proceso de creación del pago");
@@ -88,7 +86,15 @@ public class PagoLogic {
      */
     public List<PagoEntity> getPagos() {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los pagos");
+        
+        
+        
         List<PagoEntity> pagos = persistence.findAll();
+        for(PagoEntity pago:pagos)
+        {   
+            ReservaEntity reserva=reservaPersistence.find(pago.getIdReservaAPagar());
+            pago.setaPagar(reserva);
+        }
         LOGGER.log(Level.INFO, "Termina proceso de consultar todos los pagos");
         return pagos;
     }
@@ -105,11 +111,10 @@ public class PagoLogic {
         if (pagoEntity == null) {
             LOGGER.log(Level.SEVERE, "El pago con el id = {0} no existe", pagoId);
             throw new BusinessLogicException("El pago con el id ="+ pagoId+" no existe");
-
         }
         ReservaEntity reservaEntity = reservaPersistence.find(pagoEntity.getIdReservaAPagar());
         if (reservaEntity == null) {
-            LOGGER.log(Level.SEVERE, "El combo del pago con el id = {0} no existe", pagoEntity.getIdReservaAPagar());
+            LOGGER.log(Level.SEVERE, "La reserva del pago con el id = {0} no existe", pagoEntity.getIdReservaAPagar());
             throw new BusinessLogicException("El combo del pago que se desea obtener ha sido eliminadao");
         }
         pagoEntity.setaPagar(reservaEntity);
@@ -144,27 +149,24 @@ public class PagoLogic {
             throw new BusinessLogicException("La reserva del pago que se desea realizar no existe");
         }
         pagoEntity.setaPagar(reservaEntity);
-      
          
-         if(pagoEntity.isPagaConTarjeta())
-         {
-             String tarjeta=pagoEntity.getTarjeta();
-             if(tarjeta.trim().equals(""))
-                throw new BusinessLogicException("No introdujo ninguna tarjeta");
-//              revisar resto reglas de negocio sobre una tarjeta
-            if(tarjeta.length()!=16)
-                throw new BusinessLogicException("Debe ingresar los 16 caracteres que componen la tarjeta");
-            try
-            {
-                Integer.parseInt(tarjeta.substring(0,8));
-                Integer.parseInt(tarjeta.substring(8));
-            }
-            catch(Exception e)
-            {
-                throw new BusinessLogicException("La tarjeta de credito tiene caracteres no permitidos");
-            }
+        String tarjeta=pagoEntity.getTarjeta();
+        if(tarjeta.trim().equals(""))
+            throw new BusinessLogicException("No introdujo ninguna tarjeta");
+//           revisar resto reglas de negocio sobre una tarjeta
+        if(tarjeta.length()!=16)
+            throw new BusinessLogicException("Debe ingresar los 16 caracteres que componen la tarjeta");
+        try
+        {
+            Integer.parseInt(tarjeta.substring(0,8));
+            Integer.parseInt(tarjeta.substring(8));
+        }
+        catch(Exception e)
+        {
+            throw new BusinessLogicException("La tarjeta de credito tiene caracteres no permitidos");
+        }
             
-         }
+         
         PagoEntity newEntity = persistence.update(pagoEntity);
         LOGGER.log(Level.INFO, "Termina proceso de actualizar el pago con id = {0}", pagoEntity.getId());
         return newEntity;

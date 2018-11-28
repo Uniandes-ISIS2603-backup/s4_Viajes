@@ -6,6 +6,8 @@
 package co.edu.uniandes.csw.viajes.resources;
 
 import co.edu.uniandes.csw.viajes.dtos.AlojamientoDTO;
+import co.edu.uniandes.csw.viajes.dtos.ProveedorDTO;
+import co.edu.uniandes.csw.viajes.dtos.ProveedorDetailDTO;
 import co.edu.uniandes.csw.viajes.ejb.AlojamientoLogic;
 import co.edu.uniandes.csw.viajes.ejb.ProveedorAlojamientosLogic;
 import co.edu.uniandes.csw.viajes.entities.AlojamientoEntity;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -29,8 +32,10 @@ import javax.ws.rs.core.MediaType;
  *
  * @author Yeferson Espana
  */
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
+@Path("proveedores/{proveedorId: \\d+}/alojamientos")
+@Consumes("application/json")
+@Produces("application/json")
+@RequestScoped 
 public class ProveedorAlojamientosResource {
     
     private static final Logger LOGGER = Logger.getLogger(ProveedorAlojamientosResource.class.getName());
@@ -45,9 +50,9 @@ public class ProveedorAlojamientosResource {
      * Guarda un alojamiento dentro de un proveedor con la informacion que recibe el
      * la URL. Se devuelve el alojamiento que se guarda en el proveedor.
      *
-     * @param proveedoresId Identificador del proveedor que se esta
+     * @param proveedorId Identificador del proveedor que se esta
      * actualizando. Este debe ser una cadena de dígitos.
-     * @param alojamientosId Identificador del alojamiento que se desea guardar. Este debe
+     * @param alojamientoId Identificador del alojamiento que se desea guardar. Este debe
      * ser una cadena de dígitos.
      * @return JSON {@link AlojamientoDTO} - El alojamiento guardado en el proveedor.
      * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
@@ -55,27 +60,31 @@ public class ProveedorAlojamientosResource {
      * @throws BusinessLogicException
      */
     @POST
-    @Path("{alojamientosId: \\d+}")
-    public AlojamientoDTO addAlojamiento(@PathParam("proveedoresId") Long proveedoresId, @PathParam("alojamientosId") Long alojamientosId) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "ProveedorAlojamientosResource addAlojamiento: input: proveedoresID: {0} , alojamientosId: {1}", new Object[]{proveedoresId, alojamientosId});
-        if (alojamientoLogic.getAlojamiento(alojamientosId) == null) {
-            throw new WebApplicationException("El recurso /alojamientos/" + alojamientosId + " no existe.", 404);
-        }
-        AlojamientoDTO alojamientoDTO = new AlojamientoDTO(proveedorAlojamientosLogic.addAlojamiento(alojamientosId, proveedoresId));
-        LOGGER.log(Level.INFO, "ProveedorAlojamientosResource addAlojamiento: output: {0}", alojamientoDTO.toString());
-        return alojamientoDTO;
+    @Path("{alojamientoId: \\d+}")
+    public ProveedorDetailDTO addAlojamiento(@PathParam("proveedorId") Long proveedorId, @PathParam("alojamientoId") Long alojamientoId) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "ProveedorAlojamientosResource addAlojamiento: input: proveedorID: {0} , alojamientoId: {1}", new Object[]{proveedorId, alojamientoId});        
+        ProveedorDetailDTO proveedorDTO = new ProveedorDetailDTO(proveedorAlojamientosLogic.addAlojamiento(alojamientoId, proveedorId));
+        LOGGER.log(Level.INFO, "ProveedorAlojamientosResource addAlojamiento: output: {0}", proveedorDTO.toString());
+        return proveedorDTO;
     }
     
+    @POST
+    public ProveedorDetailDTO createAlojamiento( @PathParam("proveedorId") Long proveedorId,AlojamientoDTO alojamiento) throws BusinessLogicException  {      
+        LOGGER.log(Level.INFO, "AlojamientoResource createAlojamiento: input: {0}", alojamiento.toString());
+                
+        ProveedorDetailDTO proveedorDTO = new ProveedorDetailDTO(proveedorAlojamientosLogic.addAlojamiento((alojamientoLogic.createAlojamiento(alojamiento.toEntity())).getId(), proveedorId));
+        return proveedorDTO; 
+    }
     /**
      * 
-     * @param proveedoresId
+     * @param proveedorId
      * @return
      * @throws BusinessLogicException
      */
     @GET
-    public List<AlojamientoDTO> getAlojamientos(@PathParam("proveedoresId") Long proveedoresId)throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "ProveedorAlojamientosResource getAlojamientos: input: {0}", proveedoresId);
-        List<AlojamientoDTO> listaDetailDTOs = alojamientosListEntity2DTO(proveedorAlojamientosLogic.getAlojamientos(proveedoresId));
+    public List<AlojamientoDTO> getAlojamientos(@PathParam("proveedorId") Long proveedorId)throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "ProveedorAlojamientosResource getAlojamientos: input: {0}", proveedorId);
+        List<AlojamientoDTO> listaDetailDTOs = alojamientosListEntity2DTO(proveedorAlojamientosLogic.getAlojamientos(proveedorId));
         LOGGER.log(Level.INFO, "ProveedorAlojamientosResource getAlojamientos: output: {0}", listaDetailDTOs.toString());
         return listaDetailDTOs;
     }
@@ -95,39 +104,36 @@ public class ProveedorAlojamientosResource {
     
     /**
      * 
-     * @param proveedoresId
-     * @param alojamientosId
+     * @param proveedorId
+     * @param alojamientoId
      * @return
      * @throws BusinessLogicException 
      */
     @GET
-    @Path("{alojamientosId: \\d+}")
-    public AlojamientoDTO getAlojamiento(@PathParam("proveedoresId") Long proveedoresId, @PathParam("alojamientosId") Long alojamientosId) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "EditorialBooksResource getBook: input: editorialsID: {0} , booksId: {1}", new Object[]{proveedoresId, alojamientosId});
-        if (alojamientoLogic.getAlojamiento(alojamientosId) == null) {
-            throw new WebApplicationException("El recurso /proveedores/" + proveedoresId + "/alojamientos/" + alojamientosId + " no existe.", 404);
-        } 
-        AlojamientoDTO alojamientoDTO = new AlojamientoDTO(proveedorAlojamientosLogic.getAlojamiento(proveedoresId, alojamientosId));
+    @Path("{alojamientoId: \\d+}")
+    public AlojamientoDTO getAlojamiento(@PathParam("proveedorId") Long proveedorId, @PathParam("alojamientoId") Long alojamientoId) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "EditorialBooksResource getBook: input: editorialsID: {0} , booksId: {1}", new Object[]{proveedorId, alojamientoId});
+        AlojamientoDTO alojamientoDTO = new AlojamientoDTO(proveedorAlojamientosLogic.getAlojamiento(proveedorId, alojamientoId));
         LOGGER.log(Level.INFO, "ProveedorAlojamientosResource getAlojamiento: output: {0}", alojamientoDTO.toString());
         return alojamientoDTO;
     }
     
-    /**
-     * 
-     */
-    @PUT
-    public List<AlojamientoDTO> replaceAlojamientos(@PathParam("proveedoresId") Long proveedoresId, List<AlojamientoDTO> alojamientos) throws BusinessLogicException{
-        LOGGER.log(Level.INFO, "ProveedorAlojamientosResource replaceAlojamientos: input: proveedoresId: {0} , alojamientos: {1}", new Object[]{proveedoresId, alojamientos.toString()});
-        for (AlojamientoDTO alojamiento : alojamientos) {
-            if (alojamientoLogic.getAlojamiento(alojamiento.getId()) == null) {
-                throw new WebApplicationException("El recurso /alojamientos/" + alojamiento.getId() + " no existe.", 404);
-            }
-        }
-        List<AlojamientoDTO> listaDetailDTOs = alojamientosListEntity2DTO(proveedorAlojamientosLogic.replaceAlojamientos(proveedoresId, alojamientosListDTO2Entity(alojamientos)));
-        LOGGER.log(Level.INFO, "EditorialBooksResource replaceBooks: output: {0}", listaDetailDTOs.toString());
-        return listaDetailDTOs;
-    }
-    
+//    /**
+//     * 
+//     */
+//    @PUT
+//    public List<AlojamientoDTO> replaceAlojamientos(@PathParam("proveedoresId") Long proveedoresId, List<AlojamientoDTO> alojamientos) throws BusinessLogicException{
+//        LOGGER.log(Level.INFO, "ProveedorAlojamientosResource replaceAlojamientos: input: proveedoresId: {0} , alojamientos: {1}", new Object[]{proveedoresId, alojamientos.toString()});
+//        for (AlojamientoDTO alojamiento : alojamientos) {
+//            if (alojamientoLogic.getAlojamiento(alojamiento.getId()) == null) {
+//                throw new WebApplicationException("El recurso /alojamientos/" + alojamiento.getId() + " no existe.", 404);
+//            }
+//        }
+//        List<AlojamientoDTO> listaDetailDTOs = alojamientosListEntity2DTO(proveedorAlojamientosLogic.replaceAlojamientos(proveedoresId, alojamientosListDTO2Entity(alojamientos)));
+//        LOGGER.log(Level.INFO, "EditorialBooksResource replaceBooks: output: {0}", listaDetailDTOs.toString());
+//        return listaDetailDTOs;
+//    }
+//    
     /**
      * 
      * @param dtos

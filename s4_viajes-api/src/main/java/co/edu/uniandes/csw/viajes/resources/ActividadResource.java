@@ -93,13 +93,11 @@ public class ActividadResource {
     
     @GET
     @Path("{actividadId: \\d+}")
-    public ActividadDetailDTO consultarActividad(@PathParam("actividadId") Long actividadId) throws WebApplicationException
+    public ActividadDetailDTO consultarActividad(@PathParam("actividadId") Long actividadId) throws WebApplicationException, BusinessLogicException
     {
          LOGGER.log(Level.INFO, "ActividadResource consultarActividad: input: {0}", actividadId);
-        ActividadEntity actividadEntity = actividadLogic.getActividadByIdentificador(actividadId);
-        if (actividadEntity == null) {
-            throw new WebApplicationException("El recurso /actividad/" + actividadId + " no existe.", 404);
-        }
+        ActividadEntity actividadEntity = actividadLogic.getActividad(actividadId);
+  
         ActividadDetailDTO detailDTO = new ActividadDetailDTO(actividadEntity);
         LOGGER.log(Level.INFO, "ActividadResource consultarActividad: output: {0}", detailDTO.toString());
         return detailDTO;
@@ -109,7 +107,7 @@ public class ActividadResource {
     @Path("{actividadId: \\d+}")
     public ActividadDTO modificarActividad(@PathParam("actividadId") Long actividadId, ActividadDTO actividad) throws WebApplicationException, BusinessLogicException {
         LOGGER.log(Level.INFO, "ActividadResource modificarActividad: input: id:{0} , actividad: {1}", new Object[]{actividadId, actividad.toString()});
-        actividad.setIdentificador(actividadId);
+        actividad.setId(actividadId);
         if (actividadLogic.getActividad(actividadId) == null) {
             throw new WebApplicationException("El recurso /actividad/" + actividadId + " no existe.", 404);
         }
@@ -143,28 +141,7 @@ public class ActividadResource {
  
     }*/
    
-      /**
-     * Conexión con el servicio de guias para una actividad.
-     * {@link ActividadGuiaResource}
-     *
-     * Este método conecta la ruta de /actividad con las rutas de /guia que
-     * dependen de la actividad, es una redirección al servicio que maneja el
-     * segmento de la URL que se encarga de los guias de una actividad.
-     *
-     * @param actividadId El ID de la actividad con respecto a la cual se
-     * accede al servicio.
-     * @return El servicio de guias para esta editorial en paricular.
-     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
-     * Error de lógica que se genera cuando no se encuentra el guia.
-     */
-    @Path("{actividadId: \\d+}/guia")
-    public Class<ActividadGuiaResource> getActividadGuiaResource(@PathParam("actividadId") Long actividadId) {
-        if (actividadLogic.getActividad(actividadId) == null) {
-            throw new WebApplicationException("El recurso /actividad/" + actividadId + " no existe.", 404);
-        }
-        return ActividadGuiaResource.class;
-    }
-    
+     
      /**
      * Convierte una lista de entidades a DTO.
      *

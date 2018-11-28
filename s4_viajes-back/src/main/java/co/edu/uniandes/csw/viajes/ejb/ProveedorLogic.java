@@ -8,10 +8,15 @@ package co.edu.uniandes.csw.viajes.ejb;
 import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
 import co.edu.uniandes.csw.viajes.entities.AlojamientoEntity;
 import co.edu.uniandes.csw.viajes.entities.ProveedorEntity;
+import co.edu.uniandes.csw.viajes.entities.ReservaEntity;
 import co.edu.uniandes.csw.viajes.entities.TransporteTerrestreEntity;
 import co.edu.uniandes.csw.viajes.entities.VueloEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
+import co.edu.uniandes.csw.viajes.persistence.ActividadPersistence;
+import co.edu.uniandes.csw.viajes.persistence.AlojamientoPersistence;
 import co.edu.uniandes.csw.viajes.persistence.ProveedorPersistence;
+import co.edu.uniandes.csw.viajes.persistence.TransporteTerrestrePersistence;
+import co.edu.uniandes.csw.viajes.persistence.VueloPersistence;
 import java.util.List;
 import static java.util.Objects.isNull;
 import java.util.logging.Level;
@@ -34,6 +39,17 @@ public class ProveedorLogic {
     @Inject
     private ProveedorPersistence persistence; // Variable para acceder a la persistencia de la aplicación. Es una inyección de dependencias.
 
+     @Inject
+    private ActividadPersistence actividadPersistence;
+    
+    @Inject
+    private AlojamientoPersistence alojamientoPersistence;
+     
+    @Inject
+    private TransporteTerrestrePersistence transporteTerrestrePersistence;
+      
+    @Inject
+    private VueloPersistence vueloPersistence;
     /**
      * Crea un proveedor en la persistencia.
      *
@@ -45,10 +61,24 @@ public class ProveedorLogic {
     public ProveedorEntity createProveedor(ProveedorEntity proveedorEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación del proveedor");
         // Verifica la regla de negocio que dice que no puede haber dos proveedores con el mismo nombre
-        if (persistence.findByName(proveedorEntity.getNombre()) != null) {
+         if(proveedorEntity.getNombre()==null||proveedorEntity.getNombre().trim().equals(""))
+            throw new BusinessLogicException("El proveedor debe tener un nombre");
+             
+        if (persistence.findByName(proveedorEntity.getNombre()) != null) 
             throw new BusinessLogicException("Ya existe un proveedor con el nombre \"" + proveedorEntity.getNombre() + "\"");
-        }
-            
+         
+        if(proveedorEntity.getUsername()==null||proveedorEntity.getUsername().trim().equals(""))
+            throw new BusinessLogicException("El proveedor debe tener un username");     
+        if (persistence.findByUserName(proveedorEntity.getUsername()) != null) 
+            throw new BusinessLogicException("Ya existe un proveedor con el username \"" + proveedorEntity.getUsername() + "\"");
+       
+        if(proveedorEntity.getImagen()==null||proveedorEntity.getImagen().trim().equals(""))
+            throw new BusinessLogicException("El servicio debe tener una imagen");
+        if(proveedorEntity.getPassword()==null||proveedorEntity.getPassword().trim().equals(""))
+            throw new BusinessLogicException("El servicio debe tener una contraseña");
+        
+        proveedorEntity.setPuntuacion(-1);
+        proveedorEntity.setCantidadCalificaciones(0);
         String input = proveedorEntity.getNombre();
          
         // Verifica la regla de negocio que dice que el nombre del proveedor debe ser compuesto por solo letras y debe tener mínimo 5 letras y máximo 30 letras.
@@ -59,13 +89,7 @@ public class ProveedorLogic {
         {
             throw new BusinessLogicException("El nombre del proveedor debe ser compuesto por solo letras y debe tener mínimo 5 letras y máximo 30 letras.");
         }
-        
-        // Verifica la regla de negocio que dice que no pueden haber dos proveedores con el mismo username.
-        if(isNull(proveedorEntity.getUser()))
-        {
-            throw new BusinessLogicException("El usuario del proveedor ya existe, debe ingresar uno diferente.");
-        }
-             
+         
         // Verifica la regla de negocio que dice que la contraseña debe complur lo siguiente:
         // Mínimo 4 caracteres
         //Maximo 8 caracteres
@@ -113,10 +137,38 @@ public class ProveedorLogic {
         if (proveedorEntity == null) {
             LOGGER.log(Level.SEVERE, "El proveedor con el id = {0} no existe", proveedorId);
         }
+        escogerServicios(proveedorEntity);
+       
         LOGGER.log(Level.INFO, "Termina proceso de consultar el proveedor con id = {0}", proveedorId);
         return proveedorEntity;
     }
 
+    public void escogerServicios(ProveedorEntity proveedorEntity) 
+    {
+        
+        
+        for(Long id:proveedorEntity.getIdsServicios())
+            if(id!=0l)
+            {
+                VueloEntity vueloEntity = vueloPersistence.find(id);
+                ActividadEntity actividadEntity=actividadPersistence.find(id);
+                AlojamientoEntity alojamientoEntity=alojamientoPersistence.find(id);
+                TransporteTerrestreEntity transporteTerrestreEntity=transporteTerrestrePersistence.find(id);
+                if (vueloEntity == null&&actividadEntity == null&&alojamientoEntity == null&&transporteTerrestreEntity == null) {
+                    //hay un servicio faltante
+                }
+                else if(vueloEntity != null)
+                    proveedorEntity.addServicio(vueloEntity);                 
+                else if(actividadEntity != null)
+                    proveedorEntity.addServicio(actividadEntity);                 
+                else if(alojamientoEntity != null)
+                   proveedorEntity.addServicio(alojamientoEntity);
+                else if(transporteTerrestreEntity != null)
+                   proveedorEntity.addServicio(transporteTerrestreEntity);
+                    
+            }
+                   
+    }
     /**
      * Actualizar un proveedor.
      *
@@ -155,23 +207,12 @@ public class ProveedorLogic {
     public void deleteProveedor(Long proveedorId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de borrar elproveedor con id = {0}", proveedorId);
         // Note que, por medio de la inyección de dependencias se llama al método "delete(id)" que se encuentra en la persistencia.
-        List<VueloEntity> vuelos = getProveedor(proveedorId).getVuelos();
-        if (vuelos != null && !vuelos.isEmpty()) {
-            throw new BusinessLogicException("No se puede borrar el proveedor con id = " + proveedorId + " porque tiene vuelos asociados");
-        }
-        List<TransporteTerrestreEntity> transportes = getProveedor(proveedorId).getTransportes();
-        if (transportes != null && !transportes.isEmpty()) {
-            throw new BusinessLogicException("No se puede borrar el proveedor con id = " + proveedorId + " porque tiene transportes asociados");
-        }
-                // Note que, por medio de la inyección de dependencias se llama al método "delete(id)" que se encuentra en la persistencia.
-        List<ActividadEntity> actividades = getProveedor(proveedorId).getActividades();
-        if (actividades != null && !actividades.isEmpty()) {
-            throw new BusinessLogicException("No se puede borrar el proveedor con id = " + proveedorId + " porque tiene actividades asociados");
-        }
-                List<AlojamientoEntity> alojamientos = getProveedor(proveedorId).getAlojamientos();
-        if (alojamientos != null && !alojamientos.isEmpty()) {
-            throw new BusinessLogicException("No se puede borrar el proveedor con id = " + proveedorId + " porque tiene alojamientos asociados");
-        }
+        ProveedorEntity proveedor=getProveedor(proveedorId);
+        if(proveedor==null)
+            throw new BusinessLogicException("No existe el proveedor con id \"" + proveedorId + "\"");
+        if(proveedor.getIdsServicios().size()>0)
+            throw new BusinessLogicException("No se puee eliminar el proveedor con id \"" + proveedorId + "\" ya que tiene servicios asociados");
+
         persistence.delete(proveedorId);
         LOGGER.log(Level.INFO, "Termina proceso de borrar el proveedor con id = {0}", proveedorId);
     }

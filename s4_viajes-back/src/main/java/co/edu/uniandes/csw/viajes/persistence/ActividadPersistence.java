@@ -12,9 +12,7 @@ import java.util.logging.Logger;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import org.eclipse.persistence.exceptions.DatabaseException;
 
 /**
  *
@@ -156,22 +154,7 @@ public class ActividadPersistence {
     public ActividadEntity findByIdentificador(Long identificador)
     {
            LOGGER.log(Level.INFO, "Consultando actividades por identificador ", identificador);
-        // Se crea un query para buscar guias con el documento que recibe el método como argumento. ":doc" es un placeholder que debe ser remplazado
-        TypedQuery query = em.createQuery("Select e From ActividadEntity e where e.identificador = :identificador", ActividadEntity.class);
-        // Se remplaza el placeholder ":doc" con el valor del argumento 
-        query = query.setParameter("identificador", identificador);
-        // Se invoca el query se obtiene la lista resultado
-        List<ActividadEntity> sameDoc = query.getResultList();
-        ActividadEntity result;
-        if (sameDoc == null) {
-            result = null;
-        } else if (sameDoc.isEmpty()) {
-            result = null;
-        } else {
-            result = sameDoc.get(0);
-        }
-        LOGGER.log(Level.INFO, "Saliendo de consultar actividades por identificador ", identificador);
-        return result;
+        return em.find(ActividadEntity.class, identificador);
     }
     
 }

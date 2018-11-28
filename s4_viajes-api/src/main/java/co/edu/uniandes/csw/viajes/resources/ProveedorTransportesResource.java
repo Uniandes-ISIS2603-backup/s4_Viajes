@@ -5,6 +5,8 @@
  */
 package co.edu.uniandes.csw.viajes.resources;
 
+import co.edu.uniandes.csw.viajes.dtos.ProveedorDTO;
+import co.edu.uniandes.csw.viajes.dtos.ProveedorDetailDTO;
 import co.edu.uniandes.csw.viajes.dtos.TransporteTerrestreDTO;
 import co.edu.uniandes.csw.viajes.ejb.ProveedorTransportesTerrestresLogic;
 import co.edu.uniandes.csw.viajes.ejb.TransporteTerrestreLogic;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -29,8 +32,10 @@ import javax.ws.rs.core.MediaType;
  *
  * @author Yeferson Espana
  */
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
+@Path("proveedores/{proveedorId: \\d+}/transportesTerrestres")
+@Consumes("application/json")
+@Produces("application/json")
+@RequestScoped 
 public class ProveedorTransportesResource {
     
     private static final Logger LOGGER = Logger.getLogger(ProveedorTransportesResource.class.getName());
@@ -45,9 +50,9 @@ public class ProveedorTransportesResource {
      * Guarda un transporte dentro de un proveedor con la informacion que recibe el
      * la URL. Se devuelve el transporte que se guarda en el proveedor.
      *
-     * @param proveedoresId Identificador del proveedor que se esta
+     * @param proveedorId Identificador del proveedor que se esta
      * actualizando. Este debe ser una cadena de dígitos.
-     * @param transportesId Identificador del transporte que se desea guardar. Este debe
+     * @param transporteTerrestreId Identificador del transporte que se desea guardar. Este debe
      * ser una cadena de dígitos.
      * @return JSON {@link TransporteDTO} - El transporte guardado en el proveedor.
      * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
@@ -55,27 +60,31 @@ public class ProveedorTransportesResource {
      * @throws BusinessLogicException
      */
     @POST
-    @Path("{transportesId: \\d+}")
-    public TransporteTerrestreDTO addTransporte(@PathParam("proveedoresId") Long proveedoresId, @PathParam("transportesId") Long transportesId) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "ProveedorTransportesResource addTransporte: input: proveedoresID: {0} , transportesId: {1}", new Object[]{proveedoresId, transportesId});
-        if (transporteLogic.getTransporte(transportesId) == null) {
-            throw new WebApplicationException("El recurso /transportes/" + transportesId + " no existe.", 404);
-        }
-        TransporteTerrestreDTO transporteDTO = new TransporteTerrestreDTO(proveedorTransportesLogic.addTransporte(transportesId, proveedoresId));
-        LOGGER.log(Level.INFO, "ProveedorTransportesResource addTransporte: output: {0}", transporteDTO.toString());
-        return transporteDTO;
+    @Path("{transporteTerrestreId: \\d+}")
+    public ProveedorDetailDTO addTransporte(@PathParam("proveedorId") Long proveedorId, @PathParam("transporteTerrestreId") Long transporteTerrestreId) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "ProveedorTransportesResource addTransporte: input: proveedoresID: {0} , transportesId: {1}", new Object[]{proveedorId, transporteTerrestreId});
+        ProveedorDetailDTO proveedorDTO = new ProveedorDetailDTO(proveedorTransportesLogic.addTransporteTerrestre(transporteTerrestreId, proveedorId));
+        LOGGER.log(Level.INFO, "ProveedorTransportesResource addTransporte: output: {0}", proveedorDTO.toString());
+        return proveedorDTO;
+    }
+    
+    @POST
+    public ProveedorDetailDTO createTransporte(@PathParam("proveedorId") Long proveedorId,TransporteTerrestreDTO transporteT) throws BusinessLogicException {
+        
+        ProveedorDetailDTO proveedorDTO = new ProveedorDetailDTO(proveedorTransportesLogic.addTransporteTerrestre((transporteLogic.createTransporte(transporteT.toEntity())).getId(), proveedorId));
+        return proveedorDTO;
     }
     
     /**
      * 
-     * @param proveedoresId
+     * @param proveedorId
      * @return
      * @throws BusinessLogicException
      */
     @GET
-    public List<TransporteTerrestreDTO> getTransportes(@PathParam("proveedoresId") Long proveedoresId)throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "ProveedorTransportesResource getTransportes: input: {0}", proveedoresId);
-        List<TransporteTerrestreDTO> listaDetailDTOs = transportesListEntity2DTO(proveedorTransportesLogic.getTransportes(proveedoresId));
+    public List<TransporteTerrestreDTO> getTransportes(@PathParam("proveedorId") Long proveedorId)throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "ProveedorTransportesResource getTransportes: input: {0}", proveedorId);
+        List<TransporteTerrestreDTO> listaDetailDTOs = transportesListEntity2DTO(proveedorTransportesLogic.getTransportesTerrestres(proveedorId));
         LOGGER.log(Level.INFO, "ProveedorTransportessResource getTransportes: output: {0}", listaDetailDTOs.toString());
         return listaDetailDTOs;
     }
@@ -95,42 +104,39 @@ public class ProveedorTransportesResource {
     
     /**
      * 
-     * @param proveedoresId
-     * @param transportesId
+     * @param proveedorId
+     * @param transporteTerrestreId
      * @return
      * @throws BusinessLogicException 
      */
     @GET
-    @Path("{transportesId: \\d+}")
-    public TransporteTerrestreDTO getTransporte(@PathParam("proveedoresId") Long proveedoresId, @PathParam("transportesId") Long transportesId) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "ProveedorTransportesResource getTransporte: input: transportesId: {0} , alojamientosId: {1}", new Object[]{proveedoresId, transportesId});
-        if (transporteLogic.getTransporte(transportesId) == null) {
-            throw new WebApplicationException("El recurso /proveedores/" + proveedoresId + "/transportes/" + transportesId + " no existe.", 404);
-        } 
-        TransporteTerrestreDTO transporteDTO = new TransporteTerrestreDTO(proveedorTransportesLogic.getTransporte(proveedoresId, transportesId));
+    @Path("{transporteTerrestreId: \\d+}")
+    public TransporteTerrestreDTO getTransporte(@PathParam("proveedorId") Long proveedorId, @PathParam("transporteTerrestreId") Long transporteTerrestreId) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "ProveedorTransportesResource getTransporte: input: transportesId: {0} , alojamientosId: {1}", new Object[]{proveedorId, transporteTerrestreId});
+        TransporteTerrestreDTO transporteDTO = new TransporteTerrestreDTO(proveedorTransportesLogic.getTransporteTerrestre(proveedorId, transporteTerrestreId));
         LOGGER.log(Level.INFO, "ProveedorTransportesResource getTransporte: output: {0}", transporteDTO.toString());
         return transporteDTO;
     }
     
-    /**
-     * 
-     * @param proveedoresId
-     * @param transportes
-     * @return
-     * @throws BusinessLogicException 
-     */
-    @PUT
-    public List<TransporteTerrestreDTO> replaceTransportes(@PathParam("proveedoresId") Long proveedoresId, List<TransporteTerrestreDTO> transportes) throws BusinessLogicException{
-        LOGGER.log(Level.INFO, "ProveedorTransportesResource replaceTransportes: input: proveedoresId: {0} , transportes: {1}", new Object[]{proveedoresId, transportes.toString()});
-        for (TransporteTerrestreDTO transporte : transportes) {
-            if (transporteLogic.getTransporte(transporte.getId()) == null) {
-                throw new WebApplicationException("El recurso /transportes/" + transporte.getId() + " no existe.", 404);
-            }
-        }
-        List<TransporteTerrestreDTO> listaDetailDTOs = transportesListEntity2DTO(proveedorTransportesLogic.replaceTransportes(proveedoresId, transportesListDTO2Entity(transportes)));
-        LOGGER.log(Level.INFO, "ProveedorTransportesResource replaceTransportes: output: {0}", listaDetailDTOs.toString());
-        return listaDetailDTOs;
-    }
+//    /**
+//     * 
+//     * @param proveedoresId
+//     * @param transportes
+//     * @return
+//     * @throws BusinessLogicException 
+//     */
+//    @PUT
+//    public List<TransporteTerrestreDTO> replaceTransportes(@PathParam("proveedoresId") Long proveedoresId, List<TransporteTerrestreDTO> transportes) throws BusinessLogicException{
+//        LOGGER.log(Level.INFO, "ProveedorTransportesResource replaceTransportes: input: proveedoresId: {0} , transportes: {1}", new Object[]{proveedoresId, transportes.toString()});
+//        for (TransporteTerrestreDTO transporte : transportes) {
+//            if (transporteLogic.getTransporteTerrestre(transporte.getId()) == null) {
+//                throw new WebApplicationException("El recurso /transportes/" + transporte.getId() + " no existe.", 404);
+//            }
+//        }
+//        List<TransporteTerrestreDTO> listaDetailDTOs = transportesListEntity2DTO(proveedorTransportesLogic.replaceTransportes(proveedoresId, transportesListDTO2Entity(transportes)));
+//        LOGGER.log(Level.INFO, "ProveedorTransportesResource replaceTransportes: output: {0}", listaDetailDTOs.toString());
+//        return listaDetailDTOs;
+//    }
     
     /**
      * 

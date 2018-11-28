@@ -7,7 +7,6 @@ package co.edu.uniandes.csw.viajes.resources;
 
 import co.edu.uniandes.csw.viajes.dtos.ComboDTO;
 import co.edu.uniandes.csw.viajes.dtos.ComboDetailDTO;
-import co.edu.uniandes.csw.viajes.dtos.VueloDTO;
 import co.edu.uniandes.csw.viajes.ejb.ComboLogic;
 import co.edu.uniandes.csw.viajes.entities.ComboEntity;
 

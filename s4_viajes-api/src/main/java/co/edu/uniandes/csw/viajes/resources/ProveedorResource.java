@@ -71,7 +71,7 @@ public class ProveedorResource {
         // Como debe retornar un DTO (json) se invoca el constructor del DTO con argumento el entity nuevo
         ProveedorDTO nuevoProveedorDTO = new ProveedorDTO(nuevoProveedorEntity);
         LOGGER.log(Level.INFO, "EditorialResource createEditorial: output: {0}", nuevoProveedorDTO.toString());
-        return proveedor;
+        return nuevoProveedorDTO;
     }
 
     /**
@@ -82,7 +82,7 @@ public class ProveedorResource {
      */
     @GET
         @Path("{proveedorId: \\d+}")
-    public ProveedorDTO consultarProveedor(@PathParam("proveedorId") Long proveedorId) {
+    public ProveedorDetailDTO consultarProveedor(@PathParam("proveedorId") Long proveedorId) {
         LOGGER.log(Level.INFO, "ProveedorResource getProveedor: input: {0}", proveedorId);
         ProveedorEntity proveedorEntity = proveedorLogic.getProveedor(proveedorId);
         if (proveedorEntity == null) {

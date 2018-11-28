@@ -6,6 +6,8 @@
 package co.edu.uniandes.csw.viajes.resources;
 
 import co.edu.uniandes.csw.viajes.dtos.ActividadDTO;
+import co.edu.uniandes.csw.viajes.dtos.ProveedorDTO;
+import co.edu.uniandes.csw.viajes.dtos.ProveedorDetailDTO;
 import co.edu.uniandes.csw.viajes.dtos.VueloDTO;
 import co.edu.uniandes.csw.viajes.ejb.ActividadLogic;
 import co.edu.uniandes.csw.viajes.ejb.ProveedorActividadLogic;
@@ -18,6 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -36,8 +39,9 @@ import javax.ws.rs.core.MediaType;
  * @author jf.torresp
  */
 @Path("proveedores/{proveedorId: \\d+}/actividades")
-@Consumes(MediaType.APPLICATION_JSON)
-@Produces(MediaType.APPLICATION_JSON)
+@Consumes("application/json")
+@Produces("application/json")
+@RequestScoped 
 public class ProveedorActividadResource {
     
     private static final Logger LOGGER = Logger.getLogger(ProveedorActividadResource.class.getName());
@@ -62,16 +66,26 @@ public class ProveedorActividadResource {
      */
     @POST
     @Path("{actividadId: \\d+}")
-    public ActividadDTO addActividad(@PathParam("proveedorId") Long proveedorId, @PathParam("actividadId") Long actividadId) {
+    public ProveedorDetailDTO addActividad(@PathParam("proveedorId") Long proveedorId, @PathParam("actividadId") Long actividadId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "ProveedorActividadResource addAlojamiento: input: proveedorID: {0} , actividadId: {1}", new Object[]{proveedorId, actividadId});
-        if (actividadLogic.getActividad(actividadId) == null) {
-            throw new WebApplicationException("El recurso /actividades/" + actividadId + " no existe.", 404);
-        }
-        ActividadDTO actividadDTO = new ActividadDTO(proveedorActividadLogic.addActividad(actividadId, proveedorId));
-        LOGGER.log(Level.INFO, "ProveedorActividadResource addActividad: output: {0}", actividadDTO.toString());
-        return actividadDTO;
+        ProveedorDetailDTO proveedorDTO = new ProveedorDetailDTO(proveedorActividadLogic.addActividad(actividadId, proveedorId));
+        LOGGER.log(Level.INFO, "ProveedorActividadResource addActividad: output: {0}", proveedorDTO.toString());
+        return proveedorDTO;
     }
     
+    
+    @POST
+    public ProveedorDetailDTO createActividad(@PathParam("proveedorId") Long proveedorId,ActividadDTO actividad) throws BusinessLogicException {
+        if(actividad == null) throw new BusinessLogicException("No se recibió ninguna actividad");
+        // Convierte el DTO (json) en un objeto Entity para ser manejado por la lógica.
+        ActividadEntity actividadEntity = actividad.toEntity();
+        // Invoca la lógica para crear la actividad nueva
+        ActividadEntity nuevoActividadEntity = actividadLogic.createActividad(actividadEntity);
+        // Como debe retornar un DTO (json) se invoca el constructor del DTO con argumento el entity nuevo
+        ProveedorDetailDTO proveedorDTO = new ProveedorDetailDTO(proveedorActividadLogic.addActividad(nuevoActividadEntity.getId(), proveedorId));
+
+        return proveedorDTO;
+    }
     /**
      * Busca y devuelve todos las actividades que existen en el proveedor.
      *
@@ -81,7 +95,7 @@ public class ProveedorActividadResource {
      * proveedor. Si no hay ninguno retorna una lista vacía.
      */
     @GET
-    public List<ActividadDTO> getActividades(@PathParam("proveedorId") Long proveedorId) {
+    public List<ActividadDTO> getActividades(@PathParam("proveedorId") Long proveedorId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "ProveedorActividadResource getActividades: input: {0}", proveedorId);
         List<ActividadDTO> listaDTOs = actividadesListEntity2DTO(proveedorActividadLogic.getActividades(proveedorId));
         LOGGER.log(Level.INFO, "ProveedorActividadesResource getActividades: output: {0}", listaDTOs.toString());
@@ -106,39 +120,31 @@ public class ProveedorActividadResource {
     @Path("{actividadId: \\d+}")
     public ActividadDTO getActividad(@PathParam("proveedorId") Long proveedorId, @PathParam("actividadId") Long actividadId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "ProveedorActividadResource getActividad: input: proveedorID: {0} , actividadId: {1}", new Object[]{proveedorId, actividadId});
-        if (actividadLogic.getActividad(actividadId) == null) {
-            throw new WebApplicationException("El recurso /proveedores/" + proveedorId + "/actividades/" + actividadId + " no existe.", 404);
-        }
         ActividadDTO actividadDTO = new ActividadDTO(proveedorActividadLogic.getActividad(proveedorId, actividadId));
         LOGGER.log(Level.INFO, "ProveedorActividadResource getActividad: output: {0}", actividadDTO.toString());
         return actividadDTO;
     }
 
-    /**
-     * Remplaza las instancias de Actividad asociadas a una instancia de Proveedor
-     *
-     * @param proveedorId Identificador del proveedor que se esta
-     * remplazando. Este debe ser una cadena de dígitos.
-     * @param actividades JSONArray {@link ActividadDTO} El arreglo de actividades nuevo para el
-     * proveedor.
-     * @return JSON {@link VueloDTO} - El arreglo de actividades guardado en 
-     * el proveedor.
-     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
-     * Error de lógica que se genera cuando no se encuentra la actividad.
-     */
-    @PUT
-    @Path("{proveedorId: \\d+}")
-    public List<ActividadDTO> replaceActividades(@PathParam("proveedorId") Long proveedorId, List<ActividadDTO> actividades) {
-        LOGGER.log(Level.INFO, "ProveedorActividadResource replaceActividades: input: proveedorId: {0} , actividades: {1}", new Object[]{proveedorId, actividades.toString()});
-        for (ActividadDTO actividad : actividades) {
-            if (actividadLogic.getActividad(actividad.getId()) == null) {
-                throw new WebApplicationException("El recurso /actividades/" + actividad.getId() + " no existe.", 404);
-            }
-        }
-        List<ActividadDTO> listaDTOs = actividadesListEntity2DTO(proveedorActividadLogic.replaceActividades(proveedorId, actividadesListDTO2Entity(actividades)));
-        LOGGER.log(Level.INFO, "ProveedorActividadResource replaceActividades: output: {0}", listaDTOs.toString());
-        return listaDTOs;
-    }
+//    /**
+//     * Remplaza las instancias de Actividad asociadas a una instancia de Proveedor
+//     *
+//     * @param proveedorId Identificador del proveedor que se esta
+//     * remplazando. Este debe ser una cadena de dígitos.
+//     * @param actividades JSONArray {@link ActividadDTO} El arreglo de actividades nuevo para el
+//     * proveedor.
+//     * @return JSON {@link VueloDTO} - El arreglo de actividades guardado en 
+//     * el proveedor.
+//     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
+//     * Error de lógica que se genera cuando no se encuentra la actividad.
+//     */
+//    @PUT
+//    @Path("{proveedorId: \\d+}")
+//    public List<ActividadDTO> replaceActividades(@PathParam("proveedorId") Long proveedorId, List<ActividadDTO> actividades) {
+//        LOGGER.log(Level.INFO, "ProveedorActividadResource replaceActividades: input: proveedorId: {0} , actividades: {1}", new Object[]{proveedorId, actividades.toString()});
+//        List<ActividadDTO> listaDTOs = actividadesListEntity2DTO(proveedorActividadLogic.replaceActividades(proveedorId, actividadesListDTO2Entity(actividades)));
+//        LOGGER.log(Level.INFO, "ProveedorActividadResource replaceActividades: output: {0}", listaDTOs.toString());
+//        return listaDTOs;
+//    }
 
     /**
      * Convierte una lista de ActividadEntity a una lista de ActividadDTO.

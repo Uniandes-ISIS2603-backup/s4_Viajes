@@ -25,7 +25,7 @@ import javax.inject.Inject;
  * @author jf.torresp
  */
 @Stateless
-public class VueloLogic {
+public class VueloLogic extends TransporteLogic{
  
     private static final Logger LOGGER = Logger.getLogger(VueloLogic.class.getName());
 
@@ -44,55 +44,8 @@ public class VueloLogic {
      */
     public VueloEntity createVuelo(VueloEntity vueloEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación del vuelo");
-        if (vueloEntity.getNumero() == null)
-        {
-            throw new BusinessLogicException("El Numero de vuelo es inválido");
-        }
+        super.createTransporte(vueloEntity);
 
-        // Verifica la regla de negocio que dice que no puede haber dos vuelos con el mismo numero
-        
-        if (persistence.findByNumber(vueloEntity.getNumero()) != null) {
-            throw new BusinessLogicException("Ya existe un Vuelo con el nombre \"" + vueloEntity.getNumero() + "\"");
-        }
-        
-        String input = vueloEntity.getNumero();
-        
-        // Verifica la regla de negocio que dice que el número del vuelo debe empezar por tres letras mayúsculas que identifican la aerolínea.
-        Pattern p1 = Pattern.compile("^[A-Z]{3}");
-        Matcher m1 = p1.matcher(input);
-        
-        if(m1.find())
-        {
-            throw new BusinessLogicException("El numero del vuelo debería empezar por tres letras mayúsculas identificando la aerolínea");
-        }
-        
-        // Verifica la regla de negocio que dice que el final del número de vuelo deben ser 4 números máximos que van después del identificador de la aerolínea.
-        Pattern p2 = Pattern.compile("[\\d]$ {4}");
-        Matcher m2 = p2.matcher(input);
-        
-        if(m2.find())
-        {
-            throw new BusinessLogicException("El numero del vuelo debe tener máximo 4 números después del identificador de la aerolínea");
-        }
-        
-        // Verifica la regla de negocio que dice que las coordenadas (lat, long) de origen y destino no pueden ser nulas.
-        if(vueloEntity.getLatO() == 0 && vueloEntity.getLonO() == 0 && vueloEntity.getLatD() == 0 && vueloEntity.getLonD() == 0)
-        {
-            throw new BusinessLogicException("Las coordenadas (latitud, longitud) de origen y destino deben exsitir, no pueden ser vacías");
-        }
- 
-        // Verifica la regla de negocio que dice que las coordenadas (lat, long) de origen y destino no pueden ser iguales.        
-        if(vueloEntity.getLatO() == vueloEntity.getLatD() && vueloEntity.getLonO() == vueloEntity.getLonD())
-        {
-           throw new BusinessLogicException("Las coordenadas (latitud, longitud) de origen y destino no pueden ser iguales");
-        }
-        
-        // Verifica la regla de negocio que dice que las fechas de salida y de llegada deben ser válidas y exisitir (not null). 
-        if(vueloEntity.getFechaSalida() == (null) && vueloEntity.getFechaLlegada() == (null))
-        {
-           throw new BusinessLogicException("Las fechas de salida y de llegada deben exisitir y ser vàlidas");            
-        }
-        
         // Invoca la persistencia para crear el vuelo
         persistence.create(vueloEntity);
         LOGGER.log(Level.INFO, "Termina proceso de creación del vuelo");
@@ -149,9 +102,9 @@ public class VueloLogic {
 //            throw new BusinessLogicException("Ya existe un Vuelo con el id que quiere cambiar \"" + vueloEntity.getId() + "\"");
 //        } 
         
-        if (!validateNumero(vueloEntity.getNumero())) {
-            throw new BusinessLogicException("El Numero de vuelo es inválido");
-        }
+//        if (!validateNumero(vueloEntity.getNumero())) {
+//            throw new BusinessLogicException("El Numero de vuelo es inválido");
+//        }
 
         // Note que, por medio de la inyección de dependencias se llama al método "update(entity)" que se encuentra en la persistencia.
         VueloEntity newEntity = persistence.update(vueloEntity);

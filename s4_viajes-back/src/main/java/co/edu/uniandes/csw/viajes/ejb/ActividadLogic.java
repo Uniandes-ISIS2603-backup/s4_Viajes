@@ -9,6 +9,7 @@ import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
 import co.edu.uniandes.csw.viajes.entities.GuiaEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.ActividadPersistence;
+import co.edu.uniandes.csw.viajes.persistence.GuiaPersistence;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,12 +22,14 @@ import javax.inject.Inject;
  */
 
 @Stateless
-public class ActividadLogic {
+public class ActividadLogic extends ServicioLogic{
      private static final Logger LOGGER = Logger.getLogger(ActividadLogic.class.getName());
 
     @Inject
     private ActividadPersistence persistence; // Variable para acceder a la persistencia de la aplicación. Es una inyección de dependencias.
 
+     @Inject
+    private GuiaPersistence guiaPersistence; 
     /**
      * Crea una actividad en la persistencia.
      *
@@ -38,40 +41,7 @@ public class ActividadLogic {
     public ActividadEntity createActividad(ActividadEntity actividadEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación de la actividad");
         // Verifica la regla de negocio que dice que no puede haber dos actividades con el mismo id
-         if (!validarId(actividadEntity.getIdentificador()))
-        {
-            throw new BusinessLogicException("La actividad tiene un identificador no valido");
-        }
-         
-         if(!validarPuntuacion(actividadEntity.getPuntuacion()))
-        {
-            throw new BusinessLogicException("La puntuacion a actualizar es invalida");
-        }
-         
-        if(validarActividadExistente(actividadEntity.getIdentificador()))
-        {
-            throw new BusinessLogicException("Ya existe una actividad con el mismo id");
-        }
-        
-        if (persistence.find(actividadEntity.getId()) != null) {
-            throw new BusinessLogicException("Ya existe una Actividad con el mismo id \"" + actividadEntity.getId() + "\"");
-        }
-        
-        if(persistence.findByName(actividadEntity.getNombreActividad()) != null)
-        {
-            throw new BusinessLogicException("Ya existe una Actividad con el mismo nombre");
-        }
-        
-        if(persistence.findByIdentificador(actividadEntity.getIdentificador()) != null)
-        {
-            throw new BusinessLogicException("Ya existe una Actividad con el mismo identificador");
-        }
-    
-       if (actividadEntity.getGuias() == null)
-        {
-            throw new BusinessLogicException("La lista de guias no se ha inicializado correctamente");
-
-        }
+        super.createServicio(actividadEntity);
         // Invoca la persistencia para crear la editorial
         persistence.create(actividadEntity);
         LOGGER.log(Level.INFO, "Termina proceso de creación de la actividad");
@@ -101,34 +71,33 @@ public class ActividadLogic {
         persistence.deleteAll();
     }
 
-    public ActividadEntity getActividad(Long actividadId) {
+    public ActividadEntity getActividad(Long actividadId) throws BusinessLogicException {
         
         LOGGER.log(Level.INFO, "Inicia proceso de consultar la actividad con id = {0}", actividadId);
         // Note que, por medio de la inyección de dependencias se llama al método "find(id)" que se encuentra en la persistencia.
         
         //PERSISTENCIA
         ActividadEntity actividadEntity = persistence.find(actividadId);
-        if (actividadEntity == null) {
-            LOGGER.log(Level.SEVERE, "La actividad con el id = {0} no existe", actividadId);
-        }
+        if (actividadEntity == null) 
+            throw new BusinessLogicException("No existe ninguna actividad con id "+actividadId);
+        
+         for(long idGuia : actividadEntity.getIdsGuias())
+            {
+               GuiaEntity guia = guiaPersistence.find(idGuia);
+               if(guia==null)
+                   {
+//                           throw new BusinessLogicException("El combo reserva que envio no existe");
+                    }
+               else
+                   actividadEntity.addGuia(guia);
+                          
+            } 
         LOGGER.log(Level.INFO, "Termina proceso de consultar la actividad con id = {0}", actividadId);
         return actividadEntity;
           
     }
     
-    public ActividadEntity getActividadByIdentificador(Long identificador)
-    {
-        LOGGER.log(Level.INFO, "Inicia proceso de consultar la actividad con identificador = {0}", identificador);
-        // Note que, por medio de la inyección de dependencias se llama al método "find(id)" que se encuentra en la persistencia.
-        
-        //PERSISTENCIA
-        ActividadEntity actividadEntity = persistence.findByIdentificador(identificador);
-        if (actividadEntity == null) {
-            LOGGER.log(Level.SEVERE, "La actividad con el identificador = {0} no existe", identificador);
-        }
-        LOGGER.log(Level.INFO, "Termina proceso de consultar la actividad con id = {0}", identificador);
-        return actividadEntity;
-    }
+ 
     
     public ActividadEntity modificarActividad(Long id, ActividadEntity actividadEntity)throws BusinessLogicException{
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar la actividad con id = {0}", id);
@@ -137,15 +106,15 @@ public class ActividadLogic {
             throw new BusinessLogicException("El id a actualizar es inválido");
         }
         
-        if(!validarNombre(actividadEntity.getNombreActividad()))
-        {
-            throw new BusinessLogicException("El nombre a actualizar es invalido");
-        }
-        
-        if(!validarPuntuacion(actividadEntity.getPuntuacion()))
-        {
-            throw new BusinessLogicException("La puntuacion a actualizar es invalida");
-        }
+//        if(!validarNombre(actividadEntity.getNombreActividad()))
+//        {
+//            throw new BusinessLogicException("El nombre a actualizar es invalido");
+//        }
+//        
+//        if(!validarPuntuacion(actividadEntity.getPuntuacion()))
+//        {
+//            throw new BusinessLogicException("La puntuacion a actualizar es invalida");
+//        }
         
         // Note que, por medio de la inyección de dependencias se llama al método "update(entity)" que se encuentra en la persistencia.
         //PERSISTENCIA
