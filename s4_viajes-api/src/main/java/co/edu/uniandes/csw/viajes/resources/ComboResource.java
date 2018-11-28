@@ -172,11 +172,9 @@ public class ComboResource {
      */
     @DELETE
     @Path("{comboId: \\d+}")
-    public void deleteEditorial(@PathParam("comboId") Long comboId) throws BusinessLogicException {
+    public void deleteCombo(@PathParam("comboId") Long comboId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "ComboResource deleteCombo: input: {0}", comboId);
-        if (comboLogic.getCombo(comboId) == null) {
-            throw new WebApplicationException("El recurso /combos/" + comboId + " no existe.", 404);
-        }
+       
         comboLogic.deleteCombo(comboId);
         LOGGER.info("ComboResource deleteCombo: output: void");
     }

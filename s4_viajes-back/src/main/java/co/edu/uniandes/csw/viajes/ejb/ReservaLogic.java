@@ -426,6 +426,26 @@ public class ReservaLogic {
      */
     public void deleteReserva(Long reservaId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de borrar la reserva con id = {0}", reservaId);
+        sePuedeEliminarReserva(reservaId);
+        ReservaEntity reserva=persistence.find(reservaId);
+  
+        eliminarReservaServicio(reserva, reserva.getCantidadPersonas(), reserva.getFechas());
+        persistence.delete(reservaId);
+        LOGGER.log(Level.INFO, "Termina proceso de borrar la reserva con id = {0}", reservaId);
+    }
+    
+    public void deleteReservaSinVerificar(Long reservaId) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "Inicia proceso de borrar la reserva con id = {0}", reservaId);
+        ReservaEntity reserva=persistence.find(reservaId);
+  
+        eliminarReservaServicio(reserva, reserva.getCantidadPersonas(), reserva.getFechas());
+        persistence.delete(reservaId);
+        LOGGER.log(Level.INFO, "Termina proceso de borrar la reserva con id = {0}", reservaId);
+    }
+    
+    
+    public void sePuedeEliminarReserva(Long reservaId) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "Inicia proceso de borrar la reserva con id = {0}", reservaId);
         if(reservaId == null)
           throw new BusinessLogicException("Identificador de la reserva inexistente.");
         ReservaEntity reserva=persistence.find(reservaId);
@@ -445,10 +465,6 @@ public class ReservaLogic {
         if(reserva.isPagada()&&!esPasada)
             throw new BusinessLogicException("No se puede eliminar, la reserva no se ha completado y esta pagada, comunicate la empresa para más informacion.");
 
-        eliminarReservaServicio(reserva, reserva.getCantidadPersonas(), reserva.getFechas());
-        persistence.delete(reservaId);
-        LOGGER.log(Level.INFO, "Termina proceso de borrar la reserva con id = {0}", reservaId);
     }
-
 
 }
