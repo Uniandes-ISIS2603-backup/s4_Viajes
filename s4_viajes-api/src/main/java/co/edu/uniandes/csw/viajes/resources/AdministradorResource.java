@@ -6,7 +6,6 @@
 package co.edu.uniandes.csw.viajes.resources;
 
 import co.edu.uniandes.csw.viajes.dtos.AdministradorDTO;
-import co.edu.uniandes.csw.viajes.dtos.AdministradorDetailDTO;
 import co.edu.uniandes.csw.viajes.ejb.AdministradorLogic;
 import co.edu.uniandes.csw.viajes.entities.AdministradorEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
@@ -81,9 +80,9 @@ public class AdministradorResource {
      * aplicación. Si no hay ninguno retorna una lista vacía.
      */
     @GET
-    public List<AdministradorDetailDTO> getAdministradores() {
+    public List<AdministradorDTO> getAdministradores() {
         LOGGER.info("AdministradorResource getAdministradores: input: void");
-        List<AdministradorDetailDTO> listaAdministradores = listEntity2DetailDTO(administradorLogic.getAdministrador());
+        List<AdministradorDTO> listaAdministradores = listEntity2DTO(administradorLogic.getAdministrador());
         LOGGER.log(Level.INFO, "AdministradorResource getAdministradores: output: {0}", listaAdministradores.toString());
         return listaAdministradores;
     }
@@ -99,10 +98,10 @@ public class AdministradorResource {
      * vamos a convertir a DTO.
      * @return la lista de usuarios en forma DTO (json)
      */
-    private List<AdministradorDetailDTO> listEntity2DetailDTO(List<AdministradorEntity> entityList) {
-        List<AdministradorDetailDTO> list = new ArrayList<>();
+    private List<AdministradorDTO> listEntity2DTO(List<AdministradorEntity> entityList) {
+        List<AdministradorDTO> list = new ArrayList<>();
         for (AdministradorEntity entity : entityList) {
-            list.add(new AdministradorDetailDTO(entity));
+            list.add(new AdministradorDTO(entity));
         }
         return list;
     }

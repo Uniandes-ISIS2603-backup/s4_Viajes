@@ -99,7 +99,6 @@ public class AdministradorLogicTest {
         for (int i = 0; i < 3; i++) {
             AdministradorEntity entity = factory.manufacturePojo(AdministradorEntity.class);
             em.persist(entity);
-            entity.setUsuarios(new ArrayList<>());
             data.add(entity);
         }
        

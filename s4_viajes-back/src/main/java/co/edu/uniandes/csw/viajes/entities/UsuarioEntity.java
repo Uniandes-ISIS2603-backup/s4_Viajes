@@ -28,10 +28,7 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
     private String documento;
     private String nombre;
     private String userName;
-    private String contraseña;
-    
-    
-
+    private String password;
     
     
     @PodamExclude
@@ -39,12 +36,9 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
     private List<PagoEntity> pagos = new ArrayList<PagoEntity>();
     
     @PodamExclude
-    @OneToOne(mappedBy="usuario", cascade = CascadeType.PERSIST)
-    private CarritoComprasEntity carritoCompras;
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ComboEntity> combos = new ArrayList<ComboEntity>();
     
-    @PodamExclude
-    @ManyToOne
-    private AdministradorEntity administrador;
     
     @PodamExclude
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -78,39 +72,20 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
      *
      * @return the documento
      */
-    public String getContraseña() {
-        return contraseña;
+    public String getPassword() {
+        return password;
     }
 
      /**
      * Modifica la contraseña del usuario.
      *
-     * @param contraseña
+     * @param password
      */
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setPassword(String password) {
+        this.password = password;
     }
     
-     /**
-     * Devuelve el carrito del usuario.
-     *
-     * @return El carrito de compras
-     */
-    public CarritoComprasEntity getCarrito()
-    {
-        return carritoCompras;
-    }
     
-    /**
-     * Modifica el carrito del usuario.
-     *
-     * @param pCarrito el Carrito que contiene la informacion modificada.
-     */
-
-    public void setCarrito(CarritoComprasEntity pCarrito)
-    {
-        this.carritoCompras = pCarrito;
-    }
      /**
      * Devuelve el nombre del usuario.
      *
@@ -140,6 +115,19 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
     public List<PagoEntity> getPagos()
     {
         return pagos;
+    }
+    
+    
+    
+     /**
+     * Devuelve la lista de combos del usuario.
+     *
+     * @return the list of combos
+     */
+    
+    public List<ComboEntity> getCombos()
+    {
+        return combos;
     }
     
       /**
@@ -175,7 +163,20 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
         this.entradas = pEntradas;
     }
     
-              /**
+    
+     /**
+     * Actualiza la lista de combos del usuario con la que entra por parametro.
+     *
+     * @param pCombos nueva lista de combos
+     */
+    
+    public void setCombos(List<ComboEntity> pCombos)
+    {
+        this.combos = pCombos;
+    }
+    
+    
+     /**
      * Actualiza la lista de medallas del usuario con la que entra por parametro.
      *
      * @param pMedallas nueva lista de medallas

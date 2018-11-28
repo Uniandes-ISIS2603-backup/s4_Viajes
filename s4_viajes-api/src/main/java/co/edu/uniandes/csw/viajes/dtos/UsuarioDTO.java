@@ -5,6 +5,7 @@
  */
 package co.edu.uniandes.csw.viajes.dtos;
 
+import co.edu.uniandes.csw.viajes.entities.CarritoComprasEntity;
 import co.edu.uniandes.csw.viajes.entities.UsuarioEntity;
 import java.io.Serializable;
 import java.util.List;
@@ -49,7 +50,6 @@ public class UsuarioDTO implements Serializable{
     private String userName;
     private String password;
     private int edad;
-    private CarritoComprasDTO carrito;
 
 
    public UsuarioDTO(){
@@ -66,8 +66,7 @@ public class UsuarioDTO implements Serializable{
            this.userName = usuarioEntity.getUserName();
            this.nombre = usuarioEntity.getNombre();
            this.id = usuarioEntity.getId();
-           this.password = usuarioEntity.getContraseña();
-           this.carrito = new CarritoComprasDTO(usuarioEntity.getCarrito());
+           this.password = usuarioEntity.getPassword();
        }
    }
    
@@ -84,14 +83,7 @@ public class UsuarioDTO implements Serializable{
        return nombre;
    }
    
-    public CarritoComprasDTO getCarrito(){
-       return carrito;
-   }
-    
-     public void setCarrito(CarritoComprasDTO carro){
-       this.carrito= carro;
-   }
-   
+ 
    
     public String getPassword() {
         return password;
@@ -211,8 +203,7 @@ public class UsuarioDTO implements Serializable{
         usuarioEntity.setUserName(this.userName);
         usuarioEntity.setDocumento(this.documento);
         usuarioEntity.setEdad(this.edad);
-        usuarioEntity.setContraseña(this.password);
-        usuarioEntity.setCarrito(this.carrito.toEntity());
+        usuarioEntity.setPassword(this.password);
         return usuarioEntity;
         
         

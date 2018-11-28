@@ -49,6 +49,10 @@ public class ComboEntity  extends BaseEntity implements Serializable {
     @OneToMany(mappedBy = "combo", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ReservaEntity> reservas=new ArrayList<ReservaEntity>();
     
+    @PodamExclude
+    @ManyToOne
+    private UsuarioEntity usuario;
+    
 
     //-----------------------------------------------------------------------------------------------------------------------
     // Metodos
@@ -57,6 +61,15 @@ public class ComboEntity  extends BaseEntity implements Serializable {
 
     public double getCosto() {
         return costo;
+    }
+    
+    
+      public UsuarioEntity getUsuarioEntity() {
+        return usuario;
+    }
+      
+        public void setUsuarioEntity(UsuarioEntity pUsuario) {
+            this.usuario = pUsuario;
     }
      
     public void setCosto(double costo) {

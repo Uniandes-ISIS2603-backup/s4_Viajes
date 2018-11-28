@@ -5,6 +5,7 @@
  */
 package co.edu.uniandes.csw.viajes.dtos;
 
+import co.edu.uniandes.csw.viajes.entities.ComboEntity;
 import co.edu.uniandes.csw.viajes.entities.EntradaEntity;
 import co.edu.uniandes.csw.viajes.entities.MedallaEntity;
 import co.edu.uniandes.csw.viajes.entities.PagoEntity;
@@ -32,6 +33,10 @@ public class UsuarioDetailDTO extends UsuarioDTO implements Serializable {
     
     //Relación con cero o muchas entradas
     private List<EntradaDTO> entradas;
+    
+     //Relación con cero o muchos combos
+    
+    public List<ComboDTO> combos;
 
     public UsuarioDetailDTO()
     {
@@ -63,6 +68,12 @@ public class UsuarioDetailDTO extends UsuarioDTO implements Serializable {
             for(EntradaEntity entityEntradas: usuarioEntity.getEntradas())
             {
                 entradas.add(new EntradaDTO(entityEntradas));
+            }
+            
+            combos = new ArrayList<>();
+            for(ComboEntity entityCombos: usuarioEntity.getCombos())
+            {
+                combos.add(new ComboDTO(entityCombos));
             }
         }  
         
@@ -107,6 +118,19 @@ public class UsuarioDetailDTO extends UsuarioDTO implements Serializable {
 
             }
             usuarioEntity.setEntradas(entradasEntity);
+        }
+        
+         if (combos != null) {
+            List<ComboEntity> comboEntitys = new ArrayList<>();
+            for (ComboDTO dtoCombo : combos) {
+                try {
+                    comboEntitys.add(dtoCombo.toEntity());
+                } catch (Exception ex) {
+                    Logger.getLogger(UsuarioDetailDTO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+
+            }
+            usuarioEntity.setCombos(comboEntitys);
         }
      
         return usuarioEntity;

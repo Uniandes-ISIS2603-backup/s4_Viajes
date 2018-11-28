@@ -23,11 +23,7 @@ public class AdministradorEntity extends BaseEntity implements Serializable {
     private String contraseña;
 
    
-    
-    @PodamExclude
-    @OneToMany(mappedBy = "administrador")
-    private List<UsuarioEntity> usuarios;
-    
+       
     public String getNombre()
     {
         return nombre;
@@ -42,19 +38,6 @@ public class AdministradorEntity extends BaseEntity implements Serializable {
     {
         userName= pUserName;
     
-    }
-    
-      public void setUsuarios(List<UsuarioEntity> pLista)
-    {
-        this.usuarios = pLista;
-        
-    }
-    
-        public List<UsuarioEntity> getUsuarios()
-    {
-
-        return usuarios;
-        
     }
      
       public String getContraseña()
