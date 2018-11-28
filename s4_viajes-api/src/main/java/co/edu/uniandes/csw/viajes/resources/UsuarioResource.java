@@ -177,12 +177,8 @@ public class UsuarioResource {
     public void deleteUsuario(@PathParam("usuariosId") Long usuariosId) throws BusinessLogicException {
 
         LOGGER.log(Level.INFO, "UsuarioResource deleteUsuario: input: {0}", usuariosId);
-        UsuarioEntity entity = usuarioLogic.getUsuario(usuariosId);
-        if(entity==null)
-       {
-           throw new WebApplicationException("El recurso /usuarios/"+ usuariosId + "no existe.", 404);
-           
-       }
+       if(usuariosId==null)
+           throw new BusinessLogicException("El id es invalido");
         
        usuarioLogic.deleteUsuario(usuariosId);
        

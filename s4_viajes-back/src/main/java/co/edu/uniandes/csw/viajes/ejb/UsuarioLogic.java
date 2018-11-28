@@ -33,6 +33,11 @@ public class UsuarioLogic {
     
     @Inject
     private ComboPersistence comboPersistence;
+    
+    @Inject
+    private ComboLogic comboLogic;
+
+    
     /**
      * Se encarga de crear un Uusuario  en la base de datos.
      *
@@ -169,11 +174,25 @@ public class UsuarioLogic {
          public void deleteUsuario(Long userID) throws BusinessLogicException {
         
         UsuarioEntity usuarioEntity = persistence.find(userID);
-        if (usuarioEntity!=null) {
-            throw new BusinessLogicException("No es posible borrar su cuenta, mande un ticket a los administradores");
+        if (usuarioEntity==null) 
+            throw new BusinessLogicException("No es posible borrar, ya que el usuario no existe");
+        for(Long idCombo:usuarioEntity.getIdsCombos())
+        {
+           ComboEntity combo= comboPersistence.find(idCombo);
+           if(combo!=null)
+               comboLogic.sePuedeEliminarCombo(idCombo);
         }
-  }
+        for(Long idCombo:usuarioEntity.getIdsCombos())
+        {
+           ComboEntity combo= comboPersistence.find(idCombo);
+           if(combo!=null)
+               comboLogic.deleteComboSinVerificar(idCombo);
+           
+        }
+        persistence.delete(userID);
+        
     }
+  }
     
     
     

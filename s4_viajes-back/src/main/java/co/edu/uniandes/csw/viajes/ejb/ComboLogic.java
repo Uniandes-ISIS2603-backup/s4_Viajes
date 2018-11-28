@@ -173,6 +173,24 @@ public class ComboLogic {
     public void deleteCombo(Long comboId) throws BusinessLogicException
     {
         LOGGER.log(Level.INFO, "Inicia proceso de borrar el combo con id = {0}", comboId);
+        sePuedeEliminarCombo(comboId);
+        deleteComboSinVerificar(comboId);
+    }
+    public void deleteComboSinVerificar(Long comboId)throws BusinessLogicException
+    {
+        LOGGER.log(Level.INFO, "Inicia proceso de borrar el combo con id = {0}", comboId);
+        ComboEntity combo=persistence.find(comboId);
+        for(Long reservaId:combo.getIdsReservas()){
+            ReservaEntity reserva=reservaPersistence.find(reservaId);
+            if(reserva!=null)
+               reservaLogic.deleteReservaSinVerificar(reservaId);                             
+        }
+
+        persistence.delete(comboId);
+    }
+    
+     public void sePuedeEliminarCombo(Long comboId) throws BusinessLogicException
+    {
         if(comboId == null)
           throw new BusinessLogicException("Identificador del combo inexistente.");
         ComboEntity combo=persistence.find(comboId);
@@ -190,14 +208,6 @@ public class ComboLogic {
                 }
             }  
         }
-        for(Long reservaId:combo.getIdsReservas()){
-            ReservaEntity reserva=reservaPersistence.find(reservaId);
-            if(reserva!=null)
-               reservaLogic.deleteReservaSinVerificar(reservaId);                             
-        }
-
-        persistence.delete(comboId);
-        LOGGER.log(Level.INFO, "Termina proceso de borrar el combo con id = {0}", comboId);
     }
     
 }
