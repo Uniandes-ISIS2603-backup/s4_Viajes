@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -76,6 +77,15 @@ public class ComboReservasResourcee {
         return comboDTO;        
        
     }
+     
+//    @DELETE
+//    @Path("{reservaId: \\d+}")
+//     public void deleteCombo(@PathParam("comboId") Long comboId) throws BusinessLogicException {
+//        LOGGER.log(Level.INFO, "ComboResource deleteCombo: input: {0}", comboId);
+//       
+//        comboLogic.deleteCombo(comboId);
+//        LOGGER.info("ComboResource deleteCombo: output: void");
+//    }
     
     /**
      * Busca y devuelve todos las actividades que existen en el proveedor.
@@ -124,31 +134,6 @@ public class ComboReservasResourcee {
 //        return actividadDTO;
 //    }
 //
-//    /**
-//     * Remplaza las instancias de Actividad asociadas a una instancia de Proveedor
-//     *
-//     * @param proveedorId Identificador del proveedor que se esta
-//     * remplazando. Este debe ser una cadena de dígitos.
-//     * @param actividades JSONArray {@link ActividadDTO} El arreglo de actividades nuevo para el
-//     * proveedor.
-//     * @return JSON {@link VueloDTO} - El arreglo de actividades guardado en 
-//     * el proveedor.
-//     * @throws WebApplicationException {@link WebApplicationExceptionMapper} -
-//     * Error de lógica que se genera cuando no se encuentra la actividad.
-//     */
-//    @PUT
-//    @Path("{proveedorId: \\d+}")
-//    public List<ActividadDTO> replaceActividades(@PathParam("proveedorId") Long proveedorId, List<ActividadDTO> actividades) {
-//        LOGGER.log(Level.INFO, "ProveedorActividadResource replaceActividades: input: proveedorId: {0} , actividades: {1}", new Object[]{proveedorId, actividades.toString()});
-//        for (ActividadDTO actividad : actividades) {
-//            if (actividadLogic.getActividad(actividad.getId()) == null) {
-//                throw new WebApplicationException("El recurso /actividades/" + actividad.getId() + " no existe.", 404);
-//            }
-//        }
-//        List<ActividadDTO> listaDTOs = actividadesListEntity2DTO(comboReservasLogic.replaceActividades(proveedorId, actividadesListDTO2Entity(actividades)));
-//        LOGGER.log(Level.INFO, "ProveedorActividadResource replaceActividades: output: {0}", listaDTOs.toString());
-//        return listaDTOs;
-//    }
 
     /**
      * Convierte una lista de ActividadEntity a una lista de ActividadDTO.

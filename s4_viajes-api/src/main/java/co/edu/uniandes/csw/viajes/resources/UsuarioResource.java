@@ -97,14 +97,8 @@ public class UsuarioResource {
     @Path("{usuarioId: \\d+}")
     public UsuarioDetailDTO consultarUsuario(@PathParam("usuarioId") Long usuarioId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "UsuarioResource getUsuario: input {0}");
-        UsuarioEntity usuarioEntity = usuarioLogic.getUsuario(usuarioId);
-        if (usuarioEntity == null) {
 
-            throw new WebApplicationException("El recurso /usuarios/" + usuarioId + " no existe.", 404);
-
-        }
-
-        UsuarioDetailDTO usuarioDTO = new UsuarioDetailDTO(usuarioEntity);
+        UsuarioDetailDTO usuarioDTO = new UsuarioDetailDTO(usuarioLogic.getUsuario(usuarioId));
 
         LOGGER.log(Level.INFO, "UsuarioResource getUsuario: output {0}");
 

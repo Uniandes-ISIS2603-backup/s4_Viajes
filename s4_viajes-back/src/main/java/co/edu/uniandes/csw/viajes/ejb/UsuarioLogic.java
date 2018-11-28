@@ -41,13 +41,12 @@ public class UsuarioLogic {
      */
     public UsuarioEntity createUsuario(UsuarioEntity usuarioEntity) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de creación del usuario");
-        UsuarioEntity newUsuarioEntity = persistence.create(usuarioEntity);
-        if(newUsuarioEntity.getDocumento().length()<8)
+        if(usuarioEntity.getDocumento().length()<8)
         {
             throw new BusinessLogicException("El documento debe tener al menos 8 caracteres");
         }
         
-            if(newUsuarioEntity.getDocumento().length()>12)
+            if(usuarioEntity.getDocumento().length()>12)
         {
             throw new BusinessLogicException("El documento debe tener máximo 12 caracteres");
         }
@@ -56,10 +55,12 @@ public class UsuarioLogic {
         {
             throw new BusinessLogicException("El nombre de usuario ya ha sido tomado");
         }
-         
+        
+        persistence.create(usuarioEntity);
+
         
         LOGGER.log(Level.INFO, "Termina proceso de creación del usuario");
-        return newUsuarioEntity;
+        return usuarioEntity;
        
     }
     
@@ -72,6 +73,20 @@ public class UsuarioLogic {
     public List<UsuarioEntity> getUsuarios() {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los usuarios");
         List<UsuarioEntity> usuarios = persistence.findAll();
+        for(UsuarioEntity usuario:usuarios){
+            for(long idCombo : usuario.getIdsCombos())
+            {
+               ComboEntity combo = comboPersistence.find(idCombo);
+               if(combo==null)
+                   {
+//                           throw new BusinessLogicException("El combo reserva que envio no existe");
+                    }
+               else
+                   usuario.addCombo(combo);
+                          
+            } 
+
+        }
         LOGGER.log(Level.INFO, "Termina proceso de consultar todos los libros");
         return usuarios;
     }
@@ -104,7 +119,6 @@ public class UsuarioLogic {
         // Note que, por medio de la inyección de dependencias se llama al método "find(id)" que se encuentra en la persistencia.
         UsuarioEntity usuario = persistence.find(usuarioId);
         if (usuario == null) {
-            LOGGER.log(Level.SEVERE, "El usuario con el id = {0} no existe", usuarioId);
            throw new BusinessLogicException("El usuario consultado no existe");
         }
        
@@ -119,7 +133,6 @@ public class UsuarioLogic {
                    usuario.addCombo(combo);
                           
             } 
-        LOGGER.log(Level.INFO, "Termina proceso de consultar el usuario con id = {0}", usuarioId);
         return usuario;
     }
     
