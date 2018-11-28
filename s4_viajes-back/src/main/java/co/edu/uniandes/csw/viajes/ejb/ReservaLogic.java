@@ -193,6 +193,7 @@ public class ReservaLogic {
                             if(cantidad<0)
                                 throw new BusinessLogicException("No hay suficientes cupos disponibles para realizar esta reserva, para la fecha "+fecha.toString()+" solo hay "+vueloEntity.getDisponibilidadFecha().get(i)+" cupos.");
                             vueloEntity.getDisponibilidadFecha().set(i, cantidad);
+                            vueloPersistence.update(vueloEntity);
                            ya=true;
                         }
                     }
@@ -217,6 +218,7 @@ public class ReservaLogic {
                             if(cantidad<0)
                                 throw new BusinessLogicException("No hay suficientes cupos disponibles para realizar esta reserva, para la fecha "+fecha.toString()+" solo hay "+actividadEntity.getDisponibilidadFecha().get(i)+" cupos.");
                             actividadEntity.getDisponibilidadFecha().set(i, cantidad);
+                            actividadPersistence.update(actividadEntity);
                            ya=true;
                         }
                     }
@@ -242,6 +244,7 @@ public class ReservaLogic {
                             if(cantidad<0)
                                 throw new BusinessLogicException("No hay suficientes cupos disponibles para realizar esta reserva, para la fecha "+fecha.toString()+" solo hay "+alojamientoEntity.getDisponibilidadFecha().get(i)+" cupos.");
                             alojamientoEntity.getDisponibilidadFecha().set(i, cantidad);
+                            alojamientoPersistence.update(alojamientoEntity);
                            ya=true;
                         }
                     }
@@ -267,6 +270,7 @@ public class ReservaLogic {
                             if(cantidad<0)
                                 throw new BusinessLogicException("No hay suficientes cupos disponibles para realizar esta reserva, para la fecha "+fecha.toString()+" solo hay "+transporteTerrestreEntity.getDisponibilidadFecha().get(i)+" cupos.");
                             transporteTerrestreEntity.getDisponibilidadFecha().set(i, cantidad);
+                            transporteTerrestrePersistence.update(transporteTerrestreEntity);
                            ya=true;
                         }
                     }
