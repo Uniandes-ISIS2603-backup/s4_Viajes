@@ -13,7 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import uk.co.jemos.podam.common.PodamExclude;
 
 /**
@@ -53,7 +52,6 @@ public class ComboEntity  extends BaseEntity implements Serializable {
     @ManyToOne
     private UsuarioEntity usuario;
     
-
     //-----------------------------------------------------------------------------------------------------------------------
     // Metodos
     //-----------------------------------------------------------------------------------------------------------------------
@@ -109,8 +107,7 @@ public class ComboEntity  extends BaseEntity implements Serializable {
     }
    
     public List<ReservaEntity> getReservas() {
-        if(reservas==null)
-            return reservas=new ArrayList<>();
+        
         return reservas;
     }
 
@@ -136,8 +133,6 @@ public class ComboEntity  extends BaseEntity implements Serializable {
     }
 
     public List<Long> getIdsReservas() {
-        if(idsReservas==null)
-           idsReservas= new ArrayList<>();
         return idsReservas;
     }
 
@@ -145,8 +140,16 @@ public class ComboEntity  extends BaseEntity implements Serializable {
         this.idsReservas = idsReservas;
     }
      public void addIdReserva(Long idReserva) {
-         if(idsReservas==null)
-           idsReservas= new ArrayList<>();
+
         idsReservas.add(0,idReserva);
+    }
+     public void deleteIdReserva(Long idReserva) {
+        boolean ya=false;
+        for(int i=0;i<idsReservas.size()&&!ya;i++)
+            if(idsReservas.get(i)==idReserva)
+            {
+                idsReservas.remove(i);
+                ya=true;
+            }
     }
 }

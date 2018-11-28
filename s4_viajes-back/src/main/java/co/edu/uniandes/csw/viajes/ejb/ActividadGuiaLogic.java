@@ -6,10 +6,13 @@
 package co.edu.uniandes.csw.viajes.ejb;
 
 import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
+import co.edu.uniandes.csw.viajes.entities.AlojamientoEntity;
 import co.edu.uniandes.csw.viajes.entities.GuiaEntity;
+import co.edu.uniandes.csw.viajes.entities.ProveedorEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.ActividadPersistence;
 import co.edu.uniandes.csw.viajes.persistence.GuiaPersistence;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -41,13 +44,26 @@ public class ActividadGuiaLogic {
      * guia.
      * @return El guia creado.
      */
-    public GuiaEntity addGuia(Long documentoId, Long actividadId) {
-        LOGGER.log(Level.INFO, "Inicia proceso de agregarle un guia a la actividad con id = {0}", actividadId);
-        ActividadEntity actividadEntity = actividadPersistence.findByIdentificador(actividadId);
-        GuiaEntity guiaEntity = guiaPersistence.findByDocumento(documentoId);
-        guiaEntity.setActividad(actividadEntity);
-        LOGGER.log(Level.INFO, "Termina proceso de agregarle un guia a la actividad con id = {0}", actividadId);
-        return guiaEntity;
+    public ActividadEntity addGuia(Long guiaId, Long actividadId) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "Inicia proceso de agregarle un guia al proveedor con id = {0}", actividadId);
+        ActividadEntity actividadEntity = actividadPersistence.find(actividadId);
+        GuiaEntity guiaEntity = guiaPersistence.find(guiaId);
+        if(actividadEntity==null)
+            throw new BusinessLogicException("La actividad con id "+actividadId +" no existe");
+        if(guiaEntity==null)
+            throw new BusinessLogicException("EL guia con id "+guiaId +" no existe");
+
+         for(long idGuia : actividadEntity.getIdsGuias())
+            if(idGuia == guiaId)
+                throw new BusinessLogicException("El combo ya tiene asignado un alojamiento con id " + guiaId +".");
+           
+        actividadEntity.addIdGuia(guiaId);
+        actividadEntity.addGuiaFirst(guiaEntity);
+
+        actividadPersistence.update(actividadEntity);
+
+        LOGGER.log(Level.INFO, "Termina proceso de agregarle un guia al proveedor con id = {0}", actividadId);
+        return actividadEntity;
     }
 
     /**
@@ -56,9 +72,25 @@ public class ActividadGuiaLogic {
      * @param actividadId El ID de la actividad buscada
      * @return La lista de libros de la editorial
      */
-    public List<GuiaEntity> getGuias(Long actividadId) {
+    public List<GuiaEntity> getGuias(Long actividadId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar los guias asociados a la actividad con id = {0}", actividadId);
-        return actividadPersistence.findByIdentificador(actividadId).getGuias();
+        ActividadEntity actividadEntity= actividadPersistence.findByIdentificador(actividadId);
+          if(actividadEntity==null)
+            throw new BusinessLogicException("El proveedor con id "+actividadId +" no existe");
+        List<GuiaEntity> guias=new ArrayList<>();
+        
+        for(long idGuia : actividadEntity.getIdsGuias())   
+        {
+            GuiaEntity guia = guiaPersistence.find(idGuia);
+            if(guia==null)
+               {
+                  //No era un alojamiento
+               }
+            else
+                guias.add(guia);
+        }
+        
+        return guias;
     }
 
     /**

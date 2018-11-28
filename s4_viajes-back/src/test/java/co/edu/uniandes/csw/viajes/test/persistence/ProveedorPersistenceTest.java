@@ -132,7 +132,7 @@ public class ProveedorPersistenceTest {
 
         Assert.assertEquals(newEntity.getNombre(), newEntity.getNombre());
         Assert.assertEquals(newEntity.getPassword(), newEntity.getPassword());
-        Assert.assertEquals(newEntity.getPuntaje(), newEntity.getPuntaje());
+        Assert.assertEquals(newEntity.getPuntuacion(), newEntity.getPuntuacion());
         Assert.assertEquals(newEntity.getUser(), entity.getUser());
     }
 

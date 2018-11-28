@@ -21,70 +21,18 @@ import uk.co.jemos.podam.common.PodamExclude;
  */
 
 @Entity
-public class ActividadEntity extends BaseEntity implements Serializable {
+public class ActividadEntity extends ServicioEntity implements Serializable{
     
     @PodamExclude
-    @OneToMany(mappedBy = "actividad")
+    @OneToMany(mappedBy = "actividad", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<GuiaEntity> guias = new ArrayList<GuiaEntity>();
-    
-    private Long identificador;
-    
-    private String nombreActividad;
-    
-    private int costo;
-        
-    private int puntuacion;
-    
-    private int duracion;
-    
-    private double latitud;
-    
-    private double longitud;
 
-    @PodamExclude
-    @ManyToOne
-    private ReservaEntity reserva;
-    
-    
-    public Long getIdentificador()
-    {
-        return identificador;
-    }
-    
-    @PodamExclude
-    @ManyToOne
-    private ProveedorEntity proveedor;
+    private List<Long> idsGuias=new ArrayList<>();
 
-    public String getNombreActividad()
-    {
-        return nombreActividad;
+    public ActividadEntity(){
+        super();
+
     }
-    public int getCosto()
-    {
-        return costo;
-    }
-    
-    
-    public int getPuntuacion()
-    {
-        return puntuacion;
-    }
-    
-    public int getDuracion()
-    {
-        return duracion;
-    }
-    
-    public double getLatitud()
-    {
-        return latitud;
-    }
-    
-    public double getLongitud()
-    {
-        return longitud;
-    }
-    
     
     /**
      * Devuelve las guias de la actividad.
@@ -95,76 +43,50 @@ public class ActividadEntity extends BaseEntity implements Serializable {
         return guias;
     }
     
-    public void setIdentificador(Long identificador)
-    {
-        this.identificador = identificador;
-    }
-    
-    public void setNombreActividad(String nombreActividad)
-    {
-        this.nombreActividad = nombreActividad;
-    }
-
     /**
      * Modifica las guias de la actividad.
      *
-     * @param books Los nuevos libros.
+     * @param guias Los nuevos libros.
      */
-    public void setGuias(List<GuiaEntity> books) {
-        this.guias = books;
+    public void setGuias(List<GuiaEntity> guias) {
+        this.guias = guias;
     }
     
-    public void setCosto(int pCosto){
-        costo = pCosto;
+    public void addGuia(GuiaEntity guia)
+    {
+        if(guia!=null)
+             guias.add(guia);
+    }
+     public void addGuiaFirst(GuiaEntity guia)
+    {
+        if(guia!=null)
+             guias.add(0,guia);
     }
 
-    public void setPuntuacion(int pPuntuacion)
-    {
-        puntuacion = pPuntuacion;
+    public List<Long> getIdsGuias() {
+        if(idsGuias==null)
+            idsGuias=new ArrayList<>();
+        return idsGuias;
     }
-    public void setDuracion(int pDuracion)
-    {
-        duracion = pDuracion;
+
+    public void setIdsGuias(List<Long> idsGuias) {
+        this.idsGuias = idsGuias;
     }
-    public void setLatitud(double pLatitud)
+    
+   public void addIdGuia(Long idGuia) {
+
+        idsGuias.add(0,idGuia);
+    }
+     public void deleteIdGuia(Long idGuia) {
+        boolean ya=false;
+        for(int i=0;i<idsGuias.size()&&!ya;i++)
+            if(idsGuias.get(i)==idGuia)
             {
-                latitud = pLatitud;
+                idsGuias.remove(i);
+                ya=true;
             }
-    public void setLongitud(double pLongitud)
-    {
-        longitud = pLongitud;
-    }
-    /**
-     * Devuelve el proveedor a la que pertenece el libro.
-     *
-     * @return Una entidad de proveedor.
-     */
-    public ProveedorEntity getProveedor() {
-        return proveedor;
     }
 
-    /**
-     * Modifica el proveedor al que pertenece el vuelo.
-     *
-     * @param proveedorEntity El nuevo proveedor.
-     */
-    public void setProveedor(ProveedorEntity proveedorEntity) {
-        this.proveedor = proveedorEntity;
-    }
-
-    
-   
-    public void agregarGuia(GuiaEntity guia)
-    {
-      guias.add(guia);
-    }
-
-     public ReservaEntity getReserva() {
-        return reserva;
-    }
-
-    public void setReserva(ReservaEntity reserva) {
-        this.reserva = reserva;
-    }
+     
 
 }

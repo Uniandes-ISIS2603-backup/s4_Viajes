@@ -36,6 +36,8 @@ public class GuiaEntity extends BaseEntity implements Serializable{
     
     private String hablaIdioma;
     
+    private int cantidadCalificaciones;
+    
     
     
     public int getEdad(){return edad;}
@@ -53,6 +55,12 @@ public class GuiaEntity extends BaseEntity implements Serializable{
     public void setSueldo(double pSueldo){sueldo = pSueldo;}
     public void setIdioma(String pIdiomas){hablaIdioma = pIdiomas;}
     public void setActividad(ActividadEntity actividad){this.actividad = actividad;}
-    
+    public int getCantidadCalificaciones() {
+        return cantidadCalificaciones;
+    }
+
+    public void setCantidadCalificaciones(int cantidadCalificaciones) {
+        this.cantidadCalificaciones = cantidadCalificaciones;
+    }
             
 }

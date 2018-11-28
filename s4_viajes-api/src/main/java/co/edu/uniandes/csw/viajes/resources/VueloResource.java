@@ -78,14 +78,16 @@ public class VueloResource {
      */
     @GET
     @Path("{vueloId: \\d+}")
-    public VueloDTO consultarVuelo(@PathParam("vueloId") Long vueloId) 
+    public VueloDTO consultarVuelo(@PathParam("vueloId") Long vueloId) throws Exception 
     {
+       
         LOGGER.log(Level.INFO, "VueloResource getVuelo: input: {0}", vueloId);
         VueloEntity vueloEntity = vueloLogic.getVuelo(vueloId);
         if (vueloEntity == null) {
-            throw new WebApplicationException("El recurso /books/" + vueloId + " no existe.", 404);
+            throw new WebApplicationException("El recurso /books/" + vueloId + " no existe.",404);
         }
         VueloDTO vueloDTO = new VueloDTO(vueloEntity);
+
         LOGGER.log(Level.INFO, "VueloResource geVuelo: output: {0}", vueloDTO.toString());
         return vueloDTO;
     }

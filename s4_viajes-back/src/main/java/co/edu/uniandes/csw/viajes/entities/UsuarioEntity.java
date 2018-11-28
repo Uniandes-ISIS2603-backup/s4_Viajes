@@ -13,7 +13,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import uk.co.jemos.podam.common.PodamExclude;
 
 
@@ -30,16 +29,21 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
     private String userName;
     private String password;
     
-    
+    private List<Long> idsCombos=new ArrayList<>();
+    private List<Long> idsPagos=new ArrayList<>();
+    private List<Long> idsEntradas=new ArrayList<>();
+    private List<Long> idsMedallas=new ArrayList<>();
+
+
     @PodamExclude
     @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<PagoEntity> pagos = new ArrayList<PagoEntity>();
+    private List<PagoEntity> pagos = new ArrayList<>();
     
     @PodamExclude
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<ComboEntity> combos = new ArrayList<ComboEntity>();
+    @OneToMany(mappedBy="usuario", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ComboEntity> combos= new ArrayList<>();
     
-    
+  
     @PodamExclude
     @OneToMany(mappedBy = "autor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<EntradaEntity> entradas = new ArrayList<EntradaEntity>();
@@ -66,24 +70,15 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
     {
         return documento;
     }
-    
-     /**
-     * Devuelve la contraseña del usuario.
-     *
-     * @return the documento
-     */
+
     public String getPassword() {
         return password;
     }
 
-     /**
-     * Modifica la contraseña del usuario.
-     *
-     * @param password
-     */
     public void setPassword(String password) {
         this.password = password;
     }
+    
     
     
      /**
@@ -115,19 +110,6 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
     public List<PagoEntity> getPagos()
     {
         return pagos;
-    }
-    
-    
-    
-     /**
-     * Devuelve la lista de combos del usuario.
-     *
-     * @return the list of combos
-     */
-    
-    public List<ComboEntity> getCombos()
-    {
-        return combos;
     }
     
       /**
@@ -164,19 +146,18 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
     }
     
     
-     /**
-     * Actualiza la lista de combos del usuario con la que entra por parametro.
-     *
-     * @param pCombos nueva lista de combos
-     */
-    
-    public void setCombos(List<ComboEntity> pCombos)
+    public void addEntrada(EntradaEntity entrada)
     {
-        this.combos = pCombos;
+        if(entrada!=null)
+             entradas.add(entrada);
+    }
+     public void addEntradaFirst(EntradaEntity entrada)
+    {
+        if(entrada!=null)
+             entradas.add(0,entrada);
     }
     
-    
-     /**
+              /**
      * Actualiza la lista de medallas del usuario con la que entra por parametro.
      *
      * @param pMedallas nueva lista de medallas
@@ -185,6 +166,17 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
     public void setMedallas(List<MedallaEntity> pMedallas)
     {
         this.medallas = pMedallas;
+    }
+    
+    public void addMedalla(MedallaEntity medalla)
+    {
+        if(medalla!=null)
+             medallas.add(medalla);
+    }
+     public void addMedallaFirst(MedallaEntity medalla)
+    {
+        if(medalla!=null)
+             medallas.add(0,medalla);
     }
     
          /**
@@ -198,6 +190,19 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
         
     }
     
+    
+    public void addPago(PagoEntity pago)
+    {
+        if(pago!=null)
+             pagos.add(pago);
+    }
+     public void addPagoFirst(PagoEntity pago)
+    {
+        if(pago!=null)
+             pagos.add(0,pago);
+    }
+    
+     
      /**
      * Modifica la edad del usuario.
      *
@@ -238,5 +243,117 @@ public class UsuarioEntity extends BaseEntity implements Serializable{
     {
        this.nombre= pNombre;
     } 
+
+    public List<Long> getIdsCombos() {
+        return idsCombos;
+    }
+
+    public void setIdsCombos(List<Long> idsCombos) {
+        this.idsCombos = idsCombos;
+    }
+    
+    public void addIdCombo(Long idCombo) {
+       idsCombos.add(0,idCombo);
+    }
+    public void deleteIdCombo(Long idCOmbo) {
+        boolean ya=false;
+        for(int i=0;i<idsCombos.size()&&!ya;i++)
+            if(idsCombos.get(i)==idCOmbo)
+            {
+                idsCombos.remove(i);
+                ya=true;
+            }
+    }
+    
+
+    public List<Long> getIdsPagos() {
+        return idsPagos;
+    }
+
+    public void setIdsPagos(List<Long> idsPagos) {
+        this.idsPagos = idsPagos;
+    }
+    
+    public void addIdPago(Long idPago) {
+         
+        idsPagos.add(0,idPago);
+    }
+    
+     public void deleteIdPago(Long idPago) {
+        boolean ya=false;
+        for(int i=0;i<idsPagos.size()&&!ya;i++)
+            if(idsPagos.get(i)==idPago)
+            {
+                idsPagos.remove(i);
+                ya=true;
+            }
+    }
+
+    public List<ComboEntity> getCombos() {
+        return combos;
+    }
+
+    public void setCombos(List<ComboEntity> combos) {
+        this.combos = combos;
+    }
+    
+    public void addCombo(ComboEntity combo)
+    {
+        if(combo!=null)
+             combos.add(combo);
+    }
+     public void addComboFirst(ComboEntity combo)
+    {
+        if(combo!=null)
+             combos.add(0,combo);
+    }
+
+    public List<Long> getIdsEntradas() {
+        return idsEntradas;
+    }
+
+    public void setIdsEntradas(List<Long> idsEntradas) {
+        this.idsEntradas = idsEntradas;
+    }
+
+     public void addIdEntrada(Long idEntrada) {
+         
+        idsEntradas.add(0,idEntrada);
+    }
+    
+     public void deleteIdEntrada(Long idEntrada) {
+        boolean ya=false;
+        for(int i=0;i<idsEntradas.size()&&!ya;i++)
+            if(idsEntradas.get(i)==idEntrada)
+            {
+                idsEntradas.remove(i);
+                ya=true;
+            }
+    }
+     
+    public List<Long> getIdsMedallas() {
+        return idsMedallas;
+    }
+
+    public void setIdsMedallas(List<Long> idsMedallas) {
+        this.idsMedallas = idsMedallas;
+    }
+     
+    public void addIdMedalla(Long idMedalla) {
+         
+        idsMedallas.add(0,idMedalla);
+    }
+    
+     public void deleteIdMedalla(Long idMedalla) {
+        boolean ya=false;
+        for(int i=0;i<idsMedallas.size()&&!ya;i++)
+            if(idsMedallas.get(i)==idMedalla)
+            {
+                idsMedallas.remove(i);
+                ya=true;
+            }
+    }
+     
+     
     
 }

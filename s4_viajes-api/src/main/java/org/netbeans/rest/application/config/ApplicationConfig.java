@@ -37,7 +37,6 @@ public class ApplicationConfig extends Application {
         resources.add(co.edu.uniandes.csw.viajes.resources.AdministradorResource.class);
         resources.add(co.edu.uniandes.csw.viajes.resources.AlojamientoProveedorResource.class);
         resources.add(co.edu.uniandes.csw.viajes.resources.AlojamientoResource.class);
-        resources.add(co.edu.uniandes.csw.viajes.resources.CarritoComprasResource.class);
         resources.add(co.edu.uniandes.csw.viajes.resources.ComboReservasResourcee.class);
         resources.add(co.edu.uniandes.csw.viajes.resources.ComboResource.class);
         resources.add(co.edu.uniandes.csw.viajes.resources.ComentarioResource.class);
@@ -50,9 +49,11 @@ public class ApplicationConfig extends Application {
         resources.add(co.edu.uniandes.csw.viajes.resources.ProveedorTransportesResource.class);
         resources.add(co.edu.uniandes.csw.viajes.resources.ProveedorVueloResource.class);
         resources.add(co.edu.uniandes.csw.viajes.resources.ReservaResource.class);
-        resources.add(co.edu.uniandes.csw.viajes.resources.TransporteProveedorResource.class);
         resources.add(co.edu.uniandes.csw.viajes.resources.TransporteTerrestreResource.class);
+        resources.add(co.edu.uniandes.csw.viajes.resources.UsuarioCombosResource.class);
+        resources.add(co.edu.uniandes.csw.viajes.resources.UsuarioEntradasResource.class);
         resources.add(co.edu.uniandes.csw.viajes.resources.UsuarioMedallasResource.class);
+        resources.add(co.edu.uniandes.csw.viajes.resources.UsuarioPagosResource.class);
         resources.add(co.edu.uniandes.csw.viajes.resources.UsuarioResource.class);
         resources.add(co.edu.uniandes.csw.viajes.resources.VueloResource.class);
     }

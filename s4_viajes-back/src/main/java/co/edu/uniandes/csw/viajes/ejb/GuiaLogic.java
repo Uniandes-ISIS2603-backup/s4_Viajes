@@ -53,13 +53,12 @@ public class GuiaLogic {
             throw new BusinessLogicException("El documento del guia es invalido");
         }
         
-        if (!validarPuntuacion(guiaEntity.getPuntuacion()))
-        {
-            throw new BusinessLogicException("La puntuacion del guia es invalida");
-        }
+        
         if (persistence.findByDocumento(guiaEntity.getDocumento()) != null) {
             throw new BusinessLogicException("Ya existe una Guia con el documento \"" + guiaEntity.getDocumento() + "\"");
         }
+        guiaEntity.setPuntuacion(-1);
+        guiaEntity.setCantidadCalificaciones(0);
         // Invoca la persistencia para crear el guia
         persistence.create(guiaEntity);
         LOGGER.log(Level.INFO, "Termina proceso de creación del guia");
@@ -89,12 +88,7 @@ public class GuiaLogic {
         {
             throw new BusinessLogicException("El id es invalido");
         }
-        
-        if (!validarPuntuacion(guiaEntity.getPuntuacion()))
-        {
-            throw new BusinessLogicException("La puntuacion es invalida");
-        }
- 
+
         GuiaEntity newEntity = persistence.update(guiaEntity);
         LOGGER.log(Level.INFO, "Termina proceso de actualizar la guia con id = {0}", guiaEntity.getId());
         return new GuiaEntity();
@@ -144,8 +138,7 @@ public class GuiaLogic {
     return !(doc == null || doc <= 0L);
      }
     
-    private boolean validarPuntuacion(int p)
-    {return !(p > 10 || p <0);}
+   
     
     private boolean validarGuiaExistente(GuiaEntity e)
     {return !(e == null);}

@@ -5,7 +5,6 @@
  */
 package co.edu.uniandes.csw.viajes.dtos;
 
-import co.edu.uniandes.csw.viajes.entities.ComboEntity;
 import co.edu.uniandes.csw.viajes.entities.PagoEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import org.apache.commons.lang3.builder.ToStringBuilder;
@@ -13,13 +12,12 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  *
- * @author estudiante
+ * @author Juan Diego Barrios
  */
 public class PagoDTO {
    
+    private Long id;
     private ReservaDTO aPagar;
-    private Long pagoId;
-    private boolean pagaConTarjeta;
     private String tarjeta;
     private long idReservaAPagar;
     
@@ -39,8 +37,7 @@ public class PagoDTO {
                 aPagar=new ReservaDTO(pagoEntity.getaPagar());
             else
                 aPagar=null;
-            pagoId=pagoEntity.getId();
-            pagaConTarjeta=pagoEntity.isPagaConTarjeta();
+            id=pagoEntity.getId();
             tarjeta=pagoEntity.getTarjeta();
         }
     }
@@ -54,19 +51,11 @@ public class PagoDTO {
     }
 
     public Long getPagoId() {
-        return pagoId;
+        return id;
     }
 
     public void setPagoId(Long pagoId) {
-        this.pagoId = pagoId;
-    }
-
-    public boolean isPagaConTarjeta() {
-        return pagaConTarjeta;
-    }
-
-    public void setPagaConTarjeta(boolean pagaConTarjeta) {
-        this.pagaConTarjeta = pagaConTarjeta;
+        this.id = pagoId;
     }
 
     public String getTarjeta() {
@@ -78,11 +67,11 @@ public class PagoDTO {
     }
     
     
-    public long getIdReservaAPagar() {
+    public long getId() {
         return idReservaAPagar;
     }
 
-    public void setIdReservaAPagar(long idReservaAPagar) {
+    public void setId(long idReservaAPagar) {
         this.idReservaAPagar = idReservaAPagar;
     }
     
@@ -93,10 +82,9 @@ public class PagoDTO {
       public PagoEntity toEntity() throws BusinessLogicException, Exception 
     {
         PagoEntity pagoEntity = new PagoEntity();
-        pagoEntity.setPagaConTarjeta(pagaConTarjeta);
         pagoEntity.setIdReservaAPagar(idReservaAPagar);
-        if(pagaConTarjeta)
-            pagoEntity.setTarjeta(tarjeta);
+        pagoEntity.setTarjeta(tarjeta);
+        
         return pagoEntity; 
     }
       

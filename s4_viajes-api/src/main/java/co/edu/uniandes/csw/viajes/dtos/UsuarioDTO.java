@@ -4,11 +4,8 @@
  * and open the template in the e   ditor.
  */
 package co.edu.uniandes.csw.viajes.dtos;
-
-import co.edu.uniandes.csw.viajes.entities.CarritoComprasEntity;
 import co.edu.uniandes.csw.viajes.entities.UsuarioEntity;
 import java.io.Serializable;
-import java.util.List;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -82,9 +79,7 @@ public class UsuarioDTO implements Serializable{
    public String getNombre(){
        return nombre;
    }
-   
- 
-   
+      
     public String getPassword() {
         return password;
     }

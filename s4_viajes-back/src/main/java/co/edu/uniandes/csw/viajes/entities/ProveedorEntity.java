@@ -26,30 +26,31 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
 
     private String username;
     
-    private String contrasena;
+    private String password;
     
     private String nombre;
     
     private int puntuacion;
     
+    private List<Long> idsServicios=new ArrayList<>();
+    
+    private String imagen;
+
+    private int cantidadCalificaciones;
+    
     @PodamExclude
     @OneToMany (mappedBy = "proveedor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<VueloEntity> vuelos = new ArrayList<VueloEntity>();
-    
-    @PodamExclude
-    @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<TransporteTerrestreEntity> transportes = new ArrayList<TransporteTerrestreEntity>();
-    
-    @PodamExclude
-    @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<ActividadEntity> actividades = new ArrayList<ActividadEntity>();
-    
-    @PodamExclude
-    @OneToMany(mappedBy = "proveedor", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<AlojamientoEntity> alojamientos = new ArrayList<AlojamientoEntity>();
-    
-   //Métodos//
-    
+    private List<ServicioEntity> servicios = new ArrayList<>();
+
+    public String getImagen() {
+        return imagen;    
+    }
+
+    //Métodos//
+    public void setImagen(String imagen) {
+        this.imagen = imagen;
+    }
+
     /**
      * Obtiene el usuario de un proveedor.
      *
@@ -65,7 +66,7 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
      * @return password del proveedor.
      */
     public String getPassword() {
-        return contrasena;
+        return password;
     }
 
     /**
@@ -77,53 +78,6 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
         return nombre;
     }
 
-    /**
-     * Obtiene el puntaje de un proveedor.
-     *
-     * @return puntuacion del proveedor.
-     */
-    public int getPuntaje() {
-        return puntuacion;
-    }
-
-    /**
-     * Obtiene los vuelos de un proveedor.
-     *
-     * @return vuelos del proveedor.
-     */
-    public List<VueloEntity> getVuelos()
-    {
-        return vuelos;
-    }
-
-    /**
-     * Obtiene los transportes terrestres de un proveedor.
-     *
-     * @return transportes terrestres del proveedor.
-     */
-    public List<TransporteTerrestreEntity> getTransportes()
-    {
-        return transportes;
-    }
-    
-    /**
-     * Obtiene las actividades del proveedor
-     *
-     * @return actividades del proveedor.
-     */
-    public List<ActividadEntity> getActividades()
-    {
-        return actividades;
-    }
-    
-    /**
-     * Obtiene los alojamientos del proveedor
-     * @return alojamientos del proveedor.
-     */
-    public List<AlojamientoEntity> getAlojamientos()
-    {
-        return alojamientos;
-    }
 
     /**
      * Modifica (set) el usuario de un proveedor por el ingresado por parámetro.
@@ -141,7 +95,7 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
      * @param contrasena nueva contraseña que modificará la actual.
      */
     public void setPassword(String contrasena) {
-        this.contrasena = contrasena;
+        this.password = contrasena;
     }
 
     /**
@@ -153,48 +107,80 @@ public class ProveedorEntity extends BaseEntity implements Serializable{
         this.nombre = nombre;
     }
 
-    /**
-     * Modifica (set) el puntaje de un proveedor por el ingresado por parámetro.
-     *
-     * @param puntuacion nuevo puntaje que modificará el actual.
-     */
-    public void setPuntaje(int puntuacion) {
+   
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public int getPuntuacion() {
+        return puntuacion;
+    }
+
+    public void setPuntuacion(int puntuacion) {
         this.puntuacion = puntuacion;
     }
-    
-    /**
-     * Modifica los vuelos del proveedor.
-     *
-     * @param vuelos Los nuevos vuelos.
-     */
-    public void setVuelos(List<VueloEntity> vuelos) {
-        this.vuelos = vuelos;
+
+    public List<Long> getIdsServicios() {
+        return idsServicios;
+    }
+
+    public void setIdsServicios(List<Long> idsServicios) {
+        this.idsServicios = idsServicios;
     }
     
-    /**
-     * Modifica los transportes del proveedor.
-     *
-     * @param transportes Los nuevos transportes.
-     */
-    public void setTransportes(List<TransporteTerrestreEntity> transportes) {
-        this.transportes = transportes;
+    public void addIdServicio(Long idServicio) {
+         
+        idsServicios.add(0,idServicio);
     }
     
-    /**
-     * Modifica las actividades del proveedor.
-     *
-     * @param actividades Las nuevas actividades.
-     */
-    public void setActividades(List<ActividadEntity> actividades) {
-        this.actividades = actividades;
+     public void deleteIdServicio(Long idServicio) {
+        boolean ya=false;
+        for(int i=0;i<idsServicios.size()&&!ya;i++)
+            if(idsServicios.get(i)==idServicio)
+            {
+                idsServicios.remove(i);
+                ya=true;
+            }
     }
-            
-    /**
-     * Modifica los alojamientos del proveedor.
-     *
-     * @param alojamientos os nuevos alojamientos.
-     */
-    public void setAlojamientos(List<AlojamientoEntity> alojamientos) {
-        this.alojamientos = alojamientos;
+
+    public List<ServicioEntity> getServicios() {
+        return servicios;
     }
+
+    public void setServicios(List<ServicioEntity> servicios) {
+        this.servicios = servicios;
+    }
+    
+     public void addServicio(ServicioEntity servicio)
+    {
+        if(servicio!=null)
+             servicios.add(servicio);
+    }
+     public void addServicioFirst(ServicioEntity servicio)
+    {
+        if(servicio!=null)
+             servicios.add(0,servicio);
+    }
+   
+    public String getContrasena() {
+        return password;
+    }
+
+    public void setContrasena(String contrasena) {
+        this.password = contrasena;
+    }
+
+    public int getCantidadCalificaciones() {
+        return cantidadCalificaciones;
+    }
+
+    public void setCantidadCalificaciones(int cantidadCalificaciones) {
+        this.cantidadCalificaciones = cantidadCalificaciones;
+    }
+    
+   
 }

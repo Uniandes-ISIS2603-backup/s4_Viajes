@@ -7,6 +7,7 @@ package co.edu.uniandes.csw.viajes.entities;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
@@ -20,46 +21,31 @@ import uk.co.jemos.podam.common.PodamExclude;
 @Entity
 public class ReservaEntity extends BaseEntity implements Serializable {
     
+    public static final String TRANSPORTE_TERRESTRE="Transporte Terrestre";
+        public static final String VUELO="Vuelo";
+    public static final String ACTIVIDAD="Actividad";
+    public static final String ALOJAMIENTO="Alojamiento";
+
+    
     private int cantidadPersonas;
    
     private boolean pagada;
    
-//    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date fechaInicio;
-       
-//    @Temporal(javax.persistence.TemporalType.DATE)
-    private Date fechaFin;
-    
+    private List<Date> fechas;
+
     private double costo;
     
     
     @PodamExclude
-    @OneToOne(mappedBy = "reserva", fetch=FetchType.LAZY)    
-    private VueloEntity vuelo;
+    @OneToOne(mappedBy = "reserva", fetch=FetchType.LAZY)  
+    private ServicioEntity servicio;
     
-    private long idVuelo=-1l;
+    private long idServicio;
     
-    @PodamExclude
-    @OneToOne(mappedBy = "reserva", fetch=FetchType.LAZY)    
-    private AlojamientoEntity alojamiento;
-    
-    private long idAlojamiento=-1l;
-
-
-    @PodamExclude
-    @OneToOne(mappedBy = "reserva", fetch=FetchType.LAZY)    
-    private ActividadEntity actividad;
-    
-    private long idActividad=-1l;
+   
+    private String tipo;
 
     
-    @PodamExclude
-    @OneToOne(mappedBy = "reserva", fetch=FetchType.LAZY)    
-    private TransporteTerrestreEntity transporteTerrestre;
-    
-    private long idTransporteTerrestre=-1l;
-
-
     @PodamExclude
     @OneToOne
     private PagoEntity pago;
@@ -74,40 +60,7 @@ public class ReservaEntity extends BaseEntity implements Serializable {
     
     public ReservaEntity(){
     }
-    
-    public ReservaEntity(ActividadEntity actividad,int cantidadPersonas,Date fechaInicio,Date fechaFin){
-        this.fechaInicio=fechaInicio;
-        this.fechaFin=fechaFin;
-        pagada=false;
-        this.actividad=actividad;
-        this.cantidadPersonas=cantidadPersonas;
-        costo=cantidadPersonas*actividad.getCosto();
-    }
-    public ReservaEntity(TransporteTerrestreEntity transporteTerrestre,int cantidadPersonas,Date fechaInicio,Date fechaFin){
-        this.fechaInicio=fechaInicio;
-        this.fechaFin=fechaFin;
-        pagada=false;
-        this.transporteTerrestre=transporteTerrestre;
-        this.cantidadPersonas=cantidadPersonas;
-        costo=cantidadPersonas*transporteTerrestre.getCosto();
-    }
-    public ReservaEntity(AlojamientoEntity alojamiento,int cantidadPersonas,Date fechaInicio,Date fechaFin){
-        this.fechaInicio=fechaInicio;
-        this.fechaFin=fechaFin;
-        pagada=false;
-        this.alojamiento=alojamiento;
-        this.cantidadPersonas=cantidadPersonas;
-        costo=cantidadPersonas*alojamiento.getCosto();
-    }
-    public ReservaEntity(VueloEntity vuelo,int cantidadPersonas,Date fechaInicio,Date fechaFin){
-        this.fechaInicio=fechaInicio;
-        this.fechaFin=fechaFin;
-        pagada=false;
-        this.vuelo=vuelo;
-        this.cantidadPersonas=cantidadPersonas;
-        costo=cantidadPersonas*vuelo.getCosto();
-    }
-    
+   
     public int getCantidadPersonas() {
         return cantidadPersonas;
     }
@@ -124,21 +77,15 @@ public class ReservaEntity extends BaseEntity implements Serializable {
         this.pagada = pagada;
     }
 
-    public Date getFechaInicio() {
-        return fechaInicio;
+    public List<Date> getFechas() {
+        return fechas;
     }
 
-    public void setFechaInicio(Date fechaInicio) {
-        this.fechaInicio = fechaInicio;
+    public void setFechas(List<Date> fechas) {
+        this.fechas = fechas;
     }
 
-    public Date getFechaFin() {
-        return fechaFin;
-    }
-
-    public void setFechaFin(Date fechaFin) {
-        this.fechaFin = fechaFin;
-    }
+   
 
     public double getCosto() {
         
@@ -148,57 +95,7 @@ public class ReservaEntity extends BaseEntity implements Serializable {
     public void setCosto(double costo) {
         this.costo = costo;
     }
-
-    public VueloEntity getVuelo() {
-        return vuelo;
-    }
-
-    public void setVuelo(VueloEntity vuel) throws Exception {
-         if(actividad!=null||alojamiento!=null||transporteTerrestre!=null)
-            throw new Exception("No puede tener mas de un servicio por reserva");
-        this.vuelo = vuel;
-        if(vuelo!=null)
-            costo=vuelo.getCosto()*cantidadPersonas;
     
-    }
-
-    public AlojamientoEntity getAlojamiento() {
-        return alojamiento;
-    }
-
-    public void setAlojamiento(AlojamientoEntity aloj) throws Exception {
-        if(actividad!=null||vuelo!=null||transporteTerrestre!=null)
-            throw new Exception("No puede tener mas de un servicio por reserva");
-        this.alojamiento = aloj;
-        if(alojamiento!=null)
-            costo=alojamiento.getCosto()*cantidadPersonas;
-    
-    }
-
-    public ActividadEntity getActividad() {
-        return actividad;
-    }
-
-    public void setActividad(ActividadEntity act) throws Exception {
-        if(transporteTerrestre!=null||vuelo!=null||alojamiento!=null)
-            throw new Exception("No puede tener mas de un servicio por reserva");
-        this.actividad = act;
-        if(actividad!=null)
-            costo=actividad.getCosto()*cantidadPersonas;
-    }
-
-    public TransporteTerrestreEntity getTransporteTerrestre() {
-        return transporteTerrestre;
-    }
-
-    public void setTransporteTerrestre(TransporteTerrestreEntity transpTerr) throws Exception {
-        if(actividad!=null||vuelo!=null||alojamiento!=null)
-            throw new Exception("No puede tener mas de un servicio por reserva");
-        this.transporteTerrestre = transpTerr;
-        if(transporteTerrestre!=null)
-            costo=transporteTerrestre.getCosto()*cantidadPersonas;
-    }
-
     public PagoEntity getPago() {
         return pago;
     }
@@ -207,39 +104,33 @@ public class ReservaEntity extends BaseEntity implements Serializable {
         this.pago = pago;
     }
 
-    public long getIdVuelo() {
-        return idVuelo;
+    public ServicioEntity getServicio() {
+        return servicio;
     }
 
-    public void setIdVuelo(long idVuelo) {
-        this.idVuelo = idVuelo;
+    public void setServicio(ServicioEntity servicio) {
+        this.servicio = servicio;
+//         if(servicio!=null)
+//            costo=servicio.getCosto()*cantidadPersonas;
     }
 
-    public long getIdAlojamiento() {
-        return idAlojamiento;
+    public long getIdServicio() {
+        return idServicio;
     }
 
-    public void setIdAlojamiento(long idAlojamiento) {
-        this.idAlojamiento = idAlojamiento;
+    public void setIdServicio(long idServicio) {
+        this.idServicio = idServicio;
     }
 
-    public long getIdActividad() {
-        return idActividad;
+   
+    public String getTipo() {
+        return tipo;
     }
 
-    public void setIdActividad(long idActividad) {
-        this.idActividad = idActividad;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
-    public long getIdTransporteTerrestre() {
-        return idTransporteTerrestre;
-    }
 
-    public void setIdTransporteTerrestre(long idTransporteTerrestre) {
-        this.idTransporteTerrestre = idTransporteTerrestre;
-    }
-
-    
-    
     
 }

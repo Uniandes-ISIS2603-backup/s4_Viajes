@@ -23,8 +23,9 @@ public class GuiaDTO implements Serializable{
     private int puntuacion;
     private double sueldo;
     private String idioma;
-    private GuiaEntity guia;
-    
+    private Long id;
+    private int cantidadCalificaciones;
+
     public GuiaDTO(){}
     
     public GuiaDTO(GuiaEntity guiaEntity) {
@@ -37,6 +38,8 @@ public class GuiaDTO implements Serializable{
             this.puntuacion = guiaEntity.getPuntuacion();
             this.sueldo = guiaEntity.getSueldo();
             this.idioma = guiaEntity.getIdioma();
+            this.id=guiaEntity.getId();
+            this.cantidadCalificaciones=guiaEntity.getCantidadCalificaciones();
         }
     }
     
@@ -53,6 +56,23 @@ public class GuiaDTO implements Serializable{
     public void setPuntuacion(int puntuacion){this.puntuacion = puntuacion;}
     public void setSueldo(double sueldo){this.sueldo = sueldo;}
     public void setIdioma(String idiomas){this.idioma = idiomas;}
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public int getCantidadCalificaciones() {
+        return cantidadCalificaciones;
+    }
+
+    public void setCantidadCalificaciones(int cantidadCalificaciones) {
+        this.cantidadCalificaciones = cantidadCalificaciones;
+    }
+    
     
     public GuiaEntity toEntity() {
         GuiaEntity guiaEntity = new GuiaEntity();
@@ -62,6 +82,7 @@ public class GuiaDTO implements Serializable{
         guiaEntity.setPuntuacion(this.puntuacion);
         guiaEntity.setSueldo(this.sueldo);
         guiaEntity.setIdioma(this.idioma);
+        guiaEntity.setCantidadCalificaciones(cantidadCalificaciones);
         return guiaEntity;
     }
 
