@@ -47,8 +47,10 @@ public class TransporteLogic extends ServicioLogic {
         if(transporteEntity.getFechasLlegada().size()!=transporteEntity.getFechasDisponibles().size())
             throw new BusinessLogicException("El transporte debe tener la una fecha de llegada por cada fecha de salida");
 
-      
-       
+        for(int i=0;i<transporteEntity.getFechasLlegada().size();i++)
+            if(transporteEntity.getFechasLlegada().get(i).compareTo(transporteEntity.getFechasDisponibles().get(i))<0)
+                throw new BusinessLogicException("La fecha de llegada no pude ser antes que la de salida, como pasa con fecha salida: "+transporteEntity.getFechasDisponibles().get(i)+" fecha llegada: "+transporteEntity.getFechasLlegada().get(i));
+
 //        return transporteEntity; 
     }    
 }

@@ -21,6 +21,12 @@ import uk.co.jemos.podam.common.PodamExclude;
 @Entity
 public class ReservaEntity extends BaseEntity implements Serializable {
     
+    public static final String TRANSPORTE_TERRESTRE="Transporte Terrestre";
+        public static final String VUELO="Vuelo";
+    public static final String ACTIVIDAD="Actividad";
+    public static final String ALOJAMIENTO="Alojamiento";
+
+    
     private int cantidadPersonas;
    
     private boolean pagada;
@@ -37,8 +43,9 @@ public class ReservaEntity extends BaseEntity implements Serializable {
     private long idServicio;
     
    
+    private String tipo;
 
-
+    
     @PodamExclude
     @OneToOne
     private PagoEntity pago;
@@ -116,6 +123,13 @@ public class ReservaEntity extends BaseEntity implements Serializable {
     }
 
    
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
 
 
     

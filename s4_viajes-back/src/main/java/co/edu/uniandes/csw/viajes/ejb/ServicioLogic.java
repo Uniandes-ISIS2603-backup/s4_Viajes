@@ -8,6 +8,8 @@ package co.edu.uniandes.csw.viajes.ejb;
 import co.edu.uniandes.csw.viajes.entities.ComboEntity;
 import co.edu.uniandes.csw.viajes.entities.ServicioEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
+import java.sql.Date;
+import java.util.Calendar;
 
 
 /**
@@ -55,6 +57,13 @@ public class ServicioLogic {
         if(servicioEntity.getDisponibilidadFecha().size()!=servicioEntity.getFechasDisponibles().size())
             throw new BusinessLogicException("El transporte debe tener una capacidad por cada fecha una fecha de llegada por cada fecha de salida");
 
+        Date hoy = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+     
+        for(Date fecha: servicioEntity.getFechasDisponibles())
+            if (fecha.compareTo(hoy)<0) 
+               throw new BusinessLogicException("No puede crear fechas pasadas para ofrecer un servicio");
+       
+        
         for(Integer disponibilidad:servicioEntity.getDisponibilidadFecha())
             if(disponibilidad<0)
                 throw new BusinessLogicException("No puede haber disponibilidad negativa en ninguna fecha");

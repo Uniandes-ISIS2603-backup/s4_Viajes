@@ -67,6 +67,8 @@ public class ReservaLogic {
            throw new BusinessLogicException("La reserva debe tener al menos una fecha");
          
         Date hoy = new java.sql.Date(Calendar.getInstance().getTime().getTime());
+     
+
         for(Date fecha: reservaEntity.getFechas())
             if (fecha.compareTo(hoy)<0) 
                throw new BusinessLogicException("No puede haber fechas pasadas en la reserva");
@@ -74,14 +76,8 @@ public class ReservaLogic {
          if(reservaEntity.getCantidadPersonas()<=0)
            throw new BusinessLogicException("La cantidad de personas no puede ser cero ni negativa");
         
-         escogerServicio(reservaEntity);
- 
-       
-         
-          
-        
+         reservarServicio(reservaEntity, reservaEntity.getCantidadPersonas(), reservaEntity.getFechas());
 
-            
         persistence.create(reservaEntity);
         
         LOGGER.log(Level.INFO, "Termina proceso de creación de la reserva");
@@ -137,6 +133,7 @@ public class ReservaLogic {
             if(vueloEntity != null)
             {
                 reservaEntity.setServicio(vueloEntity);
+                reservaEntity.setTipo(ReservaEntity.VUELO);
                 yaHay=true;
             }
             if(actividadEntity != null)
@@ -144,6 +141,7 @@ public class ReservaLogic {
                 reservaEntity.setServicio(actividadEntity);
                 if(yaHay)
                     throw new BusinessLogicException("Hay mas de un servicio con el mismo id asociado.");
+                reservaEntity.setTipo(ReservaEntity.ACTIVIDAD);
                 yaHay=true;
             }
             if(alojamientoEntity != null)
@@ -151,6 +149,7 @@ public class ReservaLogic {
                 reservaEntity.setServicio(alojamientoEntity);
                 if(yaHay)
                   throw new BusinessLogicException("Hay mas de un servicio con el mismo id asociado.");
+                reservaEntity.setTipo(ReservaEntity.ALOJAMIENTO);
                 yaHay=true;
             }
             if(transporteTerrestreEntity != null)
@@ -158,6 +157,7 @@ public class ReservaLogic {
                 reservaEntity.setServicio(transporteTerrestreEntity);
                 if(yaHay)
                     throw new BusinessLogicException("Hay mas de un servicio con el mismo id asociado.");
+                reservaEntity.setTipo(ReservaEntity.TRANSPORTE_TERRESTRE);
                 yaHay=true;
             }            
         }
@@ -191,7 +191,7 @@ public class ReservaLogic {
                         {
                             int cantidad=vueloEntity.getDisponibilidadFecha().get(i)-cantidadPersonas;
                             if(cantidad<0)
-                                throw new BusinessLogicException("No hay suficientes cupos disponibles para realizar esta reserva");
+                                throw new BusinessLogicException("No hay suficientes cupos disponibles para realizar esta reserva, para la fecha "+fecha.toString()+" solo hay "+vueloEntity.getDisponibilidadFecha().get(i)+" cupos.");
                             vueloEntity.getDisponibilidadFecha().set(i, cantidad);
                            ya=true;
                         }
@@ -200,21 +200,81 @@ public class ReservaLogic {
                         throw new BusinessLogicException("El vuelo no tiene disponible la fecha");
 
                 }
-                    
+                reservaEntity.setTipo(ReservaEntity.VUELO);
                 reservaEntity.setServicio(vueloEntity);
             }
-            if(actividadEntity != null)
+            else if(actividadEntity != null)
             {
+                List<Date> fechas=actividadEntity.getFechasDisponibles();
+                for(Date fecha:fechasReserva){
+                    boolean ya=false;
+                    for(int i=0;i<fechas.size()&&!ya;i++)
+                    {
+                        Date date= fechas.get(i);
+                        if(date.compareTo(fecha)==0)
+                        {
+                            int cantidad=actividadEntity.getDisponibilidadFecha().get(i)-cantidadPersonas;
+                            if(cantidad<0)
+                                throw new BusinessLogicException("No hay suficientes cupos disponibles para realizar esta reserva, para la fecha "+fecha.toString()+" solo hay "+actividadEntity.getDisponibilidadFecha().get(i)+" cupos.");
+                            actividadEntity.getDisponibilidadFecha().set(i, cantidad);
+                           ya=true;
+                        }
+                    }
+                    if(!ya)
+                        throw new BusinessLogicException("La actividad no tiene disponible la fecha");
+
+                }
+                reservaEntity.setTipo(ReservaEntity.ACTIVIDAD);
                 reservaEntity.setServicio(actividadEntity);
                 
             }
-            if(alojamientoEntity != null)
+            else if(alojamientoEntity != null)
             {
+                List<Date> fechas=alojamientoEntity.getFechasDisponibles();
+                for(Date fecha:fechasReserva){
+                    boolean ya=false;
+                    for(int i=0;i<fechas.size()&&!ya;i++)
+                    {
+                        Date date= fechas.get(i);
+                        if(date.compareTo(fecha)==0)
+                        {
+                            int cantidad=alojamientoEntity.getDisponibilidadFecha().get(i)-cantidadPersonas;
+                            if(cantidad<0)
+                                throw new BusinessLogicException("No hay suficientes cupos disponibles para realizar esta reserva, para la fecha "+fecha.toString()+" solo hay "+alojamientoEntity.getDisponibilidadFecha().get(i)+" cupos.");
+                            alojamientoEntity.getDisponibilidadFecha().set(i, cantidad);
+                           ya=true;
+                        }
+                    }
+                    if(!ya)
+                        throw new BusinessLogicException("El alojamiento no tiene disponible la fecha");
+
+                }
+                reservaEntity.setTipo(ReservaEntity.ALOJAMIENTO);
                 reservaEntity.setServicio(alojamientoEntity);
                
             }
-            if(transporteTerrestreEntity != null)
+            else if(transporteTerrestreEntity != null)
             {
+                List<Date> fechas=transporteTerrestreEntity.getFechasDisponibles();
+                for(Date fecha:fechasReserva){
+                    boolean ya=false;
+                    for(int i=0;i<fechas.size()&&!ya;i++)
+                    {
+                        Date date= fechas.get(i);
+                        if(date.compareTo(fecha)==0)
+                        {
+                            int cantidad=transporteTerrestreEntity.getDisponibilidadFecha().get(i)-cantidadPersonas;
+                            if(cantidad<0)
+                                throw new BusinessLogicException("No hay suficientes cupos disponibles para realizar esta reserva, para la fecha "+fecha.toString()+" solo hay "+transporteTerrestreEntity.getDisponibilidadFecha().get(i)+" cupos.");
+                            transporteTerrestreEntity.getDisponibilidadFecha().set(i, cantidad);
+                           ya=true;
+                        }
+                    }
+                    if(!ya)
+                        throw new BusinessLogicException("El transporte terrestre no tiene disponible la fecha");
+
+                }
+                reservaEntity.setTipo(ReservaEntity.TRANSPORTE_TERRESTRE);
                 reservaEntity.setServicio(transporteTerrestreEntity);
                 
             }            

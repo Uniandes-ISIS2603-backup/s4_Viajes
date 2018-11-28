@@ -32,7 +32,7 @@ public class ReservaDTO implements Serializable{
     
     private Long idServicio;
     
-
+    private String tipo;
 
     /**
      * Constructor por vacio.
@@ -52,6 +52,7 @@ public class ReservaDTO implements Serializable{
              fechas=reservaEntity.getFechas();
              id=reservaEntity.getId();
              costo=reservaEntity.getCosto();
+             tipo=reservaEntity.getTipo();
              if(reservaEntity.getServicio()!=null)
                 servicio=new ServicioDTO(reservaEntity.getServicio());
          }
@@ -62,6 +63,7 @@ public class ReservaDTO implements Serializable{
          reservaEntity.setCantidadPersonas(cantidadPersonas);
          reservaEntity.setPagada(pagada);
          reservaEntity.setFechas(fechas);
+         reservaEntity.setTipo(tipo);
          if(idServicio!=null)
             reservaEntity.setIdServicio(idServicio);
          
@@ -127,6 +129,13 @@ public class ReservaDTO implements Serializable{
         this.servicio = servicio;
     }
 
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
     
      
     @Override
