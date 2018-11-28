@@ -6,9 +6,13 @@
  */
 package co.edu.uniandes.csw.viajes.resources;
 
+import co.edu.uniandes.csw.viajes.dtos.ComboDTO;
 import co.edu.uniandes.csw.viajes.dtos.UsuarioDTO;
 import co.edu.uniandes.csw.viajes.dtos.UsuarioDetailDTO;
+import co.edu.uniandes.csw.viajes.ejb.ComboLogic;
+import co.edu.uniandes.csw.viajes.ejb.UsuarioCombosLogic;
 import co.edu.uniandes.csw.viajes.ejb.UsuarioLogic;
+import co.edu.uniandes.csw.viajes.entities.ComboEntity;
 import co.edu.uniandes.csw.viajes.entities.UsuarioEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import java.util.ArrayList;
@@ -46,8 +50,13 @@ public class UsuarioResource {
      */
     private static final Logger LOGGER = Logger.getLogger(ActividadResource.class.getName());
     @Inject
-
     UsuarioLogic usuarioLogic; //variable que accede a la lógica de la aplicación.
+       
+    @Inject
+    ComboLogic comboLogic;
+       
+    @Inject
+    UsuarioCombosLogic usuarioCombosLogic;
     /**
      * Crea un nuevo usuario con la informacion que se recibe en el cuerpo de la
      * petición y se regresa un objeto identico con un id auto-generado por la
@@ -60,11 +69,19 @@ public class UsuarioResource {
      * Error de lógica que se genera cuando ya existe la editorial.
      */
     @POST
-    public UsuarioDTO createUsuario(UsuarioDTO usuario) throws BusinessLogicException {
+    public UsuarioDetailDTO createUsuario(UsuarioDTO usuario) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "UsuarioResource createUsuario: input: {0}", usuario.toString());
-        UsuarioDTO nuevoUsuarioDTO = new UsuarioDTO(usuarioLogic.createUsuario(usuario.toEntity()));
+        UsuarioDetailDTO nuevoUsuarioDTO = new UsuarioDetailDTO(usuarioLogic.createUsuario(usuario.toEntity()));
         LOGGER.log(Level.INFO, "UsuarioResource createUsuario: output: {0}", nuevoUsuarioDTO.toString());
-
+        ComboEntity combo=new ComboEntity();
+        combo.setCosto(0);
+        combo.setDias(0);
+        combo.setHoras(0);
+        combo.setNombre("Tus Reservas");
+        combo.setPuntuacion(-1);
+        ComboDTO comboDTO=new ComboDTO(comboLogic.createCombo(combo));
+        
+        nuevoUsuarioDTO = new UsuarioDetailDTO(usuarioCombosLogic.addCombo(comboDTO.getId(), nuevoUsuarioDTO.getId()));
         return nuevoUsuarioDTO;
     }
 
@@ -78,7 +95,7 @@ public class UsuarioResource {
      */
     @GET
     @Path("{usuarioId: \\d+}")
-    public UsuarioDTO consultarUsuario(@PathParam("usuarioId") Long usuarioId) throws BusinessLogicException {
+    public UsuarioDetailDTO consultarUsuario(@PathParam("usuarioId") Long usuarioId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "UsuarioResource getUsuario: input {0}");
         UsuarioEntity usuarioEntity = usuarioLogic.getUsuario(usuarioId);
         if (usuarioEntity == null) {
@@ -87,7 +104,7 @@ public class UsuarioResource {
 
         }
 
-        UsuarioDTO usuarioDTO = new UsuarioDTO(usuarioEntity);
+        UsuarioDetailDTO usuarioDTO = new UsuarioDetailDTO(usuarioEntity);
 
         LOGGER.log(Level.INFO, "UsuarioResource getUsuario: output {0}");
 

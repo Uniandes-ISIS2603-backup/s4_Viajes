@@ -77,22 +77,22 @@ public class UsuarioPersistence {
         return em.find(UsuarioEntity.class, usuarioId); 
     }
     
-     public UsuarioEntity findByUserName(String pUserName) {
-        LOGGER.log(Level.INFO, "Consultando el usuario con el userName={0}", pUserName);
-        TypedQuery<UsuarioEntity> query = em.createQuery("Select e From UsuarioEntity e where e.userName = :pUserName", UsuarioEntity.class);
-
-        /* Note que se hace uso del metodo "find" propio del EntityManager, el cual recibe como argumento 
-        el tipo de la clase y el objeto que nos hara el filtro en la base de datos en este caso el "id"
-        Suponga que es algo similar a "select * from UsuarioEntity where id=id;" - "SELECT * FROM table_name WHERE condition;" en SQL.
-         */
-      query = query.setParameter("userName", pUserName);
-      List<UsuarioEntity> obtenido = query.getResultList();
-      UsuarioEntity resultado = null;
-        if (!(obtenido == null || obtenido.isEmpty())) {
-            resultado = obtenido.get(0);
+     public UsuarioEntity findByUserName(String username) {
+        TypedQuery query = em.createQuery("Select e From ProveedorEntity e where e.username = :username", UsuarioEntity.class);
+        // Se remplaza el placeholder ":nombre" con el valor del argumento 
+        query = query.setParameter("username", username);
+        // Se invoca el query se obtiene la lista resultado
+        List<UsuarioEntity> sameNombre = query.getResultList();
+        UsuarioEntity result;
+        if (sameNombre == null) {
+            result = null;
+        } else if (sameNombre.isEmpty()) {
+            result = null;
+        } else {
+            result = sameNombre.get(0);
         }
-        
-        return resultado;
+        LOGGER.log(Level.INFO, "Saliendo de consultar proveedor por username ", username);
+        return result;
     }
 
     /**

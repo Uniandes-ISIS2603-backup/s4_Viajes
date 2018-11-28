@@ -5,8 +5,10 @@
  */
 package co.edu.uniandes.csw.viajes.ejb;
 
+import co.edu.uniandes.csw.viajes.entities.ComboEntity;
 import co.edu.uniandes.csw.viajes.entities.UsuarioEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
+import co.edu.uniandes.csw.viajes.persistence.ComboPersistence;
 import co.edu.uniandes.csw.viajes.persistence.UsuarioPersistence;
 import java.util.List;
 import java.util.logging.Level;
@@ -24,12 +26,13 @@ import javax.inject.Inject;
 @Stateless
 public class UsuarioLogic {
     
-        private static final Logger LOGGER = Logger.getLogger(UsuarioLogic.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(UsuarioLogic.class.getName());
 
     @Inject
     private UsuarioPersistence persistence;
     
-
+    @Inject
+    private ComboPersistence comboPersistence;
     /**
      * Se encarga de crear un Uusuario  en la base de datos.
      *
@@ -49,16 +52,12 @@ public class UsuarioLogic {
             throw new BusinessLogicException("El documento debe tener máximo 12 caracteres");
         }
         
-//         if(persistence.findByUserName(usuarioEntity.getUserName())!=null)
-//        {
-//            throw new BusinessLogicException("El nombre de usuario ya ha sido tomado");
-//        }
-//         
-//           if(persistence.find(usuarioEntity.getId())==null)
-//        {
-//            throw new BusinessLogicException("Este usuario ya se encuentra registrado");
-//        }
+         if(persistence.findByUserName(usuarioEntity.getUserName())!=null)
+        {
+            throw new BusinessLogicException("El nombre de usuario ya ha sido tomado");
+        }
          
+        
         LOGGER.log(Level.INFO, "Termina proceso de creación del usuario");
         return newUsuarioEntity;
        
@@ -108,6 +107,18 @@ public class UsuarioLogic {
             LOGGER.log(Level.SEVERE, "El usuario con el id = {0} no existe", usuarioId);
            throw new BusinessLogicException("El usuario consultado no existe");
         }
+       
+        for(long idCombo : usuario.getIdsCombos())
+            {
+               ComboEntity combo = comboPersistence.find(idCombo);
+               if(combo==null)
+                   {
+//                           throw new BusinessLogicException("El combo reserva que envio no existe");
+                    }
+               else
+                   usuario.addCombo(combo);
+                          
+            } 
         LOGGER.log(Level.INFO, "Termina proceso de consultar el usuario con id = {0}", usuarioId);
         return usuario;
     }
