@@ -6,7 +6,6 @@
     <class>co.edu.uniandes.csw.viajes.entities.ProveedorEntity</class>
     <class>co.edu.uniandes.csw.viajes.entities.VueloEntity</class>
     <class>co.edu.uniandes.csw.viajes.entities.ActividadEntity</class>
-    <class>co.edu.uniandes.csw.viajes.entities.AdministradorEntity</class>
     <class>co.edu.uniandes.csw.viajes.entities.AlojamientoEntity</class>
     <class>co.edu.uniandes.csw.viajes.entities.CarritoComprasEntity</class>
     <class>co.edu.uniandes.csw.viajes.entities.ComboEntity</class>
