@@ -117,8 +117,11 @@ public class ActividadLogic extends ServicioLogic{
      
         double puntuacionActual=actividadEntity.getPuntuacion();
         int cantidad=actividadEntity.getCantidadCalificaciones();
+        if(puntuacionActual==-1)
+            puntuacionActual=calificacion;
+        else
+            puntuacionActual=((puntuacionActual*(double)cantidad)+calificacion)/(cantidad+1);
         
-        puntuacionActual=((puntuacionActual*(double)cantidad)+calificacion)/(cantidad+1);
         actividadEntity.setCantidadCalificaciones(cantidad+1);
         actividadEntity.setPuntuacion(puntuacionActual);
         // Note que, por medio de la inyección de dependencias se llama al método "update(entity)" que se encuentra en la persistencia.
