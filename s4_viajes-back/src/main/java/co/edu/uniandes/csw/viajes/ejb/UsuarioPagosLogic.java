@@ -65,8 +65,11 @@ public class UsuarioPagosLogic {
 
     public List<PagoEntity> getPagosCombo(Long idCombo) throws BusinessLogicException
     {
-        ComboEntity combo=comboLogic.getCombo(idCombo);
         List<PagoEntity> pagos=new ArrayList<>();
+        ComboEntity combo;
+        try{
+         combo=comboLogic.getCombo(idCombo);}
+        catch(Exception e){return pagos;}
         if(combo!=null)
         {
             for(Long idReserva:combo.getIdsReservas())
