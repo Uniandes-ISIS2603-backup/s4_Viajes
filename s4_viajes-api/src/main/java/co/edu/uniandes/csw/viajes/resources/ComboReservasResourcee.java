@@ -78,14 +78,13 @@ public class ComboReservasResourcee {
        
     }
      
-//    @DELETE
-//    @Path("{reservaId: \\d+}")
-//     public void deleteCombo(@PathParam("comboId") Long comboId) throws BusinessLogicException {
-//        LOGGER.log(Level.INFO, "ComboResource deleteCombo: input: {0}", comboId);
-//       
-//        comboLogic.deleteCombo(comboId);
-//        LOGGER.info("ComboResource deleteCombo: output: void");
-//    }
+    @DELETE
+    @Path("{reservaId: \\d+}")
+     public void deleteReserva(@PathParam("comboId") Long comboId,@PathParam("reservaId") Long reservaId) throws BusinessLogicException {
+        LOGGER.log(Level.INFO, "ComboResource deleteCombo: input: {0}", comboId);
+        reservaLogic.deleteReserva(reservaId);
+        LOGGER.info("ComboResource deleteCombo: output: void");
+    }
     
     /**
      * Busca y devuelve todos las actividades que existen en el proveedor.
