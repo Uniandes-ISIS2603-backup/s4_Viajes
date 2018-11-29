@@ -105,14 +105,12 @@ public class ActividadResource {
     
     @PUT
     @Path("{actividadId: \\d+}")
-    public ActividadDTO modificarActividad(@PathParam("actividadId") Long actividadId, ActividadDTO actividad) throws WebApplicationException, BusinessLogicException {
-        LOGGER.log(Level.INFO, "ActividadResource modificarActividad: input: id:{0} , actividad: {1}", new Object[]{actividadId, actividad.toString()});
-        actividad.setId(actividadId);
-        if (actividadLogic.getActividad(actividadId) == null) {
-            throw new WebApplicationException("El recurso /actividad/" + actividadId + " no existe.", 404);
-        }
-        ActividadDTO detailDTO = new ActividadDTO(actividadLogic.modificarActividad(actividadId, actividad.toEntity()));
-        LOGGER.log(Level.INFO, "ActividadResource modificarActividad: output: {0}", detailDTO.toString());
+    public ActividadDTO modificarActividad(@PathParam("actividadId") Long actividadId, ActividadDTO pActividad) throws WebApplicationException, BusinessLogicException {
+        LOGGER.log(Level.INFO, "ActividadResource modificarActividad: input: id:{0} , actividad: {1}", new Object[]{actividadId, pActividad.toString()});
+        pActividad.setId(actividadId);
+        ActividadEntity actividad=actividadLogic.getActividad(actividadId);
+        
+        ActividadDTO detailDTO = new ActividadDTO(actividadLogic.modificarActividad(actividad, pActividad.getPuntuacion()));
         return detailDTO;}
     /**
      * Borra la actividad con el id asociado recibido en la URL.
