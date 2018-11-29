@@ -58,7 +58,7 @@ public class ReservaDTO implements Serializable{
          }
      }
      
-     public ReservaEntity toEntity() throws Exception{
+     public ReservaEntity toEntity(){
          ReservaEntity reservaEntity=new ReservaEntity();
          reservaEntity.setCantidadPersonas(cantidadPersonas);
          reservaEntity.setPagada(pagada);

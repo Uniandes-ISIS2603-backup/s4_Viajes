@@ -20,7 +20,7 @@ public class ComentarioDTO {
     private double calificacion;
     private Calendar fechaPub;
     
-    public ComentarioDTO(){};
+    public ComentarioDTO(){}
     
     public ComentarioDTO(ComentarioEntity comentarioEntity)
     {
@@ -33,7 +33,7 @@ public class ComentarioDTO {
            this.fechaPub = comentarioEntity.getFechaPub();
           
        }
-    };
+    }
     
     public int getNumero()
     {

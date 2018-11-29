@@ -30,7 +30,7 @@ public class TransporteDTO extends ServicioDTO implements Serializable{
     /**
      * Fecha de llegada al destino del transporte.
      */
-    protected List<Date> fechasLlegada;
+    private List<Date> fechasLlegada;
     
     /**
      * Origen del transporte.
@@ -73,6 +73,7 @@ public class TransporteDTO extends ServicioDTO implements Serializable{
      *
      * @return La entidad del alojamiento asociado.
      */
+    @Override
     public TransporteEntity toEntity() {
         TransporteEntity transporteEntity =new TransporteEntity();
         super.toEntity(transporteEntity) ;

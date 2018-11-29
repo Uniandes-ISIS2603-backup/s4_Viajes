@@ -101,7 +101,6 @@ public class ActividadLogic extends ServicioLogic{
                GuiaEntity guia = guiaPersistence.find(idGuia);
                if(guia==null)
                    {
-//                           throw new BusinessLogicException("El combo reserva que envio no existe");
                     }
                else
                    actividadEntity.addGuia(guia);
@@ -121,15 +120,6 @@ public class ActividadLogic extends ServicioLogic{
             throw new BusinessLogicException("El id a actualizar es inválido");
         }
         
-//        if(!validarNombre(actividadEntity.getNombreActividad()))
-//        {
-//            throw new BusinessLogicException("El nombre a actualizar es invalido");
-//        }
-//        
-//        if(!validarPuntuacion(actividadEntity.getPuntuacion()))
-//        {
-//            throw new BusinessLogicException("La puntuacion a actualizar es invalida");
-//        }
         
         // Note que, por medio de la inyección de dependencias se llama al método "update(entity)" que se encuentra en la persistencia.
         //PERSISTENCIA
@@ -150,21 +140,10 @@ public class ActividadLogic extends ServicioLogic{
         return actividades;
     }
     
-    private boolean validarActividadExistente(Long id)
-    {
-        return !(persistence.findByIdentificador(id) == null);
-    }
-    
     private boolean validarId(Long id)
     {
         return !(id == null || id <= 0L);
     }
-    
-    private boolean validarNombre(String nom)
-    {return !(nom == null || nom.isEmpty());}
-    
-    private boolean validarPuntuacion(int p)
-    {return !(p > 10 || p <0);}
     
     
     

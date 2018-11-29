@@ -111,7 +111,7 @@ public class MedallaResource {
     @Path("{id: \\d+}")
     public MedallaDTO modificarMedalla(@PathParam("id")Long medallaId, MedallaDTO nueva) throws WebApplicationException, BusinessLogicException
     {
-        LOGGER.log(Level.INFO, "MedallaResource updateMedalla: input: medallaId: {1} , medalla:{2}", new Object[]{medallaId, nueva.toString()});
+        LOGGER.log(Level.INFO, "MedallaResource updateMedalla: input: medallaId: {0} , medalla:{1}", new Object[]{medallaId, nueva.toString()});
         if (!medallaId.equals(nueva.getId())) {
             throw new BusinessLogicException("Los ids de las medallas no coinciden.");
         }

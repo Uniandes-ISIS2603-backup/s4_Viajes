@@ -6,9 +6,7 @@
 package co.edu.uniandes.csw.viajes.ejb;
 
 import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
-import co.edu.uniandes.csw.viajes.entities.AlojamientoEntity;
 import co.edu.uniandes.csw.viajes.entities.GuiaEntity;
-import co.edu.uniandes.csw.viajes.entities.ProveedorEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.ActividadPersistence;
 import co.edu.uniandes.csw.viajes.persistence.GuiaPersistence;
@@ -30,6 +28,7 @@ public class ActividadGuiaLogic {
     
      private static final Logger LOGGER = Logger.getLogger(ActividadGuiaLogic.class.getName());
 
+     private static final String NO_EXISTE = " no existe.";
     @Inject
     private ActividadPersistence actividadPersistence;
 
@@ -49,9 +48,9 @@ public class ActividadGuiaLogic {
         ActividadEntity actividadEntity = actividadPersistence.find(actividadId);
         GuiaEntity guiaEntity = guiaPersistence.find(guiaId);
         if(actividadEntity==null)
-            throw new BusinessLogicException("La actividad con id "+actividadId +" no existe");
+            throw new BusinessLogicException("La actividad con id "+actividadId + NO_EXISTE);
         if(guiaEntity==null)
-            throw new BusinessLogicException("EL guia con id "+guiaId +" no existe");
+            throw new BusinessLogicException("EL guia con id "+guiaId + NO_EXISTE);
 
          for(long idGuia : actividadEntity.getIdsGuias())
             if(idGuia == guiaId)
@@ -76,7 +75,7 @@ public class ActividadGuiaLogic {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar los guias asociados a la actividad con id = {0}", actividadId);
         ActividadEntity actividadEntity= actividadPersistence.findByIdentificador(actividadId);
           if(actividadEntity==null)
-            throw new BusinessLogicException("El proveedor con id "+actividadId +" no existe");
+            throw new BusinessLogicException("El proveedor con id "+actividadId + NO_EXISTE);
         List<GuiaEntity> guias=new ArrayList<>();
         
         for(long idGuia : actividadEntity.getIdsGuias())   
@@ -103,13 +102,13 @@ public class ActividadGuiaLogic {
      * actividad
      */
     public GuiaEntity getGuia(Long actividadId, Long guiaId) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de consultar el guia con id = {0} de la actividad con id = " + actividadId, guiaId);
+        LOGGER.log(Level.INFO, "Inicia proceso de consultar el guia con id = {0} de la actividad con id = {1}" , new Object[]{guiaId, actividadId});
         List<GuiaEntity> guias = actividadPersistence.findByIdentificador(actividadId).getGuias();
         GuiaEntity guiaEntity = guiaPersistence.findByDocumento(guiaId);
         int index = guias.indexOf(guiaEntity);
-        LOGGER.log(Level.INFO, "GuiaList exists: " + (guias != null) + "Guia List Size: " + guias.size());
-        LOGGER.log(Level.INFO, "Guia exists: " + (guiaEntity != null));
-        LOGGER.log(Level.INFO, "Termina proceso de consultar el guia con id = {0} de la actividad con id = " + actividadId, guiaId);
+        LOGGER.log(Level.INFO, "GuiaList exists: {0}. Guia List Size: {1} ", new Object[]{true, guias.size()});
+        LOGGER.log(Level.INFO, "Guia exists: {0}", guiaEntity != null);
+        LOGGER.log(Level.INFO, "Termina proceso de consultar el guia con id = {0} de la actividad con id = {1}", new Object[]{guiaId, actividadId});
         if (index >= 0) {
             return guias.get(index);
         }
