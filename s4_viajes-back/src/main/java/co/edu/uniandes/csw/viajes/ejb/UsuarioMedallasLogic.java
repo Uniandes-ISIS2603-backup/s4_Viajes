@@ -52,16 +52,7 @@ public class UsuarioMedallasLogic {
         for(long idMedalla : usuarioEntity.getIdsMedallas())
             if(medallaId == idMedalla)
                 throw new BusinessLogicException("El usuario ya tiene asignada una medalla con id " + medallaId +".");
-            else
-            {
-                MedallaEntity medalla = medallaPersistence.find(idMedalla);
-               if(medalla==null)
-                   {
-//                     throw new BusinessLogicException("La medalla con id " + medallaId +" no existe");
-                   }
-               else
-                    usuarioEntity.addMedalla(medalla);
-            } 
+          
         usuarioEntity.addIdMedalla(medallaId);
         usuarioEntity.addMedallaFirst(medallaEntity);
 
@@ -123,5 +114,18 @@ public class UsuarioMedallasLogic {
         return medalla;
     }
 
-
+    public boolean tieneMedalla(Long usuarioId, Long medallaId) {
+       UsuarioEntity usuarioEntity = usuarioPersistence.find(usuarioId);
+        if(usuarioEntity==null)
+            return false;
+        MedallaEntity medalla=null;
+        for(long idMedalla : usuarioEntity.getIdsMedallas())   
+            if(medallaId==idMedalla){
+                medalla = medallaPersistence.find(medallaId);
+                break;
+            }      
+        if(medalla==null)
+            return false;
+        return true;
+    }
 }

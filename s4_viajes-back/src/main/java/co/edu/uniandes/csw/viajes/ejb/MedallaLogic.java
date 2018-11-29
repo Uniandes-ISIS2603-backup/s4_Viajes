@@ -50,6 +50,9 @@ public class MedallaLogic {
         return medallaEntity;
     }
     
+    public MedallaEntity findByName(String name){
+        return persistence.findByName(name);
+    }
     /**
      * Obtener todas los medallas existentes en la base de datos.
      *

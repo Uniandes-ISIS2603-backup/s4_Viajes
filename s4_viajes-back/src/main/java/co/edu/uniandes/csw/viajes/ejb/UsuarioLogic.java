@@ -6,10 +6,12 @@
 package co.edu.uniandes.csw.viajes.ejb;
 
 import co.edu.uniandes.csw.viajes.entities.ComboEntity;
+import co.edu.uniandes.csw.viajes.entities.MedallaEntity;
 import co.edu.uniandes.csw.viajes.entities.PagoEntity;
 import co.edu.uniandes.csw.viajes.entities.UsuarioEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.ComboPersistence;
+import co.edu.uniandes.csw.viajes.persistence.MedallaPersistence;
 import co.edu.uniandes.csw.viajes.persistence.UsuarioPersistence;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,8 @@ public class UsuarioLogic {
     @Inject
     private ComboPersistence comboPersistence;
     
+    @Inject
+    private MedallaPersistence medallaPersistence;
     @Inject
     private ComboLogic comboLogic;
     
@@ -100,6 +104,17 @@ public class UsuarioLogic {
             for(long idCombo : usuario.getIdsCombos())
                 pagos.addAll(usuarioPagosLogic.getPagosCombo(idCombo));
             usuario.setPagos(pagos);
+//              for(long idMedalla : usuario.getIdsMedallas())
+//            {
+//                MedallaEntity medalla = medallaPersistence.find(idMedalla);
+//               if(medalla==null)
+//                   {
+////                           throw new BusinessLogicException("El combo reserva que envio no existe");
+//                    }
+//               else
+//                   usuario.addMedalla(medalla);
+//                          
+//            } 
 
         }
         LOGGER.log(Level.INFO, "Termina proceso de consultar todos los libros");
@@ -152,6 +167,18 @@ public class UsuarioLogic {
         for(long idCombo : usuario.getIdsCombos())
             pagos.addAll(usuarioPagosLogic.getPagosCombo(idCombo));
         usuario.setPagos(pagos);
+      
+//        for(long idMedalla : usuario.getIdsMedallas())
+//        {
+//            MedallaEntity medalla = medallaPersistence.find(idMedalla);
+//            if(medalla==null)
+//                {
+////                           throw new BusinessLogicException("El combo reserva que envio no existe");
+//                }
+//            else
+//                usuario.addMedalla(medalla);
+//                          
+//        } 
         return usuario;
     }
     
