@@ -109,7 +109,7 @@ public class ComboResource {
      */
     @GET
         @Path("{comboId: \\d+}")
-    public ComboDetailDTO consultarCombo(@PathParam("comboId") Long comboId) throws WebApplicationException
+    public ComboDetailDTO consultarCombo(@PathParam("comboId") Long comboId) throws WebApplicationException, BusinessLogicException
     {
         LOGGER.log(Level.INFO, "ComboResource getCombo: input: {0}", comboId);
         ComboEntity comboEntity = comboLogic.getCombo(comboId);

@@ -6,10 +6,12 @@
 package co.edu.uniandes.csw.viajes.ejb;
 
 import co.edu.uniandes.csw.viajes.entities.ComboEntity;
+import co.edu.uniandes.csw.viajes.entities.PagoEntity;
 import co.edu.uniandes.csw.viajes.entities.UsuarioEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.ComboPersistence;
 import co.edu.uniandes.csw.viajes.persistence.UsuarioPersistence;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -36,6 +38,10 @@ public class UsuarioLogic {
     
     @Inject
     private ComboLogic comboLogic;
+    
+    @Inject
+    private UsuarioPagosLogic usuarioPagosLogic;
+
 
     
     /**
@@ -75,7 +81,7 @@ public class UsuarioLogic {
      *
      * @return Lista de entidades de tipo usuario.
      */
-    public List<UsuarioEntity> getUsuarios() {
+    public List<UsuarioEntity> getUsuarios() throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar todos los usuarios");
         List<UsuarioEntity> usuarios = persistence.findAll();
         for(UsuarioEntity usuario:usuarios){
@@ -90,6 +96,10 @@ public class UsuarioLogic {
                    usuario.addCombo(combo);
                           
             } 
+            List<PagoEntity> pagos=new ArrayList<>();
+            for(long idCombo : usuario.getIdsCombos())
+                pagos.addAll(usuarioPagosLogic.getPagosCombo(idCombo));
+            usuario.setPagos(pagos);
 
         }
         LOGGER.log(Level.INFO, "Termina proceso de consultar todos los libros");
@@ -138,6 +148,10 @@ public class UsuarioLogic {
                    usuario.addCombo(combo);
                           
             } 
+        List<PagoEntity> pagos=new ArrayList<>();
+        for(long idCombo : usuario.getIdsCombos())
+            pagos.addAll(usuarioPagosLogic.getPagosCombo(idCombo));
+        usuario.setPagos(pagos);
         return usuario;
     }
     

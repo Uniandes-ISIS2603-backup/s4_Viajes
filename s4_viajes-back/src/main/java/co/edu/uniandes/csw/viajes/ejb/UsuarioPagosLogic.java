@@ -63,7 +63,7 @@ public class UsuarioPagosLogic {
         return pagos;
     }
 
-    public List<PagoEntity> getPagosCombo(Long idCombo)
+    public List<PagoEntity> getPagosCombo(Long idCombo) throws BusinessLogicException
     {
         ComboEntity combo=comboLogic.getCombo(idCombo);
         List<PagoEntity> pagos=new ArrayList<>();
@@ -85,7 +85,7 @@ public class UsuarioPagosLogic {
         return pagos;
     }
    
-     public PagoEntity pagoPorIdUsuario(UsuarioEntity usuario, Long idPago)
+     public PagoEntity pagoPorIdUsuario(UsuarioEntity usuario, Long idPago) throws BusinessLogicException
     {
         PagoEntity pay=null;
         for(Long idCombo:usuario.getIdsCombos()){         

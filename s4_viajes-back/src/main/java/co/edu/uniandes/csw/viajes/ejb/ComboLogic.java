@@ -103,12 +103,12 @@ public class ComboLogic {
      * @param comboId El id del combo a buscar
      * @return El combo encontrado, null si no lo encuentra.
      */
-    public ComboEntity getCombo(Long comboId) 
+    public ComboEntity getCombo(Long comboId) throws BusinessLogicException 
     {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar el combo con id = {0}", comboId);
         ComboEntity comboEntity = persistence.find(comboId);
         if (comboEntity == null) {
-            LOGGER.log(Level.SEVERE, "El combo con el id = {0} no existe", comboId);
+            throw new BusinessLogicException("El combo no existe");
         }
         double costo=0;
          for(long idReserva : comboEntity.getIdsReservas())
