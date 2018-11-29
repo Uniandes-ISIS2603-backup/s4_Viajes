@@ -166,7 +166,7 @@ public class UsuarioLogic {
     public UsuarioEntity updateUsuario(UsuarioEntity usuarioEntity, Long usuarioId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de actualizar la información de un usuario con id = {0}", usuarioId);
         // Note que, por medio de la inyección de dependencias se llama al método "find(id)" que se encuentra en la persistencia.
-        if (usuarioEntity.getDocumento()==null|usuarioEntity.getNombre()==null|usuarioEntity.getUserName()==null) {
+        if (usuarioEntity.getDocumento()==null||usuarioEntity.getNombre()==null||usuarioEntity.getUserName()==null) {
 
                        throw new BusinessLogicException("No es posible actualizar un usuario con información nula");
         }

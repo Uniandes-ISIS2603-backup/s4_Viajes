@@ -25,6 +25,10 @@ import javax.inject.Inject;
 public class ProveedorActividadLogic {
     
     private static final Logger LOGGER = Logger.getLogger(ProveedorActividadLogic.class.getName());
+    
+    private static final String PROVEEDOR = "El proveedor con id ";
+    
+    private static final String NO_EXISTE = " no existe";
 
     @Inject
     private ActividadPersistence actividadPersistence;
@@ -42,15 +46,13 @@ public class ProveedorActividadLogic {
      */
     public ProveedorEntity addActividad(Long actividadId, Long proveedorId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "Inicia proceso de agregarle una actividad al proveedor con id = {0}", proveedorId);
-        String noExiste = "no existe";
-        String proveedorConId = "El proveedor con id";
         
         ProveedorEntity proveedorEntity = proveedorPersistence.find(proveedorId);
         ActividadEntity actividadEntity = actividadPersistence.find(actividadId);
         if(proveedorEntity==null)
-            throw new BusinessLogicException( proveedorConId + proveedorId + noExiste);
+            throw new BusinessLogicException( PROVEEDOR + proveedorId + NO_EXISTE);
         if(actividadEntity==null)
-            throw new BusinessLogicException("La actividad con id "+actividadId + noExiste);
+            throw new BusinessLogicException("La actividad con id "+actividadId + NO_EXISTE);
          for(long idServicio : proveedorEntity.getIdsServicios())
             if(actividadId == idServicio)
                 throw new BusinessLogicException("El combo ya tiene asignada una actividad con id " + actividadId +".");
@@ -70,13 +72,12 @@ public class ProveedorActividadLogic {
      * @return La lista de actividades del proveedor
      */
     public List<ActividadEntity> getActividades(Long proveedorId) throws BusinessLogicException {
-        String noExiste = "no existe";
-        String proveedorConId = "El proveedor con id";
+        
         
         LOGGER.log(Level.INFO, "Inicia proceso de consultar las actividades asociados al proveedor con id = {0}", proveedorId);
         ProveedorEntity proveedorEntity = proveedorPersistence.find(proveedorId);
         if(proveedorEntity==null)
-            throw new BusinessLogicException(proveedorConId + proveedorId + noExiste);
+            throw new BusinessLogicException(PROVEEDOR + proveedorId + NO_EXISTE);
         List<ActividadEntity> actividades=new ArrayList<>();
         for(long idServicio : proveedorEntity.getIdsServicios())   
         {
@@ -101,13 +102,13 @@ public class ProveedorActividadLogic {
      * @throws BusinessLogicException Si la actividad no se encuentra en el proveedor
      */
     public ActividadEntity getActividad(Long proveedorId, Long actividadId) throws BusinessLogicException {
-        String noExiste = "no existe";
-        String proveedorConId = "El proveedor con id";
+        
+        
         
         LOGGER.log(Level.INFO, "Inicia proceso de consultar la actividad con id = {0} del proveedor con id = {1}", new Object[]{actividadId, proveedorId});
         ProveedorEntity proveedorEntity = proveedorPersistence.find(proveedorId);
         if(proveedorEntity==null)
-            throw new BusinessLogicException( proveedorConId + proveedorId +  noExiste);
+            throw new BusinessLogicException( PROVEEDOR + proveedorId +  NO_EXISTE);
         ActividadEntity actividad=null;
         for(long idServicio : proveedorEntity.getIdsServicios())   
             if(actividadId==idServicio){
@@ -115,7 +116,7 @@ public class ProveedorActividadLogic {
                 break;
             }      
         if(actividad==null)
-            throw new BusinessLogicException("El proveedor con id "+proveedorId +" no tiene la actividad con id "+actividadId);
+            throw new BusinessLogicException(PROVEEDOR+proveedorId +" no tiene la actividad con id "+actividadId);
         LOGGER.log(Level.INFO, "Termina proceso de consultar la actividad con id = {0} del proveedor con id = {1} ", new Object[]{actividadId, proveedorId}); 
         return actividad;
 

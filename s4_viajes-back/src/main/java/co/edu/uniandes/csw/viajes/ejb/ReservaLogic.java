@@ -49,7 +49,22 @@ public class ReservaLogic {
       
     @Inject
     private VueloPersistence vueloPersistence;
+    
+    private static final String NO_EXISTE1 = "El servicio de la reserva con el id = {0} no existe";
+    
+    private static final String NO_EXISTE2 = "El servico de la reserva que se desea realizar no existe";
+    
+    private static final String MASDEUNO = "Hay mas de un servicio con el mismo id asociado.";
+    
+    private static final String NO_ID = "La reserva, no tiene un servicio asociado.";
+    
+    private static final String CUPOS = " cupos";
+    
+    private static final String NO_CUPOS = "No hay suficientes cupos disponibles para realizar esta reserva, para la fecha ";
 
+    private static final String SOLO = " solo hay ";
+    
+    private static final String BORRAR = "Inicia proceso de borrar la reserva con id = {0}";
     /**
      * Guardar un nuevo pago
      *
@@ -132,8 +147,8 @@ public class ReservaLogic {
             AlojamientoEntity alojamientoEntity=alojamientoPersistence.find(reservaEntity.getIdServicio());
             TransporteTerrestreEntity transporteTerrestreEntity=transporteTerrestrePersistence.find(reservaEntity.getIdServicio());
             if (vueloEntity == null&&actividadEntity == null&&alojamientoEntity == null&&transporteTerrestreEntity == null) {
-                LOGGER.log(Level.SEVERE, "El servicio de la reserva con el id = {0} no existe", reservaEntity.getIdServicio());
-                throw new BusinessLogicException("El servico de la reserva que se desea realizar no existe");
+                LOGGER.log(Level.SEVERE, NO_EXISTE1, reservaEntity.getIdServicio());
+                throw new BusinessLogicException(NO_EXISTE2);
             }
             boolean yaHay=false;
             if(vueloEntity != null)
@@ -146,7 +161,7 @@ public class ReservaLogic {
             {
                 reservaEntity.setServicio(actividadEntity);
                 if(yaHay)
-                    throw new BusinessLogicException("Hay mas de un servicio con el mismo id asociado.");
+                    throw new BusinessLogicException(MASDEUNO);
                 reservaEntity.setTipo(ReservaEntity.ACTIVIDAD);
                 yaHay=true;
             }
@@ -154,7 +169,7 @@ public class ReservaLogic {
             {
                 reservaEntity.setServicio(alojamientoEntity);
                 if(yaHay)
-                  throw new BusinessLogicException("Hay mas de un servicio con el mismo id asociado.");
+                  throw new BusinessLogicException(MASDEUNO);
                 reservaEntity.setTipo(ReservaEntity.ALOJAMIENTO);
                 yaHay=true;
             }
@@ -162,13 +177,13 @@ public class ReservaLogic {
             {
                 reservaEntity.setServicio(transporteTerrestreEntity);
                 if(yaHay)
-                    throw new BusinessLogicException("Hay mas de un servicio con el mismo id asociado.");
+                    throw new BusinessLogicException(MASDEUNO);
                 reservaEntity.setTipo(ReservaEntity.TRANSPORTE_TERRESTRE);
                 yaHay=true;
             }            
         }
         else
-            throw new BusinessLogicException("La reserva, no tiene un servicio asociado.");            
+            throw new BusinessLogicException(NO_ID);            
     }
     
     
@@ -182,8 +197,8 @@ public class ReservaLogic {
             AlojamientoEntity alojamientoEntity=alojamientoPersistence.find(reservaEntity.getIdServicio());
             TransporteTerrestreEntity transporteTerrestreEntity=transporteTerrestrePersistence.find(reservaEntity.getIdServicio());
             if (vueloEntity == null&&actividadEntity == null&&alojamientoEntity == null&&transporteTerrestreEntity == null) {
-                LOGGER.log(Level.SEVERE, "El servicio de la reserva con el id = {0} no existe", reservaEntity.getIdServicio());
-                throw new BusinessLogicException("El servico de la reserva que se desea realizar no existe");
+                LOGGER.log(Level.SEVERE, NO_EXISTE1, reservaEntity.getIdServicio());
+                throw new BusinessLogicException(NO_EXISTE2);
             }
             if(vueloEntity != null)
             {
@@ -198,7 +213,7 @@ public class ReservaLogic {
                         {
                             int cantidad=vueloEntity.getDisponibilidadFecha().get(i)-cantidadPersonas;
                             if(cantidad<0)
-                                throw new BusinessLogicException("No hay suficientes cupos disponibles para realizar esta reserva, para la fecha "+fecha.toString()+" solo hay "+vueloEntity.getDisponibilidadFecha().get(i)+" cupos.");
+                                throw new BusinessLogicException(NO_CUPOS+fecha.toString()+SOLO+vueloEntity.getDisponibilidadFecha().get(i)+CUPOS);
                             vueloEntity.getDisponibilidadFecha().set(i, cantidad);
                             vueloPersistence.update(vueloEntity);
                            ya=true;
@@ -223,7 +238,7 @@ public class ReservaLogic {
                         {
                             int cantidad=actividadEntity.getDisponibilidadFecha().get(i)-cantidadPersonas;
                             if(cantidad<0)
-                                throw new BusinessLogicException("No hay suficientes cupos disponibles para realizar esta reserva, para la fecha "+fecha.toString()+" solo hay "+actividadEntity.getDisponibilidadFecha().get(i)+" cupos.");
+                                throw new BusinessLogicException(NO_CUPOS+fecha.toString()+SOLO+actividadEntity.getDisponibilidadFecha().get(i)+CUPOS);
                             actividadEntity.getDisponibilidadFecha().set(i, cantidad);
                             actividadPersistence.update(actividadEntity);
                            ya=true;
@@ -249,7 +264,7 @@ public class ReservaLogic {
                         {
                             int cantidad=alojamientoEntity.getDisponibilidadFecha().get(i)-cantidadPersonas;
                             if(cantidad<0)
-                                throw new BusinessLogicException("No hay suficientes cupos disponibles para realizar esta reserva, para la fecha "+fecha.toString()+" solo hay "+alojamientoEntity.getDisponibilidadFecha().get(i)+" cupos.");
+                                throw new BusinessLogicException(NO_CUPOS+fecha.toString()+SOLO+alojamientoEntity.getDisponibilidadFecha().get(i)+CUPOS);
                             alojamientoEntity.getDisponibilidadFecha().set(i, cantidad);
                             alojamientoPersistence.update(alojamientoEntity);
                            ya=true;
@@ -275,7 +290,7 @@ public class ReservaLogic {
                         {
                             int cantidad=transporteTerrestreEntity.getDisponibilidadFecha().get(i)-cantidadPersonas;
                             if(cantidad<0)
-                                throw new BusinessLogicException("No hay suficientes cupos disponibles para realizar esta reserva, para la fecha "+fecha.toString()+" solo hay "+transporteTerrestreEntity.getDisponibilidadFecha().get(i)+" cupos.");
+                                throw new BusinessLogicException(NO_CUPOS+fecha.toString()+SOLO+transporteTerrestreEntity.getDisponibilidadFecha().get(i)+CUPOS);
                             transporteTerrestreEntity.getDisponibilidadFecha().set(i, cantidad);
                             transporteTerrestrePersistence.update(transporteTerrestreEntity);
                            ya=true;
@@ -291,7 +306,7 @@ public class ReservaLogic {
             }            
         }
         else
-            throw new BusinessLogicException("La reserva, no tiene un servicio asociado.");            
+            throw new BusinessLogicException(NO_ID);            
     }
     
     
@@ -304,8 +319,8 @@ public class ReservaLogic {
             AlojamientoEntity alojamientoEntity=alojamientoPersistence.find(reservaEntity.getIdServicio());
             TransporteTerrestreEntity transporteTerrestreEntity=transporteTerrestrePersistence.find(reservaEntity.getIdServicio());
             if (vueloEntity == null&&actividadEntity == null&&alojamientoEntity == null&&transporteTerrestreEntity == null) {
-                LOGGER.log(Level.SEVERE, "El servicio de la reserva con el id = {0} no existe", reservaEntity.getIdServicio());
-                throw new BusinessLogicException("El servico de la reserva que se desea realizar no existe");
+                LOGGER.log(Level.SEVERE, NO_EXISTE1, reservaEntity.getIdServicio());
+                throw new BusinessLogicException(NO_EXISTE2);
             }
             if(vueloEntity != null)
             {
@@ -388,7 +403,7 @@ public class ReservaLogic {
             }            
         }
         else
-            throw new BusinessLogicException("La reserva, no tiene un servicio asociado.");            
+            throw new BusinessLogicException(NO_ID);            
     }
     /**
      * Actualizar un libro por ID
@@ -425,7 +440,7 @@ public class ReservaLogic {
      * @throws BusinessLogicException si el pago...
      */
     public void deleteReserva(Long reservaId) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de borrar la reserva con id = {0}", reservaId);
+        LOGGER.log(Level.INFO, BORRAR, reservaId);
         sePuedeEliminarReserva(reservaId);
         ReservaEntity reserva=persistence.find(reservaId);
   
@@ -435,7 +450,7 @@ public class ReservaLogic {
     }
     
     public void deleteReservaSinVerificar(Long reservaId) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de borrar la reserva con id = {0}", reservaId);
+        LOGGER.log(Level.INFO, BORRAR, reservaId);
         ReservaEntity reserva=persistence.find(reservaId);
   
         eliminarReservaServicio(reserva, reserva.getCantidadPersonas(), reserva.getFechas());
@@ -445,7 +460,7 @@ public class ReservaLogic {
     
     
     public void sePuedeEliminarReserva(Long reservaId) throws BusinessLogicException {
-        LOGGER.log(Level.INFO, "Inicia proceso de borrar la reserva con id = {0}", reservaId);
+        LOGGER.log(Level.INFO, BORRAR, reservaId);
         if(reservaId == null)
           throw new BusinessLogicException("Identificador de la reserva inexistente.");
         ReservaEntity reserva=persistence.find(reservaId);

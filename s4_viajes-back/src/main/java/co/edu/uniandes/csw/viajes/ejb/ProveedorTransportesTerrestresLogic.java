@@ -34,6 +34,10 @@ public class ProveedorTransportesTerrestresLogic {
     @Inject
     private TransporteTerrestrePersistence transporteTerrestrePersistence; 
     
+    private static final String PROVEEDOR = "El proveedor con id ";
+    
+    private static final String NO_EXISTE = " no existe";
+    
     /**
      * Agregar un transporte al proveedor. 
      *
@@ -47,9 +51,9 @@ public class ProveedorTransportesTerrestresLogic {
         ProveedorEntity proveedorEntity = proveedorPersistence.find(proveedorId);
         TransporteTerrestreEntity transporteTerrestreEntity = transporteTerrestrePersistence.find(transporteTerrestreId);
         if(proveedorEntity==null)
-            throw new BusinessLogicException("El proveedor con id "+proveedorId +" no existe");
+            throw new BusinessLogicException(PROVEEDOR+proveedorId +NO_EXISTE);
         if(transporteTerrestreEntity==null)
-            throw new BusinessLogicException("EL transporteTerrestre con id "+transporteTerrestreId +" no existe");
+            throw new BusinessLogicException("EL transporteTerrestre con id "+transporteTerrestreId +NO_EXISTE);
 
          for(long idServicio : proveedorEntity.getIdsServicios())
             if(transporteTerrestreId == idServicio)
@@ -75,7 +79,7 @@ public class ProveedorTransportesTerrestresLogic {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar las actividades asociados al proveedor con id = {0}", proveedorId);
         ProveedorEntity proveedorEntity = proveedorPersistence.find(proveedorId);
         if(proveedorEntity==null)
-            throw new BusinessLogicException("El proveedor con id "+proveedorId +" no existe");
+            throw new BusinessLogicException(PROVEEDOR+proveedorId +NO_EXISTE);
         List<TransporteTerrestreEntity> transportesTerrestres=new ArrayList<>();
         for(long idServicio : proveedorEntity.getIdsServicios())   
         {
@@ -103,7 +107,7 @@ public class ProveedorTransportesTerrestresLogic {
          LOGGER.log(Level.INFO, "Inicia proceso de consultar el transporteTerrestre con id = {0} del proveedor con id = " + proveedorId, transportId);
         ProveedorEntity proveedorEntity = proveedorPersistence.find(proveedorId);
         if(proveedorEntity==null)
-            throw new BusinessLogicException("El proveedor con id "+proveedorId +" no existe");
+            throw new BusinessLogicException(PROVEEDOR+proveedorId +NO_EXISTE);
         TransporteTerrestreEntity transporteTerrestre=null;
         for(long idServicio : proveedorEntity.getIdsServicios())   
             if(transportId==idServicio){
@@ -111,7 +115,7 @@ public class ProveedorTransportesTerrestresLogic {
                 break;
             }      
         if(transporteTerrestre==null)
-            throw new BusinessLogicException("El proveedor con id "+proveedorId +" no tiene la actividad con id "+transportId);
+            throw new BusinessLogicException(PROVEEDOR+proveedorId +" no tiene la actividad con id "+transportId);
         LOGGER.log(Level.INFO, "Termina proceso de consultar el transporteTerrestre con id = {0} del proveedor con id = " + proveedorId, transportId); 
         return transporteTerrestre;
     }

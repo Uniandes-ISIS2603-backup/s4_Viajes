@@ -32,6 +32,10 @@ public class ProveedorAlojamientosLogic {
     @Inject
     private AlojamientoPersistence alojamientoPersistence; 
     
+    private static final String PROVEEDOR = "El proveedor con id ";
+    
+    private static final String NO_EXISTE = " no existe";
+    
     /**
      * Agregar un alojameinto al proveedor. 
      *
@@ -41,14 +45,12 @@ public class ProveedorAlojamientosLogic {
      * @throws BusinessLogicException
      */
     public ProveedorEntity addAlojamiento(Long alojamientosId, Long proveedorId) throws BusinessLogicException {
-        String noExiste = "no existe";
-        String proveedorConId = "El proveedor con id";
         
         LOGGER.log(Level.INFO, "Inicia proceso de agregarle una actividad al proveedor con id = {0}", proveedorId);
         ProveedorEntity proveedorEntity = proveedorPersistence.find(proveedorId);
         AlojamientoEntity alojamientoEntity = alojamientoPersistence.find(alojamientosId);
         if(proveedorEntity==null)
-            throw new BusinessLogicException(proveedorConId + proveedorId + noExiste);
+            throw new BusinessLogicException(PROVEEDOR + proveedorId + NO_EXISTE);
         if(alojamientoEntity==null)
             throw new BusinessLogicException("EL alojamiento con id "+alojamientosId +" no existe");
 
@@ -73,12 +75,12 @@ public class ProveedorAlojamientosLogic {
      * @throws BusinessLogicException
      */
     public List<AlojamientoEntity> getAlojamientos(Long proveedorId) throws BusinessLogicException {
-        String noExiste = "no existe";
-        String proveedorConId = "El proveedor con id";
+
+        
         LOGGER.log(Level.INFO, "Inicia proceso de consultar los alojamientos asociados al proveedor con id = {0}", proveedorId);
         ProveedorEntity proveedorEntity = proveedorPersistence.find(proveedorId);
         if(proveedorEntity==null)
-            throw new BusinessLogicException(proveedorConId + proveedorId + noExiste);
+            throw new BusinessLogicException(PROVEEDOR + proveedorId + NO_EXISTE);
         List<AlojamientoEntity> alojamientos=new ArrayList<>();
         for(long idServicio : proveedorEntity.getIdsServicios())   
         {
@@ -103,12 +105,12 @@ public class ProveedorAlojamientosLogic {
      * @throws BusinessLogicException Si el alojamiento no se encuentra.
      */
     public AlojamientoEntity getAlojamiento(Long proveedorId, Long alojamientosId) throws BusinessLogicException {
-        String noExiste = "no existe";
-        String proveedorConId = "El proveedor con id";
+
+        
         LOGGER.log(Level.INFO, "Inicia proceso de consultar la actividad con id = {0} del proveedor con id = " + proveedorId, alojamientosId);
         ProveedorEntity proveedorEntity = proveedorPersistence.find(proveedorId);
         if(proveedorEntity==null)
-            throw new BusinessLogicException( proveedorConId + proveedorId + noExiste);
+            throw new BusinessLogicException( PROVEEDOR + proveedorId + NO_EXISTE);
         AlojamientoEntity alojamiento=null;
         for(long idServicio : proveedorEntity.getIdsServicios())   
             if(alojamientosId==idServicio){
@@ -116,11 +118,12 @@ public class ProveedorAlojamientosLogic {
                 break;
             }
         if(alojamiento==null)
-            throw new BusinessLogicException("El proveedor con id "+proveedorId +" no tiene la actividad con id "+alojamientosId);
+            throw new BusinessLogicException(PROVEEDOR+proveedorId +" no tiene la actividad con id "+alojamientosId);
         LOGGER.log(Level.INFO, "Termina proceso de consultar el alojamiento con id = {0} del proveedor con id = " + proveedorId, alojamientosId); 
         return alojamiento;
 
     }
+    
     
   
 }

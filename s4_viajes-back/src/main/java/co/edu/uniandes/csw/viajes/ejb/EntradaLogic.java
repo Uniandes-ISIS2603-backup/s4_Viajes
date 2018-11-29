@@ -59,7 +59,6 @@ public class EntradaLogic {
         
         verificarReglasDeNegocio(entradaEntity);
         
-        ComboEntity combo = comboPersistence.find(entradaEntity.getCombo().getId());
         
         if(entradaEntity.getCalificacionComunidad() != 0){
             throw new BusinessLogicException("La calificación de la comunidad inicial es inválida: debe ser 0");
@@ -75,7 +74,7 @@ public class EntradaLogic {
         
         // Invoca la persistencia para crear el entrada
         entradaEntity.setAutor(usuario);
-        entradaEntity.setCombo(combo);
+        
         persistence.create(entradaEntity);
         usuario.getEntradas().add(entradaEntity);
         LOGGER.log(Level.INFO, "Termina proceso de creación de la entrada");
@@ -181,9 +180,9 @@ public class EntradaLogic {
      * @throws BusinessLogicException Si alguna regla de negocio no se cumple.
      */
     public void verificarReglasDeNegocio(EntradaEntity entradaEntity) throws BusinessLogicException{
-        if (entradaEntity.getCombo() == null){
-            throw new BusinessLogicException("El combo asignado a la entrada no puede ser nulo.");
-        }
+
+        
+        
         if (entradaEntity.getTitulo() == null || entradaEntity.getTitulo().equals(""))
         {
             throw new BusinessLogicException("El titulo es inválido: no puede ser nulo ni vacío");

@@ -5,9 +5,9 @@
  */
 package co.edu.uniandes.csw.viajes.ejb;
 
-import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
+
 import co.edu.uniandes.csw.viajes.entities.ProveedorEntity;
-import co.edu.uniandes.csw.viajes.entities.ServicioEntity;
+
 import co.edu.uniandes.csw.viajes.entities.VueloEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import co.edu.uniandes.csw.viajes.persistence.ProveedorPersistence;
@@ -33,6 +33,10 @@ public class ProveedorVueloLogic {
 
     @Inject
     private ProveedorPersistence proveedorPersistence;
+    
+        private static final String PROVEEDOR = "El proveedor con id ";
+    
+    private static final String NO_EXISTE = " no existe";
 
     /**
      * Agregar un vuelo al proveedor
@@ -47,9 +51,9 @@ public class ProveedorVueloLogic {
         ProveedorEntity proveedorEntity = proveedorPersistence.find(proveedorId);
         VueloEntity vueloEntity = vueloPersistence.find(vueloId);
         if(proveedorEntity==null)
-            throw new BusinessLogicException("El proveedor con id "+proveedorId +" no existe");
+            throw new BusinessLogicException(PROVEEDOR+proveedorId +NO_EXISTE);
         if(vueloEntity==null)
-            throw new BusinessLogicException("EL vuelo con id "+vueloId +" no existe");
+            throw new BusinessLogicException("EL vuelo con id "+vueloId +NO_EXISTE);
         
          for(long idServicio : proveedorEntity.getIdsServicios())
             if(vueloId == idServicio)
@@ -73,7 +77,7 @@ public class ProveedorVueloLogic {
       LOGGER.log(Level.INFO, "Inicia proceso de consultar los vuelos asociados al proveedor con id = {0}", proveedorId);
         ProveedorEntity proveedorEntity = proveedorPersistence.find(proveedorId);
         if(proveedorEntity==null)
-            throw new BusinessLogicException("El proveedor con id "+proveedorId +" no existe");
+            throw new BusinessLogicException(PROVEEDOR+proveedorId +NO_EXISTE);
         List<VueloEntity> vuelos=new ArrayList<>();
         for(long idServicio : proveedorEntity.getIdsServicios())   
         {
@@ -101,7 +105,7 @@ public class ProveedorVueloLogic {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar el vuelo con id = {0} del proveedor con id = " + proveedorId, vueloId);
         ProveedorEntity proveedorEntity = proveedorPersistence.find(proveedorId);
         if(proveedorEntity==null)
-            throw new BusinessLogicException("El proveedor con id "+proveedorId +" no existe");
+            throw new BusinessLogicException(PROVEEDOR+proveedorId +NO_EXISTE);
         VueloEntity vuelo=null;
         for(long idServicio : proveedorEntity.getIdsServicios())   
             if(vueloId==idServicio){
@@ -109,7 +113,7 @@ public class ProveedorVueloLogic {
                 break;
             }      
         if(vuelo==null)
-            throw new BusinessLogicException("El proveedor con id "+proveedorId +" no tiene el vuelo con id "+vueloId);
+            throw new BusinessLogicException(PROVEEDOR+proveedorId +" no tiene el vuelo con id "+vueloId);
         LOGGER.log(Level.INFO, "Termina proceso de consultar la actividad con id = {0} del proveedor con id = " + proveedorId, vueloId); 
         return vuelo;
     }

@@ -65,7 +65,7 @@ public class EntradaResource {
      * Error de lógica que se genera cuando ya existe la entrada.
      */
     @POST
-    public EntradaDTO crearEntrada(@PathParam("usuarioId") Long userId,EntradaDTO entrada) throws BusinessLogicException {
+    public EntradaDTO crearEntrada(@PathParam("usuariosId") Long userId,EntradaDTO entrada) throws BusinessLogicException {
 
         LOGGER.log(Level.INFO, "EntradaResouce createEntrada: input: {0}", entrada.toString());
         
@@ -100,7 +100,7 @@ public class EntradaResource {
      */
     @GET
         @Path("{id: \\d+}")
-    public EntradaDTO consultarEntrada(@PathParam("usuarioId") Long userId, @PathParam("id") Long entradaId) 
+    public EntradaDTO consultarEntrada(@PathParam("usuariosId") Long userId, @PathParam("id") Long entradaId) 
     {
         LOGGER.log(Level.INFO, "EntradaResource getEntrada: input: {0}", entradaId);
         EntradaEntity entity = entradaLogic.getEntrada(userId, entradaId);
@@ -121,7 +121,7 @@ public class EntradaResource {
      */
     @PUT
     @Path("{id: \\d+}")
-    public EntradaDTO modificarEntrada(@PathParam("usuarioId") Long userId,@PathParam("id")Long entradaId, EntradaDTO nueva) throws WebApplicationException, BusinessLogicException
+    public EntradaDTO modificarEntrada(@PathParam("usuariosId") Long userId,@PathParam("id")Long entradaId, EntradaDTO nueva) throws WebApplicationException, BusinessLogicException
     {
         LOGGER.log(Level.INFO, "EntradaResource updateEntrada: input: userId: {0} , entradaId: {1} , entrada:{2}", new Object[]{userId, entradaId, nueva.toString()});
         if (!entradaId.equals(nueva.getId())) {
@@ -149,7 +149,7 @@ public class EntradaResource {
      */
     @DELETE
     @Path("{id: \\d+}")
-    public void deleteEntrada(@PathParam("usuarioId") Long userId, @PathParam("id") Long entradaId) throws BusinessLogicException {
+    public void deleteEntrada(@PathParam("usuariosId") Long userId, @PathParam("id") Long entradaId) throws BusinessLogicException {
         EntradaEntity entity = entradaLogic.getEntrada(userId, entradaId);
         if (entity == null) {
             throw new WebApplicationException("El recurso /usuarios/" + userId + "/entradas/" + entradaId + " no existe.", 404);
