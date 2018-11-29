@@ -7,6 +7,7 @@ package co.edu.uniandes.csw.viajes.resources;
 
 import co.edu.uniandes.csw.viajes.dtos.MedallaDTO;
 import co.edu.uniandes.csw.viajes.dtos.UsuarioDTO;
+import co.edu.uniandes.csw.viajes.dtos.UsuarioDetailDTO;
 import co.edu.uniandes.csw.viajes.ejb.MedallaLogic;
 import co.edu.uniandes.csw.viajes.ejb.UsuarioMedallasLogic;
 import co.edu.uniandes.csw.viajes.entities.MedallaEntity;
@@ -60,11 +61,21 @@ public class UsuarioMedallasResource {
      */
     @POST
     @Path("{idMedalla: \\d+}")
-    public UsuarioDTO addMedalla(@PathParam("usuarioId") Long usuarioId, @PathParam("idMedalla") Long idMedalla) throws BusinessLogicException {
+    public UsuarioDetailDTO addMedalla(@PathParam("usuarioId") Long usuarioId, @PathParam("idMedalla") Long idMedalla) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "UsuarioMedallasResource addMedalla: input: usuarioId: {0} , idMedalla: {1}", new Object[]{usuarioId, idMedalla});
         
-        UsuarioDTO usuarioDTO = new UsuarioDTO(usuarioMedallasLogic.addMedalla(idMedalla, usuarioId));
+        UsuarioDetailDTO usuarioDTO = new UsuarioDetailDTO(usuarioMedallasLogic.addMedalla(idMedalla, usuarioId));
         LOGGER.log(Level.INFO, "UsuarioMedallasResource addMedalla: output: {0}", usuarioDTO.toString());
+        return usuarioDTO;
+    }
+    
+    @POST
+    public UsuarioDetailDTO crearMedalla(@PathParam("usuarioId") Long usuarioId,MedallaDTO medalla) throws BusinessLogicException {
+        MedallaEntity medallaEntity = medalla.toEntity();
+        MedallaEntity nuevaMedallaEntity = medallaLogic.createMedalla(medallaEntity);
+        
+        UsuarioDetailDTO usuarioDTO = new UsuarioDetailDTO(usuarioMedallasLogic.addMedalla(nuevaMedallaEntity.getId(), usuarioId));
+
         return usuarioDTO;
     }
      

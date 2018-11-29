@@ -27,6 +27,9 @@ import javax.inject.Inject;
 public class UsuarioCombosLogic {
     private static final Logger LOGGER = Logger.getLogger(UsuarioCombosLogic.class.getName());
 
+         
+     @Inject 
+     private UsuarioMedallasLogic usuarioMedallasLogic;
     @Inject
     private ComboPersistence comboPersistence;
 
@@ -35,6 +38,9 @@ public class UsuarioCombosLogic {
 
       @Inject
     private ComboLogic comboLogic;
+      
+       @Inject
+     private MedallaLogic medallaLogic;
     /**
      * Agregar un medalla a el usuario
      *
@@ -52,9 +58,16 @@ public class UsuarioCombosLogic {
         if(comboEntity==null)
             throw new BusinessLogicException("El combo con id "+comboId +" no existe");
         for(long idCombo : usuarioEntity.getIdsCombos())
-            if(comboId == idCombo)
+            if(comboId.compareTo( idCombo)==0)
                 throw new BusinessLogicException("El usuario ya tiene asignado un combo con id " + comboId +".");
-         
+
+        if(usuarioEntity.getIdsCombos().size()==1){
+            MedallaEntity medalla=medallaLogic.findByName("PrimerCombo");
+            boolean tieneLaMedalla=usuarioMedallasLogic.tieneMedalla(usuarioEntity.getId(), medalla.getId());
+            if(!tieneLaMedalla&&medalla!=null)
+                 usuarioMedallasLogic.addMedalla(medalla.getId(), usuarioId);
+        }
+        
         usuarioEntity.addIdCombo(comboId);
         usuarioEntity.addComboFirst(comboEntity);
 

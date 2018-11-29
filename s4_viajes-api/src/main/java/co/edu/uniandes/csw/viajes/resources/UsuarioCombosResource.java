@@ -7,11 +7,12 @@ package co.edu.uniandes.csw.viajes.resources;
 
 import co.edu.uniandes.csw.viajes.dtos.ComboDTO;
 import co.edu.uniandes.csw.viajes.dtos.ComboDetailDTO;
-import co.edu.uniandes.csw.viajes.dtos.UsuarioDTO;
 import co.edu.uniandes.csw.viajes.dtos.UsuarioDetailDTO;
 import co.edu.uniandes.csw.viajes.ejb.ComboLogic;
+import co.edu.uniandes.csw.viajes.ejb.MedallaLogic;
 import co.edu.uniandes.csw.viajes.ejb.UsuarioCombosLogic;
 import co.edu.uniandes.csw.viajes.entities.ComboEntity;
+import co.edu.uniandes.csw.viajes.entities.MedallaEntity;
 import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,10 @@ public class UsuarioCombosResource {
      @Inject
      private ComboLogic comboLogic;
      
+     @Inject
+     private MedallaLogic medallaLogic;
+     
+     
       /**
      * Guarda una medalla dentro de un usuario con la informacion que recibe el
      * la URL. Se devuelve la medalla que se guarda en el usuario.
@@ -59,13 +64,34 @@ public class UsuarioCombosResource {
     @POST
     @Path("{idCombo: \\d+}")
     public UsuarioDetailDTO addCombo(@PathParam("usuarioId") Long usuarioId, @PathParam("idCombo") Long idCombo) throws BusinessLogicException {       
+       
+          MedallaEntity medalla=medallaLogic.findByName("PrimerCombo");
+            if(medalla==null)
+            {
+               medalla=new MedallaEntity();
+               medalla.setDescripcion("Medalla otorgada por crear su primer combo!!");
+               medalla.setNombre("PrimerCombo");
+               medalla.setRutaImagen("https://i.imgur.com/2lcAHkn.png");
+               medallaLogic.createMedalla(medalla);
+            }
         UsuarioDetailDTO usuarioDTO = new UsuarioDetailDTO(usuarioCombosLogic.addCombo(idCombo, usuarioId));
+       
         return usuarioDTO;
     }
     
      @POST
     public UsuarioDetailDTO crearCombo(@PathParam("usuarioId") Long usuarioId,ComboDetailDTO combo) throws BusinessLogicException {
         
+        
+        MedallaEntity medalla=medallaLogic.findByName("PrimerCombo");
+            if(medalla==null)
+            {
+               medalla=new MedallaEntity();
+               medalla.setDescripcion("Medalla otorgada por crear su primer combo!!");
+               medalla.setNombre("PrimerCombo");
+               medalla.setRutaImagen("https://i.imgur.com/2lcAHkn.png");
+               medallaLogic.createMedalla(medalla);
+            }
         LOGGER.log(Level.INFO, "ComboResource createCombo: input: {0}", combo.toString());
         // Convierte el DTO (json) en un objeto Entity para ser manejado por la lógica.
         ComboEntity comboEntity;

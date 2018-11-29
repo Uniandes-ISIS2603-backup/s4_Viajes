@@ -113,14 +113,17 @@ public class ActividadLogic extends ServicioLogic{
     
  
     
-    public ActividadEntity modificarActividad(Long id, ActividadEntity actividadEntity)throws BusinessLogicException{
-        LOGGER.log(Level.INFO, "Inicia proceso de actualizar la actividad con id = {0}", id);
-        if (!validarId(id))
-        {
-            throw new BusinessLogicException("El id a actualizar es inválido");
-        }
+    public ActividadEntity modificarActividad(ActividadEntity actividadEntity, double calificacion)throws BusinessLogicException{
+     
+        double puntuacionActual=actividadEntity.getPuntuacion();
+        int cantidad=actividadEntity.getCantidadCalificaciones();
+        if(puntuacionActual==-1)
+            puntuacionActual=calificacion;
+        else
+            puntuacionActual=((puntuacionActual*(double)cantidad)+calificacion)/(cantidad+1);
         
-        
+        actividadEntity.setCantidadCalificaciones(cantidad+1);
+        actividadEntity.setPuntuacion(puntuacionActual);
         // Note que, por medio de la inyección de dependencias se llama al método "update(entity)" que se encuentra en la persistencia.
         //PERSISTENCIA
         ActividadEntity newEntity = persistence.update(actividadEntity);
