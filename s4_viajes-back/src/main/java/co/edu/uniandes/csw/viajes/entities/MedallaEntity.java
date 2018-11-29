@@ -19,7 +19,9 @@ public class MedallaEntity extends BaseEntity implements Serializable{
     private String nombre;
     private String rutaImagen;
     private String descripcion;
-    
+    public MedallaEntity(){
+        
+    }
     public String getNombre()
     {
         return nombre;

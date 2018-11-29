@@ -91,7 +91,7 @@ public class AlojamientoResource {
      * @return la lista de alojamientos en forma DTO (json)
      */ 
     private List<AlojamientoDTO> listEntity2DetailDTO(List<AlojamientoEntity> entityList) {
-        List<AlojamientoDTO> list = new ArrayList<AlojamientoDTO>();
+        List<AlojamientoDTO> list = new ArrayList<>();
         for (AlojamientoEntity entity : entityList) {
             list.add(new AlojamientoDTO(entity));
         }
@@ -104,11 +104,11 @@ public class AlojamientoResource {
      * @param alojamientosId Identificador del alojamiento que se esta buscando.
      * Este debe ser una cadena de dígitos.
      * @return JSON {@link AlojamientoDTO}
-     * @throws WebApplicationException
+     * @throws Exception
      */
     @GET
     @Path("{alojamientosId: \\d+}") 
-    public AlojamientoDTO getAlojamiento(@PathParam("alojamientosId") Long alojamientosId)  {
+    public AlojamientoDTO getAlojamiento(@PathParam("alojamientosId") Long alojamientosId) throws Exception  {
         LOGGER.log(Level.INFO, "AlojamientoResource getAlojamiento: input: {0}", alojamientosId);
         AlojamientoEntity alojamientoEntity = alojamientoLogic.getAlojamiento(alojamientosId);
         if (alojamientoEntity == null) { 
@@ -151,6 +151,10 @@ public class AlojamientoResource {
     @Path("{alojamientosId: \\d+}")
     public void deleteAlojamiento(@PathParam("alojamientosId") Long alojamientosId) throws BusinessLogicException {
         LOGGER.log(Level.INFO, "AlojamientoResource deleteAlojamiento: input: {0}", alojamientosId);
+        AlojamientoEntity alojameinto = alojamientoLogic.getAlojamiento(alojamientosId);
+        if(alojameinto == null){
+            throw new WebApplicationException("El recurso /alojamientos/ " + alojamientosId + "no existe.", 404);
+        }
         alojamientoLogic.deleteAlojamiento(alojamientosId);
         LOGGER.info("AlojamientoResource deleteAlojamiento: output: void");
     }

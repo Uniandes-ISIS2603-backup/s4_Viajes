@@ -77,7 +77,6 @@ public class MedallaDTO implements Serializable{
 
     public MedallaEntity toEntity() {
         MedallaEntity medallaEntity = new MedallaEntity();
-        medallaEntity.setId(this.id);
         medallaEntity.setNombre(this.nombre);
         medallaEntity.setRutaImagen(this.rutaImagen);
         medallaEntity.setDescripcion(this.descripcion);

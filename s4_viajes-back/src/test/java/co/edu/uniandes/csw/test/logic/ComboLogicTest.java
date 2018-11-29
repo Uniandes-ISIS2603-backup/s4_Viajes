@@ -284,7 +284,7 @@ public class ComboLogicTest {
      * Prueba para consultar un Combo.
      */
     @Test
-    public void getComboTest() {
+    public void getComboTest() throws BusinessLogicException {
         ComboEntity entity = data.get(0);
         ComboEntity resultEntity = comboLogic.getCombo(entity.getId());
         Assert.assertNotNull(resultEntity);

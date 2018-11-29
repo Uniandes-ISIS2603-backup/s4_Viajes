@@ -103,12 +103,12 @@ public class ComboLogic {
      * @param comboId El id del combo a buscar
      * @return El combo encontrado, null si no lo encuentra.
      */
-    public ComboEntity getCombo(Long comboId) 
+    public ComboEntity getCombo(Long comboId) throws BusinessLogicException 
     {
         LOGGER.log(Level.INFO, "Inicia proceso de consultar el combo con id = {0}", comboId);
         ComboEntity comboEntity = persistence.find(comboId);
         if (comboEntity == null) {
-            LOGGER.log(Level.SEVERE, "El combo con el id = {0} no existe", comboId);
+            throw new BusinessLogicException("El combo no existe");
         }
         double costo=0;
          for(long idReserva : comboEntity.getIdsReservas())
@@ -173,6 +173,24 @@ public class ComboLogic {
     public void deleteCombo(Long comboId) throws BusinessLogicException
     {
         LOGGER.log(Level.INFO, "Inicia proceso de borrar el combo con id = {0}", comboId);
+        sePuedeEliminarCombo(comboId);
+        deleteComboSinVerificar(comboId);
+    }
+    public void deleteComboSinVerificar(Long comboId)throws BusinessLogicException
+    {
+        LOGGER.log(Level.INFO, "Inicia proceso de borrar el combo con id = {0}", comboId);
+        ComboEntity combo=persistence.find(comboId);
+        for(Long reservaId:combo.getIdsReservas()){
+            ReservaEntity reserva=reservaPersistence.find(reservaId);
+            if(reserva!=null)
+               reservaLogic.deleteReservaSinVerificar(reservaId);                             
+        }
+
+        persistence.delete(comboId);
+    }
+    
+     public void sePuedeEliminarCombo(Long comboId) throws BusinessLogicException
+    {
         if(comboId == null)
           throw new BusinessLogicException("Identificador del combo inexistente.");
         ComboEntity combo=persistence.find(comboId);
@@ -190,14 +208,6 @@ public class ComboLogic {
                 }
             }  
         }
-        for(Long reservaId:combo.getIdsReservas()){
-            ReservaEntity reserva=reservaPersistence.find(reservaId);
-            if(reserva!=null)
-               reservaLogic.deleteReservaSinVerificar(reservaId);                             
-        }
-
-        persistence.delete(comboId);
-        LOGGER.log(Level.INFO, "Termina proceso de borrar el combo con id = {0}", comboId);
     }
     
 }

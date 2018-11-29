@@ -132,7 +132,7 @@ public class UsuarioResource {
      * aplicación. Si no hay ninguno retorna una lista vacía.
      */
     @GET
-    public List<UsuarioDetailDTO> getUsuarios() {
+    public List<UsuarioDetailDTO> getUsuarios() throws BusinessLogicException {
         LOGGER.info("UsuarioResource getUsuarios: input: void");
         List<UsuarioDetailDTO> listaUsuarios = listEntity2DetailDTO(usuarioLogic.getUsuarios());
         LOGGER.log(Level.INFO, "UsuarioResource getUsuarios: output: {0}", listaUsuarios.toString());
@@ -177,12 +177,8 @@ public class UsuarioResource {
     public void deleteUsuario(@PathParam("usuariosId") Long usuariosId) throws BusinessLogicException {
 
         LOGGER.log(Level.INFO, "UsuarioResource deleteUsuario: input: {0}", usuariosId);
-        UsuarioEntity entity = usuarioLogic.getUsuario(usuariosId);
-        if(entity==null)
-       {
-           throw new WebApplicationException("El recurso /usuarios/"+ usuariosId + "no existe.", 404);
-           
-       }
+       if(usuariosId==null)
+           throw new BusinessLogicException("El id es invalido");
         
        usuarioLogic.deleteUsuario(usuariosId);
        
@@ -194,7 +190,7 @@ public class UsuarioResource {
      * @return Un EntradaResource
      */
     @Path("{usuariosId: \\d+}/entradas")
-    public Class<EntradaResource> getEntradaResource(@PathParam("usuariosId") Long usuariosId) {
+    public Class<EntradaResource> getUsuarioResource(@PathParam("usuariosId") Long usuariosId) {
         try {
             usuarioLogic.getUsuario(usuariosId); 
         }
