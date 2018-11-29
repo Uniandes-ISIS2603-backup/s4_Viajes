@@ -8,8 +8,6 @@ package co.edu.uniandes.csw.viajes.dtos;
 import co.edu.uniandes.csw.viajes.entities.ActividadEntity;
 
 import java.io.Serializable;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  *
@@ -18,7 +16,6 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 public class ActividadDTO extends ServicioDTO implements Serializable{
     
   
-    private ActividadEntity actividad;
     
     public ActividadDTO(){}
     
@@ -26,6 +23,7 @@ public class ActividadDTO extends ServicioDTO implements Serializable{
             super(actividadEntity);  
     }
 
+    @Override
     public ActividadEntity toEntity() {
         ActividadEntity actividadEntity =new ActividadEntity();
         super.toEntity(actividadEntity);

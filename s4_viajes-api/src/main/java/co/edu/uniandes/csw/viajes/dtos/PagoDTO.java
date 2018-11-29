@@ -6,7 +6,7 @@
 package co.edu.uniandes.csw.viajes.dtos;
 
 import co.edu.uniandes.csw.viajes.entities.PagoEntity;
-import co.edu.uniandes.csw.viajes.exceptions.BusinessLogicException;
+import java.io.Serializable;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 
@@ -14,7 +14,7 @@ import org.apache.commons.lang3.builder.ToStringStyle;
  *
  * @author Juan Diego Barrios
  */
-public class PagoDTO {
+public class PagoDTO implements Serializable{
    
     private Long id;
     private ReservaDTO aPagar;
@@ -79,7 +79,7 @@ public class PagoDTO {
      * Método para transformar el DTO a una entidad.
      * @return La entidad del DTO asociado.
      */
-      public PagoEntity toEntity() throws BusinessLogicException, Exception 
+      public PagoEntity toEntity()
     {
         PagoEntity pagoEntity = new PagoEntity();
         pagoEntity.setIdReservaAPagar(idReservaAPagar);

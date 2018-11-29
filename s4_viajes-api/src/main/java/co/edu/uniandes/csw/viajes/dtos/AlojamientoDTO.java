@@ -7,8 +7,6 @@ package co.edu.uniandes.csw.viajes.dtos;
 
 import co.edu.uniandes.csw.viajes.entities.AlojamientoEntity;
 import java.io.Serializable;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 
 /**
  *
@@ -78,6 +76,7 @@ public class AlojamientoDTO extends ServicioDTO implements Serializable {
      *
      * @return La entidad del alojamiento asociado.
      */
+    @Override
     public AlojamientoEntity toEntity() {
         AlojamientoEntity alojamientoEntity =new AlojamientoEntity();
         super.toEntity(alojamientoEntity);

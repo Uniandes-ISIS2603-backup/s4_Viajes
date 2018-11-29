@@ -43,6 +43,7 @@ public class TransporteTerrestreDTO extends TransporteDTO implements Serializabl
      *
      * @return La entidad del alojamiento asociado.
      */
+    @Override
     public TransporteTerrestreEntity toEntity() {
        
         TransporteTerrestreEntity transporteTerrestreEntity=new TransporteTerrestreEntity();

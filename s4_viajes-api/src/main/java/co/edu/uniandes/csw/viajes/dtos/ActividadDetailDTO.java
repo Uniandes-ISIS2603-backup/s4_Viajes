@@ -74,7 +74,7 @@ public class ActividadDetailDTO extends ActividadDTO implements Serializable {
      * @param guias the guides to set
      */
     public void setGuias(List<GuiaDTO> guias) {
-        this.guias = (LinkedList<GuiaDTO>) guias;
+        this.guias =  guias;
     }
 
     @Override
